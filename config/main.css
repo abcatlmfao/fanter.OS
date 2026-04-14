@@ -332,3 +332,40 @@ body::after {
   text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
   animation: glow 2s ease-in-out infinite;
 }
+
+/* Favourite sidebar button */
+.fav-sidebar-btn {
+  position: fixed;
+  left: 0;
+  top: calc(50% - 12.5%);
+  z-index: 10;
+
+  background: rgba(20, 30, 50, 0.9);
+  border: 2px solid rgba(45, 90, 227, 0.5);
+  border-left: 4px solid gold;
+  border-radius: 0 15px 15px 0;
+
+  color: gold;
+  font-size: 24px;
+  padding: 15px 12px;
+  cursor: pointer;
+
+  box-shadow: 4px 0 20px rgba(255, 215, 0, 0.3);
+  transition: all 0.3s ease;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.fav-sidebar-btn:hover {
+  background: rgba(20, 30, 50, 1);
+  border-color: gold;
+  box-shadow: 6px 0 30px rgba(255, 215, 0, 0.6);
+  transform: translateX(5px);
+  text-shadow: 0 0 20px rgba(255, 215, 0, 1);
+}
+
+.fav-sidebar-btn.active {
+  background: rgba(255, 215, 0, 0.15);
+  border-color: gold;
+  box-shadow: 6px 0 30px rgba(255, 215, 0, 0.8);
+  text-shadow: 0 0 20px rgba(255, 215, 0, 1);
+}
