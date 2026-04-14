@@ -13,7 +13,7 @@
   transition: all 0.3s ease;
 }
 
-/* Animated background */
+/* Animated background - Smooth, slow color transition */
 @keyframes gradientShift {
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -40,9 +40,9 @@
 
 /* General styles */
 body {
-  background: linear-gradient(-45deg, #0f0f1e, #1a3a52, #0a2a4a, #1a1a3e);
+  background: linear-gradient(-45deg, #0f0f1e, #1a3a52, #2d5ae3, #1a1a3e, #0a2a4a);
   background-size: 400% 400%;
-  animation: gradientShift 12s ease infinite;
+  animation: gradientShift 20s ease-in-out infinite;
 
   color: var(--text-color);
   font-family: "ubuntu", sans-serif;
