@@ -21,7 +21,11 @@ function displayFilteredGames(filteredGames) {
   const gamesContainer = document.getElementById("gamesContainer");
   gamesContainer.innerHTML = ""; 
 
-     const gameImage = document.createElement("img");
+  filteredGames.forEach((game) => {
+    const gameDiv = document.createElement("div");
+    gameDiv.classList.add("game");
+
+    const gameImage = document.createElement("img");
 
     // Handle external vs local image URLs
     let imageSrc;
@@ -79,4 +83,3 @@ document
 document.getElementById("title").innerHTML = `${sitename}`;
 
 document.getElementById("subtitle").innerHTML = `${subtext}`
-
