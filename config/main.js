@@ -88,10 +88,39 @@ function handleSearchInput() {
 function toggleFavSidebar() {
   const btn = document.getElementById("favSidebarBtn");
   const favFilterOn = localStorage.getItem("favFilter") === "true";
-  localStorage.setItem("favFilter", (!favFilterOn).toString());
   btn.classList.toggle("active", !favFilterOn);
   btn.textContent = !favFilterOn ? "✕" : "★";
-  handleSearchInput();
+
+  if (!favFilterOn) {
+    // turning ON - animate non-favourites away
+    const favs = getFavourites();
+    const allCards = document.querySelectorAll(".game");
+    const searchBar = document.getElementById("searchInput");
+    const searchRect = searchBar.getBoundingClientRect();
+
+    let delay = 0;
+    allCards.forEach((card) => {
+      const cardRect = card.getBoundingClientRect();
+      const isFaved = favs.includes(card.querySelector("p").textContent);
+      if (!isFaved) {
+        const flyY = -(cardRect.top - searchRect.bottom + cardRect.height);
+        card.style.transition = `transform 0.35s ease ${delay}s, opacity 0.35s ease ${delay}s`;
+        card.style.transform = `translateY(${flyY}px)`;
+        card.style.opacity = "0";
+        delay += 0.03;
+      }
+    });
+
+    setTimeout(() => {
+      localStorage.setItem("favFilter", "true");
+      handleSearchInput();
+    }, delay * 1000 + 350);
+
+  } else {
+    // turning OFF - just show all
+    localStorage.setItem("favFilter", "false");
+    handleSearchInput();
+  }
 }
 
 fetch("./config/games.json")
