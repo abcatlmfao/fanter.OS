@@ -99,6 +99,11 @@ fetch("./config/games.json")
   .then((data) => {
     gamesData = data;
     handleSearchInput();
+    const btn = document.getElementById("favSidebarBtn");
+    if (btn && localStorage.getItem("favFilter") === "true") {
+      btn.classList.add("active");
+      btn.textContent = "✕";
+    }
   })
   .catch((error) => console.error("Error fetching games:", error));
 
