@@ -17,14 +17,11 @@ let gamesData = [];
 
 function displayFilteredGames(filteredGames) {
   const gamesContainer = document.getElementById("gamesContainer");
-  gamesContainer.innerHTML = ""; 
-
+  gamesContainer.innerHTML = "";
   filteredGames.forEach((game) => {
     const gameDiv = document.createElement("div");
     gameDiv.classList.add("game");
-
     const gameImage = document.createElement("img");
-
     // Handle external vs local image URLs
     let imageSrc;
     if (game.image.startsWith('http')) {
@@ -34,7 +31,6 @@ function displayFilteredGames(filteredGames) {
     }
     gameImage.src = imageSrc;
     gameImage.alt = game.name;
-
     // Handle external vs local game URLs
     gameImage.onclick = () => {
       if (game.url.startsWith('http')) {
@@ -43,10 +39,8 @@ function displayFilteredGames(filteredGames) {
         window.location.href = `play.html?gameurl=${game.url}/`;
       }
     };
-
     const gameName = document.createElement("p");
     gameName.textContent = game.name;
-
     gameDiv.appendChild(gameImage);
     gameDiv.appendChild(gameName);
     gamesContainer.appendChild(gameDiv);
