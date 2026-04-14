@@ -13,13 +13,10 @@
   transition: all 0.3s ease;
 }
 
-/* Animated background - Smooth color cycling through red, orange, purple, green, and blue */
 @keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  25% { background-position: 100% 50%; }
-  50% { background-position: 0% 50%; }
-  75% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 400% 50%; }
+}
 }
 
 @keyframes float {
@@ -42,9 +39,12 @@
 
 /* General styles */
 body {
-  background: linear-gradient(-45deg, #3d0a1a, #5c2e1a, #2d1a3d, #1a3d2a, #0a1a3d, #3d0a1a);
-  background-size: 400% 400%;
-  animation: gradientShift 30s ease-in-out infinite;
+background: linear-gradient(270deg,
+    #ff0000, #ff7700, #ffff00, #00ff00,
+    #00ffff, #0000ff, #8800ff, #ff00ff,
+    #ff0000);
+  background-size: 800% 800%;
+  animation: gradientShift 45s linear infinite;
 
   color: var(--text-color);
   font-family: "ubuntu", sans-serif;
