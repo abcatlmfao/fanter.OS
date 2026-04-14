@@ -85,6 +85,15 @@ function handleSearchInput() {
   displayFilteredGames(filteredGames);
 }
 
+function toggleFavSidebar() {
+  const btn = document.getElementById("favSidebarBtn");
+  const favFilterOn = localStorage.getItem("favFilter") === "true";
+  localStorage.setItem("favFilter", (!favFilterOn).toString());
+  btn.classList.toggle("active", !favFilterOn);
+  btn.textContent = !favFilterOn ? "✕" : "★";
+  handleSearchInput();
+}
+
 fetch("./config/games.json")
   .then((response) => response.json())
   .then((data) => {
