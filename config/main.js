@@ -112,3 +112,5 @@ document
   .addEventListener("input", handleSearchInput);
 document.getElementById("title").innerHTML = `${sitename}`;
 document.getElementById("subtitle").innerHTML = `${subtext}`;
+window.toggleFavSidebar = toggleFavSidebar;
+window.toggleFavFilter = toggleFavFilter;
