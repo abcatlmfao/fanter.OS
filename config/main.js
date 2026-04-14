@@ -39,10 +39,22 @@ function displayFilteredGames(filteredGames) {
         window.location.href = `play.html?gameurl=${game.url}/`;
       }
     };
-    const gameName = document.createElement("p");
+   const gameName = document.createElement("p");
     gameName.textContent = game.name;
+
+    const favBtn = document.createElement("button");
+    favBtn.classList.add("fav-btn");
+    favBtn.textContent = getFavourites().includes(game.name) ? "★" : "☆";
+    favBtn.title = "favourite";
+    favBtn.onclick = (e) => {
+      e.stopPropagation();
+      toggleFavourite(game.name);
+      favBtn.textContent = getFavourites().includes(game.name) ? "★" : "☆";
+    };
+
     gameDiv.appendChild(gameImage);
     gameDiv.appendChild(gameName);
+    gameDiv.appendChild(favBtn);
     gamesContainer.appendChild(gameDiv);
   });
 }
