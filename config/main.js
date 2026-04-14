@@ -89,10 +89,7 @@ fetch("./config/games.json")
   .then((response) => response.json())
   .then((data) => {
     gamesData = data;
-    displayFilteredGames(data);
-    if (localStorage.getItem("favFilter") === "true") {
-      handleSearchInput();
-    }
+    handleSearchInput();
   })
   .catch((error) => console.error("Error fetching games:", error));
 
