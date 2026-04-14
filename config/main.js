@@ -52,9 +52,15 @@ function handleSearchInput() {
   const searchInputValue = document
     .getElementById("searchInput")
     .value.toLowerCase();
-  const filteredGames = gamesData.filter((game) =>
-    game.name.toLowerCase().includes(searchInputValue)
-  );
+  let filteredGames;
+  if (searchInputValue === "favourites") {
+    const favs = getFavourites();
+    filteredGames = gamesData.filter((game) => favs.includes(game.name));
+  } else {
+    filteredGames = gamesData.filter((game) =>
+      game.name.toLowerCase().includes(searchInputValue)
+    );
+  }
   displayFilteredGames(filteredGames);
 }
 
