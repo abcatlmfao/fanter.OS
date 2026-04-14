@@ -1,6 +1,6 @@
 // This changes the title of your site
 
-var sitename = "fanter."; // Change this to change the name of your website.
+var sitename = "fanter beta."; // Change this to change the name of your website.
 var subtext = "v0.2, games not added, styling incomplete. :3"; // set the subtext
 
 // more settings in main.css
