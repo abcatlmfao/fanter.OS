@@ -91,6 +91,13 @@ function handleSearchInput() {
   displayFilteredGames(filteredGames);
 }
 
+// FIX 1: toggleFavFilter was missing from main.js but referenced via window.toggleFavFilter
+function toggleFavFilter() {
+  const current = localStorage.getItem("favFilter") === "true";
+  localStorage.setItem("favFilter", (!current).toString());
+  handleSearchInput();
+}
+
 function toggleFavSidebar() {
   const btn = document.getElementById("favSidebarBtn");
   const favFilterOn = localStorage.getItem("favFilter") === "true";
