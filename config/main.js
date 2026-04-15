@@ -206,3 +206,53 @@ document.getElementById("title").innerHTML = `${sitename}`;
 document.getElementById("subtitle").innerHTML = `${subtext}`;
 window.toggleFavSidebar = toggleFavSidebar;
 window.toggleFavFilter = toggleFavFilter;
+
+
+// Create the cursor element
+const cursor = document.createElement('div');
+cursor.className = 'custom-cursor';
+document.body.appendChild(cursor);
+
+let mouseX = 0, mouseY = 0;
+let cursorX = 0, cursorY = 0;
+
+// Track mouse position
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+// Smooth animation loop
+function animateCursor() {
+    cursorX += (mouseX - cursorX) * 0.15;
+    cursorY += (mouseY - cursorY) * 0.15;
+    cursor.style.left = cursorX + 'px';
+    cursor.style.top = cursorY + 'px';
+    requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// Hover effect for clickable items
+const interactiveElements = document.querySelectorAll('a, button, .game, .settings-btn, .fav-btn, .game img, #searchInput');
+interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        cursor.style.width = '60px';
+        cursor.style.height = '60px';
+        cursor.style.background = 'rgba(45, 90, 227, 0.2)';
+        cursor.style.borderColor = '#ffcc00';
+    });
+    el.addEventListener('mouseleave', () => {
+        cursor.style.width = '40px';
+        cursor.style.height = '40px';
+        cursor.style.background = 'transparent';
+        cursor.style.borderColor = 'var(--accent-color, #2d5ae3)';
+    });
+});
+
+// click anim
+document.addEventListener('click', () => {
+    cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+    setTimeout(() => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+    }, 150);
+});
