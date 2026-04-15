@@ -885,22 +885,87 @@ html {
   margin-top: 0px !important;
 }
 
-/* Hide default cursor */
-body, a, button, .game, .settings-btn, .input, .fav-btn {
-    cursor: none;
+/* ===== CUSTOM CURSOR WITH TRAIL ===== */
+
+/* Hide default cursor everywhere */
+html, body, a, button, .game, .settings-btn, .fav-btn, .theme-option-btn, .game img, #searchInput, .fav-sidebar-btn, .link, input, textarea {
+  cursor: none !important;
 }
 
-/* the glowing orb element */
+/* Main cursor orb */
 .custom-cursor {
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--accent-color, #2d5ae3);
-    border-radius: 50%;
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    transition: transform 0.15s ease, width 0.2s, height 0.2s, background 0.2s;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 15px rgba(45, 90, 227, 0.5);
-    backdrop-filter: blur(2px);
+  width: 36px;
+  height: 36px;
+  border: 2.5px solid var(--accent-color, #2d5ae3);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 0 15px rgba(45, 90, 227, 0.4);
+  backdrop-filter: blur(2px);
+}
+
+/* Inner dot for the cursor */
+.custom-cursor::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  background: var(--accent-color, #2d5ae3);
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+/* Trail dots */
+.cursor-trail {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+/* Hover effect for clickable items */
+a:hover ~ .custom-cursor,
+button:hover ~ .custom-cursor,
+.game:hover ~ .custom-cursor,
+.settings-btn:hover ~ .custom-cursor,
+.fav-btn:hover ~ .custom-cursor,
+.theme-option-btn:hover ~ .custom-cursor,
+.game img:hover ~ .custom-cursor,
+#searchInput:hover ~ .custom-cursor,
+.fav-sidebar-btn:hover ~ .custom-cursor,
+.link:hover ~ .custom-cursor {
+  width: 52px;
+  height: 52px;
+  border-color: #ffcc00;
+  background: rgba(255, 204, 0, 0.1);
+  box-shadow: 0 0 25px rgba(255, 204, 0, 0.5);
+}
+
+a:hover ~ .custom-cursor::after,
+button:hover ~ .custom-cursor::after,
+.game:hover ~ .custom-cursor::after,
+.settings-btn:hover ~ .custom-cursor::after,
+.fav-btn:hover ~ .custom-cursor::after,
+.theme-option-btn:hover ~ .custom-cursor::after,
+.game img:hover ~ .custom-cursor::after,
+#searchInput:hover ~ .custom-cursor::after,
+.fav-sidebar-btn:hover ~ .custom-cursor::after,
+.link:hover ~ .custom-cursor::after {
+  width: 10px;
+  height: 10px;
+  background: #ffcc00;
+}
+
+/* Click animation */
+.custom-cursor.click {
+  transform: translate(-50%, -50%) scale(0.85);
+  transition: transform 0.1s ease;
 }
