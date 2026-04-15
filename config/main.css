@@ -852,50 +852,35 @@ body.theme-neon #searchInput {
   background: rgba(255, 215, 0, 0.1);
 }
 
-/* remove bar */
-/* Hide Google Translate top bar */
-.goog-te-banner-frame {
-  display: none !important;
-}
-
-.goog-te-menu-frame {
-  display: none !important;
-}
-
-/* Remove the body shift that Google Translate creates */
-body {
-  top: 0px !important;
-  position: relative !important;
-}
-
-/* Hide the Google Translate notification */
-.goog-te-balloon-frame {
-  display: none !important;
-}
-
-/* Remove the white space at the top */
-html {
-  margin-top: 0px !important;
-  overflow-x: hidden !important;
-}
-
-/* Hide the "Translate" status text */
+/* claude helped me with this cause i couldn't figure it out sorry for using ai */
+.goog-te-banner-frame,
+.goog-te-banner,
+.skiptranslate,
+iframe.skiptranslate,
+.goog-te-balloon-frame,
+.goog-te-menu-frame,
+.goog-te-cta-bar,
+.goog-te-banner-frame iframe,
+body > .skiptranslate,
 .goog-te-banner-frame.skiptranslate {
   display: none !important;
-}
-
-/* Remove any padding/margin Google adds */
-body.skiptranslate {
-  top: 0px !important;
-}
-
-/* Hide the iframe completely */
-iframe.goog-te-banner-frame {
-  display: none !important;
   visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
 }
 
-/* Remove the background overlay */
-.goog-te-banner {
-  display: none !important;
+body {
+  top: 0px !important;
+  position: static !important;
+}
+
+html {
+  margin-top: 0px !important;
 }
