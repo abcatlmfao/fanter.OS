@@ -707,3 +707,138 @@ body::after {
   margin-top: 18px;
   margin-bottom: 6px;
 }
+
+/* ========== THEME BACKGROUNDS ========== */
+
+/* Chill cycle (default animated gradient) */
+body.theme-bg-chill {
+  background: linear-gradient(270deg,
+    #1a0000, #1a0a00, #0d0d00, #001a00,
+    #001a1a, #00001a, #0d001a, #1a001a,
+    #1a0000);
+  background-size: 800% 800%;
+  animation: gradientShift 22.5s linear infinite;
+}
+
+/* Parallax stars */
+body.theme-bg-parallax {
+  background: #0a0a2a;
+  position: relative;
+}
+body.theme-bg-parallax::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, #fff, rgba(0,0,0,0)),
+    radial-gradient(1px 1px at 60px 80px, #ddd, rgba(0,0,0,0));
+  background-size: 200px 200px, 150px 150px;
+  background-repeat: repeat;
+  opacity: 0.6;
+  pointer-events: none;
+  animation: starDrift 60s linear infinite;
+  z-index: 0;
+}
+@keyframes starDrift {
+  from { transform: translate(0, 0); }
+  to { transform: translate(200px, 100px); }
+}
+
+/* Solid color */
+body.theme-bg-solid {
+  background: var(--solid-bg-color, #1a1a2e);
+  animation: none;
+}
+body.theme-bg-solid::before,
+body.theme-bg-solid::after {
+  display: none;
+}
+
+/* Aurora */
+body.theme-bg-aurora {
+  background: linear-gradient(125deg, #0a0f2a, #0a1a3a, #1a2a4a, #0a1a3a);
+  background-size: 400% 400%;
+  animation: auroraWave 15s ease infinite;
+}
+@keyframes auroraWave {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+body.theme-bg-aurora::before {
+  background: radial-gradient(circle at 30% 40%, rgba(0, 255, 100, 0.15), transparent 60%);
+}
+
+/* Void */
+body.theme-bg-void {
+  background: #000000;
+}
+body.theme-bg-void::before,
+body.theme-bg-void::after {
+  display: none;
+}
+
+/* ========== THEME PRESETS ========== */
+
+/* Dark mode */
+body.theme-dark {
+  --background-color: #0a0a0a !important;
+  --text-color: #cccccc !important;
+  --accent-color: #3a6ea5 !important;
+}
+body.theme-dark .game,
+body.theme-dark .settings-card {
+  background: rgba(10, 10, 10, 0.9);
+  border-color: #3a6ea5;
+}
+
+/* Light mode */
+body.theme-light {
+  --background-color: #f0f0f0 !important;
+  --text-color: #111111 !important;
+  --accent-color: #2d5ae3 !important;
+}
+body.theme-light body {
+  background: #f0f0f0;
+}
+body.theme-light .game,
+body.theme-light .settings-card {
+  background: rgba(255, 255, 255, 0.9);
+  color: #111;
+}
+body.theme-light .game p {
+  color: #111;
+}
+body.theme-light #searchInput {
+  background: rgba(255, 255, 255, 0.9);
+  color: #111;
+}
+
+/* Rainbow */
+body.theme-rainbow body {
+  background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet, red);
+  background-size: 800% 800%;
+  animation: gradientShift 3s linear infinite;
+}
+body.theme-rainbow .game,
+body.theme-rainbow .settings-card {
+  border: 2px solid gold;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+/* Neon city */
+body.theme-neon {
+  --accent-color: #00ffcc !important;
+}
+body.theme-neon body {
+  background: #0a0a0a;
+}
+body.theme-neon .game,
+body.theme-neon .settings-card {
+  border: 2px solid #00ffcc;
+  box-shadow: 0 0 15px #00ffcc, inset 0 0 5px #00ffcc;
+}
+body.theme-neon #searchInput {
+  border-color: #00ffcc;
+  box-shadow: 0 0 20px #00ffcc;
+}
