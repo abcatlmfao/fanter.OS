@@ -970,6 +970,7 @@ html {
     opacity: 0;
   }
 }
+
 /* ===== LOADING SCREEN ===== */
 #loadingScreen {
   position: fixed;
@@ -988,26 +989,12 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-.loading-blocker {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  z-index: 5;
-  pointer-events: all;
+  transition: opacity 0.5s ease;
 }
 
 @keyframes loadingBgShift {
   0% { background-position: 0% 50%; filter: brightness(1.3) saturate(1.4); }
-  25% { background-position: 50% 50%; filter: brightness(1.5) saturate(1.6); }
-  50% { background-position: 100% 50%; filter: brightness(1.4) saturate(1.5); }
-  75% { background-position: 50% 50%; filter: brightness(1.6) saturate(1.7); }
-  100% { background-position: 0% 50%; filter: brightness(1.3) saturate(1.4); }
+  100% { background-position: 100% 50%; filter: brightness(1.3) saturate(1.4); }
 }
 
 /* Matrix rain canvas */
@@ -1022,7 +1009,7 @@ html {
   opacity: 0.7;
 }
 
-/* Pure Matrix Hack Screen - ONLY HORIZONTAL scanlines */
+/* Horizontal scanlines only */
 .matrix-scanlines {
   position: absolute;
   top: 0;
@@ -1033,67 +1020,29 @@ html {
   z-index: 3;
   background: repeating-linear-gradient(
     0deg,
-    rgba(0, 255, 0, 0.06) 0px,
-    rgba(0, 255, 0, 0.06) 2px,
+    rgba(0, 255, 0, 0.08) 0px,
+    rgba(0, 255, 0, 0.08) 2px,
     transparent 2px,
     transparent 8px
   );
-  animation: matrixScanlinesMove 0.8s linear infinite;
+  animation: scanlinesMove 0.5s linear infinite;
 }
 
-@keyframes matrixScanlinesMove {
+@keyframes scanlinesMove {
   0% { transform: translateY(0); }
   100% { transform: translateY(8px); }
 }
 
-/* Glitch overlay - reduced intensity */
-.glitch-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 2;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(255, 0, 0, 0.04) 0px,
-    rgba(0, 255, 0, 0.04) 2px,
-    rgba(0, 0, 255, 0.04) 4px,
-    transparent 6px
-  );
-  animation: glitchFlicker 0.2s infinite;
-}
-
-@keyframes glitchFlicker {
-  0%, 100% { opacity: 0.3; transform: translateX(0); }
-  25% { opacity: 0.5; transform: translateX(1px); }
-  75% { opacity: 0.4; transform: translateX(-1px); }
-}
-
-/* Loading content container - reduced glow */
+/* Loading content */
 .loading-content {
   position: relative;
   z-index: 10;
   text-align: center;
-  animation: fadeInUp 0.5s ease;
   background: rgba(0, 0, 0, 0.3);
   padding: 40px;
   border-radius: 20px;
   backdrop-filter: blur(5px);
   border: 1px solid rgba(0, 255, 0, 0.2);
-  box-shadow: 0 0 30px rgba(0, 255, 0, 0.05);
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .loading-icon {
@@ -1105,17 +1054,12 @@ html {
   border-right: 3px solid #ffcc00;
   border-bottom: 3px solid #00ff88;
   border-radius: 50%;
-  animation: spin 1s linear infinite, iconGlow 2s ease-in-out infinite;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
-
-@keyframes iconGlow {
-  0%, 100% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.2); }
-  50% { box-shadow: 0 0 15px rgba(0, 255, 0, 0.4), 0 0 10px rgba(255, 204, 0, 0.2); }
 }
 
 .loading-title {
@@ -1125,12 +1069,6 @@ html {
   text-shadow: 0 0 5px #00ff88;
   margin-bottom: 30px;
   letter-spacing: 4px;
-  animation: titlePulse 2s ease-in-out infinite;
-}
-
-@keyframes titlePulse {
-  0%, 100% { opacity: 1; text-shadow: 0 0 5px #00ff88; }
-  50% { opacity: 0.9; text-shadow: 0 0 10px #ffcc00; }
 }
 
 .loading-progress {
@@ -1145,16 +1083,8 @@ html {
 .loading-progress-bar {
   width: 0%;
   height: 100%;
-  background: linear-gradient(90deg, #00ff88, #ffcc00, #00ff88);
-  background-size: 300% 100%;
-  border-radius: 3px;
-  animation: progressMove 1.5s linear infinite;
+  background: linear-gradient(90deg, #00ff88, #ffcc00);
   transition: width 0.3s ease;
-}
-
-@keyframes progressMove {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 300% 50%; }
 }
 
 .loading-status {
@@ -1162,108 +1092,112 @@ html {
   color: #00ff88;
   font-size: 14px;
   letter-spacing: 2px;
-  animation: blink 1.5s step-end infinite;
-  text-shadow: 0 0 2px #00ff88;
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-/* Broken wall breakthroughs */
+/* Broken wall */
 .broken-wall {
   position: absolute;
   pointer-events: none;
   z-index: 4;
-  overflow: hidden;
-  background: linear-gradient(135deg, 
-    rgba(0, 0, 0, 0.9),
-    rgba(0, 10, 0, 0.85));
+  background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(0,10,0,0.85));
   border: 1px solid rgba(0, 255, 0, 0.4);
-  box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
-  animation: wallBreakthrough 0.8s ease-out forwards;
+  animation: wallBreak 0.8s ease-out forwards;
+  overflow: hidden;
 }
 
-@keyframes wallBreakthrough {
-  0% {
-    transform: scale(0) translate(-50%, -50%);
-    opacity: 0;
-  }
-  20% {
-    transform: scale(1) translate(-50%, -50%);
-    opacity: 1;
-  }
-  80% {
-    transform: scale(1.1) translate(-50%, -50%);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1.5) translate(-50%, -50%);
-    opacity: 0;
-  }
-}
-
-.broken-wall::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 255, 0, 0.15) 0px,
-    rgba(0, 255, 0, 0.15) 2px,
-    transparent 2px,
-    transparent 6px
-  );
-  animation: wallMatrixRain 0.3s linear infinite;
-}
-
-@keyframes wallMatrixRain {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(6px); }
+@keyframes wallBreak {
+  0% { transform: scale(0); opacity: 0; }
+  20% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.5); opacity: 0; }
 }
 
 .broken-wall::after {
-  content: '█▓▒░010011101001░▒▓█';
+  content: '010011101001011010';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   color: #00ff88;
-  font-family: 'Courier New', monospace;
+  font-family: monospace;
   font-size: 10px;
-  white-space: pre;
-  overflow: hidden;
   text-align: center;
-  line-height: 1.2;
-  opacity: 0.6;
-  animation: wallCodeFall 2s linear infinite;
+  animation: codeFall 1s linear infinite;
 }
 
-@keyframes wallCodeFall {
+@keyframes codeFall {
   0% { transform: translateY(-100%); }
   100% { transform: translateY(100%); }
 }
 
 .broken-wall.cracked {
   border-color: rgba(255, 0, 0, 0.5);
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
 }
-
 .broken-wall.cracked::after {
   color: #ff4444;
-  content: 'ERROR!!CRITICAL!!SYS_FAIL>>OVERRIDE<<';
+  content: 'ERROR!!CRITICAL!!';
 }
 
-/* Hide initial page content */
+/* Falling matrix code */
+.falling-matrix {
+  position: absolute;
+  pointer-events: none;
+  z-index: 4;
+  color: #00ff88;
+  font-family: monospace;
+  font-weight: bold;
+  white-space: nowrap;
+  animation: fallDown linear forwards;
+}
+
+@keyframes fallDown {
+  0% { transform: translateY(-100px); opacity: 1; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* Transition overlays */
+#whiteFlash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 100001;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+#revealOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #1a1a2e;
+  z-index: 100002;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Hide content duing loading */
 body.loading .center,
 body.loading #gamesContainer,
 body.loading .footer,
 body.loading #searchInput,
 body.loading .fav-sidebar-btn {
   visibility: hidden;
+}
+
+/* Game pop animation */
+@keyframes gamePop {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.game {
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
