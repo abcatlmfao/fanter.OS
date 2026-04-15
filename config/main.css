@@ -304,7 +304,6 @@ body::after {
   margin-bottom: 15px;
 }
 
-/* FIX 3: settings-btn was used in index.html and settings.html but never defined */
 .settings-btn {
   background: rgba(20, 30, 50, 0.8);
   border: 2px solid rgba(45, 90, 227, 0.5);
@@ -358,10 +357,9 @@ body::after {
   animation: glow 2s ease-in-out infinite;
 }
 
-/* Favourite sidebar button */
 .fav-sidebar-btn {
   position: fixed;
-  left: 0;
+  left: -80px;
   top: calc(50% - 12.5%);
   z-index: 10;
 
@@ -376,8 +374,12 @@ body::after {
   cursor: pointer;
 
   box-shadow: 4px 0 20px rgba(255, 215, 0, 0.3);
-  transition: all 0.3s ease;
+  transition: all 0.4s ease;
   text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.fav-sidebar-btn.visible {
+  left: 0;
 }
 
 .fav-sidebar-btn:hover {
