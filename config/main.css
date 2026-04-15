@@ -842,3 +842,11 @@ body.theme-neon #searchInput {
   border-color: #00ffcc;
   box-shadow: 0 0 20px #00ffcc;
 }
+
+/* selected state 4 font butons */
+.theme-option-btn.selected {
+  border-color: gold;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  color: gold;
+  background: rgba(255, 215, 0, 0.1);
+}
