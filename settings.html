@@ -297,18 +297,6 @@
       selectedFontColor = "#ffffff";
        updateFontPreview();
       };
-  window.selectTheme = function(theme) {
-        const preview = document.getElementById("fontPreview");
-        const size = document.getElementById("fontSizeSlider").value;
-        const color = document.getElementById("fontColorPicker").value;
-        selectedFontSize = size;
-        selectedFontColor = color;
-        if (preview) {
-          preview.style.fontSize = size + "px";
-          preview.style.color = color;
-          preview.style.fontFamily = selectedFontFamily;
-        }
-      };
 
       window.selectTheme = function(theme) {
         selectedTheme = theme;
