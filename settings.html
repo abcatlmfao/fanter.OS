@@ -291,7 +291,13 @@
         updateFontPreview();
       };
 
-      window.updateFontPreview = function() {
+      
+       window.resetFontColor = function() {
+       document.getElementById("fontColorPicker").value = "#ffffff";
+      selectedFontColor = "#ffffff";
+       updateFontPreview();
+      };
+  window.selectTheme = function(theme) {
         const preview = document.getElementById("fontPreview");
         const size = document.getElementById("fontSizeSlider").value;
         const color = document.getElementById("fontColorPicker").value;
