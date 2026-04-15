@@ -1250,3 +1250,169 @@ body.no-animations * {
   animation: none !important;
   transition: none !important;
 }
+
+/* ===== NEW SETTINGS MENUS ===== */
+#gameOverlay,
+#visualOverlay,
+#audioOverlay,
+#performanceOverlay,
+#privacyOverlay,
+#presetOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+#gameOverlay.visible,
+#visualOverlay.visible,
+#audioOverlay.visible,
+#performanceOverlay.visible,
+#privacyOverlay.visible,
+#presetOverlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#gameMenu,
+#visualMenu,
+#audioMenu,
+#performanceMenu,
+#privacyMenu,
+#presetMenu {
+  background: rgba(15, 20, 40, 0.97);
+  border: 2px solid rgba(45, 90, 227, 0.5);
+  border-radius: 24px;
+  padding: 35px 40px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  overflow-y: auto;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(45, 90, 227, 0.4);
+  transform: translateY(60px) scale(0.95);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
+}
+
+#gameOverlay.visible #gameMenu,
+#visualOverlay.visible #visualMenu,
+#audioOverlay.visible #audioMenu,
+#performanceOverlay.visible #performanceMenu,
+#privacyOverlay.visible #privacyMenu,
+#presetOverlay.visible #presetMenu {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+#gameMenu h2,
+#visualMenu h2,
+#audioMenu h2,
+#performanceMenu h2,
+#privacyMenu h2,
+#presetMenu h2 {
+  font-size: 26px;
+  margin: 0 0 8px;
+  color: #ffffff;
+}
+
+#gameMenu label,
+#visualMenu label,
+#audioMenu label,
+#performanceMenu label,
+#privacyMenu label,
+#presetMenu label {
+  display: block;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 18px;
+  margin-bottom: 6px;
+}
+
+#gameMenu select,
+#visualMenu select,
+#audioMenu select,
+#performanceMenu select,
+#privacyMenu select,
+#presetMenu select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid rgba(45, 90, 227, 0.4);
+  background: rgba(20, 30, 50, 0.8);
+  color: #ffffff;
+  font-size: 14px;
+  font-family: ubuntu, sans-serif;
+  outline: none;
+  cursor: pointer;
+}
+
+#gameMenu input[type="range"],
+#visualMenu input[type="range"],
+#audioMenu input[type="range"],
+#performanceMenu input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent-color);
+}
+
+#gameMenu input[type="color"],
+#visualMenu input[type="color"] {
+  width: 100%;
+  height: 45px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+#gameMenu input[type="file"],
+#visualMenu input[type="file"],
+#presetMenu input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid rgba(45, 90, 227, 0.4);
+  background: rgba(20, 30, 50, 0.8);
+  color: #ffffff;
+  cursor: pointer;
+}
+
+/* Scrollbar for menus */
+#gameMenu::-webkit-scrollbar,
+#visualMenu::-webkit-scrollbar,
+#audioMenu::-webkit-scrollbar,
+#performanceMenu::-webkit-scrollbar,
+#privacyMenu::-webkit-scrollbar,
+#presetMenu::-webkit-scrollbar {
+  width: 8px;
+}
+
+#gameMenu::-webkit-scrollbar-track,
+#visualMenu::-webkit-scrollbar-track,
+#audioMenu::-webkit-scrollbar-track,
+#performanceMenu::-webkit-scrollbar-track,
+#privacyMenu::-webkit-scrollbar-track,
+#presetMenu::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+#gameMenu::-webkit-scrollbar-thumb,
+#visualMenu::-webkit-scrollbar-thumb,
+#audioMenu::-webkit-scrollbar-thumb,
+#performanceMenu::-webkit-scrollbar-thumb,
+#privacyMenu::-webkit-scrollbar-thumb,
+#presetMenu::-webkit-scrollbar-thumb {
+  background: var(--accent-color);
+  border-radius: 4px;
+}
