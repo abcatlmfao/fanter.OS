@@ -63,52 +63,50 @@
       left: 26px;
     }
 
-    /* ========== CHINCHILLA HELPEr ========= */
-    .chinchilla-container {
-      position: fixed;
-      bottom: 5px;
-      right: 20px;
-      left:  auto;
-      z-index: 1000;
-      cursor: pointer;
-      transition: all 0.3s ease;
-       width: auto;           
-        max-width: none;     
-         overflow: visible;     
-    }
-
-    .chinchilla-container.hidden {
-      display: none;
-    }
-
-   
-.chinchilla-image {
-  width: min(534px, 90vw);  /* 90% of viewport width, mx 534px */
+   /* ========== CHINCHILLA HELPER - FIXED ========= */
+.chinchilla-container {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 999999;
+  cursor: pointer;
+  width: auto;
   height: auto;
+  overflow: visible;
+  background: transparent;
+}
+
+.chinchilla-container.hidden {
+  display: none;
+}
+
+.chinchilla-image {
+  width: 300px;
+  height: auto;
+  display: block;
   cursor: pointer;
   transition: transform 0.3s ease;
   filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
   border-radius: 20px;
-  display: block;
   overflow: visible;
 }
 
-    .chinchilla-image:hover {
-      transform: scale(1.07);
-    }
+.chinchilla-image:hover {
+  transform: scale(1.05);
+}
 
-    .chinchilla-image:active {
-      transform: scale(0.95);
-    }
+.chinchilla-image:active {
+  transform: scale(0.95);
+}
 
-    .chinchilla-image.talking {
-      animation: chinchillaShake 0.4s ease-in-out;
-    }
+.chinchilla-image.talking {
+  animation: chinchillaShake 0.4s ease-in-out;
+}
 
-    @keyframes chinchillaShake {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(0.95); }
-    }
+@keyframes chinchillaShake {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.96); }
+}
 
     /* Speech Bubble */
     .speech-bubble {
