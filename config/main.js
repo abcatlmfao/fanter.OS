@@ -211,3 +211,207 @@ document.addEventListener('DOMContentLoaded', function() {
   const subtitleEl = document.getElementById("subtitle");
   if (subtitleEl) subtitleEl.innerHTML = subtext;
 });
+
+
+// ===== GAME RATINGS SYSTEM (Global) =====
+const RATINGS_BIN_ID = "YOUR_BIN_ID"; // Replace with your JSONBin.io Bin ID
+const RATINGS_API_KEY = "YOUR_API_KEY"; // Replace with your JSONBin.io API Key
+
+let globalRatings = {}; // Stores { "gameName": { average: 4.2, count: 15, total: 63 } }
+let userVotes = JSON.parse(localStorage.getItem('userVotes') || '{}');
+
+// Load ratings from JSONBin
+async function loadGlobalRatings() {
+  try {
+    const response = await fetch(`https://api.jsonbin.io/v3/b/${RATINGS_BIN_ID}/latest`, {
+      headers: { 'X-Master-Key': RATINGS_API_KEY }
+    });
+    const data = await response.json();
+    if (data.record && data.record.ratings) {
+      globalRatings = data.record.ratings;
+    }
+    console.log('✅ Global ratings loaded:', Object.keys(globalRatings).length, 'games rated');
+  } catch (error) {
+    console.error('Failed to load ratings:', error);
+  }
+  // Refresh all star displays after loading
+  refreshAllRatings();
+}
+
+// Save ratings to JSONBin
+async function saveGlobalRatings() {
+  try {
+    const response = await fetch(`https://api.jsonbin.io/v3/b/${RATINGS_BIN_ID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': RATINGS_API_KEY
+      },
+      body: JSON.stringify({ ratings: globalRatings })
+    });
+    console.log('✅ Ratings saved to cloud');
+  } catch (error) {
+    console.error('Failed to save ratings:', error);
+  }
+}
+
+// Submit a rating for a game
+function submitRating(gameName, rating) {
+  // Initialize game entry if it doesn't exist
+  if (!globalRatings[gameName]) {
+    globalRatings[gameName] = { total: 0, count: 0, average: 0 };
+  }
+  
+  // Check if user already voted
+  if (userVotes[gameName]) {
+    // Remove old vote
+    const oldRating = userVotes[gameName];
+    globalRatings[gameName].total -= oldRating;
+    globalRatings[gameName].count -= 1;
+  }
+  
+  // Add new vote
+  globalRatings[gameName].total += rating;
+  globalRatings[gameName].count += 1;
+  globalRatings[gameName].average = globalRatings[gameName].total / globalRatings[gameName].count;
+  
+  // Save user's vote
+  userVotes[gameName] = rating;
+  localStorage.setItem('userVotes', JSON.stringify(userVotes));
+  
+  // Save to cloud
+  saveGlobalRatings();
+  
+  // Show toast notification
+  showRatingToast(`You rated "${gameName}" ${rating}★!`);
+  
+  // Update the star display for this game
+  updateStarDisplay(gameName, rating);
+}
+
+// Update star display for a specific game
+function updateStarDisplay(gameName, userRating) {
+  const ratingContainer = document.querySelector(`.game-rating[data-game="${CSS.escape(gameName)}"]`);
+  if (!ratingContainer) return;
+  
+  const stars = ratingContainer.querySelectorAll('.star');
+  stars.forEach((star, index) => {
+    if (index < userRating) {
+      star.classList.add('active');
+    } else {
+      star.classList.remove('active');
+    }
+  });
+  
+  // Update average display
+  const avgDisplay = ratingContainer.querySelector('.rating-average');
+  const gameRating = globalRatings[gameName];
+  if (avgDisplay && gameRating) {
+    avgDisplay.innerHTML = `<span class="star-small">★</span> ${gameRating.average.toFixed(1)} (${gameRating.count})`;
+  }
+}
+
+// Refresh all ratings on the page
+function refreshAllRatings() {
+  document.querySelectorAll('.game-rating').forEach(container => {
+    const gameName = container.getAttribute('data-game');
+    const gameRating = globalRatings[gameName];
+    const userRating = userVotes[gameName] || 0;
+    
+    // Update stars based on user rating
+    const stars = container.querySelectorAll('.star');
+    stars.forEach((star, index) => {
+      if (index < userRating) {
+        star.classList.add('active');
+      } else {
+        star.classList.remove('active');
+      }
+    });
+    
+    // Update average display
+    const avgDisplay = container.querySelector('.rating-average');
+    if (avgDisplay && gameRating) {
+      avgDisplay.innerHTML = `<span class="star-small">★</span> ${gameRating.average.toFixed(1)} (${gameRating.count})`;
+    } else if (avgDisplay) {
+      avgDisplay.innerHTML = `<span class="star-small">★</span> 0.0 (0)`;
+    }
+  });
+}
+
+// Show toast notification
+function showRatingToast(message) {
+  let toast = document.querySelector('.rating-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.className = 'rating-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2000);
+}
+
+// Create rating stars HTML for a game card
+function createRatingHTML(gameName, currentRating = 0) {
+  const gameRating = globalRatings[gameName];
+  const avgRating = gameRating ? gameRating.average.toFixed(1) : '0.0';
+  const ratingCount = gameRating ? gameRating.count : 0;
+  
+  return `
+    <div class="game-rating" data-game="${gameName.replace(/['"]/g, '&quot;')}">
+      <div class="stars" data-game="${gameName.replace(/['"]/g, '&quot;')}">
+        ${[1, 2, 3, 4, 5].map(starNum => `
+          <span class="star ${currentRating >= starNum ? 'active' : ''}" data-value="${starNum}">★</span>
+        `).join('')}
+      </div>
+      <div class="rating-average">
+        <span class="star-small">★</span> ${avgRating} (${ratingCount})
+      </div>
+    </div>
+  `;
+}
+
+// Attach rating event listeners (call after games are loaded)
+function attachRatingListeners() {
+  document.querySelectorAll('.stars').forEach(starsContainer => {
+    const gameName = starsContainer.getAttribute('data-game');
+    
+    starsContainer.querySelectorAll('.star').forEach(star => {
+      // Remove old listeners to avoid duplicates
+      star.removeEventListener('click', star.clickHandler);
+      star.removeEventListener('mouseenter', star.mouseEnterHandler);
+      star.removeEventListener('mouseleave', star.mouseLeaveHandler);
+      
+      // Create new handlers
+      const ratingValue = parseInt(star.getAttribute('data-value'));
+      
+      star.clickHandler = () => submitRating(gameName, ratingValue);
+      star.mouseEnterHandler = () => {
+        starsContainer.querySelectorAll('.star').forEach((s, idx) => {
+          if (idx < ratingValue) {
+            s.classList.add('hover');
+          }
+        });
+      };
+      star.mouseLeaveHandler = () => {
+        starsContainer.querySelectorAll('.star').forEach(s => {
+          s.classList.remove('hover');
+        });
+      };
+      
+      star.addEventListener('click', star.clickHandler);
+      star.addEventListener('mouseenter', star.mouseEnterHandler);
+      star.addEventListener('mouseleave', star.mouseLeaveHandler);
+    });
+  });
+}
+
+// Modify your existing displayFilteredGames function to include ratings
+// Find this function in your main.js and add the rating line
+// Inside the gameDiv creation, after adding the favBtn, add:
+// gameDiv.insertAdjacentHTML('beforeend', createRatingHTML(game.name, userVotes[game.name] || 0));
+
+// Load ratings when page loads
+loadGlobalRatings();
