@@ -3,27 +3,73 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>fanter v0.2</title>
+    <title>fanter v0.3</title>
     <link rel="stylesheet" href="config/main.css" />
-    <script src="config/theme-loader.js"></script>
-    <script src="config/main.js"></script>
   </head>
+
   <body>
-    <button class="fav-sidebar-btn" id="favSidebarBtn" onclick="toggleFavSidebar()">★</button>
-    <div class="center">
-      <h1 id="title"></h1>
-      <p id="subtitle"></p>
-      <button class="settings-btn" onclick="window.location.href='settings.html'">⚙ Settings</button>
+        <!-- Account Buton -->
+    <div class="account-btn-container">
+      <button class="account-btn" id="accountBtn" onclick="window.location.href='fantaccount.html'">
+        <span class="account-icon">👤</span>
+        <span class="account-name" id="accountName">Guest</span>
+      </button>
     </div>
-    <div class="center">
-      <input type="text" id="searchInput" placeholder="search 4 games" />
-    </div>
-    <div id="gamesContainer"></div>
-    <div class="footer">
-      <a style="font-weight: 700">a site created by abcatlmfao, / chipikipal800, / abcatlmfao69;
-      </a><a style="font-weight: 700" class="link" href="https://dsc.gg/parcoil">parcoil network</a>
+    
+    <!-- Session Timer -->
+<div id="sessionTimer">
+  <div class="timer-icon">⏱️</div>
+  <div class="timer-display">
+    <span id="timerHours">00</span>:<span id="timerMinutes">00</span>:<span id="timerSeconds">00</span>
+  </div>
+  <div class="timer-label">session time</div>
+</div>
+    
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+      <canvas id="matrixCanvas"></canvas>
+      <div class="matrix-scanlines"></div>
+      <div id="brokenWallContainer"></div>
+      <div class="loading-content">
+        <div class="loading-icon"></div>
+        <h1 class="loading-title">loading fanter. OS</h1>
+        <div class="loading-progress">
+          <div class="loading-progress-bar"></div>
+        </div>
+        <p class="loading-status" id="loadingStatus">initializing systems...</p>
+      </div>
     </div>
 
+    <div id="whiteFlash"></div>
+    <div id="revealOverlay"></div>
+
+    <!-- Main Content - HIDDEN initially -->
+    <div id="mainContent" style="opacity: 0; visibility: hidden;">
+      <button class="fav-sidebar-btn" id="favSidebarBtn" onclick="window.toggleFavSidebar()">★</button>
+      
+      <div class="center">
+        <h1 id="title"></h1>
+        <p id="subtitle"></p>
+        <button class="settings-btn" onclick="window.location.href='settings.html'">⚙ Settings</button>
+      </div>
+      
+      <div class="center">
+        <input type="text" id="searchInput" placeholder="search 4 games" />
+      </div>
+      
+      <div id="gamesContainer"></div>
+      
+      <div class="footer">
+        <a style="font-weight: 700">a site created by abcatlmfao, / chipikipal800, / abcatlmfao69;</a>
+        <a style="font-weight: 700" class="link" href="https://dsc.gg/parcoil">parcoil network</a>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="config/theme-loader.js"></script>
+    <script src="config/main.js"></script>
+
+    <!-- Safety Key Script -->
     <script>
       let lastKeyTime = 0;
       let lastKey = "";
@@ -42,138 +88,410 @@
         lastKeyTime = now;
       });
     </script>
-    
-    <script>
-      
-      // ===== CUSTOM CURSOR WITH TRAIL =====
+
+  
+
+   <script>
+// ===== LOADING SCREEN SYSTEM (WITH VISIT CHECK) =====
 (function() {
-  // Create main cursor orb
-  const cursor = document.createElement('div');
-  cursor.className = 'custom-cursor';
-  document.body.appendChild(cursor);
-
-  let trailPositions = [];
-  const trailLength = 8;
-  let mouseX = window.innerWidth / 2;
-  let mouseY = window.innerHeight / 2;
-  let cursorX = mouseX;
-  let cursorY = mouseY;
+  // Check if this is the first visit or a return from settings
+  const hasLoadedBefore = sessionStorage.getItem('fanterLoaded');
   
-  // Track mouse position
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+  // If coming back from settings, skip loading screen
+  if (hasLoadedBefore === 'true') {
+    // Just show content immediately
+    const mainContent = document.getElementById('mainContent');
+    const loadingScreen = document.getElementById('loadingScreen');
     
-    // Add position to trail array
-    trailPositions.unshift({ x: mouseX, y: mouseY });
-    if (trailPositions.length > trailLength) trailPositions.pop();
-  });
-
-  // Create trail dots
-  function createTrailDots() {
-    const existingTrails = document.querySelectorAll('.cursor-trail');
-    existingTrails.forEach(trail => trail.remove());
+    if (loadingScreen) loadingScreen.style.display = 'none';
+    if (mainContent) {
+      mainContent.style.opacity = '1';
+      mainContent.style.visibility = 'visible';
+    }
     
-    trailPositions.forEach((pos, index) => {
-      if (index === 0) return; // Skip the first position (where main cursor is)
-      
-      const trail = document.createElement('div');
-      trail.className = 'cursor-trail';
-      
-      // Calculate size and opacity based on position in trail
-      const size = 10 - (index * 0.8);
-      const opacity = 0.5 - (index * 0.05);
-      
-      trail.style.cssText = `
-        left: ${pos.x}px;
-        top: ${pos.y}px;
-        width: ${Math.max(3, size)}px;
-        height: ${Math.max(3, size)}px;
-        background: ${index < 3 ? '#ffcc00' : '#2d5ae3'};
-        opacity: ${Math.max(0.1, opacity)};
-      `;
-      
-      document.body.appendChild(trail);
-    });
-  }
-
-  // Smooth animation for main cursor
-  function animateCursor() {
-    // Smooth follow with easing
-    cursorX += (mouseX - cursorX) * 0.25;
-    cursorY += (mouseY - cursorY) * 0.25;
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-    
-    // Update trail dots
-    createTrailDots();
-    
-    requestAnimationFrame(animateCursor);
-  }
-  
-  animateCursor();
-
-  // Hover effect for all interactive elements
-  function addHoverEffects() {
-    const interactiveElements = document.querySelectorAll('a, button, .game, .settings-btn, .fav-btn, .theme-option-btn, .game img, #searchInput, .fav-sidebar-btn, .link');
-    
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.classList.add('hover');
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.classList.remove('hover');
-      });
-    });
-  }
-  
-  // Initial hover effects
-  addHoverEffects();
-  
-  // Watch for dynamically added elements (like games)
-  const observer = new MutationObserver(function(mutations) {
-    addHoverEffects();
-  });
-  observer.observe(document.body, { childList: true, subtree: true });
-
-  // Click animation and ripple
-  document.addEventListener('click', (e) => {
-    // Add click animation to cursor
-    cursor.classList.add('click');
+    // Still animate games and UI for fresh feel
     setTimeout(() => {
-      cursor.classList.remove('click');
-    }, 150);
+      animateGamesRandomly();
+      animateUIElements();
+    }, 100);
     
-    // Create ripple effect
-    const ripple = document.createElement('div');
-    ripple.className = 'cursor-ripple';
-    ripple.style.left = e.clientX + 'px';
-    ripple.style.top = e.clientY + 'px';
-    ripple.style.animation = 'rippleAnim 0.4s ease-out forwards';
-    document.body.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 400);
-  });
-
-  // Hide cursor when leaving window
-  document.addEventListener('mouseleave', () => {
-    cursor.style.opacity = '0';
-    const trails = document.querySelectorAll('.cursor-trail');
-    trails.forEach(trail => trail.style.opacity = '0');
-  });
+    return;
+  }
   
-  document.addEventListener('mouseenter', () => {
-    cursor.style.opacity = '1';
-    const trails = document.querySelectorAll('.cursor-trail');
-    trails.forEach(trail => trail.style.opacity = '1');
-  });
+  // Mark that we've loaded
+  sessionStorage.setItem('fanterLoaded', 'true');
   
-  // Make sure cursor is visible on load
-  setTimeout(() => {
-    cursor.style.opacity = '1';
+  const loadingScreen = document.getElementById('loadingScreen');
+  const progressBar = document.querySelector('.loading-progress-bar');
+  const statusEl = document.getElementById('loadingStatus');
+  const whiteFlash = document.getElementById('whiteFlash');
+  const revealOverlay = document.getElementById('revealOverlay');
+  const brokenWallContainer = document.getElementById('brokenWallContainer');
+  const mainContent = document.getElementById('mainContent');
+  
+  // HIDE main content initially
+  if (mainContent) {
+    mainContent.style.opacity = '0';
+    mainContent.style.visibility = 'hidden';
+  }
+  
+  // Matrix Rain
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+  let width, height, drops = [];
+  const fontSize = 16;
+  const chars = "01";
+  
+  function resizeCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    const columns = Math.floor(width / fontSize);
+    drops = [];
+    for (let i = 0; i < columns; i++) {
+      drops.push(Math.random() * -height);
+    }
+  }
+  
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = '#00ff88';
+    ctx.font = fontSize + 'px monospace';
+    for (let i = 0; i < drops.length; i++) {
+      const text = chars[Math.floor(Math.random() * chars.length)];
+      const x = i * fontSize;
+      const y = drops[i] * fontSize;
+      ctx.fillText(text, x, y);
+      if (y > height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+  }
+  
+  resizeCanvas();
+  const matrixInterval = setInterval(drawMatrix, 50);
+  window.addEventListener('resize', resizeCanvas);
+  
+  // Falling code
+  function createFallingCode() {
+    const el = document.createElement('div');
+    el.className = 'falling-matrix';
+    let code = '';
+    for (let i = 0; i < 15; i++) code += Math.random() > 0.5 ? '1' : '0';
+    el.textContent = code;
+    el.style.left = Math.random() * 100 + '%';
+    el.style.fontSize = (Math.random() * 10 + 10) + 'px';
+    el.style.animationDuration = (Math.random() * 2 + 1) + 's';
+    const colors = ['#00ff88', '#ff4444', '#ffcc00'];
+    el.style.color = colors[Math.floor(Math.random() * colors.length)];
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 3000);
+  }
+  
+  // Broken wall
+  function createBrokenWall() {
+    const wall = document.createElement('div');
+    wall.className = 'broken-wall';
+    wall.style.left = Math.random() * 100 + '%';
+    wall.style.top = Math.random() * 100 + '%';
+    wall.style.width = (Math.random() * 200 + 80) + 'px';
+    wall.style.height = (Math.random() * 120 + 60) + 'px';
+    if (Math.random() > 0.5) wall.classList.add('cracked');
+    brokenWallContainer.appendChild(wall);
+    setTimeout(() => wall.remove(), 800);
+  }
+  
+  let progress = 0;
+  
+  const messages = [
+    "Initializing fanter.OS...",
+    "Loading core modules...",
+    "Bypassing firewalls...",
+    "Decrypting database...",
+    "Loading games library...",
+    "Applying themes...",
+    "your welcome :3...",
+    "Almost there...",
+    "Starting fanter.OS..."
+  ];
+  let msgIndex = 0;
+  
+  // Random effects
+  const effectsInterval = setInterval(() => {
+    if (progress < 100) {
+      if (Math.random() > 0.7) createBrokenWall();
+      if (Math.random() > 0.8) createFallingCode();
+    }
+  }, 500);
+  
+  // Progress
+  const progressInterval = setInterval(() => {
+    if (progress < 100) {
+      progress += Math.random() * 3 + 1;
+      if (progress >= 100) {
+        progress = 100;
+        progressBar.style.width = '100%';
+        statusEl.textContent = "Complete! Loading games...";
+        clearInterval(progressInterval);
+        clearInterval(effectsInterval);
+        clearInterval(matrixInterval);
+        waitForGames();
+      } else {
+        progressBar.style.width = progress + '%';
+        const newIndex = Math.floor(progress / 12);
+        if (newIndex > msgIndex && newIndex < messages.length) {
+          msgIndex = newIndex;
+          statusEl.textContent = messages[msgIndex];
+        }
+      }
+    }
+  }, 300);
+  
+ function waitForGames() {
+  let attempts = 0;
+  const maxAttempts = 150; // 15 seconds max
+  
+  const checkInterval = setInterval(() => {
+    attempts++;
+    const gamesContainer = document.getElementById('gamesContainer');
+    const hasGames = gamesContainer && gamesContainer.children.length > 0;
+    
+    console.log(`Waiting for games - Attempt ${attempts}: Has games: ${hasGames}`);
+    
+    if (hasGames) {
+      console.log("Games found! Starting transition...");
+      clearInterval(checkInterval);
+      setTimeout(() => startTransition(), 800);
+    } else if (attempts >= maxAttempts) {
+      console.log("Timeout reached, forcing transition...");
+      clearInterval(checkInterval);
+      startTransition();
+    }
   }, 100);
+}
   
-  console.log('Custom cursor initialized!');
+  function startTransition() {
+    whiteFlash.style.opacity = '1';
+    setTimeout(() => {
+      loadingScreen.style.opacity = '0';
+      setTimeout(() => {
+        loadingScreen.style.display = 'none';
+        revealOverlay.style.transform = 'scaleX(1)';
+        setTimeout(() => {
+          whiteFlash.style.opacity = '0';
+          
+          // SHOW main content
+          if (mainContent) {
+            mainContent.style.opacity = '1';
+            mainContent.style.visibility = 'visible';
+          }
+          
+          setTimeout(() => {
+            animateGamesRandomly();
+            animateUIElements();
+          }, 100);
+          
+          setTimeout(() => {
+            revealOverlay.style.transform = 'scaleX(0)';
+            setTimeout(() => {
+              if (revealOverlay.parentNode) revealOverlay.remove();
+              if (whiteFlash.parentNode) whiteFlash.remove();
+            }, 1200);
+          }, 500);
+        }, 300);
+      }, 400);
+    }, 300);
+  }
+  
+  function animateGamesRandomly() {
+    const games = document.querySelectorAll('.game');
+    const gameArray = Array.from(games);
+    
+    console.log(`🎮 Animating ${gameArray.length} games`);
+    
+    gameArray.forEach(game => {
+      game.style.opacity = '0';
+      game.style.transform = 'scale(0)';
+      game.style.display = 'inline-block';
+      game.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+    });
+    
+    // Shuffle array for random appearance
+    for (let i = gameArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [gameArray[i], gameArray[j]] = [gameArray[j], gameArray[i]];
+    }
+    
+    gameArray.forEach((game, index) => {
+      setTimeout(() => {
+        game.style.opacity = '1';
+        game.style.transform = 'scale(1)';
+        game.style.animation = 'gamePop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards';
+        setTimeout(() => {
+          game.style.animation = '';
+        }, 300);
+      }, index * 30);
+    });
+  }
+  
+  function animateUIElements() {
+    const elements = [
+      { el: document.getElementById('searchInput'), dir: 'left', delay: 50 },
+      { el: document.querySelector('.center .settings-btn'), dir: 'right', delay: 100 },
+      { el: document.querySelector('.center h1'), dir: 'up', delay: 80 },
+      { el: document.querySelector('.center p'), dir: 'up', delay: 120 },
+      { el: document.querySelector('.fav-sidebar-btn'), dir: 'left', delay: 150 }
+    ];
+    
+    elements.forEach(item => {
+      if (!item.el) return;
+      item.el.style.opacity = '0';
+      if (item.dir === 'left') item.el.style.transform = 'translateX(-100px)';
+      if (item.dir === 'right') item.el.style.transform = 'translateX(100px)';
+      if (item.dir === 'up') item.el.style.transform = 'translateY(-30px)';
+      item.el.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+      
+      setTimeout(() => {
+        item.el.style.opacity = '1';
+        item.el.style.transform = 'translateX(0) translateY(0)';
+      }, item.delay);
+    });
+  }
+  
+  loadingScreen.addEventListener('click', (e) => e.stopPropagation());
+  console.log('Loading screen active - first visit!');
 })();
-    </script>
+</script>
+    <script>
+    // ===== SESSION TIMER (Tracks active time only) =====
+(function() {
+  let sessionStart = localStorage.getItem('sessionStart');
+  let totalPausedTime = 0;
+  let pausedStart = null;
+  let timerInterval = null;
+  let isTabActive = true;
+  let isPageVisible = true;
+
+  // Get or create session start time
+  if (!sessionStart) {
+    sessionStart = Date.now();
+    localStorage.setItem('sessionStart', sessionStart);
+  } else {
+    sessionStart = parseInt(sessionStart);
+  }
+
+  // Get total paused time from storage
+  if (localStorage.getItem('totalPausedTime')) {
+    totalPausedTime = parseInt(localStorage.getItem('totalPausedTime'));
+  }
+
+  // Update the timer display
+  function updateTimerDisplay() {
+    const now = Date.now();
+    const activeTime = now - sessionStart - totalPausedTime;
+    
+    const hours = Math.floor(activeTime / 3600000);
+    const minutes = Math.floor((activeTime % 3600000) / 60000);
+    const seconds = Math.floor((activeTime % 60000) / 1000);
+    
+    const timerHours = document.getElementById('timerHours');
+    const timerMinutes = document.getElementById('timerMinutes');
+    const timerSeconds = document.getElementById('timerSeconds');
+    
+    if (timerHours) timerHours.textContent = hours.toString().padStart(2, '0');
+    if (timerMinutes) timerMinutes.textContent = minutes.toString().padStart(2, '0');
+    if (timerSeconds) timerSeconds.textContent = seconds.toString().padStart(2, '0');
+  }
+
+  // Start/Resume the timer
+  function startTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    updateTimerDisplay();
+    timerInterval = setInterval(updateTimerDisplay, 1000);
+  }
+
+  // Pause the timer (when tab is inactive or page hidden)
+  function pauseTimer() {
+    if (pausedStart === null) {
+      pausedStart = Date.now();
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+  }
+
+  // Resume the timer
+  function resumeTimer() {
+    if (pausedStart !== null) {
+      totalPausedTime += (Date.now() - pausedStart);
+      localStorage.setItem('totalPausedTime', totalPausedTime);
+      pausedStart = null;
+      startTimer();
+    }
+  }
+
+  // Check if page is visible
+  function handleVisibilityChange() {
+    if (document.hidden || !isTabActive) {
+      pauseTimer();
+    } else {
+      resumeTimer();
+    }
+  }
+
+  // Check if tab is active (using focus/blur)
+  function handleWindowFocus() {
+    isTabActive = true;
+    if (!document.hidden) {
+      resumeTimer();
+    }
+  }
+
+  function handleWindowBlur() {
+    isTabActive = false;
+    pauseTimer();
+  }
+
+  // Listen for visibility changes (switching tabs)
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  
+  // Listen for window focus/blur (switching windows)
+  window.addEventListener('focus', handleWindowFocus);
+  window.addEventListener('blur', handleWindowBlur);
+  
+  // Also pause when user is idle for too long (optional - 5 minutes)
+  let idleTimer;
+  function resetIdleTimer() {
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      // Pause after 5 minutes of inactivity (mouse not moving)
+      if (!document.hidden && isTabActive) {
+        pauseTimer();
+      }
+    }, 300000); // 5 minutes
+  }
+  
+  document.addEventListener('mousemove', () => {
+    if (pausedStart !== null && !document.hidden && isTabActive) {
+      resumeTimer();
+    }
+    resetIdleTimer();
+  });
+  
+  document.addEventListener('keydown', resetIdleTimer);
+  
+  // Start the timer
+  startTimer();
+  
+  // Initial check for visibility
+  if (document.hidden) {
+    pauseTimer();
+  }
+  
+  console.log('Session timer initialized!');
+})();
+  </script>
   </body>
 </html>
