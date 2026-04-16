@@ -270,6 +270,24 @@ function submitRating(gameName, rating) {
     globalRatings[gameName] = { total: 0, count: 0, average: 0 };
   }
   
+  //  Track user rating count
+  const currentUser = JSON.parse(localStorage.getItem('fanter_currentUser') || 'null');
+  if (currentUser) {
+    currentUser.stats = currentUser.stats || { ratingsGiven: 0, favoritesCount: 0, gamesPlayed: 0 };
+    currentUser.stats.ratingsGiven = (currentUser.stats.ratingsGiven || 0) + 1;
+    localStorage.setItem('fanter_currentUser', JSON.stringify(currentUser));
+    
+    // Update in users array
+    let users = JSON.parse(localStorage.getItem('fanter_users') || '[]');
+    const userIndex = users.findIndex(u => u.id === currentUser.id);
+    if (userIndex !== -1) {
+      users[userIndex].stats = currentUser.stats;
+      localStorage.setItem('fanter_users', JSON.stringify(users));
+    }
+    
+  }
+
+  
   // Check if user already voted
   if (userVotes[gameName]) {
     // Remove old vote
