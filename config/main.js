@@ -3,7 +3,7 @@
 // Wait for DOM to be fully loaded before running
 document.addEventListener('DOMContentLoaded', function() {
   var sitename = "fanter beta.";
-  var subtext = "v0.3, achievements added, bugfixes and more coming soon! :3";
+  var subtext = "v0.02, achievements added, bugfixes and more coming soon! :3";
 
   var serverUrl1 = "https://gms.parcoil.com";
   var currentPageTitle = document.title;
