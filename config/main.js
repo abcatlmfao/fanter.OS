@@ -12,15 +12,27 @@ document.addEventListener('DOMContentLoaded', function() {
     return JSON.parse(localStorage.getItem("favourites") || "[]");
   }
 
-  function toggleFavourite(gameName) {
-    let favs = getFavourites();
-    if (favs.includes(gameName)) {
-      favs = favs.filter(f => f !== gameName);
-    } else {
-      favs.push(gameName);
-    }
-    localStorage.setItem("favourites", JSON.stringify(favs));
+ function toggleFavourite(gameName) {
+  let favs = getFavourites();
+  let isAdding = false;
+  
+  if (favs.includes(gameName)) {
+    favs = favs.filter(f => f !== gameName);
+    isAdding = false;
+  } else {
+    favs.push(gameName);
+    isAdding = true;
   }
+  localStorage.setItem("favourites", JSON.stringify(favs));
+  
+  syncFavoriteToAccount(gameName, isAdding);
+  const favBtn = document.querySelector(`.fav-btn[data-game="${gameName}"]`);
+  if (favBtn) {
+    favBtn.textContent = isAdding ? "★" : "☆";
+  }
+
+   
+}
   function displayFilteredGames(filteredGames) {
     const gamesContainer = document.getElementById("gamesContainer");
     if (!gamesContainer) return;
