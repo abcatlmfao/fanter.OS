@@ -34,7 +34,7 @@
       width: 100%;
     }
 
-    /* ===== SIDE MENU (Like Truffled) ===== */
+    /* ===== SIDE MENU ===== */
     .game-sidebar {
       width: 320px;
       background: rgba(10, 15, 30, 0.85);
@@ -42,17 +42,13 @@
       border-right: 1px solid rgba(45, 90, 227, 0.3);
       display: flex;
       flex-direction: column;
-      transition: all 0.3s ease;
+      transition: width 0.3s ease;
       z-index: 100;
+      position: relative;
     }
 
     .game-sidebar.collapsed {
-      width: 60px;
-    }
-
-    .game-sidebar.collapsed .sidebar-content {
-      opacity: 0;
-      visibility: hidden;
+      width: 70px;
     }
 
     .sidebar-toggle {
@@ -95,6 +91,7 @@
       color: #ffcc00;
       font-family: 'Orbitron', monospace;
       font-size: 18px;
+      transition: all 0.2s ease;
     }
 
     .game-sidebar.collapsed .sidebar-header h2 {
@@ -110,9 +107,15 @@
       flex: 1;
       overflow-y: auto;
       transition: opacity 0.2s ease;
+      padding-bottom: 20px;
     }
 
-    /* Sidebar Cards (like settings cards) */
+    .game-sidebar.collapsed .sidebar-content {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    /* Sidebar Cards */
     .sidebar-card {
       background: rgba(20, 30, 50, 0.6);
       border: 1px solid rgba(45, 90, 227, 0.3);
@@ -163,6 +166,13 @@
       text-align: center;
     }
 
+    .game-name-display {
+      text-align: center;
+      font-size: 14px;
+      word-break: break-word;
+      color: white;
+    }
+
     .sidebar-btn {
       width: 100%;
       background: rgba(45, 90, 227, 0.2);
@@ -182,16 +192,6 @@
       transform: translateY(-2px);
     }
 
-    .back-btn {
-      background: rgba(220, 50, 50, 0.2);
-      border-color: rgba(220, 50, 50, 0.3);
-    }
-
-    .back-btn:hover {
-      background: rgba(220, 50, 50, 0.4);
-      border-color: #ffcc00;
-    }
-
     /* ===== MAIN CONTENT AREA ===== */
     .game-main {
       flex: 1;
@@ -202,10 +202,10 @@
       position: relative;
     }
 
-    /* Game Container - Centered, Smaller */
+    /* Game Container */
     .game-container {
       width: 100%;
-      max-width: 1000px;
+      max-width: 1100px;
       background: rgba(0, 0, 0, 0.4);
       border-radius: 24px;
       backdrop-filter: blur(5px);
@@ -275,7 +275,6 @@
       border: none;
     }
 
-    /* External notice */
     .external-notice {
       text-align: center;
       padding: 8px;
@@ -284,7 +283,7 @@
       color: rgba(255,255,255,0.5);
     }
 
-    /* Floating particles background */
+    /* Floating particles */
     .particles {
       position: fixed;
       top: 0;
@@ -324,14 +323,38 @@
       background: #2d5ae3;
       border-radius: 4px;
     }
+
+    /* Fullscreen exit hint */
+    .fullscreen-hint {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.7);
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+      z-index: 1001;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .fullscreen-hint.show {
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
   <!-- Floating particles -->
   <div class="particles" id="particles"></div>
 
+  <!-- Fullscreen exit hint -->
+  <div class="fullscreen-hint" id="fullscreenHint">press ESC or your safety key to exit fullscreen</div>
+
   <div class="game-layout">
-    <!-- Side Menu (Truffled Style) -->
+    <!-- Side Menu -->
     <div class="game-sidebar" id="gameSidebar">
       <div class="sidebar-toggle" id="sidebarToggle">◀</div>
       
@@ -340,14 +363,12 @@
       </div>
       
       <div class="sidebar-content">
-        <!-- Game Info Card -->
         <div class="sidebar-card">
           <div class="card-icon">🎮</div>
           <div class="card-title">now playing</div>
-          <div class="game-name-display" id="gameNameDisplay" style="text-align: center; font-size: 14px; word-break: break-word;">Loading...</div>
+          <div class="game-name-display" id="gameNameDisplay">Loading...</div>
         </div>
         
-        <!-- Coins Card -->
         <div class="sidebar-card">
           <div class="card-icon">🪙</div>
           <div class="card-title">your coins</div>
@@ -356,21 +377,18 @@
           <div class="coin-label" style="font-size: 9px;">+0.01 per second</div>
         </div>
         
-        <!-- Playtime Card -->
         <div class="sidebar-card">
           <div class="card-icon">⏱️</div>
           <div class="card-title">session time</div>
           <div class="playtime-value" id="playtimeDisplay">00:00:00</div>
         </div>
         
-        <!-- Shop Button -->
         <div class="sidebar-card">
           <div class="card-icon">🛒</div>
           <div class="card-title">shop</div>
           <button class="sidebar-btn" id="shopBtn" onclick="alert('🪙 Shop coming soon! Use your coins to buy themes, cursors, and pets!')">visit shop →</button>
         </div>
         
-        <!-- Links Card -->
         <div class="sidebar-card">
           <div class="card-icon">🔗</div>
           <div class="card-title">links</div>
@@ -402,6 +420,7 @@
     // ===== CREATE FLOATING PARTICLES =====
     function createParticles() {
       const container = document.getElementById('particles');
+      if (!container) return;
       for (let i = 0; i < 50; i++) {
         const particle = document.createElement('div');
         particle.className = 'particle';
@@ -429,7 +448,8 @@
     let embedUrl;
     if (isExternal) {
       embedUrl = gameUrl;
-      document.getElementById('externalNotice').style.display = 'block';
+      const externalNotice = document.getElementById('externalNotice');
+      if (externalNotice) externalNotice.style.display = 'block';
     } else if (gameUrl) {
       embedUrl = `https://gms.parcoil.com/${gameUrl}`;
     } else {
@@ -441,48 +461,54 @@
       gameFrame.src = embedUrl;
     }
     
-    document.getElementById('gameTitle').textContent = decodeURIComponent(gameName);
-    document.getElementById('gameNameDisplay').textContent = decodeURIComponent(gameName);
+    const gameTitle = document.getElementById('gameTitle');
+    const gameNameDisplay = document.getElementById('gameNameDisplay');
+    if (gameTitle) gameTitle.textContent = decodeURIComponent(gameName);
+    if (gameNameDisplay) gameNameDisplay.textContent = decodeURIComponent(gameName);
 
     // ===== SIDEBAR COLLAPSE =====
-    let sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    let sidebarCollapsed = localStorage.getItem('sidebarCollapsed_play') === 'true';
     const sidebar = document.getElementById('gameSidebar');
     const toggleBtn = document.getElementById('sidebarToggle');
     
     function toggleSidebar() {
       sidebarCollapsed = !sidebarCollapsed;
-      localStorage.setItem('sidebarCollapsed', sidebarCollapsed);
+      localStorage.setItem('sidebarCollapsed_play', sidebarCollapsed);
       if (sidebarCollapsed) {
         sidebar.classList.add('collapsed');
-        toggleBtn.innerHTML = '▶';
+        if (toggleBtn) toggleBtn.innerHTML = '▶';
       } else {
         sidebar.classList.remove('collapsed');
-        toggleBtn.innerHTML = '◀';
+        if (toggleBtn) toggleBtn.innerHTML = '◀';
       }
     }
     
-    toggleBtn.onclick = toggleSidebar;
+    if (toggleBtn) toggleBtn.onclick = toggleSidebar;
     
     if (sidebarCollapsed) {
       sidebar.classList.add('collapsed');
-      toggleBtn.innerHTML = '▶';
+      if (toggleBtn) toggleBtn.innerHTML = '▶';
     }
 
     // ===== COIN & PLAYTIME SYSTEM =====
     let sessionStartTime = Date.now();
     let totalCoinsEarned = 0;
     let coinInterval = null;
-    let currentUser = JSON.parse(localStorage.getItem('fanter_currentUser') || 'null');
+    let currentUser = null;
     
-    function loadUserCoins() {
-      if (currentUser && currentUser.coins !== undefined) {
-        totalCoinsEarned = currentUser.coins;
-      }
-      updateCoinDisplay();
+    function loadUserData() {
+      try {
+        currentUser = JSON.parse(localStorage.getItem('fanter_currentUser') || 'null');
+        if (currentUser && currentUser.coins !== undefined) {
+          totalCoinsEarned = currentUser.coins;
+        }
+        updateCoinDisplay();
+      } catch(e) { console.error("Error loading user:", e); }
     }
     
     function saveUserCoins() {
-      if (currentUser) {
+      if (!currentUser) return;
+      try {
         currentUser.coins = totalCoinsEarned;
         localStorage.setItem('fanter_currentUser', JSON.stringify(currentUser));
         let users = JSON.parse(localStorage.getItem('fanter_users') || '[]');
@@ -491,7 +517,7 @@
           users[userIndex].coins = totalCoinsEarned;
           localStorage.setItem('fanter_users', JSON.stringify(users));
         }
-      }
+      } catch(e) { console.error("Error saving coins:", e); }
     }
     
     function updateCoinDisplay() {
@@ -534,7 +560,7 @@
       }
     });
     
-    loadUserCoins();
+    loadUserData();
     startCoinEarning();
     
     window.addEventListener('beforeunload', () => {
@@ -544,34 +570,94 @@
     // ===== FULLSCREEN TOGGLE =====
     const gameContainer = document.getElementById('gameContainer');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const fullscreenHint = document.getElementById('fullscreenHint');
     let isFullscreen = false;
+    let hintTimeout;
+    
+    function showFullscreenHint() {
+      if (fullscreenHint) {
+        fullscreenHint.classList.add('show');
+        if (hintTimeout) clearTimeout(hintTimeout);
+        hintTimeout = setTimeout(() => {
+          fullscreenHint.classList.remove('show');
+        }, 3000);
+      }
+    }
     
     function toggleFullscreen() {
       if (!isFullscreen) {
         gameContainer.classList.add('fullscreen');
-        fullscreenBtn.innerHTML = '⬛ exit';
+        if (fullscreenBtn) fullscreenBtn.innerHTML = '⬛ exit';
         isFullscreen = true;
+        showFullscreenHint();
       } else {
         gameContainer.classList.remove('fullscreen');
-        fullscreenBtn.innerHTML = '🖥️ fullscreen';
+        if (fullscreenBtn) fullscreenBtn.innerHTML = '🖥️ fullscreen';
         isFullscreen = false;
       }
     }
     
-    fullscreenBtn.onclick = toggleFullscreen;
+    if (fullscreenBtn) fullscreenBtn.onclick = toggleFullscreen;
     
+    // Escape key to exit fullscreen
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && isFullscreen) {
         toggleFullscreen();
       }
     });
     
-    // ===== REFRESH BUTTON =====
-    document.getElementById('refreshBtn').onclick = () => {
-      if (gameFrame) {
-        gameFrame.src = embedUrl;
+    // ===== SAFETY KEY TO EXIT FULLSCREEN =====
+    // Check for user's saved safety key
+    let lastKeyTime = 0;
+    let lastKey = "";
+    
+    function checkSafetyKeyExit(e) {
+      if (!isFullscreen) return;
+      
+      const safetyKey = localStorage.getItem('safetyKey');
+      if (!safetyKey) return;
+      
+      const now = Date.now();
+      const pressedKey = e.key.toLowerCase();
+      const storedKey = safetyKey.toLowerCase();
+      
+      if (pressedKey === storedKey && pressedKey === lastKey && now - lastKeyTime < 1000) {
+        e.preventDefault();
+        toggleFullscreen();
+        // Show a small notification
+        const toast = document.createElement('div');
+        toast.textContent = `🔑 Safety key pressed - exiting fullscreen`;
+        toast.style.cssText = `
+          position: fixed;
+          bottom: 80px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: rgba(0,0,0,0.8);
+          color: #ffcc00;
+          padding: 8px 16px;
+          border-radius: 30px;
+          font-size: 12px;
+          z-index: 1002;
+          animation: fadeOut 2s ease forwards;
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 2000);
       }
-    };
+      lastKey = pressedKey;
+      lastKeyTime = now;
+    }
+    
+    document.addEventListener('keydown', checkSafetyKeyExit);
+    
+    // ===== REFRESH BUTTON =====
+    if (refreshBtn) {
+      refreshBtn.onclick = () => {
+        if (gameFrame) {
+          gameFrame.src = embedUrl;
+        }
+      };
+    }
     
     // ===== TRACK GAME PLAY =====
     function trackGamePlay(gameNameParam) {
@@ -585,7 +671,19 @@
     
     trackGamePlay(decodeURIComponent(gameName));
     
+    // Add fade out animation for toast
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeOut {
+        0% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        70% { opacity: 1; }
+        100% { opacity: 0; transform: translateX(-50%) translateY(-20px); visibility: hidden; }
+      }
+    `;
+    document.head.appendChild(style);
+    
     console.log('✅ Game player ready!');
+    console.log('💡 Tip: Press your safety key twice quickly to exit fullscreen!');
   </script>
 </body>
 </html>
