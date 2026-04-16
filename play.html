@@ -86,9 +86,11 @@
     }
 
     .game-info .game-name {
-      font-size: 14px;
-      color: rgba(255,255,255,0.6);
+      font-size: 16px;
+      color: white;
+      font-weight: bold;
       word-break: break-word;
+      text-align: center;
     }
 
     .coin-display {
@@ -365,11 +367,21 @@
     const gameUrl = urlParams.get("gameurl");
     let gameName = urlParams.get("game") || "Game";
 
+    console.log("Loading game - URL param:", gameUrl, "Game name:", gameName);
+
     if (!gameUrl) {
       alert("Game URL not provided!");
       window.location.href = "index.html";
     } else {
-      const embedUrl = `${serverUrl1}/${gameUrl}`;
+      // Build the embed URL
+      let embedUrl;
+      if (gameUrl.startsWith('http')) {
+        embedUrl = gameUrl;
+      } else {
+        embedUrl = `${serverUrl1}/${gameUrl}`;
+      }
+      
+      console.log("Embed URL:", embedUrl);
       document.getElementById("gameFrame").src = embedUrl;
       document.getElementById("gameNameDisplay").textContent = decodeURIComponent(gameName);
     }
@@ -513,15 +525,15 @@
     
     // ===== TRACK GAME PLAY FOR ACHIEVEMENTS =====
     function trackGamePlay(gameNameParam) {
-      if (typeof trackPlayedGame === 'function') {
-        trackPlayedGame(gameNameParam);
+      if (typeof window.trackPlayedGame === 'function') {
+        window.trackPlayedGame(gameNameParam);
       }
-      if (typeof trackGamePlayCount === 'function') {
-        trackGamePlayCount(gameNameParam);
+      if (typeof window.trackGamePlayCount === 'function') {
+        window.trackGamePlayCount(gameNameParam);
       }
-      if (typeof isFoodGame === 'function' && isFoodGame(gameNameParam)) {
-        if (typeof checkAndUnlockAchievement === 'function') {
-          checkAndUnlockAchievement(57);
+      if (typeof window.isFoodGame === 'function' && window.isFoodGame(gameNameParam)) {
+        if (typeof window.checkAndUnlockAchievement === 'function') {
+          window.checkAndUnlockAchievement(57);
         }
       }
     }
@@ -529,7 +541,7 @@
     // Call achievement tracking
     trackGamePlay(decodeURIComponent(gameName));
     
-    console.log('🎮 Game player ready!');
+    console.log('🎮 Game player ready! Game loaded in iframe');
   </script>
 </body>
 </html>
