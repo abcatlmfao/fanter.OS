@@ -355,5 +355,135 @@
   console.log('Loading screen active - first visit!');
 })();
 </script>
+    <script>
+    // ===== SESSION TIMER (Tracks active time only) =====
+(function() {
+  let sessionStart = localStorage.getItem('sessionStart');
+  let totalPausedTime = 0;
+  let pausedStart = null;
+  let timerInterval = null;
+  let isTabActive = true;
+  let isPageVisible = true;
+
+  // Get or create session start time
+  if (!sessionStart) {
+    sessionStart = Date.now();
+    localStorage.setItem('sessionStart', sessionStart);
+  } else {
+    sessionStart = parseInt(sessionStart);
+  }
+
+  // Get total paused time from storage
+  if (localStorage.getItem('totalPausedTime')) {
+    totalPausedTime = parseInt(localStorage.getItem('totalPausedTime'));
+  }
+
+  // Update the timer display
+  function updateTimerDisplay() {
+    const now = Date.now();
+    const activeTime = now - sessionStart - totalPausedTime;
+    
+    const hours = Math.floor(activeTime / 3600000);
+    const minutes = Math.floor((activeTime % 3600000) / 60000);
+    const seconds = Math.floor((activeTime % 60000) / 1000);
+    
+    const timerHours = document.getElementById('timerHours');
+    const timerMinutes = document.getElementById('timerMinutes');
+    const timerSeconds = document.getElementById('timerSeconds');
+    
+    if (timerHours) timerHours.textContent = hours.toString().padStart(2, '0');
+    if (timerMinutes) timerMinutes.textContent = minutes.toString().padStart(2, '0');
+    if (timerSeconds) timerSeconds.textContent = seconds.toString().padStart(2, '0');
+  }
+
+  // Start/Resume the timer
+  function startTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    updateTimerDisplay();
+    timerInterval = setInterval(updateTimerDisplay, 1000);
+  }
+
+  // Pause the timer (when tab is inactive or page hidden)
+  function pauseTimer() {
+    if (pausedStart === null) {
+      pausedStart = Date.now();
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+  }
+
+  // Resume the timer
+  function resumeTimer() {
+    if (pausedStart !== null) {
+      totalPausedTime += (Date.now() - pausedStart);
+      localStorage.setItem('totalPausedTime', totalPausedTime);
+      pausedStart = null;
+      startTimer();
+    }
+  }
+
+  // Check if page is visible
+  function handleVisibilityChange() {
+    if (document.hidden || !isTabActive) {
+      pauseTimer();
+    } else {
+      resumeTimer();
+    }
+  }
+
+  // Check if tab is active (using focus/blur)
+  function handleWindowFocus() {
+    isTabActive = true;
+    if (!document.hidden) {
+      resumeTimer();
+    }
+  }
+
+  function handleWindowBlur() {
+    isTabActive = false;
+    pauseTimer();
+  }
+
+  // Listen for visibility changes (switching tabs)
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  
+  // Listen for window focus/blur (switching windows)
+  window.addEventListener('focus', handleWindowFocus);
+  window.addEventListener('blur', handleWindowBlur);
+  
+  // Also pause when user is idle for too long (optional - 5 minutes)
+  let idleTimer;
+  function resetIdleTimer() {
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => {
+      // Pause after 5 minutes of inactivity (mouse not moving)
+      if (!document.hidden && isTabActive) {
+        pauseTimer();
+      }
+    }, 300000); // 5 minutes
+  }
+  
+  document.addEventListener('mousemove', () => {
+    if (pausedStart !== null && !document.hidden && isTabActive) {
+      resumeTimer();
+    }
+    resetIdleTimer();
+  });
+  
+  document.addEventListener('keydown', resetIdleTimer);
+  
+  // Start the timer
+  startTimer();
+  
+  // Initial check for visibility
+  if (document.hidden) {
+    pauseTimer();
+  }
+  
+  console.log('Session timer initialized!');
+})();
+  </script>
   </body>
 </html>
