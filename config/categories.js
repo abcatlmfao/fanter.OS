@@ -1,45 +1,66 @@
-// ===== GAME CATEGORIES / TAGS WITH SORTING =====
+// ===== GAME CATEGORIES / TAGS WITH SORTING (FIXED) =====
 
 let currentCategory = 'all';
 let currentSort = 'default';
+let originalGamesOrder = [];
 
-const CATEGORY_ICONS = {
-  'action': '⚔️',
-  'puzzle': '🧩',
-  'racing': '🏎️',
-  'sports': '⚽',
-  'adventure': '🗺️',
-  'platformer': '🏃',
-  'strategy': '♟️',
-  'multiplayer': '👥',
-  'arcade': '🕹️',
-  'horror': '👻',
-  'other': '🎮'
-};
+function storeOriginalOrder() {
+  const container = document.getElementById('gamesContainer');
+  if (container && originalGamesOrder.length === 0) {
+    originalGamesOrder = Array.from(container.children);
+  }
+}
 
-const CATEGORY_COLORS = {
-  'action': '#ff4444',
-  'puzzle': '#44ff44',
-  'racing': '#ff8844',
-  'sports': '#44ff88',
-  'adventure': '#44aaff',
-  'platformer': '#ff44ff',
-  'strategy': '#88ff44',
-  'multiplayer': '#ffaa44',
-  'arcade': '#ff44aa',
-  'horror': '#aa44ff',
-  'other': '#aaaaaa'
-};
+function resetToOriginalOrder() {
+  const container = document.getElementById('gamesContainer');
+  if (container && originalGamesOrder.length > 0) {
+    originalGamesOrder.forEach(game => container.appendChild(game));
+  }
+}
 
 function getCategoryIcon(category) {
-  return CATEGORY_ICONS[category] || '🎮';
+  const icons = {
+    'action': '⚔️',
+    'puzzle': '🧩',
+    'racing': '🏎️',
+    'sports': '⚽',
+    'adventure': '🗺️',
+    'platformer': '🏃',
+    'strategy': '♟️',
+    'multiplayer': '👥',
+    'arcade': '🕹️',
+    'horror': '👻',
+    'simulation': '🏭',
+    'sandbox': '🎨',
+    'survival': '🏕️',
+    'art': '🎨',
+    'other': '🎮'
+  };
+  return icons[category] || '🎮';
 }
 
 function getCategoryColor(category) {
-  return CATEGORY_COLORS[category] || '#aaaaaa';
+  const colors = {
+    'action': '#ff4444',
+    'puzzle': '#44ff44',
+    'racing': '#ff8844',
+    'sports': '#44ff88',
+    'adventure': '#44aaff',
+    'platformer': '#ff44ff',
+    'strategy': '#88ff44',
+    'multiplayer': '#ffaa44',
+    'arcade': '#ff44aa',
+    'horror': '#aa44ff',
+    'simulation': '#44ffcc',
+    'sandbox': '#ff8844',
+    'survival': '#44aa88',
+    'art': '#ff66cc',
+    'other': '#aaaaaa'
+  };
+  return colors[category] || '#aaaaaa';
 }
 
-// Add category tag to game cards using data from games.json
+// Add category tag to game cards
 function addCategoryTags() {
   document.querySelectorAll('.game').forEach(gameCard => {
     if (gameCard.hasAttribute('data-category-added')) return;
@@ -87,12 +108,22 @@ function filterByCategory(category) {
   return visibleCount;
 }
 
-// Sort games
+// Sort games by different criteria
 function sortGames(sortType) {
   const container = document.getElementById('gamesContainer');
-  const games = Array.from(container.children);
+  const visibleGames = Array.from(container.children).filter(game => game.style.display !== 'none');
+  const hiddenGames = Array.from(container.children).filter(game => game.style.display === 'none');
   
-  const sortedGames = [...games].sort((a, b) => {
+  if (sortType === 'default') {
+    // Restore original order for visible games
+    const originalVisibleOrder = originalGamesOrder.filter(game => game.style.display !== 'none');
+    originalVisibleOrder.forEach(game => container.appendChild(game));
+    //然后把hidden games加回去
+    hiddenGames.forEach(game => container.appendChild(game));
+    return;
+  }
+  
+  const sortedVisible = [...visibleGames].sort((a, b) => {
     const aName = a.querySelector('p')?.textContent || '';
     const bName = b.querySelector('p')?.textContent || '';
     
@@ -101,28 +132,35 @@ function sortGames(sortType) {
         return aName.localeCompare(bName);
       case 'name-desc':
         return bName.localeCompare(aName);
-      case 'rating-desc':
-        const aRating = parseFloat(a.querySelector('.rating-average')?.textContent?.match(/★ ([\d.]+)/)?.[1] || 0);
-        const bRating = parseFloat(b.querySelector('.rating-average')?.textContent?.match(/★ ([\d.]+)/)?.[1] || 0);
+      case 'rating-desc': {
+        const aRatingEl = a.querySelector('.rating-average');
+        const bRatingEl = b.querySelector('.rating-average');
+        const aRating = aRatingEl ? parseFloat(aRatingEl.textContent?.match(/★ ([\d.]+)/)?.[1] || 0) : 0;
+        const bRating = bRatingEl ? parseFloat(bRatingEl.textContent?.match(/★ ([\d.]+)/)?.[1] || 0) : 0;
         return bRating - aRating;
-      case 'rating-asc':
-        const aRatingAsc = parseFloat(a.querySelector('.rating-average')?.textContent?.match(/★ ([\d.]+)/)?.[1] || 0);
-        const bRatingAsc = parseFloat(b.querySelector('.rating-average')?.textContent?.match(/★ ([\d.]+)/)?.[1] || 0);
-        return aRatingAsc - bRatingAsc;
+      }
+      case 'rating-asc': {
+        const aRatingEl = a.querySelector('.rating-average');
+        const bRatingEl = b.querySelector('.rating-average');
+        const aRating = aRatingEl ? parseFloat(aRatingEl.textContent?.match(/★ ([\d.]+)/)?.[1] || 0) : 0;
+        const bRating = bRatingEl ? parseFloat(bRatingEl.textContent?.match(/★ ([\d.]+)/)?.[1] || 0) : 0;
+        return aRating - bRating;
+      }
       default:
         return 0;
     }
   });
   
-  sortedGames.forEach(game => container.appendChild(game));
+  // Re-append in sorted order (visible first, then hidden)
+  sortedVisible.forEach(game => container.appendChild(game));
+  hiddenGames.forEach(game => container.appendChild(game));
 }
 
 // Combined filter and sort
 function filterAndSort() {
+  storeOriginalOrder();
   filterByCategory(currentCategory);
-  if (currentSort !== 'default') {
-    sortGames(currentSort);
-  }
+  sortGames(currentSort);
 }
 
 function updateCategoryCount(visibleCount) {
@@ -166,7 +204,7 @@ function addCategoryFilterBar() {
     const cats = new Set(gamesData.map(g => g.category || 'other'));
     availableCategories.push(...Array.from(cats).sort());
   } else {
-    availableCategories.push(...Object.keys(CATEGORY_ICONS));
+    availableCategories.push('action', 'puzzle', 'racing', 'sports', 'adventure', 'platformer', 'strategy', 'multiplayer', 'arcade', 'horror', 'simulation', 'sandbox', 'other');
   }
   
   // Category buttons row
@@ -203,12 +241,15 @@ function addCategoryFilterBar() {
       btn.style.transform = 'translateY(0)';
     };
     btn.onclick = () => {
+      // Update active button styling
       document.querySelectorAll('.category-btn').forEach(b => {
         b.style.background = 'rgba(20,30,50,0.8)';
         b.style.color = 'white';
       });
       btn.style.background = `linear-gradient(135deg, ${getCategoryColor(cat)}40, ${getCategoryColor(cat)}20)`;
       btn.style.color = getCategoryColor(cat);
+      
+      // Update current category and refresh
       currentCategory = cat;
       filterAndSort();
     };
@@ -226,65 +267,34 @@ function addCategoryFilterBar() {
     margin-top: 5px;
   `;
   
-  sortRow.innerHTML = `
-    <span style="font-size: 11px; color: rgba(255,255,255,0.4);">sort by:</span>
-    <button class="sort-btn" data-sort="default" style="
-      background: rgba(20,30,50,0.6);
-      border: 1px solid rgba(45,90,227,0.3);
-      border-radius: 20px;
-      padding: 4px 12px;
-      color: white;
-      font-size: 11px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    ">default</button>
-    <button class="sort-btn" data-sort="name-asc" style="
-      background: rgba(20,30,50,0.6);
-      border: 1px solid rgba(45,90,227,0.3);
-      border-radius: 20px;
-      padding: 4px 12px;
-      color: white;
-      font-size: 11px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    ">name A-Z</button>
-    <button class="sort-btn" data-sort="name-desc" style="
-      background: rgba(20,30,50,0.6);
-      border: 1px solid rgba(45,90,227,0.3);
-      border-radius: 20px;
-      padding: 4px 12px;
-      color: white;
-      font-size: 11px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    ">name Z-A</button>
-    <button class="sort-btn" data-sort="rating-desc" style="
-      background: rgba(20,30,50,0.6);
-      border: 1px solid rgba(45,90,227,0.3);
-      border-radius: 20px;
-      padding: 4px 12px;
-      color: white;
-      font-size: 11px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    ">highest rated</button>
-    <button class="sort-btn" data-sort="rating-asc" style="
-      background: rgba(20,30,50,0.6);
-      border: 1px solid rgba(45,90,227,0.3);
-      border-radius: 20px;
-      padding: 4px 12px;
-      color: white;
-      font-size: 11px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    ">lowest rated</button>
-  `;
+  const sortOptions = [
+    { value: 'default', label: 'default' },
+    { value: 'name-asc', label: 'name A-Z' },
+    { value: 'name-desc', label: 'name Z-A' },
+    { value: 'rating-desc', label: 'highest rated' },
+    { value: 'rating-asc', label: 'lowest rated' }
+  ];
   
-  sortRow.querySelectorAll('.sort-btn').forEach(btn => {
+  sortRow.innerHTML = `<span style="font-size: 11px; color: rgba(255,255,255,0.4);">sort by:</span>`;
+  
+  sortOptions.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'sort-btn';
+    btn.setAttribute('data-sort', opt.value);
+    btn.textContent = opt.label;
+    btn.style.cssText = `
+      background: rgba(20,30,50,0.6);
+      border: 1px solid rgba(45,90,227,0.3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      color: white;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    `;
+    
     btn.onclick = () => {
-      const sortType = btn.getAttribute('data-sort');
-      currentSort = sortType;
-      
+      // Update active button styling
       sortRow.querySelectorAll('.sort-btn').forEach(b => {
         b.style.background = 'rgba(20,30,50,0.6)';
         b.style.borderColor = 'rgba(45,90,227,0.3)';
@@ -294,8 +304,12 @@ function addCategoryFilterBar() {
       btn.style.borderColor = `rgba(45,90,227,0.8)`;
       btn.style.color = '#ffcc00';
       
+      // Update current sort and refresh
+      currentSort = opt.value;
       filterAndSort();
     };
+    
+    sortRow.appendChild(btn);
   });
   
   filterBar.appendChild(categoryRow);
@@ -306,16 +320,15 @@ function addCategoryFilterBar() {
 
 // Initialize categories
 function initCategories() {
+  storeOriginalOrder();
   if (!document.getElementById('category-filter-bar')) {
     addCategoryFilterBar();
   }
   addCategoryTags();
-  filterAndSort();
 }
 
 // Run after games load
 if (typeof gamesData !== 'undefined') {
-  // If gamesData already exists
   setTimeout(initCategories, 500);
 }
 
@@ -326,11 +339,25 @@ if (typeof MutationObserver !== 'undefined') {
     if (!document.getElementById('category-filter-bar')) {
       addCategoryFilterBar();
     }
+    storeOriginalOrder();
   });
   const gamesContainer = document.getElementById('gamesContainer');
   if (gamesContainer) {
     observer.observe(gamesContainer, { childList: true, subtree: true });
   }
+}
+
+// Also run after displayFilteredGames
+const originalDisplay = window.displayFilteredGames;
+if (typeof originalDisplay === 'function') {
+  window.displayFilteredGames = function(filteredGames) {
+    originalDisplay(filteredGames);
+    setTimeout(() => {
+      addCategoryTags();
+      storeOriginalOrder();
+      filterAndSort();
+    }, 100);
+  };
 }
 
 console.log('✅ Game Categories with Sorting ready!');
