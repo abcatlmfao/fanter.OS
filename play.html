@@ -1,40 +1,535 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>fanter | playing</title>
+  <link rel="stylesheet" href="config/main.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <script src="config/main.js" type="module"></script>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
+    body {
+      background: linear-gradient(135deg, #0a0a1a, #0f0f2a);
+      min-height: 100vh;
+      font-family: 'Ubuntu', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Main Layout */
+    .game-container {
+      display: flex;
+      height: 100vh;
+      width: 100%;
+    }
+
+    /* Side Menu (Left Side) */
+    .game-sidebar {
+      width: 300px;
+      background: rgba(10, 15, 30, 0.95);
+      backdrop-filter: blur(10px);
+      border-right: 1px solid rgba(45, 90, 227, 0.3);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      z-index: 100;
+    }
+
+    .game-sidebar.collapsed {
+      transform: translateX(-300px);
+    }
+
+    /* Sidebar Toggle Button */
+    .sidebar-toggle {
+      position: fixed;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(45, 90, 227, 0.9);
+      border: 1px solid rgba(255, 204, 0, 0.3);
+      border-radius: 30px;
+      padding: 12px 8px;
+      cursor: pointer;
+      z-index: 101;
+      transition: all 0.2s ease;
+      color: white;
+      font-size: 18px;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+
+    .sidebar-toggle:hover {
+      background: rgba(45, 90, 227, 1);
+      transform: translateY(-50%) scale(1.05);
+      border-color: #ffcc00;
+    }
+
+    /* Sidebar Content */
+    .sidebar-header {
+      padding: 25px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      text-align: center;
+    }
+
+    .sidebar-header h2 {
+      color: #ffcc00;
+      font-family: 'Orbitron', monospace;
+      font-size: 18px;
+    }
+
+    .game-info {
+      padding: 15px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .game-info .game-name {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      word-break: break-word;
+    }
+
+    .coin-display {
+      background: linear-gradient(135deg, rgba(255,204,0,0.15), rgba(255,204,0,0.05));
+      border-radius: 16px;
+      padding: 15px;
+      margin: 15px 20px;
+      text-align: center;
+      border: 1px solid rgba(255,204,0,0.3);
+    }
+
+    .coin-amount {
+      font-size: 32px;
+      font-weight: bold;
+      color: #ffcc00;
+      font-family: 'Orbitron', monospace;
+    }
+
+    .coin-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 5px;
+    }
+
+    .coin-rate {
+      font-size: 9px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 8px;
+    }
+
+    .playtime-display {
+      background: rgba(45,90,227,0.1);
+      border-radius: 16px;
+      padding: 15px;
+      margin: 10px 20px;
+      text-align: center;
+      border: 1px solid rgba(45,90,227,0.3);
+    }
+
+    .playtime-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2d5ae3;
+      font-family: 'Orbitron', monospace;
+    }
+
+    .playtime-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 5px;
+    }
+
+    .sidebar-section {
+      margin: 20px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .sidebar-section h3 {
+      font-size: 13px;
+      color: #ffcc00;
+      margin-bottom: 12px;
+      font-family: 'Orbitron', monospace;
+    }
+
+    .shop-link {
+      display: block;
+      background: rgba(255,204,0,0.1);
+      border: 1px solid rgba(255,204,0,0.3);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      color: #ffcc00;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+
+    .shop-link:hover {
+      background: rgba(255,204,0,0.2);
+      transform: translateY(-2px);
+    }
+
+    .back-link {
+      display: block;
+      background: rgba(45,90,227,0.2);
+      border: 1px solid rgba(45,90,227,0.3);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+      color: white;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-size: 13px;
+    }
+
+    .back-link:hover {
+      background: rgba(45,90,227,0.4);
+    }
+
+    /* Game Area */
+    .game-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 40px 20px 20px;
+      position: relative;
+    }
+
+    .game-wrapper {
+      flex: 1;
+      background: rgba(0,0,0,0.3);
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(45,90,227,0.3);
+    }
+
+    .game-wrapper.fullscreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 0;
+      z-index: 1000;
+      padding: 0;
+    }
+
+    .game-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: white;
+    }
+
+    /* Controls Bar */
+    .game-controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+      padding: 10px;
+    }
+
+    .control-btn {
+      background: rgba(20,30,50,0.8);
+      border: 1px solid rgba(45,90,227,0.4);
+      border-radius: 30px;
+      padding: 8px 20px;
+      color: white;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-btn:hover {
+      border-color: #ffcc00;
+      transform: translateY(-2px);
+      background: rgba(45,90,227,0.3);
+    }
+
+    /* Game Title */
+    .game-title {
+      text-align: center;
+      margin-bottom: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 0 10px rgba(45,90,227,0.5);
+      font-family: 'Orbitron', monospace;
+    }
+
+    /* Fullscreen button special */
+    .fullscreen-active {
+      background: rgba(255,204,0,0.2);
+      border-color: #ffcc00;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .game-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100%;
+        z-index: 200;
       }
-
-      iframe {
-        width: 100%;
-        height: 100vh;
-        border: none;
+      .game-area {
+        padding: 15px;
       }
-    </style>
-  </head>
-  <body>
-    <iframe id="gameFrame"></iframe>
+      .game-title {
+        font-size: 14px;
+      }
+      .control-btn {
+        padding: 6px 12px;
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <!-- Side Menu -->
+    <div class="game-sidebar" id="gameSidebar">
+      <div class="sidebar-header">
+        <h2>🎮 fanter player</h2>
+      </div>
+      
+      <div class="game-info">
+        <div class="game-name" id="gameNameDisplay">Loading...</div>
+      </div>
+      
+      <div class="coin-display">
+        <div class="coin-amount" id="coinAmount">0</div>
+        <div class="coin-label">🪙 coins earned this session</div>
+        <div class="coin-rate">+0.01 per second</div>
+      </div>
+      
+      <div class="playtime-display">
+        <div class="playtime-value" id="playtimeDisplay">00:00:00</div>
+        <div class="playtime-label">time played this session</div>
+      </div>
+      
+      <div class="sidebar-section">
+        <h3>🛒 shop</h3>
+        <a href="#" class="shop-link" id="shopLink" onclick="alert('🪙 Shop coming soon! Use your coins to buy themes, cursors, and pets!')">🪙 visit shop (soon)</a>
+      </div>
+      
+      <div class="sidebar-section">
+        <h3>🔗 links</h3>
+        <a href="index.html" class="back-link">← back to games</a>
+      </div>
+      
+      <div class="sidebar-section">
+        <h3>💡 tip</h3>
+        <p style="font-size: 10px; color: rgba(255,255,255,0.4); line-height: 1.4;">
+          • earn coins while playing!<br>
+          • 0.01 coins per second<br>
+          • coins save to your account
+        </p>
+      </div>
+    </div>
+    
+    <!-- Sidebar Toggle Button -->
+    <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()">◀</button>
+    
+    <!-- Game Area -->
+    <div class="game-area">
+      <div class="game-title" id="gameTitle">now playing</div>
+      
+      <div class="game-wrapper" id="gameWrapper">
+        <iframe class="game-frame" id="gameFrame" src="about:blank" allowfullscreen></iframe>
+      </div>
+      
+      <div class="game-controls">
+        <button class="control-btn" id="fullscreenBtn" onclick="toggleFullscreen()">🖥️ fullscreen</button>
+        <button class="control-btn" onclick="toggleSidebar()">📂 toggle menu</button>
+      </div>
+    </div>
+  </div>
 
-    <script>
-      var serverUrl1 = "https://gms.parcoil.com";
-      const queryString = window.location.search;
-      const urlParams = new URLSearchParams(queryString);
-      const gameUrl = urlParams.get("gameurl");
+  <script>
+    // ===== LOAD GAME =====
+    var serverUrl1 = "https://gms.parcoil.com";
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const gameUrl = urlParams.get("gameurl");
+    let gameName = urlParams.get("game") || "Game";
 
-      if (!gameUrl) {
-        alert("Game URL not provided!");
-        window.location.href = "/"; // Redirect to homepage if game URL is missing
+    if (!gameUrl) {
+      alert("Game URL not provided!");
+      window.location.href = "index.html";
+    } else {
+      const embedUrl = `${serverUrl1}/${gameUrl}`;
+      document.getElementById("gameFrame").src = embedUrl;
+      document.getElementById("gameNameDisplay").textContent = decodeURIComponent(gameName);
+    }
+
+    // ===== COIN & PLAYTIME SYSTEM =====
+    let sessionStartTime = Date.now();
+    let totalCoinsEarned = 0;
+    let coinInterval = null;
+    let currentUser = JSON.parse(localStorage.getItem('fanter_currentUser') || 'null');
+    
+    // Load existing coins from account
+    function loadUserCoins() {
+      if (currentUser && currentUser.coins !== undefined) {
+        totalCoinsEarned = currentUser.coins;
       } else {
-        const embedUrl = `${serverUrl1}/${gameUrl}`;
-        document.getElementById("gameFrame").src = embedUrl;
+        totalCoinsEarned = 0;
       }
-    </script>
-  </body>
+      updateCoinDisplay();
+    }
+    
+    // Save coins to account
+    function saveUserCoins() {
+      if (currentUser) {
+        currentUser.coins = totalCoinsEarned;
+        localStorage.setItem('fanter_currentUser', JSON.stringify(currentUser));
+        
+        // Also update in users array
+        let users = JSON.parse(localStorage.getItem('fanter_users') || '[]');
+        const userIndex = users.findIndex(u => u.id === currentUser.id);
+        if (userIndex !== -1) {
+          users[userIndex].coins = totalCoinsEarned;
+          localStorage.setItem('fanter_users', JSON.stringify(users));
+        }
+      }
+    }
+    
+    function updateCoinDisplay() {
+      const coinEl = document.getElementById('coinAmount');
+      if (coinEl) {
+        coinEl.textContent = Math.floor(totalCoinsEarned * 100) / 100;
+      }
+    }
+    
+    function updatePlaytimeDisplay() {
+      const elapsedSeconds = Math.floor((Date.now() - sessionStartTime) / 1000);
+      const hours = Math.floor(elapsedSeconds / 3600);
+      const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+      const seconds = elapsedSeconds % 60;
+      
+      const display = document.getElementById('playtimeDisplay');
+      if (display) {
+        display.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }
+    }
+    
+    // Start earning coins (0.01 per second)
+    function startCoinEarning() {
+      if (coinInterval) clearInterval(coinInterval);
+      
+      coinInterval = setInterval(() => {
+        if (!document.hidden) {
+          totalCoinsEarned += 0.01;
+          updateCoinDisplay();
+          saveUserCoins();
+        }
+      }, 1000);
+    }
+    
+    // Update playtime display every second
+    let playtimeInterval = setInterval(updatePlaytimeDisplay, 1000);
+    
+    // Stop earning when page is hidden
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        if (coinInterval) clearInterval(coinInterval);
+        coinInterval = null;
+      } else {
+        if (!coinInterval) startCoinEarning();
+      }
+    });
+    
+    // Initialize
+    loadUserCoins();
+    startCoinEarning();
+    
+    // Save coins before leaving
+    window.addEventListener('beforeunload', () => {
+      saveUserCoins();
+    });
+    
+    // ===== SIDEBAR TOGGLE =====
+    let sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+    const sidebar = document.getElementById('gameSidebar');
+    const toggleBtn = document.getElementById('sidebarToggle');
+    
+    function toggleSidebar() {
+      sidebarCollapsed = !sidebarCollapsed;
+      localStorage.setItem('sidebarCollapsed', sidebarCollapsed);
+      if (sidebarCollapsed) {
+        sidebar.classList.add('collapsed');
+        toggleBtn.innerHTML = '▶';
+        toggleBtn.style.left = '5px';
+      } else {
+        sidebar.classList.remove('collapsed');
+        toggleBtn.innerHTML = '◀';
+        toggleBtn.style.left = '10px';
+      }
+    }
+    
+    if (sidebarCollapsed) {
+      sidebar.classList.add('collapsed');
+      toggleBtn.innerHTML = '▶';
+      toggleBtn.style.left = '5px';
+    }
+    
+    // ===== FULLSCREEN TOGGLE =====
+    const gameWrapper = document.getElementById('gameWrapper');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    let isFullscreen = false;
+    
+    function toggleFullscreen() {
+      if (!isFullscreen) {
+        gameWrapper.classList.add('fullscreen');
+        fullscreenBtn.innerHTML = '⬛ exit fullscreen';
+        fullscreenBtn.classList.add('fullscreen-active');
+        isFullscreen = true;
+      } else {
+        gameWrapper.classList.remove('fullscreen');
+        fullscreenBtn.innerHTML = '🖥️ fullscreen';
+        fullscreenBtn.classList.remove('fullscreen-active');
+        isFullscreen = false;
+      }
+    }
+    
+    // Escape key to exit fullscreen
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isFullscreen) {
+        toggleFullscreen();
+      }
+    });
+    
+    // ===== TRACK GAME PLAY FOR ACHIEVEMENTS =====
+    function trackGamePlay(gameNameParam) {
+      if (typeof trackPlayedGame === 'function') {
+        trackPlayedGame(gameNameParam);
+      }
+      if (typeof trackGamePlayCount === 'function') {
+        trackGamePlayCount(gameNameParam);
+      }
+      if (typeof isFoodGame === 'function' && isFoodGame(gameNameParam)) {
+        if (typeof checkAndUnlockAchievement === 'function') {
+          checkAndUnlockAchievement(57);
+        }
+      }
+    }
+    
+    // Call achievement tracking
+    trackGamePlay(decodeURIComponent(gameName));
+    
+    console.log('🎮 Game player ready!');
+  </script>
+</body>
 </html>
