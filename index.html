@@ -497,6 +497,24 @@
   <script src="config/quicklaunch.js"></script>
   <script src="config/categories.js"></script>
   <script src="config/gamedetails.js"></script>
+
+    <script>
+  // Hidden crash easter egg
+  window.crashFanter = function() {
+    const crashOverlay = document.createElement('div');
+    crashOverlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:#000088;z-index:999999;display:flex;align-items:center;justify-content:center;font-family:"Courier New",monospace;color:white;text-align:center;';
+    crashOverlay.innerHTML = '<div style="background:white;color:black;padding:20px;border:2px solid silver;max-width:500px;"><pre style="font-size:20px;">😵</pre><h1>:(</h1><p>Your Fanter ran into a problem and needs to restart.</p><p>*** STOP: 0x000000F4</p><p>Restarting in <span id="cc">5</span> seconds...</p></div>';
+    document.body.appendChild(crashOverlay);
+    let seconds = 5;
+    const interval = setInterval(() => {
+      seconds--;
+      document.getElementById('cc').textContent = seconds;
+      if (seconds <= 0) { clearInterval(interval); location.reload(); }
+    }, 1000);
+    if (typeof checkAndUnlockAchievement === 'function') checkAndUnlockAchievement(63);
+  };
+  console.log('💀 Type "crashFanter()" for a surprise...');
+</script>
     
   </body>
 </html>
