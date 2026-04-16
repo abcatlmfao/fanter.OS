@@ -9,7 +9,7 @@
   <script src="config/main.js"></script>
   <style>
     .account-container {
-      max-width: 600px;
+      max-width: 700px;
       margin: 100px auto;
       padding: 30px;
       background: rgba(20, 30, 50, 0.8);
@@ -161,6 +161,91 @@
       background: rgba(255,255,255,0.1);
       margin: 20px 0;
     }
+    
+    /* Achievements Section */
+    .profile-achievements {
+      margin-top: 25px;
+      text-align: left;
+    }
+    
+    .profile-achievements h3 {
+      font-size: 16px;
+      margin-bottom: 15px;
+      color: #ffcc00;
+      font-family: 'Orbitron', monospace;
+    }
+    
+    .achievement-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 5px;
+    }
+    
+    .achievement-badge {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 10px 12px;
+      width: calc(50% - 6px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+    
+    .achievement-badge.locked {
+      opacity: 0.5;
+      filter: grayscale(0.5);
+    }
+    
+    .achievement-badge.unlocked {
+      border-color: rgba(255,204,0,0.3);
+      background: linear-gradient(135deg, rgba(255,204,0,0.05), rgba(255,204,0,0.02));
+    }
+    
+    .achievement-badge .badge-icon {
+      font-size: 28px;
+    }
+    
+    .achievement-badge .badge-info {
+      flex: 1;
+    }
+    
+    .achievement-badge .badge-name {
+      font-size: 13px;
+      font-weight: bold;
+      color: white;
+    }
+    
+    .achievement-badge .badge-desc {
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+    }
+    
+    .achievement-badge .badge-progress {
+      font-size: 10px;
+      color: #ffcc00;
+      margin-top: 4px;
+    }
+    
+    .achievement-progress-bar {
+      width: 100%;
+      height: 3px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    
+    .achievement-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #ffcc00, #ffaa00);
+      width: 0%;
+      border-radius: 3px;
+    }
   </style>
 </head>
 <body>
@@ -262,6 +347,7 @@
         createdAt: new Date().toISOString(),
         favorites: [],
         playedGames: [],
+        achievements: {},
         stats: {
           ratingsGiven: 0,
           favoritesCount: 0,
@@ -273,6 +359,11 @@
       users.push(newUser);
       saveUsers();
       setCurrentUser(newUser);
+      
+      // Check achievements after registration
+      if (typeof checkAchievements === 'function') {
+        setTimeout(() => checkAchievements(), 100);
+      }
       
       return { success: true, message: 'Account created successfully!' };
     }
@@ -317,7 +408,7 @@
       renderProfile();
     }
     
-    // Render profile tab with games sections
+    // Render profile tab with games sections and achievements
     function renderProfile() {
       const profileDiv = document.getElementById('profileContent');
       if (!profileDiv) return;
@@ -363,6 +454,19 @@
         `;
       }
       
+      // Build achievements HTML
+      let achievementsHtml = '';
+      if (typeof renderAchievementsHTML === 'function') {
+        const achievements = currentUser.achievements || {};
+        achievementsHtml = `
+          <div class="profile-achievements">
+            <h3>🏆 achievements</h3>
+            ${renderAchievementsHTML(achievements, currentUser.stats)}
+          </div>
+          <div class="divider"></div>
+        `;
+      }
+      
       profileDiv.innerHTML = `
         <div class="profile-info">
           <div class="profile-avatar">🎮</div>
@@ -389,6 +493,8 @@
         ${favGamesHtml}
         
         <div class="divider"></div>
+        
+        ${achievementsHtml}
         
         <div class="account-form">
           <input type="text" id="editDisplayName" placeholder="display name" value="${escapeHtml(currentUser.displayName || currentUser.username)}">
