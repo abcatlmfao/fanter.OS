@@ -90,7 +90,7 @@ function displayFilteredGames(filteredGames) {
       if (game.url.startsWith('http')) {
         gameUrl = game.url;
       } else {
-        gameUrl = `play.html?gameurl=${encodeURIComponent(game.url)}/&game=${encodeURIComponent(game.name)}`;
+      play.html?gameurl=${game.url}/&game=${encodeURIComponent(game.name)}
       }
       
       console.log('Launching game:', game.name, 'URL:', gameUrl);
