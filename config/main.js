@@ -41,93 +41,80 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
 
-  function displayFilteredGames(filteredGames) {
-    const gamesContainer = document.getElementById("gamesContainer");
-    if (!gamesContainer) return;
-    gamesContainer.innerHTML = "";
+function displayFilteredGames(filteredGames) {
+  const gamesContainer = document.getElementById("gamesContainer");
+  if (!gamesContainer) return;
+  gamesContainer.innerHTML = "";
+  
+  filteredGames.forEach((game) => {
+    const gameDiv = document.createElement("div");
+    gameDiv.classList.add("game");
     
-    filteredGames.forEach((game) => {
-      const gameDiv = document.createElement("div");
-      gameDiv.classList.add("game");
+    const gameImage = document.createElement("img");
+    let imageSrc;
+    if (game.image && game.image.startsWith('http')) {
+      imageSrc = game.image;
+    } else if (game.image) {
+      imageSrc = `${serverUrl1}/${game.url}/${game.image}`;
+    } else {
+      imageSrc = 'https://via.placeholder.com/200x200?text=No+Image';
+    }
+    gameImage.src = imageSrc;
+    gameImage.alt = game.name;
+    gameImage.style.cursor = 'pointer';
+    gameImage.style.width = '100%';
+    
+    // Store the EXACT URL from games.json
+    const originalUrl = game.url;
+    const originalName = game.name;
+    
+    gameImage.onclick = function() {
+      console.log("=== GAME CLICKED ===");
+      console.log("Name:", originalName);
+      console.log("Original URL from games.json:", originalUrl);
       
-      const gameImage = document.createElement("img");
-      let imageSrc;
-      if (game.image && game.image.startsWith('http')) {
-        imageSrc = game.image;
-      } else if (game.image) {
-        imageSrc = `${serverUrl1}/${game.url}/${game.image}`;
-      } else {
-        imageSrc = 'https://via.placeholder.com/200x200?text=No+Image';
+      if (!originalUrl) {
+        alert(`Game "${originalName}" has no URL in games.json`);
+        return;
       }
-      gameImage.src = imageSrc;
-      gameImage.alt = game.name;
-      gameImage.style.cursor = 'pointer';
       
-      // Store URL and name as data attributes
-      gameImage.setAttribute('data-game-url', game.url);
-      gameImage.setAttribute('data-game-name', game.name);
-      
-      // FIXED: Game click handler - ALWAYS goes through play.html
-      gameImage.onclick = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        
-        const url = this.getAttribute('data-game-url');
-        const name = this.getAttribute('data-game-name');
-        
-        console.log("🎮 Game clicked:", name);
-        console.log("🔗 URL:", url);
-        
-        if (!url || url === 'undefined' || url === 'null' || url === '') {
-          console.error("❌ No URL for game:", name);
-          alert(`Game "${name}" has no valid URL. Please check games.json`);
-          return;
-        }
-        
-        // ALWAYS go through play.html
-        const playUrl = `play.html?gameurl=${encodeURIComponent(url)}&game=${encodeURIComponent(name)}`;
-        console.log("🚀 Opening:", playUrl);
-        window.open(playUrl, '_blank');
-      };
-      
-      const gameNameElem = document.createElement("p");
-      gameNameElem.textContent = game.name;
-      
-      // FAVORITE BUTTON
-      const favBtn = document.createElement("button");
-      favBtn.classList.add("fav-btn");
-      favBtn.setAttribute("data-game", game.name);
+      // Build the play.html URL - simple and direct
+      const playUrl = `play.html?gameurl=${encodeURIComponent(originalUrl)}&game=${encodeURIComponent(originalName)}`;
+      console.log("Opening:", playUrl);
+      window.open(playUrl, '_blank');
+    };
+    
+    const gameNameElem = document.createElement("p");
+    gameNameElem.textContent = game.name;
+    
+    const favBtn = document.createElement("button");
+    favBtn.classList.add("fav-btn");
+    favBtn.setAttribute("data-game", game.name);
+    favBtn.textContent = getFavourites().includes(game.name) ? "★" : "☆";
+    favBtn.onclick = (e) => {
+      e.stopPropagation();
+      window.toggleFavourite(game.name);
       favBtn.textContent = getFavourites().includes(game.name) ? "★" : "☆";
-      favBtn.title = "favourite";
-      favBtn.onclick = (e) => {
-        e.stopPropagation();
-        window.toggleFavourite(game.name);
-        favBtn.textContent = getFavourites().includes(game.name) ? "★" : "☆";
-      };
-      
-      gameDiv.appendChild(gameImage);
-      gameDiv.appendChild(gameNameElem);
-      gameDiv.appendChild(favBtn);
-      
-      // Add ratings if available
-      if (typeof createRatingHTML === 'function') {
-        try {
-          const userVotesGlobal = JSON.parse(localStorage.getItem('userVotes') || '{}');
-          gameDiv.insertAdjacentHTML('beforeend', createRatingHTML(game.name, userVotesGlobal[game.name] || 0));
-        } catch (err) {
-          console.error("Error adding rating:", err);
-        }
-      }
-      
-      gamesContainer.appendChild(gameDiv);
-    });
+    };
     
-    if (typeof attachRatingListeners === 'function') {
-      attachRatingListeners();
+    gameDiv.appendChild(gameImage);
+    gameDiv.appendChild(gameNameElem);
+    gameDiv.appendChild(favBtn);
+    
+    if (typeof createRatingHTML === 'function') {
+      try {
+        const userVotesGlobal = JSON.parse(localStorage.getItem('userVotes') || '{}');
+        gameDiv.insertAdjacentHTML('beforeend', createRatingHTML(game.name, userVotesGlobal[game.name] || 0));
+      } catch (err) {}
     }
     
-    console.log(`✅ Displayed ${filteredGames.length} games`);
+    gamesContainer.appendChild(gameDiv);
+  });
+  
+  if (typeof attachRatingListeners === 'function') {
+    attachRatingListeners();
   }
+}
 
   function handleSearchInput() {
     const searchInput = document.getElementById("searchInput");
