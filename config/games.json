@@ -17,7 +17,7 @@
     "new": true,
     "category": "arcade",
     "desc": "fly through areas of wonder against bots & players. enjoy nice vibes with casual beats to this simple yet difficult game.",
-    "loadTime": "2-4 seconds",
+    "loadTime": "2-5 seconds",
     "releaseDate": "2023-06-10",
     "developer": " idk i couldnt find "
   },
@@ -28,7 +28,7 @@
     "new": true,
     "category": "arcade",
     "desc": "a potato with a gun. what more do you need? survive waves of aliens, collect upgrades, and become the ultimate bro-tato.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "3-4 seconds",
     "releaseDate": "2023-01-20",
     "developer": "Blobfish"
   },
@@ -50,7 +50,7 @@
     "new": true,
     "category": "horror",
     "desc": "you're trapped in granny's house. she hears everything. one wrong move and she'll find you. escape within 5 days or become her next... guest.",
-    "loadTime": "2-4 seconds",
+    "loadTime": "35-95 seconds",
     "releaseDate": "2017-11-24",
     "developer": "DVloper"
   },
@@ -61,7 +61,7 @@
     "new": true,
     "category": "adventure",
     "desc": "descend into a hauntingly beautiful bug kingdom. explore ancient caverns, fight epic bosses, and uncover forgotten secrets.",
-    "loadTime": "3-5 seconds",
+    "loadTime": "60-195 seconds",
     "releaseDate": "2017-02-24",
     "developer": "Team Cherry"
   },
@@ -72,7 +72,7 @@
     "new": true,
     "category": "adventure",
     "desc": "you're a goose. a horrible goose. wreak havoc on an unsuspecting village. steal items, honk aggressively, and cause chaos.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "5-7 seconds",
     "releaseDate": "2019-09-20",
     "developer": "House House"
   },
@@ -83,7 +83,7 @@
     "new": true,
     "category": "arcade",
     "desc": "mine dogecoin, upgrade your rig, and become a crypto millionaire. much profit. very mining. wow.",
-    "loadTime": "1-2 seconds",
+    "loadTime": "4-7 seconds",
     "releaseDate": "2021-05-10",
     "developer": "Doge Dev"
   },
@@ -94,7 +94,7 @@
     "new": true,
     "category": "racing",
     "desc": "a futuristic racing game that'll test your reflexes. twist through neon tracks at breakneck speeds.",
-    "loadTime": "2-4 seconds",
+    "loadTime": "4-6 seconds",
     "releaseDate": "2013-05-01",
     "developer": "Thibaut Despoulain"
   },
@@ -105,7 +105,7 @@
     "new": true,
     "category": "racing",
     "desc": "the classic kart racer that started it all. drift, use items, and race your way to first place.",
-    "loadTime": "3-5 seconds",
+    "loadTime": "5-12 seconds",
     "releaseDate": "1996-12-14",
     "developer": "Nintendo"
   },
@@ -116,7 +116,7 @@
     "new": true,
     "category": "strategy",
     "desc": "a poker-inspired roguelike where you build broken combos. play cards, earn chips, and break the game.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "9-13 seconds",
     "releaseDate": "2024-02-20",
     "developer": "LocalThunk"
   },
@@ -127,7 +127,7 @@
     "new": true,
     "category": "arcade",
     "desc": "a rhythm game where you click to the beat. one button. perfect timing. don't mess up.",
-    "loadTime": "1-2 seconds",
+    "loadTime": "4-6 seconds",
     "releaseDate": "2019-01-24",
     "developer": "7th Beat Games"
   },
@@ -138,7 +138,7 @@
     "new": true,
     "category": "action",
     "desc": "move fast. shoot faster. style on demons. blood is fuel. hell is full.",
-    "loadTime": "2-4 seconds",
+    "loadTime": "12-18 seconds",
     "releaseDate": "2020-09-03",
     "developer": "New Blood Interactive"
   },
@@ -149,7 +149,7 @@
     "new": true,
     "category": "horror",
     "desc": "survive five nights as a security guard at freddy fazbear's pizza. the animatronics move at night. don't let them in.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "6-8 seconds",
     "releaseDate": "2014-08-08",
     "developer": "Scott Cawthon"
   },
@@ -160,7 +160,7 @@
     "new": true,
     "category": "horror",
     "desc": "more animatronics. more cameras. less sanity. the second night shift is even worse.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "7-9 seconds",
     "releaseDate": "2014-11-10",
     "developer": "Scott Cawthon"
   },
@@ -171,7 +171,7 @@
     "new": true,
     "category": "horror",
     "desc": "thirty years later. one animatronic remains. springtrap is hunting you.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "5-8 seconds",
     "releaseDate": "2015-03-02",
     "developer": "Scott Cawthon"
   },
@@ -182,7 +182,7 @@
     "new": true,
     "category": "horror",
     "desc": "the final chapter. nightmare animatronics in a child's bedroom. listen carefully. they're in the closet.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "6-8 seconds",
     "releaseDate": "2015-07-23",
     "developer": "Scott Cawthon"
   },
@@ -193,7 +193,7 @@
     "new": true,
     "category": "horror",
     "desc": "circus baby's pizza world. things are not what they seem. the animatronics have a story to tell.",
-    "loadTime": "2-4 seconds",
+    "loadTime": "47-100 seconds",
     "releaseDate": "2016-10-07",
     "developer": "Scott Cawthon"
   },
@@ -204,7 +204,7 @@
     "new": true,
     "category": "horror",
     "desc": "run a pizzeria. buy animatronics. what could go wrong? everything. everything goes wrong.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "9-14 seconds",
     "releaseDate": "2017-12-04",
     "developer": "Scott Cawthon"
   },
@@ -215,7 +215,7 @@
     "new": true,
     "category": "arcade",
     "desc": "an rpg with your favorite animatronics. it's cute. it's weird. it's fnaf. just... different.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "6-13 seconds",
     "releaseDate": "2016-01-21",
     "developer": "Scott Cawthon"
   },
@@ -226,7 +226,7 @@
     "new": true,
     "category": "arcade",
     "desc": "destroy planets. use lasers, asteroids, or aliens. watch the pretty explosions. very satisfying.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "4-7 seconds",
     "releaseDate": "2020-10-15",
     "developer": "Paradyme Games"
   },
@@ -237,7 +237,7 @@
     "new": true,
     "category": "action",
     "desc": "herd cattle in 3d. avoid obstacles. don't let them escape. it's crazier than it sounds.",
-    "loadTime": "1-2 seconds",
+    "loadTime": "4-9 seconds",
     "releaseDate": "2023-08-01",
     "developer": "KKorenn"
   },
@@ -259,7 +259,7 @@
     "new": true,
     "category": "horror",
     "desc": "work the night shift at a sketchy gas station. weird things happen after midnight. trust no one.",
-    "loadTime": "2-4 seconds",
+    "loadTime": "8-12 seconds",
     "releaseDate": "2023-10-31",
     "developer": "Chilla's Art"
   },
@@ -270,7 +270,7 @@
     "new": true,
     "category": "adventure",
     "desc": "the classic rpg. cloud, sephiroth, materia, and one of the most iconic stories ever told.",
-    "loadTime": "3-5 seconds",
+    "loadTime": "28-46 seconds",
     "releaseDate": "1997-01-31",
     "developer": "Square Enix"
   },
@@ -281,7 +281,7 @@
     "new": true,
     "category": "horror",
     "desc": "kindergarten is weird. kids go missing. the principal is suspicious. do your tasks. don't die.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "7-12 seconds",
     "releaseDate": "2024-03-01",
     "developer": "Con Man Games"
   },
@@ -292,7 +292,7 @@
     "new": true,
     "category": "horror",
     "desc": "i thought this was funny so i added it ;-;",
-    "loadTime": "1-2 seconds",
+    "loadTime": "2-3 seconds",
     "releaseDate": "2024-01-01",
     "developer": " son i lowk dont know"
   },
@@ -303,7 +303,7 @@
     "new": true,
     "category": "arcade",
     "desc": "spin guns. shoot targets. very satisfying. very addictive. try not to miss.",
-    "loadTime": "1-2 seconds",
+    "loadTime": "3-5 seconds",
     "releaseDate": "2023-12-01",
     "developer": " function -DEVELOPER.get_ could not be defined."
   },
@@ -314,7 +314,7 @@
     "new": true,
     "category": "horror",
     "desc": "remember those talking furby toys? this is that but horror. mama wants attention. give it to her.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "15-28 seconds",
     "releaseDate": "2016-12-28",
     "developer": "Waygetter Electronics"
   },
@@ -325,7 +325,7 @@
     "new": true,
     "category": "horror",
     "desc": "a psychological horror game about... parenting. don't let the baby cry. don't let the shadows get you.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "4-12 seconds",
     "releaseDate": "2022-10-20",
     "developer": "2oo2 / anh"
   },
@@ -336,7 +336,7 @@
     "new": true,
     "category": "adventure",
     "desc": "a parody horror game about education. baldi wants you to solve math problems. get one wrong and he'll find you.",
-    "loadTime": "1-2 seconds",
+    "loadTime": "2-5 seconds",
     "releaseDate": "2018-03-31",
     "developer": "Mystman12"
   },
@@ -346,8 +346,8 @@
     "url": "https://brooksch123.github.io/TheManInTheWindow/",
     "new": true,
     "category": "horror",
-    "desc": "someone is watching from the window. don't look. don't move. don't let him in.",
-    "loadTime": "2-3 seconds",
+    "desc": " 'someone' is watching from the window. don't look. you must hide. don't let him in.",
+    "loadTime": "5-8 seconds",
     "releaseDate": "2023-09-15",
     "developer": "zed_technichian"
   },
@@ -358,7 +358,7 @@
     "new": true,
     "category": "horror",
     "desc": "an apple farm with a dark secret. something is wrong with the trees. andy knows. andy always knows.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "8-11 seconds",
     "releaseDate": "2023-10-15",
     "developer": "m36 games"
   },
@@ -367,9 +367,9 @@
     "image": "https://play-lh.googleusercontent.com/WKoMii0zjkihmZdlhN0gczyDAZp9F99fxm2lInUnNaBYjJJfKshyJ3i7aLrLzwkkRw",
     "url": "https://chipikipal800.github.io/Drift-King-Unblocked/",
     "new": true,
-    "category": "multiplayer",
-    "desc": "drift through corners. earn points. become the drift king. smooth moves only.",
-    "loadTime": "2-3 seconds",
+    "category": "multiplayer, racing",
+    "desc": "drift through corners with friends. earn points. become the drift king. smooth moves only.",
+    "loadTime": "3-4 seconds",
     "releaseDate": "2023-05-01",
     "developer": "freezenova development"
   },
@@ -380,7 +380,7 @@
     "new": true,
     "category": "sandbox",
     "desc": "combine elements to create everything. fire + water = steam. steam + earth = ??? infinite possibilities.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "4-6 seconds",
     "releaseDate": "2024-02-15",
     "developer": "FayadGamer13"
   },
@@ -402,7 +402,7 @@
     "new": true,
     "category": "arcade",
     "desc": "the sequel to the hit platformer. new levels. new mechanics. same addictive difficulty.",
-    "loadTime": "1-2 seconds",
+    "loadTime": "instant",
     "releaseDate": "2023-11-15",
     "developer": "Dedra Games"
   },
@@ -424,7 +424,7 @@
     "new": true,
     "category": "adventure",
     "desc": "minecraft 1.8.8 in your browser. survival, creative, multiplayer. it's minecraft.",
-    "loadTime": "3-5 seconds",
+    "loadTime": "4-6 seconds",
     "releaseDate": "2023-01-01",
     "developer": "lax1dude"
   },
@@ -435,7 +435,7 @@
     "new": true,
     "category": "strategy",
     "desc": "the classic gen 3 pokemon game. choose bulbasaur, charmander, or squirtle. catch 'em all. (bulbasaur is the goat)",
-    "loadTime": "2-4 seconds",
+    "loadTime": "4-7 seconds",
     "releaseDate": "2004-01-29",
     "developer": "Game Freak"
   },
@@ -446,7 +446,7 @@
     "new": true,
     "category": "adventure",
     "desc": "the original prodigy game without the math. explore, battle, collect pets. better than the new sloppy ass game.",
-    "loadTime": "2-3 seconds",
+    "loadTime": "4-8 seconds",
     "releaseDate": "2016-09-01",
     "developer": "Prodigy Education"
   },
@@ -457,7 +457,7 @@
     "new": true,
     "category": "adventure",
     "desc": "minecraft 1.8. the adventure update. new biomes, new mobs, new blocks. classic minecraft.",
-    "loadTime": "3-5 seconds",
+    "loadTime": "4-8 seconds",
     "releaseDate": "2014-09-02",
     "developer": "lax1dude"
   }
