@@ -70,6 +70,7 @@ function displayFilteredGames(filteredGames) {
     
     // CLICK HANDLER WITH CONSOLE LOGS
     gameImage.onclick = function() {
+      alert("Game clicked!");
       console.log("=== GAME CLICKED ===");
       console.log("Name:", originalName);
       console.log("Original URL from games.json:", originalUrl);
