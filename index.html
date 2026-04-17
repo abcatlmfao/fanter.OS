@@ -25,8 +25,6 @@
 
   <div id="whiteFlash"></div>
   <div id="revealOverlay"></div>
-  
-  <button onclick="window.open('play.html?gameurl=https://chipikipal800.github.io/OvO/&game=OVO', '_blank')">Test OVO</button>
 
   <!-- Main Content -->
   <div id="mainContent" style="opacity: 0; visibility: hidden;">
@@ -50,6 +48,12 @@
       <input type="text" id="searchInput" placeholder="search 4 games" />
     </div>
     
+    <!-- TEST BUTTON - This will help us debug -->
+    <div style="display: flex; justify-content: center; margin: 10px 0;">
+      <button id="testGameBtn" style="background: #2d5ae3; color: white; padding: 10px 20px; margin: 0 10px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">🎮 TEST OVO (Should open in iframe)</button>
+      <button id="testSpaceBtn" style="background: #ff4444; color: white; padding: 10px 20px; margin: 0 10px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">🌊 TEST Space Waves</button>
+    </div>
+    
     <div id="gamesContainer"></div>
     
     <div class="footer">
@@ -64,6 +68,23 @@
   <script src="config/quicklaunch.js"></script>
   <script src="config/categories.js"></script>
   <script src="config/gamedetails.js"></script>
+
+  <!-- Test Button Scripts -->
+  <script>
+    // Test button for OVO
+    document.getElementById('testGameBtn').onclick = function() {
+      var testUrl = 'play.html?gameurl=https://chipikipal800.github.io/OvO/&game=OVO';
+      console.log("🔵 TEST BUTTON - Opening:", testUrl);
+      window.open(testUrl, '_blank');
+    };
+    
+    // Test button for Space Waves
+    document.getElementById('testSpaceBtn').onclick = function() {
+      var testUrl = 'play.html?gameurl=https://nicksdumbsites.github.io/Space-Waves-Unblocked/&game=space%20wavez';
+      console.log("🔴 TEST BUTTON - Opening:", testUrl);
+      window.open(testUrl, '_blank');
+    };
+  </script>
 
   <!-- Safety Key Script -->
   <script>
