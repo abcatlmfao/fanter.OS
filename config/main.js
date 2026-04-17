@@ -809,3 +809,274 @@ function escapeHtml(str) {
 }
 
 console.log('💀 Type "crashFanter()" for a surprise...');
+
+
+// ===== GAME DETAILS MODAL - STEAM STYLE =====
+
+let currentModalGame = null;
+
+function showGameModal(gameName, gameUrl, gameImage, gameDescription, gameCategory) {
+  // Get user data
+  let currentUser = JSON.parse(localStorage.getItem('fanter_currentUser') || 'null');
+  let gamePlayCount = window.gamePlayCounts?.[gameName] || 0;
+  let gameEarned = window.gameEarnings?.[gameName] || 0;
+  let isFavorited = JSON.parse(localStorage.getItem("favourites") || "[]").includes(gameName);
+  
+  // Get user rating
+  let userRating = 0;
+  if (typeof userVotes !== 'undefined' && userVotes[gameName]) {
+    userRating = userVotes[gameName];
+  }
+  
+  // Get global rating
+  let avgRating = '0.0';
+  if (typeof globalRatings !== 'undefined' && globalRatings[gameName]) {
+    avgRating = globalRatings[gameName].average.toFixed(1);
+  }
+  
+  // Calculate playtime in hours
+  let playtimeHours = Math.floor(gamePlayCount * 0.5); // Rough estimate: 30 min per play
+  
+  // Remove existing modal
+  let existingModal = document.getElementById('gameModal');
+  if (existingModal) existingModal.remove();
+  
+  // Create modal
+  let modal = document.createElement('div');
+  modal.id = 'gameModal';
+  modal.className = 'game-modal-overlay';
+  
+  // Get category color
+  let categoryColors = {
+    'action': '#ff4444', 'puzzle': '#44ff44', 'racing': '#ff8844',
+    'sports': '#44ff88', 'adventure': '#44aaff', 'platformer': '#ff44ff',
+    'strategy': '#88ff44', 'horror': '#aa44ff', 'arcade': '#ff44aa',
+    'simulation': '#44ffcc', 'sandbox': '#ff8844'
+  };
+  let categoryColor = categoryColors[gameCategory] || '#aaaaaa';
+  
+  modal.innerHTML = `
+    <div class="game-modal">
+      <button class="modal-close" onclick="closeGameModal()">✕</button>
+      <div class="modal-header">
+        <img class="modal-header-img" src="${gameImage}" alt="${gameName}">
+        <div class="modal-header-overlay">
+          <div class="modal-game-title">${escapeHtml(gameName)}</div>
+          <div class="modal-game-tag" style="background: ${categoryColor}20; color: ${categoryColor}">
+            ${getCategoryIcon(gameCategory)} ${gameCategory || 'other'}
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="modal-sidebar">
+          <div class="playtime-card">
+            <div class="playtime-label">TIME PLAYED</div>
+            <div class="playtime-value">${playtimeHours}h</div>
+          </div>
+          <div class="stats-card">
+            <div class="stat-row">
+              <span class="stat-label">🏆 ACHIEVEMENTS</span>
+              <span class="stat-value">0/0</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">🎮 PLAYS</span>
+              <span class="stat-value">${gamePlayCount}</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">🪙 EARNED</span>
+              <span class="stat-value">${Math.floor(gameEarned * 100) / 100}</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">⭐ GLOBAL RATING</span>
+              <span class="stat-value">${avgRating}/5</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-main">
+          <div class="game-description">
+            <p>${escapeHtml(gameDescription || 'No description available.')}</p>
+          </div>
+          <div class="achievement-section">
+            <div class="achievement-header">
+              <span class="achievement-title">🏆 ACHIEVEMENTS</span>
+              <span class="achievement-progress">0/0 unlocked</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 0%"></div>
+            </div>
+            <div class="achievement-item">
+              <div class="achievement-icon">🔒</div>
+              <div class="achievement-info">
+                <div class="achievement-name">Play for 1 hour</div>
+                <div class="achievement-desc">Spend 1 hour playing this game</div>
+              </div>
+              <div class="achievement-rarity">${Math.min(100, Math.floor(gamePlayCount * 2))}%</div>
+            </div>
+            <div class="achievement-item">
+              <div class="achievement-icon">🔒</div>
+              <div class="achievement-info">
+                <div class="achievement-name">Rate this game</div>
+                <div class="achievement-desc">Leave your first rating</div>
+              </div>
+              <div class="achievement-rarity">${userRating > 0 ? '100%' : '0%'}</div>
+            </div>
+          </div>
+          <div class="modal-rating">
+            ${[1,2,3,4,5].map(star => `
+              <span class="modal-star ${userRating >= star ? 'active' : ''}" data-value="${star}">★</span>
+            `).join('')}
+          </div>
+          <div class="your-rating">your rating: ${userRating > 0 ? '★'.repeat(userRating) + '☆'.repeat(5-userRating) : 'not rated'}</div>
+          <div class="modal-actions">
+            <button class="modal-play-btn">🎮 PLAY NOW</button>
+            <button class="modal-fav-btn">${isFavorited ? '★ FAVORITED' : '☆ FAVORITE'}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  document.body.appendChild(modal);
+  
+  // Show modal with animation
+  setTimeout(() => {
+    modal.classList.add('show');
+    modal.querySelector('.game-modal').classList.add('show');
+  }, 10);
+  
+  // Close button
+  modal.querySelector('.modal-close').onclick = closeGameModal;
+  modal.onclick = (e) => { if (e.target === modal) closeGameModal(); };
+  
+  // Play button
+  modal.querySelector('.modal-play-btn').onclick = () => {
+    if (typeof trackPlayedGame === 'function') trackPlayedGame(gameName);
+    let playUrl = `play.html?gameurl=${encodeURIComponent(gameUrl)}&game=${encodeURIComponent(gameName)}`;
+    window.open(playUrl, '_blank');
+    closeGameModal();
+  };
+  
+  // Favorite button
+  modal.querySelector('.modal-fav-btn').onclick = () => {
+    if (typeof window.toggleFavourite === 'function') {
+      window.toggleFavourite(gameName);
+      let newFav = JSON.parse(localStorage.getItem("favourites") || "[]").includes(gameName);
+      modal.querySelector('.modal-fav-btn').textContent = newFav ? '★ FAVORITED' : '☆ FAVORITE';
+    }
+  };
+  
+  // Rating stars
+  modal.querySelectorAll('.modal-star').forEach(star => {
+    star.onclick = () => {
+      let value = parseInt(star.dataset.value);
+      if (typeof submitRating === 'function') {
+        submitRating(gameName, value);
+      }
+      modal.querySelectorAll('.modal-star').forEach((s, i) => {
+        s.classList.toggle('active', i < value);
+      });
+      modal.querySelector('.your-rating').textContent = `your rating: ${'★'.repeat(value)}${'☆'.repeat(5-value)}`;
+    };
+    star.onmouseenter = () => {
+      let value = parseInt(star.dataset.value);
+      modal.querySelectorAll('.modal-star').forEach((s, i) => {
+        s.style.color = i < value ? '#ffcc66' : 'rgba(255,255,255,0.2)';
+      });
+    };
+    star.onmouseleave = () => {
+      modal.querySelectorAll('.modal-star').forEach((s, i) => {
+        s.style.color = i < userRating ? '#ffcc00' : 'rgba(255,255,255,0.2)';
+      });
+    };
+  });
+}
+
+function closeGameModal() {
+  let modal = document.getElementById('gameModal');
+  if (modal) {
+    modal.classList.remove('show');
+    setTimeout(() => modal.remove(), 300);
+  }
+}
+
+// Helper function for category icon
+function getCategoryIcon(category) {
+  let icons = {
+    'action': '⚔️', 'puzzle': '🧩', 'racing': '🏎️', 'sports': '⚽',
+    'adventure': '🗺️', 'platformer': '🏃', 'strategy': '♟️',
+    'horror': '👻', 'arcade': '🕹️', 'simulation': '🏭', 'sandbox': '🎨'
+  };
+  return icons[category] || '🎮';
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
+// Override the game click to show modal instead of direct play
+function setupModalOnGameClick() {
+  let games = document.querySelectorAll('.game img');
+  for (let i = 0; i < games.length; i++) {
+    let img = games[i];
+    if (img.hasAttribute('data-modal-setup')) continue;
+    
+    let gameName = img.alt;
+    let gameData = null;
+    if (window.gamesData) {
+      for (let j = 0; j < window.gamesData.length; j++) {
+        if (window.gamesData[j].name === gameName) {
+          gameData = window.gamesData[j];
+          break;
+        }
+      }
+    }
+    
+    if (gameData) {
+      let originalClick = img.onclick;
+      img.onclick = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        showGameModal(
+          gameData.name,
+          gameData.url,
+          img.src,
+          gameData.desc || getDefaultDescription(gameData.category),
+          gameData.category
+        );
+        return false;
+      };
+      img.setAttribute('data-modal-setup', 'true');
+    }
+  }
+}
+
+function getDefaultDescription(category) {
+  let desc = {
+    'action': 'fast-paced action game that\'ll keep you on the edge of your seat',
+    'puzzle': 'challenge your brain with tricky puzzles and mind-bending mechanics',
+    'racing': 'burn rubber and race to the finish line in high-speed competition',
+    'sports': 'compete in your favorite sports from basketball to soccer',
+    'adventure': 'embark on an epic journey through mysterious lands',
+    'platformer': 'jump, run, and dodge through challenging levels',
+    'strategy': 'plan your moves and outsmart your opponents',
+    'horror': 'survive the terror and uncover dark secrets',
+    'arcade': 'classic arcade action that never gets old',
+    'simulation': 'build, manage, and create your own world',
+    'sandbox': 'no rules, no limits - just pure creativity'
+  };
+  return desc[category] || 'a fun game that\'ll keep you entertained for hours';
+}
+
+// Run after games load
+let modalSetupInterval = setInterval(function() {
+  if (window.gamesData && window.gamesData.length > 0 && document.querySelectorAll('.game').length > 0) {
+    clearInterval(modalSetupInterval);
+    setupModalOnGameClick();
+  }
+}, 500);
