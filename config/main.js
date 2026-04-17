@@ -1,4 +1,4 @@
-// ===== MAIN.JS - COMPLETE REWRITE =====
+// ===== MAIN.JS - COMPLETELY FIXED =====
 
 // Wait for DOM to be fully loaded before running
 document.addEventListener('DOMContentLoaded', function() {
@@ -41,92 +41,93 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   };
 
-function displayFilteredGames(filteredGames) {
-  const gamesContainer = document.getElementById("gamesContainer");
-  if (!gamesContainer) return;
-  gamesContainer.innerHTML = "";
-  
-  filteredGames.forEach((game) => {
-    const gameDiv = document.createElement("div");
-    gameDiv.classList.add("game");
+  function displayFilteredGames(filteredGames) {
+    const gamesContainer = document.getElementById("gamesContainer");
+    if (!gamesContainer) return;
+    gamesContainer.innerHTML = "";
     
-    const gameImage = document.createElement("img");
-    let imageSrc;
-    if (game.image && game.image.startsWith('http')) {
-      imageSrc = game.image;
-    } else if (game.image) {
-      imageSrc = `${serverUrl1}/${game.url}/${game.image}`;
-    } else {
-      imageSrc = 'https://via.placeholder.com/200x200?text=No+Image';
-    }
-    gameImage.src = imageSrc;
-    gameImage.alt = game.name;
-    gameImage.style.cursor = 'pointer';
-    
-    // IMPORTANT: Store the URL and name as data attributes
-    gameImage.setAttribute('data-game-url', game.url);
-    gameImage.setAttribute('data-game-name', game.name);
-    
-    gameImage.onclick = function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  
-  const url = this.getAttribute('data-game-url');
-  const name = this.getAttribute('data-game-name');
-  
-  console.log("🎮 Game clicked:", name);
-  console.log("🔗 Original URL:", url);
-  
-  if (!url || url === 'undefined' || url === 'null') {
-    alert(`Game "${name}" has no URL`);
-    return;
-  }
-  
-  // IMPORTANT: ALWAYS go through play.html, even for external games
-  const playUrl = `play.html?gameurl=${encodeURIComponent(url)}&game=${encodeURIComponent(name)}`;
-  console.log("🚀 Opening play.html:", playUrl);
-  
-  window.open(playUrl, '_blank');
-};
-    
-    const gameNameElem = document.createElement("p");
-    gameNameElem.textContent = game.name;
-    
-    // FAVORITE BUTTON
-    const favBtn = document.createElement("button");
-    favBtn.classList.add("fav-btn");
-    favBtn.setAttribute("data-game", game.name);
-    favBtn.textContent = getFavourites().includes(game.name) ? "★" : "☆";
-    favBtn.title = "favourite";
-    favBtn.onclick = (e) => {
-      e.stopPropagation();
-      window.toggleFavourite(game.name);
-      favBtn.textContent = getFavourites().includes(game.name) ? "★" : "☆";
-    };
-    
-    gameDiv.appendChild(gameImage);
-    gameDiv.appendChild(gameNameElem);
-    gameDiv.appendChild(favBtn);
-    
-    // Add ratings if available
-    if (typeof createRatingHTML === 'function') {
-      try {
-        const userVotesGlobal = JSON.parse(localStorage.getItem('userVotes') || '{}');
-        gameDiv.insertAdjacentHTML('beforeend', createRatingHTML(game.name, userVotesGlobal[game.name] || 0));
-      } catch (err) {
-        console.error("Error adding rating:", err);
+    filteredGames.forEach((game) => {
+      const gameDiv = document.createElement("div");
+      gameDiv.classList.add("game");
+      
+      const gameImage = document.createElement("img");
+      let imageSrc;
+      if (game.image && game.image.startsWith('http')) {
+        imageSrc = game.image;
+      } else if (game.image) {
+        imageSrc = `${serverUrl1}/${game.url}/${game.image}`;
+      } else {
+        imageSrc = 'https://via.placeholder.com/200x200?text=No+Image';
       }
+      gameImage.src = imageSrc;
+      gameImage.alt = game.name;
+      gameImage.style.cursor = 'pointer';
+      
+      // Store URL and name as data attributes
+      gameImage.setAttribute('data-game-url', game.url);
+      gameImage.setAttribute('data-game-name', game.name);
+      
+      // FIXED: Game click handler - ALWAYS goes through play.html
+      gameImage.onclick = function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const url = this.getAttribute('data-game-url');
+        const name = this.getAttribute('data-game-name');
+        
+        console.log("🎮 Game clicked:", name);
+        console.log("🔗 URL:", url);
+        
+        if (!url || url === 'undefined' || url === 'null' || url === '') {
+          console.error("❌ No URL for game:", name);
+          alert(`Game "${name}" has no valid URL. Please check games.json`);
+          return;
+        }
+        
+        // ALWAYS go through play.html
+        const playUrl = `play.html?gameurl=${encodeURIComponent(url)}&game=${encodeURIComponent(name)}`;
+        console.log("🚀 Opening:", playUrl);
+        window.open(playUrl, '_blank');
+      };
+      
+      const gameNameElem = document.createElement("p");
+      gameNameElem.textContent = game.name;
+      
+      // FAVORITE BUTTON
+      const favBtn = document.createElement("button");
+      favBtn.classList.add("fav-btn");
+      favBtn.setAttribute("data-game", game.name);
+      favBtn.textContent = getFavourites().includes(game.name) ? "★" : "☆";
+      favBtn.title = "favourite";
+      favBtn.onclick = (e) => {
+        e.stopPropagation();
+        window.toggleFavourite(game.name);
+        favBtn.textContent = getFavourites().includes(game.name) ? "★" : "☆";
+      };
+      
+      gameDiv.appendChild(gameImage);
+      gameDiv.appendChild(gameNameElem);
+      gameDiv.appendChild(favBtn);
+      
+      // Add ratings if available
+      if (typeof createRatingHTML === 'function') {
+        try {
+          const userVotesGlobal = JSON.parse(localStorage.getItem('userVotes') || '{}');
+          gameDiv.insertAdjacentHTML('beforeend', createRatingHTML(game.name, userVotesGlobal[game.name] || 0));
+        } catch (err) {
+          console.error("Error adding rating:", err);
+        }
+      }
+      
+      gamesContainer.appendChild(gameDiv);
+    });
+    
+    if (typeof attachRatingListeners === 'function') {
+      attachRatingListeners();
     }
     
-    gamesContainer.appendChild(gameDiv);
-  });
-  
-  if (typeof attachRatingListeners === 'function') {
-    attachRatingListeners();
+    console.log(`✅ Displayed ${filteredGames.length} games`);
   }
-  
-  console.log(`✅ Displayed ${filteredGames.length} games`);
-}
 
   function handleSearchInput() {
     const searchInput = document.getElementById("searchInput");
@@ -746,7 +747,14 @@ function showAchievementToastNotification(name, icon) {
   }, 4000);
 }
 
+// FIXED: Crash achievement - now properly triggers when crashFanter() is called
 function triggerPageCrash() {
+  // Unlock the crash achievement FIRST
+  if (typeof checkAndUnlockAchievement === 'function') {
+    checkAndUnlockAchievement(63);
+  }
+  
+  // Create Windows death screen overlay
   const crashOverlay = document.createElement('div');
   crashOverlay.id = 'crash-overlay';
   crashOverlay.style.cssText = `
@@ -771,26 +779,38 @@ function triggerPageCrash() {
     <div style="background: white; color: black; padding: 20px; border: 2px solid silver; max-width: 500px; margin: 20px;">
       <pre style="font-size: 20px; margin: 0;">😵</pre>
       <h1 style="font-size: 24px; margin: 10px 0;">:(</h1>
-      <p style="font-size: 16px;">Your Fanter ran into a problem and needs to restart.</p>
+      <p style="font-size: 16px;">Your Fanter ran into a problem and needs to restart. We're just collecting some error info, then we'll restart for you.</p>
       <p style="font-size: 14px; margin-top: 20px;">*** STOP: 0x000000F4 (0x00000000, 0x00000000, 0x00000000, 0x00000000)</p>
+      <p style="font-size: 12px; margin-top: 30px;">*** fanter.sys - Address F4N73R base at F4N73R, DateStamp 4f75a7b3</p>
+      <p style="font-size: 12px;">*** CHINCHILLA.exe - Address F4N73R base at F4N73R, DateStamp 4f75a7b3</p>
       <div style="margin-top: 30px;">
         <div style="display: inline-block; width: 20px; height: 20px; background: white; margin: 0 5px; animation: blink 1s step-end infinite;"></div>
-        <span style="margin-left: 10px;">Restarting in <span id="crash-countdown">5</span> seconds...</span>
+        <span style="margin-left: 10px;">Contact your system admin or abcatlmfao for support</span>
       </div>
     </div>
+    <p style="margin-top: 20px; font-size: 12px;">Restarting in <span id="crash-countdown">5</span> seconds...</p>
   `;
   
   document.body.appendChild(crashOverlay);
   
-  const style = document.createElement('style');
-  style.textContent = `
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  `;
-  document.head.appendChild(style);
+  // Add styles for animations if not already present
+  if (!document.querySelector('#crash-styles')) {
+    const style = document.createElement('style');
+    style.id = 'crash-styles';
+    style.textContent = `
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
   
-  if (typeof checkAndUnlockAchievement === 'function') checkAndUnlockAchievement(63);
-  
+  // Countdown and reload
   let seconds = 5;
   const countdownEl = document.getElementById('crash-countdown');
   const interval = setInterval(() => {
@@ -814,7 +834,9 @@ function initAchievementTriggers() {
 
 initAchievementTriggers();
 
+// Make crashFanter available globally
 window.crashFanter = function() {
   triggerPageCrash();
 };
+
 console.log('💀 Type "crashFanter()" for a surprise...');
