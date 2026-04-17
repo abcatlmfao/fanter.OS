@@ -59,13 +59,16 @@ document.addEventListener('DOMContentLoaded', function() {
     gameImage.style.cursor = 'pointer';
     gameImage.style.width = '100%';
     
-    // Store the URL directly
-    const gameUrl = game.url;
-    const gameName = game.name;
+    // STORE THE URL DIRECTLY ON THE IMAGE ELEMENT
+    gameImage.setAttribute('data-game-url', game.url);
+    gameImage.setAttribute('data-game-name', game.name);
     
-    // FIXED CLICK HANDLER - uses the stored values
+    // SIMPLE CLICK HANDLER
     gameImage.onclick = function() {
-      const playUrl = 'play.html?gameurl=' + encodeURIComponent(gameUrl) + '&game=' + encodeURIComponent(gameName);
+      const url = this.getAttribute('data-game-url');
+      const name = this.getAttribute('data-game-name');
+      console.log("🎮 CLICKED:", name, "URL:", url);
+      const playUrl = 'play.html?gameurl=' + encodeURIComponent(url) + '&game=' + encodeURIComponent(name);
       window.open(playUrl, '_blank');
     };
     
@@ -91,9 +94,8 @@ document.addEventListener('DOMContentLoaded', function() {
     gamesContainer.appendChild(gameDiv);
   }
   
-  console.log("Displayed " + filteredGames.length + " games");
+  console.log("✅ Displayed " + filteredGames.length + " games");
 };
-
 
 
 
