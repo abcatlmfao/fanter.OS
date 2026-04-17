@@ -98,28 +98,28 @@
     "category": "horror"
   },
   {
-    "name": "five nights at freddys 2 ",
+    "name": "five nights at freddys 2",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTyHgdbC707702_nFjZwWTu15WCsoIFslXrg&s",
     "url": "https://abcatlmfao.github.io/FNAF2/",
     "new": true,
     "category": "horror"
   },
   {
-    "name": " five nights at freddys 3",
+    "name": "five nights at freddys 3",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwVsJ6A2CpSZFwlu7vSwYTnk9OCt5vpvMZ6w&s",
     "url": "https://abcatlmfao.github.io/fnaf3/",
     "new": true,
     "category": "horror"
   },
   {
-    "name": "five nights at freddys 4  ",
+    "name": "five nights at freddys 4",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0aQHJAFA8x15Il01UMvTu9oDuMPuD4mH7RA&s",
     "url": "https://abcatlmfao.github.io/FNAF4/",
     "new": true,
     "category": "horror"
   },
   {
-    "name": "fnaf sister location ",
+    "name": "fnaf sister location",
     "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQjQUV7ZiKtyLjytmJgVaQuUWIPd22J13g8g&s",
     "url": "https://abcatlmfao.github.io/sister-location/",
     "new": true,
@@ -168,7 +168,7 @@
     "category": "horror"
   },
   {
-    "name": "final fantasy VII ",
+    "name": "final fantasy VII",
     "image": "https://upload.wikimedia.org/wikipedia/en/c/c2/Final_Fantasy_VII_Box_Art.jpg",
     "url": "avalanche",
     "new": true,
@@ -217,7 +217,7 @@
     "category": "adventure"
   },
   {
-    "name": "the man from the window ",
+    "name": "the man from the window",
     "image": "https://static.tvtropes.org/pmwiki/pub/images/zed_technician_the_man_from_the_window.png",
     "url": "https://brooksch123.github.io/TheManInTheWindow/",
     "new": true,
@@ -235,7 +235,7 @@
     "image": "https://play-lh.googleusercontent.com/WKoMii0zjkihmZdlhN0gczyDAZp9F99fxm2lInUnNaBYjJJfKshyJ3i7aLrLzwkkRw",
     "url": "https://chipikipal800.github.io/Drift-King-Unblocked/",
     "new": true,
-    "category": "multiplayer, racing"
+    "category": "multiplayer"
   },
   {
     "name": "infinite craft",
@@ -259,7 +259,7 @@
     "category": "arcade"
   },
   {
-  "name": "minecraft 1.0",
+    "name": "minecraft 1.0",
     "image": "https://minecraft.wiki/images/thumb/Beta_1.0_menu.png/280px-Beta_1.0_menu.png?f3530",
     "url": "https://rowaniverson-debug.github.io/Eaglercraft-Beta-1.0/",
     "new": true,
@@ -272,27 +272,25 @@
     "new": true,
     "category": "adventure"
   },
-  { "name": "Pokemon leafgreen",
+  {
+    "name": "Pokemon leafgreen",
     "image": "https://assets-prd.ignimgs.com/2022/01/31/pokemon-leafgreen-button-crop-v3-1643617153926.jpg",
     "url": "https://javyquavy.github.io/PokemonLeafGreen/",
     "new": true,
     "category": "strategy"
   },
-  {"name": "old prodigy (no math)",
+  {
+    "name": "old prodigy (no math)",
     "image": "https://i.ytimg.com/vi/FXWR8HiAfpw/sddefault.jpg?v=67523680",
     "url": "https://xpmuser.github.io/oldprodigy/select/",
     "new": true,
     "category": "adventure"
   },
   {
-   "name": "Minecraft 1.8",
+    "name": "Minecraft 1.8",
     "image": "https://static0.gamerantimages.com/wordpress/wp-content/uploads/Minecraft-1.8-Adventure-Update-Trailer.jpg",
     "url": "https://abcatlmfao69.github.io/minraft/",
     "new": true,
     "category": "adventure"
   }
-
-
-
-  
-
+]
