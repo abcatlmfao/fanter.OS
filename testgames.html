@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Games</title>
+  <style>
+    .game { display: inline-block; margin: 10px; padding: 10px; border: 1px solid #ccc; cursor: pointer; }
+    img { width: 100px; height: 100px; }
+  </style>
+</head>
+<body>
+  <h1>Test Games</h1>
+  <div id="gamesContainer"></div>
+
+  <script>
+    // Simple test data
+    const testGames = [
+      { name: "OVO Test", image: "https://chipikipal800.github.io/OvO/ovo3.png", url: "https://chipikipal800.github.io/OvO/" },
+      { name: "Space Waves Test", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlvpINlHVXkHS4cpT7NznJUU6LA6B1WsDhkw&s", url: "https://nicksdumbsites.github.io/Space-Waves-Unblocked/" }
+    ];
+    
+    const container = document.getElementById('gamesContainer');
+    
+    testGames.forEach(game => {
+      const div = document.createElement('div');
+      div.className = 'game';
+      
+      const img = document.createElement('img');
+      img.src = game.image;
+      img.alt = game.name;
+      
+      img.onclick = () => {
+        console.log("Game clicked:", game.name);
+        console.log("URL:", game.url);
+        const playUrl = `play.html?gameurl=${encodeURIComponent(game.url)}&game=${encodeURIComponent(game.name)}`;
+        window.open(playUrl, '_blank');
+      };
+      
+      const name = document.createElement('p');
+      name.textContent = game.name;
+      
+      div.appendChild(img);
+      div.appendChild(name);
+      container.appendChild(div);
+    });
+    
+    console.log("Test page loaded!");
+  </script>
+</body>
+</html>
