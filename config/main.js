@@ -36,65 +36,70 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   window.displayFilteredGames = function(filteredGames) {
-    var gamesContainer = document.getElementById("gamesContainer");
-    if (!gamesContainer) return;
-    gamesContainer.innerHTML = "";
+  const gamesContainer = document.getElementById("gamesContainer");
+  if (!gamesContainer) return;
+  gamesContainer.innerHTML = "";
+  
+  for (let i = 0; i < filteredGames.length; i++) {
+    const game = filteredGames[i];
+    const gameDiv = document.createElement("div");
+    gameDiv.classList.add("game");
     
-    for (var i = 0; i < filteredGames.length; i++) {
-      var game = filteredGames[i];
-      var gameDiv = document.createElement("div");
-      gameDiv.classList.add("game");
-      
-      var gameImage = document.createElement("img");
-      var imageSrc;
-      if (game.image && game.image.indexOf('http') === 0) {
-        imageSrc = game.image;
-      } else if (game.image) {
-        imageSrc = serverUrl1 + "/" + game.url + "/" + game.image;
-      } else {
-        imageSrc = 'https://via.placeholder.com/200x200?text=No+Image';
-      }
-      gameImage.src = imageSrc;
-      gameImage.alt = game.name;
-      gameImage.style.cursor = 'pointer';
-      gameImage.style.width = '100%';
-      
-      var gameUrl = game.url;
-      var gameName = game.name;
-      
-      gameImage.onclick = (function(url, name) {
-        return function() {
-          var playUrl = 'play.html?gameurl=' + encodeURIComponent(url) + '&game=' + encodeURIComponent(name);
-          window.open(playUrl, '_blank');
-        };
-      })(gameUrl, gameName);
-      
-      var gameNameElem = document.createElement("p");
-      gameNameElem.textContent = game.name;
-      
-      var favBtn = document.createElement("button");
-      favBtn.classList.add("fav-btn");
-      favBtn.setAttribute("data-game", game.name);
-      var isFav = getFavourites().indexOf(game.name) !== -1;
-      favBtn.textContent = isFav ? "★" : "☆";
-      favBtn.onclick = (function(n) {
-        return function(e) {
-          e.stopPropagation();
-          window.toggleFavourite(n);
-          var nowFav = getFavourites().indexOf(n) !== -1;
-          e.target.textContent = nowFav ? "★" : "☆";
-        };
-      })(game.name);
-      
-      gameDiv.appendChild(gameImage);
-      gameDiv.appendChild(gameNameElem);
-      gameDiv.appendChild(favBtn);
-      
-      gamesContainer.appendChild(gameDiv);
+    const gameImage = document.createElement("img");
+    let imageSrc;
+    if (game.image && game.image.indexOf('http') === 0) {
+      imageSrc = game.image;
+    } else if (game.image) {
+      imageSrc = serverUrl1 + "/" + game.url + "/" + game.image;
+    } else {
+      imageSrc = 'https://via.placeholder.com/200x200?text=No+Image';
     }
+    gameImage.src = imageSrc;
+    gameImage.alt = game.name;
+    gameImage.style.cursor = 'pointer';
+    gameImage.style.width = '100%';
     
-    console.log("Displayed " + filteredGames.length + " games");
-  };
+    // Store the URL directly
+    const gameUrl = game.url;
+    const gameName = game.name;
+    
+    // FIXED CLICK HANDLER - uses the stored values
+    gameImage.onclick = function() {
+      const playUrl = 'play.html?gameurl=' + encodeURIComponent(gameUrl) + '&game=' + encodeURIComponent(gameName);
+      window.open(playUrl, '_blank');
+    };
+    
+    const gameNameElem = document.createElement("p");
+    gameNameElem.textContent = game.name;
+    
+    const favBtn = document.createElement("button");
+    favBtn.classList.add("fav-btn");
+    favBtn.setAttribute("data-game", game.name);
+    const isFav = getFavourites().indexOf(game.name) !== -1;
+    favBtn.textContent = isFav ? "★" : "☆";
+    favBtn.onclick = function(e) {
+      e.stopPropagation();
+      window.toggleFavourite(game.name);
+      const nowFav = getFavourites().indexOf(game.name) !== -1;
+      this.textContent = nowFav ? "★" : "☆";
+    };
+    
+    gameDiv.appendChild(gameImage);
+    gameDiv.appendChild(gameNameElem);
+    gameDiv.appendChild(favBtn);
+    
+    gamesContainer.appendChild(gameDiv);
+  }
+  
+  console.log("Displayed " + filteredGames.length + " games");
+};
+
+
+
+
+
+
+  
 
   function handleSearchInput() {
     var searchInput = document.getElementById("searchInput");
