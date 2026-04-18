@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <span class="game-rating-text">${avgRating}</span>
           </div>
-          <button class="game-play-btn" data-game="${escapeHtml(game.name)}" data-url="${escapeHtml(game.url)}">▶ PLAY</button>
+          <button class="game-play-btn" data-game="${escapeHtml(game.name)}" data-url="${escapeHtml(game.url)}">▶ play</button>
         </div>
       `;
       
