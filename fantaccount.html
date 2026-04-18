@@ -225,23 +225,25 @@
         localStorage.setItem('fanter_currentUser', JSON.stringify(guestUser));
       }
 
-      // Try Supabase if available
-      if (window.supabase && window.supabase.auth) {
-        try {
-          const { data: { session } } = await window.supabase.auth.getSession();
-          if (session) {
-            currentUser = session.user;
-            syncStatus = 'online';
-            await loadSupabaseData();
-          } else {
-            loadLocalData();
-          }
-        } catch (e) {
-          console.log('Supabase error, using localStorage');
-          loadLocalData();
-        }
-      } else {
-        loadLocalData();
+    // Try Supabase if available - check for .from() method
+if (window.supabase && typeof window.supabase.from === 'function') {
+  try {
+    const { data: { session } } = await window.supabase.auth.getSession();
+    if (session) {
+      currentUser = session.user;
+      syncStatus = 'online';
+      await loadSupabaseData();
+    } else {
+      loadLocalData();
+    }
+  } catch (e) {
+    console.log('Supabase error, using localStorage:', e.message);
+    loadLocalData();
+  }
+} else {
+  console.log('Supabase client not properly initialized, using localStorage');
+  loadLocalData();
+}
       }
 
       setupTabs();
