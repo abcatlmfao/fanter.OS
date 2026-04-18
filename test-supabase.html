@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test Supabase</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <h1>Testing Supabase Connection</h1>
+  <div id="status">Connecting...</div>
+  
+  <script>
+    const SUPABASE_URL = "https://gvzgnclowylrrpovdvtw.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2emduY2xvd3lscnJwb3ZkdnR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NjM5ODEsImV4cCI6MjA5MjAzOTk4MX0.p7oeYBVX870iSK-TLDRj6pfW7wLj7HJsTHjNWaNpL7o";
+    
+    const supabase = supabaseClient.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    async function testConnection() {
+      document.getElementById('status').innerHTML = 'Testing connection...';
+      
+      // Try to create a test account
+      const { data, error } = await supabase.auth.signUp({
+        email: 'test@fanter.com',
+        password: 'testpassword123'
+      });
+      
+      if (error) {
+        document.getElementById('status').innerHTML = `❌ Error: ${error.message}`;
+      } else {
+        document.getElementById('status').innerHTML = '✅ Supabase is working! You can now create accounts.';
+        console.log('User created:', data);
+      }
+    }
+    
+    testConnection();
+  </script>
+</body>
+</html>
