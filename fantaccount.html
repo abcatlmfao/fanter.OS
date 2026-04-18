@@ -8,15 +8,14 @@
   <script src="config/theme-loader.js"></script>
   <script src="config/main.js"></script>
   <style>
-    /* Keep all your existing styles here - they're good */
+    /* ALL STYLES FROM PREVIOUS VERSION - KEEP EVERYTHING */
     .account-container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 100px auto;
       padding: 30px;
       background: rgba(20, 30, 50, 0.8);
       border-radius: 20px;
       border: 1px solid rgba(45, 90, 227, 0.4);
-      text-align: center;
     }
     
     .account-tabs {
@@ -26,7 +25,6 @@
       border-bottom: 1px solid rgba(255,255,255,0.1);
       padding-bottom: 10px;
       flex-wrap: wrap;
-      justify-content: center;
     }
     
     .account-tab {
@@ -37,10 +35,16 @@
       cursor: pointer;
       font-size: 16px;
       transition: all 0.3s ease;
+      border-radius: 8px;
+    }
+    
+    .account-tab:hover {
+      background: rgba(255,255,255,0.05);
     }
     
     .account-tab.active {
       color: #ffcc00;
+      background: rgba(255,204,0,0.1);
       border-bottom: 2px solid #ffcc00;
     }
     
@@ -57,6 +61,8 @@
       flex-direction: column;
       gap: 15px;
       text-align: left;
+      max-width: 400px;
+      margin: 0 auto;
     }
     
     .account-form input {
@@ -79,21 +85,16 @@
     }
     
     .profile-avatar {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       background: linear-gradient(135deg, #2d5ae3, #ffcc00);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 40px;
+      font-size: 48px;
       margin: 0 auto 15px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    
-    .profile-avatar:hover {
-      transform: scale(1.05);
+      font-weight: bold;
     }
     
     .profile-stats {
@@ -137,16 +138,6 @@
       color: #66ff66;
     }
     
-    .logout-btn {
-      background: rgba(220, 50, 50, 0.2);
-      border-color: rgba(220, 50, 50, 0.5);
-      margin-top: 20px;
-    }
-    
-    .logout-btn:hover {
-      background: rgba(220, 50, 50, 0.4);
-    }
-    
     .settings-btn {
       background: rgba(45, 90, 227, 0.3);
       border: 1px solid rgba(45, 90, 227, 0.5);
@@ -156,11 +147,21 @@
       cursor: pointer;
       font-size: 14px;
       transition: all 0.3s ease;
+      width: 100%;
     }
     
     .settings-btn:hover {
       background: rgba(45, 90, 227, 0.5);
       transform: translateY(-2px);
+    }
+    
+    .logout-btn {
+      background: rgba(220, 50, 50, 0.2);
+      border-color: rgba(220, 50, 50, 0.5);
+    }
+    
+    .logout-btn:hover {
+      background: rgba(220, 50, 50, 0.4);
     }
     
     .divider {
@@ -169,7 +170,161 @@
       margin: 20px 0;
     }
     
-    /* Achievement styles */
+    /* Leaderboard Styles */
+    .leaderboard-filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+    
+    .filter-btn.active {
+      background: rgba(255,204,0,0.2);
+      border-color: #ffcc00;
+      color: #ffcc00;
+    }
+    
+    .leaderboard-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .leaderboard-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .leaderboard-item:hover {
+      background: rgba(255,255,255,0.08);
+      transform: translateX(5px);
+    }
+    
+    .leaderboard-item.current-user {
+      background: rgba(255,204,0,0.1);
+      border-color: #ffcc00;
+    }
+    
+    .rank {
+      font-size: 20px;
+      font-weight: bold;
+      min-width: 40px;
+      color: rgba(255,255,255,0.5);
+    }
+    
+    .rank.top-1 { color: #ffcc00; }
+    .rank.top-2 { color: #c0c0c0; }
+    .rank.top-3 { color: #cd7f32; }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #2d5ae3, #ffcc00);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .user-info {
+      flex: 1;
+    }
+    
+    .user-name {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    
+    .user-username {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+    }
+    
+    .user-score {
+      font-size: 20px;
+      font-weight: bold;
+      color: #ffcc00;
+      margin-right: 10px;
+    }
+    
+    .user-coins {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #ffcc00;
+      font-size: 14px;
+    }
+    
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: rgba(20, 30, 50, 0.95);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      border: 1px solid rgba(45, 90, 227, 0.4);
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+    
+    .modal-close:hover {
+      opacity: 1;
+    }
+    
+    /* Achievement Styles */
     .achievements-header {
       display: flex;
       justify-content: space-between;
@@ -369,6 +524,11 @@
       filter: blur(3px);
       user-select: none;
     }
+    
+    .guest-message {
+      text-align: center;
+      padding: 40px;
+    }
   </style>
 </head>
 <body>
@@ -383,13 +543,14 @@
   <div class="center">
     <h1>account.</h1>
     <p>manage your fanter profile</p>
-    <button class="settings-btn" onclick="window.location.href='index.html'">← back</button>
+    <button class="settings-btn" onclick="window.location.href='index.html'" style="width: auto; padding: 8px 16px;">← back</button>
   </div>
 
   <div class="account-container">
     <div class="account-tabs">
-      <button class="account-tab active" data-tab="profile">profile</button>
+      <button class="account-tab active" data-tab="profile">my profile</button>
       <button class="account-tab" data-tab="achievements">🏆 achievements</button>
+      <button class="account-tab" data-tab="leaderboard">🏅 leaderboard</button>
       <button class="account-tab" data-tab="login">login</button>
       <button class="account-tab" data-tab="register">register</button>
     </div>
@@ -397,14 +558,28 @@
     <!-- Profile Tab -->
     <div id="profileTab" class="account-tab-content active">
       <div id="profileContent">
-        <div style="text-align: center; padding: 40px;">loading profile...</div>
+        <div class="guest-message">loading profile...</div>
       </div>
     </div>
 
     <!-- Achievements Tab -->
     <div id="achievementsTab" class="account-tab-content">
       <div id="achievementsContent">
-        <div style="text-align: center; padding: 40px;">loading achievements...</div>
+        <div class="guest-message">loading achievements...</div>
+      </div>
+    </div>
+
+    <!-- Leaderboard Tab -->
+    <div id="leaderboardTab" class="account-tab-content">
+      <div id="leaderboardContent">
+        <div class="leaderboard-filters">
+          <button class="filter-btn active" data-filter="points">Achievement Points</button>
+          <button class="filter-btn" data-filter="coins">Coins</button>
+          <button class="filter-btn" data-filter="games_played">Games Played</button>
+        </div>
+        <div id="leaderboardList" class="leaderboard-list">
+          <div class="guest-message">loading leaderboard...</div>
+        </div>
       </div>
     </div>
 
@@ -416,6 +591,10 @@
         <button type="submit" class="settings-btn">login</button>
         <div id="loginMessage" class="message"></div>
       </form>
+      <div style="text-align: center; margin-top: 20px;">
+        <p style="opacity: 0.7; font-size: 14px;">or continue as guest</p>
+        <button onclick="continueAsGuest()" class="settings-btn" style="margin-top: 10px;">continue as guest</button>
+      </div>
     </div>
 
     <!-- Register Tab -->
@@ -432,13 +611,25 @@
     </div>
   </div>
 
+  <!-- Public Profile Modal -->
+  <div id="profileModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalUsername">User Profile</h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div id="modalContent">
+        <div class="guest-message">loading...</div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
     // ===== SUPABASE CONFIGURATION =====
     const SUPABASE_URL = "https://gvzgnclowylrrpovdvtw.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2emduY2xvd3lscnJwb3ZkdnR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NjM5ODEsImV4cCI6MjA5MjAzOTk4MX0.p7oeYBVX870iSK-TLDRj6pfW7wLj7HJsTHjNWaNpL7o";
     
-    // Initialize Supabase client
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     // ===== GLOBAL STATE =====
@@ -446,20 +637,10 @@
     let currentSession = null;
     let userProfile = null;
     let userAchievements = {};
-    let userStats = {
-      ratings_given: 0,
-      favorites_count: 0,
-      games_played: 0,
-      login_days: 0,
-      login_streak: 0,
-      games_in_session: 0,
-      genres_rated: [],
-      genres_played: [],
-      theme_changes: 0,
-      total_play_time: 0
-    };
+    let userStats = {};
+    let currentFilter = 'achievement_points';
     
-    // ===== ACHIEVEMENTS DATA =====
+    // ===== COMPLETE ACHIEVEMENTS DATA =====
     const ACHIEVEMENTS_DATA = {
       newbie: {
         name: "Newbie",
@@ -576,377 +757,99 @@
     
     // ===== INITIALIZATION =====
     async function initializeApp() {
-      // Check for existing session
-      const { data: { session } } = await supabase.auth.getSession();
-      currentSession = session;
-      
-      if (session) {
-        currentUser = session.user;
-        await loadUserData();
-        updateUIForAuthState();
-      } else {
-        // Check localStorage for guest data
-        const localUser = localStorage.getItem('fanter_currentUser');
-        if (localUser) {
-          currentUser = JSON.parse(localUser);
-          userProfile = currentUser;
-          userAchievements = currentUser.achievements || {};
-          userStats = currentUser.stats || userStats;
-        }
-        updateUIForAuthState();
-      }
-      
-      // Set up auth state listener
-      supabase.auth.onAuthStateChange(async (event, session) => {
-        currentSession = session;
-        currentUser = session?.user || null;
-        
-        if (session) {
-          await loadUserData();
-        }
-        
-        updateUIForAuthState();
-        renderCurrentTab();
-      });
-      
-      // Initialize tabs
+      await checkSession();
       setupTabs();
+      setupLeaderboardFilters();
       renderCurrentTab();
     }
     
-    async function loadUserData() {
-      if (!currentUser) return;
+    async function checkSession() {
+      const { data: { session } } = await supabase.auth.getSession();
+      currentSession = session;
+      currentUser = session?.user || null;
       
+      if (currentUser) {
+        await loadUserData();
+      } else {
+        loadGuestData();
+      }
+      
+      updateUIForAuthState();
+    }
+    
+    async function loadUserData() {
       try {
-        // Load profile
         const { data: profile } = await supabase
           .from('profiles')
           .select('*')
           .eq('id', currentUser.id)
           .single();
         
-        if (profile) {
-          userProfile = profile;
-        }
+        if (profile) userProfile = profile;
         
-        // Load achievements
-        const { data: achievements } = await supabase
-          .from('user_achievements')
-          .select('achievement_id, unlocked_at')
-          .eq('user_id', currentUser.id);
-        
-        if (achievements) {
-          userAchievements = {};
-          achievements.forEach(ach => {
-            userAchievements[ach.achievement_id] = true;
-          });
-        }
-        
-        // Load stats
         const { data: stats } = await supabase
           .from('user_stats')
           .select('*')
           .eq('user_id', currentUser.id)
           .single();
         
-        if (stats) {
-          userStats = stats;
-        } else {
-          // Create initial stats if none exist
-          await supabase.from('user_stats').insert({
-            user_id: currentUser.id,
-            ...userStats
-          });
-        }
+        if (stats) userStats = stats;
         
-        // Update login streak
-        await updateLoginStreak();
+        const { data: achievements } = await supabase
+          .from('user_achievements')
+          .select('achievement_id')
+          .eq('user_id', currentUser.id);
+        
+        userAchievements = {};
+        achievements?.forEach(ach => {
+          userAchievements[ach.achievement_id] = true;
+        });
         
       } catch (error) {
         console.error('Error loading user data:', error);
       }
     }
     
-    async function updateLoginStreak() {
-      if (!currentUser) return;
-      
-      const today = new Date().toISOString().split('T')[0];
-      const lastLogin = userStats.last_login_date;
-      
-      if (lastLogin !== today) {
-        let newStreak = userStats.login_streak || 0;
-        let newDays = (userStats.login_days || 0) + 1;
-        
-        if (lastLogin) {
-          const lastDate = new Date(lastLogin);
-          const todayDate = new Date(today);
-          const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
-          
-          if (diffDays === 1) {
-            newStreak += 1;
-          } else if (diffDays > 1) {
-            newStreak = 1;
-          }
-        } else {
-          newStreak = 1;
-        }
-        
-        userStats.login_streak = newStreak;
-        userStats.login_days = newDays;
-        userStats.last_login_date = today;
-        
-        await supabase.from('user_stats').upsert({
-          user_id: currentUser.id,
-          login_streak: newStreak,
-          login_days: newDays,
-          last_login_date: today
-        });
-        
-        await checkAchievements();
+    function loadGuestData() {
+      const guestData = localStorage.getItem('fanter_guestData');
+      if (guestData) {
+        const data = JSON.parse(guestData);
+        userStats = data.stats || {};
+        userAchievements = data.achievements || {};
       }
-    }
-    
-    // ===== AUTHENTICATION =====
-    async function handleLogin(email, password) {
-      try {
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password
-        });
-        
-        if (error) throw error;
-        
-        showMessage('loginMessage', 'Login successful!', 'success');
-        
-        // Redirect or update UI
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-        
-      } catch (error) {
-        showMessage('loginMessage', error.message, 'error');
-      }
-    }
-    
-    async function handleRegister(username, email, displayName, password) {
-      try {
-        // Sign up user
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            data: {
-              username,
-              display_name: displayName || username
-            }
-          }
-        });
-        
-        if (error) throw error;
-        
-        // Create profile
-        if (data.user) {
-          await supabase.from('profiles').insert({
-            id: data.user.id,
-            username,
-            display_name: displayName || username,
-            email,
-            created_at: new Date().toISOString()
-          });
-          
-          // Create initial stats
-          await supabase.from('user_stats').insert({
-            user_id: data.user.id,
-            ratings_given: 0,
-            favorites_count: 0,
-            games_played: 0,
-            login_days: 1,
-            login_streak: 1,
-            last_login_date: new Date().toISOString().split('T')[0]
-          });
-          
-          // Unlock Welcome Aboard achievement
-          await unlockAchievement(1);
-        }
-        
-        showMessage('registerMessage', 'Registration successful! Check your email to confirm.', 'success');
-        
-      } catch (error) {
-        showMessage('registerMessage', error.message, 'error');
-      }
-    }
-    
-    async function handleLogout() {
-      await supabase.auth.signOut();
-      currentUser = null;
-      currentSession = null;
-      userProfile = null;
-      userAchievements = {};
-      updateUIForAuthState();
-      renderCurrentTab();
-    }
-    
-    // ===== ACHIEVEMENT SYSTEM =====
-    async function unlockAchievement(achievementId) {
-      if (!currentUser || userAchievements[achievementId]) return false;
-      
-      try {
-        // Insert into database
-        const { error } = await supabase
-          .from('user_achievements')
-          .insert({
-            user_id: currentUser.id,
-            achievement_id: achievementId,
-            unlocked_at: new Date().toISOString()
-          });
-        
-        if (error) throw error;
-        
-        userAchievements[achievementId] = true;
-        
-        // Show notification
-        showAchievementNotification(achievementId);
-        
-        // Update UI if achievements tab is visible
-        if (document.getElementById('achievementsTab').classList.contains('active')) {
-          renderAchievements();
-        }
-        
-        return true;
-      } catch (error) {
-        console.error('Error unlocking achievement:', error);
-        return false;
-      }
-    }
-    
-    async function checkAchievements() {
-      if (!currentUser) return;
-      
-      for (const [category, catData] of Object.entries(ACHIEVEMENTS_DATA)) {
-        for (const ach of catData.achievements) {
-          if (userAchievements[ach.id]) continue;
-          
-          let shouldUnlock = false;
-          
-          switch (ach.requirement) {
-            case 'register':
-              shouldUnlock = true;
-              break;
-            case 'ratings_given':
-              shouldUnlock = userStats.ratings_given >= ach.required;
-              break;
-            case 'favorites_count':
-              shouldUnlock = userStats.favorites_count >= ach.required;
-              break;
-            case 'games_played':
-              shouldUnlock = userStats.games_played >= ach.required;
-              break;
-            case 'login_days':
-              shouldUnlock = userStats.login_days >= ach.required;
-              break;
-            case 'login_streak':
-              shouldUnlock = userStats.login_streak >= ach.required;
-              break;
-            case 'games_in_session':
-              shouldUnlock = userStats.games_in_session >= ach.required;
-              break;
-            case 'genres_rated':
-              shouldUnlock = (userStats.genres_rated?.length || 0) >= ach.required;
-              break;
-            case 'genres_played':
-              shouldUnlock = (userStats.genres_played?.length || 0) >= ach.required;
-              break;
-            case 'theme_changes':
-              shouldUnlock = userStats.theme_changes >= ach.required;
-              break;
-            case 'categoryComplete':
-              shouldUnlock = await checkCategoryComplete(ach.required);
-              break;
-          }
-          
-          if (shouldUnlock) {
-            await unlockAchievement(ach.id);
-          }
-        }
-      }
-    }
-    
-    async function checkCategoryComplete(categoryName) {
-      const catData = ACHIEVEMENTS_DATA[categoryName];
-      if (!catData) return false;
-      
-      for (const ach of catData.achievements) {
-        if (ach.id.toString().endsWith('+')) continue; // Skip the + achievement itself
-        if (!userAchievements[ach.id]) return false;
-      }
-      
-      return true;
-    }
-    
-    function showAchievementNotification(achievementId) {
-      // Find achievement details
-      let achievement = null;
-      for (const cat of Object.values(ACHIEVEMENTS_DATA)) {
-        const found = cat.achievements.find(a => a.id === achievementId);
-        if (found) {
-          achievement = found;
-          break;
-        }
-      }
-      
-      if (!achievement) return;
-      
-      // Create and show notification
-      const notification = document.createElement('div');
-      notification.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        background: linear-gradient(135deg, rgba(255,204,0,0.2), rgba(45,90,227,0.2));
-        border: 1px solid #ffcc00;
-        border-radius: 12px;
-        padding: 15px 20px;
-        color: white;
-        z-index: 1000;
-        animation: slideIn 0.3s ease;
-        backdrop-filter: blur(10px);
-      `;
-      
-      notification.innerHTML = `
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span style="font-size: 32px;">${achievement.icon}</span>
-          <div>
-            <div style="font-weight: bold; color: #ffcc00;">Achievement Unlocked!</div>
-            <div style="font-size: 14px;">${achievement.name}</div>
-            <div style="font-size: 11px; opacity: 0.7;">${achievement.desc}</div>
-          </div>
-        </div>
-      `;
-      
-      document.body.appendChild(notification);
-      
-      setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease';
-        setTimeout(() => notification.remove(), 300);
-      }, 5000);
     }
     
     // ===== RENDERING =====
     function renderProfile() {
       const container = document.getElementById('profileContent');
-      if (!container) return;
       
       if (!currentUser) {
         container.innerHTML = `
-          <div style="text-align: center; padding: 40px;">
-            <p>Please log in to view your profile</p>
+          <div class="guest-message">
+            <p style="margin-bottom: 20px;">You're browsing as a guest</p>
+            <p style="opacity: 0.7; font-size: 14px; margin-bottom: 20px;">Create an account to save your progress, earn achievements, and compete on the leaderboard!</p>
+            <button onclick="switchTab('register')" class="settings-btn" style="width: auto; padding: 10px 30px;">create account</button>
+            <button onclick="switchTab('login')" class="settings-btn" style="width: auto; padding: 10px 30px; margin-left: 10px;">login</button>
           </div>
         `;
         return;
       }
       
       const displayName = userProfile?.display_name || currentUser.email?.split('@')[0] || 'User';
+      const username = userProfile?.username || displayName.toLowerCase();
+      const coins = userProfile?.coins || 300;
       const joinDate = userProfile?.created_at ? new Date(userProfile.created_at).toLocaleDateString() : 'Today';
+      
+      let totalPoints = 0;
+      let unlockedCount = Object.keys(userAchievements).length;
+      
+      for (const [catKey, catData] of Object.entries(ACHIEVEMENTS_DATA)) {
+        catData.achievements.forEach(ach => {
+          if (userAchievements[ach.id]) {
+            totalPoints += catData.pointsPer;
+          }
+        });
+      }
       
       container.innerHTML = `
         <div class="profile-info">
@@ -954,8 +857,12 @@
             ${displayName[0].toUpperCase()}
           </div>
           <h2>${displayName}</h2>
-          <p style="opacity: 0.7; font-size: 14px;">@${userProfile?.username || 'user'}</p>
+          <p style="opacity: 0.7; font-size: 14px;">@${username}</p>
           <p style="opacity: 0.5; font-size: 12px;">Member since ${joinDate}</p>
+          <div style="margin-top: 10px; display: flex; justify-content: center; gap: 15px;">
+            <span class="user-coins">💰 ${coins} coins</span>
+            <span style="color: #ffcc00;">🏆 ${totalPoints.toFixed(1)} points</span>
+          </div>
         </div>
         
         <div class="profile-stats">
@@ -972,24 +879,26 @@
             <div class="stat-label">Favorites</div>
           </div>
           <div class="stat">
-            <div class="stat-number">${userStats.login_streak || 0}</div>
-            <div class="stat-label">Day Streak</div>
+            <div class="stat-number">${unlockedCount}</div>
+            <div class="stat-label">Achievements</div>
           </div>
         </div>
         
         <div class="divider"></div>
         
-        <button class="settings-btn logout-btn" onclick="handleLogout()">Logout</button>
+        <div style="display: flex; gap: 10px;">
+          <button class="settings-btn" onclick="switchTab('achievements')">view achievements</button>
+          <button class="settings-btn logout-btn" onclick="handleLogout()">logout</button>
+        </div>
       `;
     }
     
     function renderAchievements() {
       const container = document.getElementById('achievementsContent');
-      if (!container) return;
       
       if (!currentUser) {
         container.innerHTML = `
-          <div style="text-align: center; padding: 40px;">
+          <div class="guest-message">
             <p>Please log in to view achievements</p>
           </div>
         `;
@@ -1000,7 +909,6 @@
       let totalAchievements = 0;
       let maxPoints = 0;
       
-      // Calculate totals
       for (const cat of Object.values(ACHIEVEMENTS_DATA)) {
         const progress = getCategoryProgress(cat.name.toLowerCase());
         totalPoints += progress.points;
@@ -1107,15 +1015,284 @@
       };
     }
     
+    async function renderLeaderboard() {
+      const container = document.getElementById('leaderboardList');
+      container.innerHTML = '<div class="guest-message">loading leaderboard...</div>';
+      
+      try {
+        // Get profiles with stats
+        const { data: profiles, error } = await supabase
+          .from('profiles')
+          .select(`
+            id,
+            username,
+            display_name,
+            coins
+          `);
+        
+        if (error) throw error;
+        
+        // Get stats and calculate achievement points
+        const leaderboardData = [];
+        
+        for (const profile of profiles) {
+          const { data: stats } = await supabase
+            .from('user_stats')
+            .select('*')
+            .eq('user_id', profile.id)
+            .single();
+          
+          const { data: achievements } = await supabase
+            .from('user_achievements')
+            .select('achievement_id')
+            .eq('user_id', profile.id);
+          
+          let achievementPoints = 0;
+          achievements?.forEach(ach => {
+            for (const cat of Object.values(ACHIEVEMENTS_DATA)) {
+              const found = cat.achievements.find(a => a.id === ach.achievement_id);
+              if (found) {
+                achievementPoints += cat.pointsPer;
+                break;
+              }
+            }
+          });
+          
+          leaderboardData.push({
+            ...profile,
+            stats: stats || {},
+            achievement_points: achievementPoints
+          });
+        }
+        
+        // Sort based on filter
+        if (currentFilter === 'coins') {
+          leaderboardData.sort((a, b) => (b.coins || 0) - (a.coins || 0));
+        } else if (currentFilter === 'games_played') {
+          leaderboardData.sort((a, b) => (b.stats?.games_played || 0) - (a.stats?.games_played || 0));
+        } else {
+          leaderboardData.sort((a, b) => b.achievement_points - a.achievement_points);
+        }
+        
+        let html = '';
+        leaderboardData.slice(0, 50).forEach((user, index) => {
+          const rank = index + 1;
+          const rankClass = rank <= 3 ? `top-${rank}` : '';
+          const isCurrentUser = currentUser && user.id === currentUser.id;
+          const displayName = user.display_name || user.username || 'User';
+          
+          let score = '';
+          if (currentFilter === 'coins') {
+            score = `💰 ${user.coins || 0}`;
+          } else if (currentFilter === 'games_played') {
+            score = `🎮 ${user.stats?.games_played || 0}`;
+          } else {
+            score = `🏆 ${user.achievement_points.toFixed(1)}`;
+          }
+          
+          html += `
+            <div class="leaderboard-item ${isCurrentUser ? 'current-user' : ''}" onclick="viewPublicProfile('${user.id}')">
+              <div class="rank ${rankClass}">#${rank}</div>
+              <div class="user-avatar">${displayName[0].toUpperCase()}</div>
+              <div class="user-info">
+                <div class="user-name">${displayName}</div>
+                <div class="user-username">@${user.username}</div>
+              </div>
+              <div class="user-score">${score}</div>
+            </div>
+          `;
+        });
+        
+        container.innerHTML = html || '<div class="guest-message">no users found</div>';
+        
+      } catch (error) {
+        console.error('Error loading leaderboard:', error);
+        container.innerHTML = '<div class="guest-message">error loading leaderboard</div>';
+      }
+    }
+    
+    async function viewPublicProfile(userId) {
+      const modal = document.getElementById('profileModal');
+      const modalContent = document.getElementById('modalContent');
+      
+      modal.classList.add('active');
+      modalContent.innerHTML = '<div class="guest-message">loading profile...</div>';
+      
+      try {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('id', userId)
+          .single();
+        
+        const { data: stats } = await supabase
+          .from('user_stats')
+          .select('*')
+          .eq('user_id', userId)
+          .single();
+        
+        const { data: achievements } = await supabase
+          .from('user_achievements')
+          .select('achievement_id')
+          .eq('user_id', userId);
+        
+        const achievementCount = achievements?.length || 0;
+        const displayName = profile?.display_name || profile?.username || 'User';
+        const joinDate = profile?.created_at ? new Date(profile.created_at).toLocaleDateString() : 'Unknown';
+        
+        document.getElementById('modalUsername').textContent = `${displayName}'s Profile`;
+        
+        modalContent.innerHTML = `
+          <div class="profile-info">
+            <div class="profile-avatar">
+              ${displayName[0].toUpperCase()}
+            </div>
+            <h3>${displayName}</h3>
+            <p style="opacity: 0.7;">@${profile?.username || 'user'}</p>
+            <p style="opacity: 0.5; font-size: 12px;">Member since ${joinDate}</p>
+            <div style="margin-top: 10px;">
+              <span class="user-coins">💰 ${profile?.coins || 0} coins</span>
+            </div>
+          </div>
+          
+          <div class="profile-stats">
+            <div class="stat">
+              <div class="stat-number">${stats?.games_played || 0}</div>
+              <div class="stat-label">Games Played</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">${stats?.ratings_given || 0}</div>
+              <div class="stat-label">Ratings</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">${stats?.favorites_count || 0}</div>
+              <div class="stat-label">Favorites</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">${achievementCount}</div>
+              <div class="stat-label">Achievements</div>
+            </div>
+          </div>
+        `;
+        
+      } catch (error) {
+        console.error('Error loading public profile:', error);
+        modalContent.innerHTML = '<div class="guest-message">error loading profile</div>';
+      }
+    }
+    
+    // ===== AUTH FUNCTIONS =====
+    async function handleLogin(email, password) {
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        
+        showMessage('loginMessage', 'Login successful!', 'success');
+        setTimeout(() => window.location.reload(), 1000);
+      } catch (error) {
+        showMessage('loginMessage', error.message, 'error');
+      }
+    }
+    
+    async function handleRegister(username, email, displayName, password) {
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { username, display_name: displayName || username }
+          }
+        });
+        
+        if (error) throw error;
+        
+        showMessage('registerMessage', 'Account created! Check your email to confirm.', 'success');
+      } catch (error) {
+        showMessage('registerMessage', error.message, 'error');
+      }
+    }
+    
+    async function handleLogout() {
+      await supabase.auth.signOut();
+      currentUser = null;
+      currentSession = null;
+      userProfile = null;
+      updateUIForAuthState();
+      switchTab('profile');
+    }
+    
+    function continueAsGuest() {
+      currentUser = null;
+      loadGuestData();
+      updateUIForAuthState();
+      switchTab('profile');
+    }
+    
+    // ===== UI HELPERS =====
+    function setupTabs() {
+      document.querySelectorAll('.account-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          switchTab(tab.getAttribute('data-tab'));
+        });
+      });
+      
+      document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await handleLogin(
+          document.getElementById('loginEmail').value,
+          document.getElementById('loginPassword').value
+        );
+      });
+      
+      document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const password = document.getElementById('regPassword').value;
+        const confirm = document.getElementById('regConfirmPassword').value;
+        
+        if (password !== confirm) {
+          showMessage('registerMessage', 'Passwords do not match', 'error');
+          return;
+        }
+        
+        await handleRegister(
+          document.getElementById('regUsername').value,
+          document.getElementById('regEmail').value,
+          document.getElementById('regDisplayName').value,
+          password
+        );
+      });
+    }
+    
+    function setupLeaderboardFilters() {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.getAttribute('data-filter');
+          renderLeaderboard();
+        });
+      });
+    }
+    
+    function switchTab(tabName) {
+      document.querySelectorAll('.account-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.getAttribute('data-tab') === tabName);
+      });
+      
+      document.querySelectorAll('.account-tab-content').forEach(content => {
+        content.classList.toggle('active', content.id === `${tabName}Tab`);
+      });
+      
+      renderCurrentTab();
+    }
+    
     function renderCurrentTab() {
       const activeTab = document.querySelector('.account-tab-content.active');
       if (!activeTab) return;
       
-      if (activeTab.id === 'profileTab') {
-        renderProfile();
-      } else if (activeTab.id === 'achievementsTab') {
-        renderAchievements();
-      }
+      if (activeTab.id === 'profileTab') renderProfile();
+      else if (activeTab.id === 'achievementsTab') renderAchievements();
+      else if (activeTab.id === 'leaderboardTab') renderLeaderboard();
     }
     
     function updateUIForAuthState() {
@@ -1124,86 +1301,21 @@
       
       if (currentUser) {
         const displayName = userProfile?.display_name || currentUser.email?.split('@')[0] || 'User';
-        if (accountName) accountName.textContent = displayName;
+        accountName.textContent = displayName;
         
-        // Hide login/register tabs when logged in
         tabs.forEach(tab => {
           const tabName = tab.getAttribute('data-tab');
-          if (tabName === 'login' || tabName === 'register') {
-            tab.style.display = 'none';
-          }
+          tab.style.display = (tabName === 'login' || tabName === 'register') ? 'none' : 'block';
         });
       } else {
-        if (accountName) accountName.textContent = 'Guest';
+        accountName.textContent = 'Guest';
+        tabs.forEach(tab => tab.style.display = 'block');
         
-        // Show login/register tabs
-        tabs.forEach(tab => {
-          tab.style.display = 'block';
-        });
-        
-        // Switch to login tab if on protected tab
         const activeTab = document.querySelector('.account-tab-content.active');
-        if (activeTab && (activeTab.id === 'profileTab' || activeTab.id === 'achievementsTab')) {
-          switchTab('login');
+        if (activeTab && activeTab.id === 'achievementsTab') {
+          switchTab('profile');
         }
       }
-    }
-    
-    // ===== UI HELPERS =====
-    function setupTabs() {
-      const tabs = document.querySelectorAll('.account-tab');
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          const tabName = tab.getAttribute('data-tab');
-          switchTab(tabName);
-        });
-      });
-      
-      // Setup forms
-      document.getElementById('loginForm')?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
-        await handleLogin(email, password);
-      });
-      
-      document.getElementById('registerForm')?.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const username = document.getElementById('regUsername').value;
-        const email = document.getElementById('regEmail').value;
-        const displayName = document.getElementById('regDisplayName').value;
-        const password = document.getElementById('regPassword').value;
-        const confirmPassword = document.getElementById('regConfirmPassword').value;
-        
-        if (password !== confirmPassword) {
-          showMessage('registerMessage', 'Passwords do not match', 'error');
-          return;
-        }
-        
-        await handleRegister(username, email, displayName, password);
-      });
-    }
-    
-    function switchTab(tabName) {
-      // Update tab buttons
-      document.querySelectorAll('.account-tab').forEach(tab => {
-        if (tab.getAttribute('data-tab') === tabName) {
-          tab.classList.add('active');
-        } else {
-          tab.classList.remove('active');
-        }
-      });
-      
-      // Update content
-      document.querySelectorAll('.account-tab-content').forEach(content => {
-        if (content.id === `${tabName}Tab`) {
-          content.classList.add('active');
-        } else {
-          content.classList.remove('active');
-        }
-      });
-      
-      renderCurrentTab();
     }
     
     function toggleCategory(category) {
@@ -1222,11 +1334,19 @@
       }
     }
     
-    // Make functions available globally
-    window.toggleCategory = toggleCategory;
-    window.handleLogout = handleLogout;
+    function closeModal() {
+      document.getElementById('profileModal').classList.remove('active');
+    }
     
-    // Start the app
+    // Make functions globally available
+    window.switchTab = switchTab;
+    window.handleLogout = handleLogout;
+    window.continueAsGuest = continueAsGuest;
+    window.viewPublicProfile = viewPublicProfile;
+    window.closeModal = closeModal;
+    window.toggleCategory = toggleCategory;
+    
+    // Initialize
     initializeApp();
   </script>
 </body>
