@@ -475,23 +475,55 @@ const { data: { session } } = await supabase.auth.getSession();
       }
     }
 
-    async function handleRegister(username, email, displayName, password) {
-      try {
-        const { data, error } = await window.supabase.auth.signUp({
-          email, password,
-          options: { data: { username, display_name: displayName || username } }
-        });
-        if (error) throw error;
-        if (data.user) {
-          await window.supabase.from('profiles').insert({
-            id: data.user.id,
-            username,
-            display_name: displayName || username,
-            email,
-            coins: 300,
-            games_played: 0,
-            achievements_count: 0
-          });
+  async function handleRegister(username, email, displayName, password) {
+  try {
+    // Check localStorage first for duplicate username
+    const localUsers = JSON.parse(localStorage.getItem('fanter_users') || '[]');
+    if (localUsers.find(u => u.username && u.username.toLowerCase() === username.toLowerCase())) {
+      showMessage('registerMessage', '❌ Username already taken!', 'error');
+      return;
+    }
+    
+    // Check Supabase for duplicate username
+    const supabase = window.supabase;
+    if (supabase && supabase.auth) {
+      const { data: existingUser } = await supabase
+        .from('profiles')
+        .select('username')
+        .ilike('username', username)
+        .single();
+      
+      if (existingUser) {
+        showMessage('registerMessage', '❌ Username already taken!', 'error');
+        return;
+      }
+    }
+    
+    // If we get here, username is available
+    const { data, error } = await supabase.auth.signUp({
+      email, password,
+      options: { data: { username, display_name: displayName || username } }
+    });
+    
+    if (error) throw error;
+    
+    if (data.user) {
+      await supabase.from('profiles').insert({
+        id: data.user.id,
+        username: username,
+        display_name: displayName || username,
+        email: email,
+        coins: 300,
+        games_played: 0,
+        achievements_count: 0
+      });
+    }
+    
+    showMessage('registerMessage', '✅ Account created! Check your email.', 'success');
+  } catch (error) {
+    showMessage('registerMessage', error.message, 'error');
+  }
+}
         }
         showMessage('registerMessage', 'Account created! Check your email.', 'success');
       } catch (error) {
