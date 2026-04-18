@@ -119,23 +119,40 @@ document.addEventListener('DOMContentLoaded', function() {
   attachGameCardEvents();
   updateStarDisplays();
 };
-  
-  function updateStarDisplays() {
-    document.querySelectorAll('.game').forEach(function(card) {
-      var gameName = card.getAttribute('data-game-name');
-      if (gameName && typeof userVotes !== 'undefined' && userVotes[gameName]) {
-        var userRating = userVotes[gameName];
-        var stars = card.querySelectorAll('.game-star');
-        for (var i = 0; i < stars.length; i++) {
-          if (i < userRating) {
-            stars[i].classList.add('active');
-          } else {
-            stars[i].classList.remove('active');
-          }
-        }
+function updateStarDisplay(gameName, userRating) {
+  // Update game card stars and rating text
+  var gameCard = document.querySelector('.game[data-game-name="' + CSS.escape(gameName) + '"]');
+  if (gameCard) {
+    var stars = gameCard.querySelectorAll('.game-star');
+    for (var i = 0; i < stars.length; i++) {
+      if (i < userRating) {
+        stars[i].classList.add('active');
+      } else {
+        stars[i].classList.remove('active');
       }
-    });
+    }
+    var ratingText = gameCard.querySelector('.game-rating-text');
+    if (ratingText && globalRatings[gameName]) {
+      ratingText.innerHTML = globalRatings[gameName].average.toFixed(1);
+    }
   }
+  
+  // Update modal stars if open
+  var modalStars = document.querySelectorAll('.modal-star');
+  if (modalStars.length > 0) {
+    for (var i = 0; i < modalStars.length; i++) {
+      if (i < userRating) {
+        modalStars[i].style.color = '#ffcc00';
+      } else {
+        modalStars[i].style.color = 'rgba(255,255,255,0.2)';
+      }
+    }
+    var ratingDiv = document.querySelector('.modal-star')?.parentElement?.parentElement?.nextSibling;
+    if (ratingDiv) {
+      ratingDiv.innerHTML = 'your rating: ' + '★'.repeat(userRating) + '☆'.repeat(5 - userRating);
+    }
+  }
+}
   
   function attachGameCardEvents() {
     document.querySelectorAll('.game-play-btn').forEach(function(btn) {
