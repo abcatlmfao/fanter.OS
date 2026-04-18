@@ -48,43 +48,126 @@
       left: 26px;
     }
 
-    /* ========== PETS BARN STYLES ========== */
-    .pets-barn {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 24px;
-      padding: 25px;
-      margin: 30px auto;
-      max-width: 1000px;
-      border: 1px solid rgba(45, 90, 227, 0.3);
+    /* ========== BARN BUTTON ========== */
+    .barn-btn-container {
+      position: fixed;
+      top: 15px;
+      right: 135px;
+      z-index: 100;
+    }
+    
+    .barn-btn {
+      background: rgba(20, 30, 50, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(45, 90, 227, 0.4);
+      border-radius: 30px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Ubuntu', sans-serif;
+      font-size: 14px;
+      color: white;
+    }
+    
+    .barn-btn:hover {
+      border-color: #ffcc00;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
     }
 
+    /* ========== PETS BARN MODAL ========== */
+    .barn-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 20000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .barn-modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .barn-modal {
+      background: linear-gradient(135deg, #1a1a2e, #0f0f2a);
+      border: 2px solid rgba(45, 90, 227, 0.5);
+      border-radius: 24px;
+      width: 90%;
+      max-width: 900px;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: 25px;
+      position: relative;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+    
+    .barn-modal.show {
+      transform: scale(1);
+    }
+    
+    .barn-modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255,255,255,0.1);
+      border: none;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      font-size: 20px;
+      cursor: pointer;
+      color: white;
+      transition: all 0.2s ease;
+    }
+    
+    .barn-modal-close:hover {
+      background: rgba(255,255,255,0.2);
+      transform: scale(1.1);
+    }
+    
     .barn-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       flex-wrap: wrap;
       gap: 15px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
-
+    
     .barn-title {
-      font-size: 24px;
+      font-size: 28px;
       font-family: 'Orbitron', monospace;
       color: #ffcc00;
     }
-
+    
     .barn-subtitle {
       font-size: 12px;
       color: rgba(255,255,255,0.5);
     }
-
+    
     .pet-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 20px;
       margin-top: 20px;
     }
-
+    
     .pet-card {
       background: rgba(20, 30, 50, 0.6);
       border: 1px solid rgba(45, 90, 227, 0.3);
@@ -94,35 +177,34 @@
       transition: all 0.2s ease;
       cursor: pointer;
     }
-
+    
     .pet-card:hover {
       transform: translateY(-5px);
       border-color: #ffcc00;
       box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
-
+    
     .pet-card.owned {
       border-color: rgba(0, 255, 0, 0.5);
     }
-
+    
     .pet-card.equipped {
       border-color: #ffcc00;
       background: linear-gradient(135deg, rgba(255,204,0,0.1), rgba(255,204,0,0.02));
     }
-
+    
     .pet-avatar {
       font-size: 64px;
       margin-bottom: 15px;
       animation: petIdle 2s ease-in-out infinite;
       display: inline-block;
     }
-
+    
     @keyframes petIdle {
       0%, 100% { transform: translateY(0) rotate(0deg); }
       50% { transform: translateY(-8px) rotate(5deg); }
     }
-
-    /* Different animations for different pets */
+    
     .pet-card[data-pet="dragon"] .pet-avatar {
       animation: dragonFly 3s ease-in-out infinite;
     }
@@ -168,7 +250,7 @@
       0%, 100% { transform: translateX(0); }
       50% { transform: translateX(5px); }
     }
-
+    
     .pet-name {
       font-size: 16px;
       font-weight: bold;
@@ -176,19 +258,19 @@
       margin-bottom: 5px;
       font-family: 'Orbitron', monospace;
     }
-
+    
     .pet-multiplier {
       font-size: 12px;
       color: #ffcc00;
       margin-bottom: 10px;
     }
-
+    
     .pet-desc {
       font-size: 11px;
       color: rgba(255,255,255,0.5);
       margin-bottom: 15px;
     }
-
+    
     .pet-equip-btn {
       background: rgba(45, 90, 227, 0.3);
       border: 1px solid rgba(45, 90, 227, 0.4);
@@ -200,25 +282,25 @@
       transition: all 0.2s ease;
       width: 100%;
     }
-
+    
     .pet-equip-btn:hover {
       background: rgba(45, 90, 227, 0.6);
       border-color: #ffcc00;
       transform: translateY(-2px);
     }
-
+    
     .pet-equip-btn.equipped {
       background: rgba(0, 255, 0, 0.2);
       border-color: #00ff88;
       color: #00ff88;
     }
-
+    
     .pet-equip-btn.owned-btn {
       background: rgba(255, 204, 0, 0.2);
       border-color: #ffcc00;
       color: #ffcc00;
     }
-
+    
     .no-pets-message {
       text-align: center;
       padding: 40px;
@@ -226,7 +308,7 @@
       background: rgba(0,0,0,0.2);
       border-radius: 16px;
     }
-
+    
     .shop-link-barn {
       display: inline-block;
       background: linear-gradient(135deg, #2d5ae3, #1a3a8a);
@@ -240,7 +322,7 @@
       text-decoration: none;
       margin-top: 15px;
     }
-
+    
     .shop-link-barn:hover {
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(45,90,227,0.4);
@@ -367,26 +449,37 @@
     </button>
   </div>
 
+  <!-- Barn Button -->
+  <div class="barn-btn-container">
+    <button class="barn-btn" id="barnBtn" onclick="openBarnModal()">
+      <span class="barn-icon">🐾</span>
+      <span class="barn-text">my pets</span>
+    </button>
+  </div>
+
+  <!-- Barn Modal -->
+  <div id="barnModal" class="barn-modal-overlay">
+    <div class="barn-modal">
+      <button class="barn-modal-close" onclick="closeBarnModal()">✕</button>
+      <div class="barn-header">
+        <div>
+          <span class="barn-title">🐾 MY PETS</span>
+          <div class="barn-subtitle">your loyal companions</div>
+        </div>
+        <button class="shop-link-barn" onclick="window.location.href='shop.html'">🛒 visit shop →</button>
+      </div>
+      <div id="petsGridContainer">
+        <div style="text-align: center; padding: 40px;">loading your pets...</div>
+      </div>
+    </div>
+  </div>
+
   <div class="center">
     <div class="settings-header">
       <h1>settings.</h1>
     </div>
     <p>customization for your experience</p>
     <button class="settings-btn" onclick="window.location.href='index.html'">← back</button>
-  </div>
-
-  <!-- PETS BARN SECTION -->
-  <div class="pets-barn" id="petsBarn">
-    <div class="barn-header">
-      <div>
-        <span class="barn-title">🐾 MY PETS</span>
-        <div class="barn-subtitle">your loyal companions</div>
-      </div>
-      <button class="shop-link-barn" onclick="window.location.href='shop.html'">🛒 visit shop →</button>
-    </div>
-    <div id="petsGridContainer">
-      <div style="text-align: center; padding: 40px;">loading your pets...</div>
-    </div>
   </div>
 
   <!-- Settings Cards Grid -->
@@ -578,7 +671,18 @@
     };
     document.getElementById("themeOverlay")?.addEventListener("click", (e) => { if (e.target.id === "themeOverlay") closeThemeMenu(); });
 
-    // ========== PETS BARN FUNCTIONALITY ==========
+    // ========== BARN MODAL FUNCTIONS ==========
+    function openBarnModal() {
+      const modal = document.getElementById('barnModal');
+      modal.classList.add('show');
+      loadPetsBarn();
+    }
+    
+    function closeBarnModal() {
+      const modal = document.getElementById('barnModal');
+      modal.classList.remove('show');
+    }
+    
     const PETS_DATA = {
       'chinchilla': { name: 'Sir Chinchilla', icon: '🐹', multiplier: 1.0, desc: 'Your loyal guide', color: '#aa88ff' },
       'dragon': { name: 'Baby Dragon', icon: '🐉', multiplier: 1.5, desc: 'Fiery companion', color: '#ff4444' },
@@ -587,16 +691,14 @@
       'owl': { name: 'Wise Owl', icon: '🦉', multiplier: 1.3, desc: 'Ancient knowledge', color: '#aa44ff' },
       'fox': { name: 'Fire Fox', icon: '🦊', multiplier: 1.4, desc: 'Flame-tailed fox', color: '#ff8844' }
     };
-
+    
     function loadPetsBarn() {
       const container = document.getElementById('petsGridContainer');
       if (!container) return;
       
       const userInventory = JSON.parse(localStorage.getItem('fanter_inventory') || '{}');
       const equippedPet = localStorage.getItem('equippedPet');
-      const currentUser = JSON.parse(localStorage.getItem('fanter_currentUser') || 'null');
       
-      // Get owned pets from inventory
       const ownedPets = [];
       for (const [petId, petData] of Object.entries(PETS_DATA)) {
         const inventoryKey = `pet_${petId}`;
@@ -641,20 +743,15 @@
     
     function equipPetFromBarn(petId, multiplier) {
       localStorage.setItem('equippedPet', petId);
-      
-      // Show notification
       const petData = PETS_DATA[petId];
       showToast(`✨ ${petData.name} equipped! ${multiplier}x coin multiplier active`);
-      
-      // Reload the barn to update button states
       loadPetsBarn();
-      
-      // Also update any UI that shows multiplier
       if (typeof updateHeaderCoins === 'function') updateHeaderCoins();
     }
     
-    // Make function global for onclick
     window.equipPetFromBarn = equipPetFromBarn;
+    window.openBarnModal = openBarnModal;
+    window.closeBarnModal = closeBarnModal;
 
     // ========== HELPER FUNCTIONS FOR NEW MENUS ==========
     function openGameMenu() { document.getElementById("gameOverlay").style.display = "flex"; requestAnimationFrame(() => document.getElementById("gameOverlay").classList.add("visible")); }
@@ -711,14 +808,13 @@
     function loadUserTheme(name) { if(name) alert(`Loading "${name}"...`); }
     function openRandomGame() { alert("Random game feature coming soon!"); }
 
-    // Load pets barn when page loads
+    // Load pets barn when modal opens
     document.addEventListener('DOMContentLoaded', function() {
-      loadPetsBarn();
-      
-      // Also reload when storage changes (if pet equipped from shop)
       window.addEventListener('storage', function(e) {
         if (e.key === 'equippedPet' || e.key === 'fanter_inventory') {
-          loadPetsBarn();
+          if (document.getElementById('barnModal').classList.contains('show')) {
+            loadPetsBarn();
+          }
         }
       });
     });
