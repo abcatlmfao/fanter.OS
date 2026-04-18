@@ -361,14 +361,39 @@
     }
 
     async function handleLogout() {
-      if (window.supabase) await window.supabase.auth.signOut();
-      currentUser = null;
-      syncStatus = 'offline';
-      loadLocalData();
-      updateUI();
-      switchTab('profile');
+  // Clear Supabase session if exists
+  if (window.supabase && window.supabase.auth) {
+    try {
+      await window.supabase.auth.signOut();
+    } catch (e) {
+      console.log('Supabase signout error:', e);
     }
-
+  }
+  
+  // Clear local user data
+  currentUser = null;
+  localUser = null;
+  syncStatus = 'offline';
+  localStorage.removeItem('fanter_currentUser');
+  localStorage.removeItem('fanter_achievements');
+  
+  // Create fresh guest user
+  const guestUser = {
+    id: 'guest_' + Date.now(),
+    username: 'Guest',
+    displayName: 'Guest',
+    coins: 300,
+    stats: { gamesPlayed: 0, ratingsGiven: 0, favoritesCount: 0 },
+    favorites: [],
+    playedGames: []
+  };
+  localStorage.setItem('fanter_currentUser', JSON.stringify(guestUser));
+  localUser = guestUser;
+  
+  updateUI();
+  switchTab('profile');
+  console.log('✅ Cleared session - now browsing as Guest');
+}
     function continueWithLocalStorage() {
       loadLocalData();
       updateUI();
