@@ -592,16 +592,27 @@
     }
 
     function updateUI() {
-      const nameEl = document.getElementById('accountName');
-      const user = localUser;
-      if (user) {
-        nameEl.textContent = user.displayName || user.username || 'User';
-        document.querySelectorAll('.account-tab').forEach(t => { if (t.getAttribute('data-tab') === 'login' || t.getAttribute('data-tab') === 'register') t.style.display = 'none'; });
-      } else {
-        nameEl.textContent = 'Guest';
-        document.querySelectorAll('.account-tab').forEach(t => t.style.display = 'block');
+  const nameEl = document.getElementById('accountName');
+  const user = localUser;
+  if (user) {
+    nameEl.textContent = user.displayName || user.username || 'User';
+    // Show login/register tabs for guest, hide for real users
+    document.querySelectorAll('.account-tab').forEach(t => {
+      const tabName = t.getAttribute('data-tab');
+      if (tabName === 'login' || tabName === 'register') {
+        // Only hide if user is NOT a guest
+        if (user.username !== 'Guest') {
+          t.style.display = 'none';
+        } else {
+          t.style.display = 'block';
+        }
       }
-    }
+    });
+  } else {
+    nameEl.textContent = 'Guest';
+    document.querySelectorAll('.account-tab').forEach(t => t.style.display = 'block');
+  }
+}
 
     function showMessage(elId, msg, type) {
       const el = document.getElementById(elId);
