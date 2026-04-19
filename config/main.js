@@ -1013,3 +1013,4 @@ function initAchievementTriggers() {
 initAchievementTriggers();
 window.crashFanter = () => triggerPageCrash();
 console.log('💀 Type "crashFanter()" for a surprise...');
+}
