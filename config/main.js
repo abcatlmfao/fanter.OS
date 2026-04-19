@@ -1,9 +1,130 @@
-// ===== MAIN.JS - CLEAN CARD DESIGN =====
+// ===== MAIN.JS - CLEAN CARD DESIGN WITH CLOUD REVIEWS =====
 
 // Make gamesData global
 window.gamesData = [];
 window.gameEarnings = JSON.parse(localStorage.getItem('gameEarnings') || '{}');
 window.gamePlayCounts = JSON.parse(localStorage.getItem('gamePlayCounts') || '{}');
+
+// ===== REVIEWS BIN CONFIG =====
+const REVIEWS_BIN_ID = "69e4369d856a6821894bd849";
+const REVIEWS_API_KEY = "$2a$10$2cPmKAGNYxPTRLV03OfVruvfhNpW/VHtJSzR.AVNHumZ7etLdT33.";
+var globalReviews = {};
+
+// Load all reviews from bin
+async function loadGlobalReviews() {
+  try {
+    var response = await fetch('https://api.jsonbin.io/v3/b/' + REVIEWS_BIN_ID + '/latest', {
+      headers: { 'X-Master-Key': REVIEWS_API_KEY }
+    });
+    var data = await response.json();
+    if (data.record && data.record.reviews) {
+      globalReviews = data.record.reviews;
+    }
+    console.log('✅ Global reviews loaded');
+  } catch (error) {
+    console.error('Failed to load reviews:', error);
+  }
+}
+
+// Save all reviews to bin
+async function saveGlobalReviews() {
+  try {
+    await fetch('https://api.jsonbin.io/v3/b/' + REVIEWS_BIN_ID, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': REVIEWS_API_KEY
+      },
+      body: JSON.stringify({ reviews: globalReviews })
+    });
+    console.log('✅ Reviews saved to cloud');
+  } catch (error) {
+    console.error('Failed to save reviews:', error);
+  }
+}
+
+// Submit a review
+async function submitGameReview(gameName, username, text, rating) {
+  if (!globalReviews[gameName]) {
+    globalReviews[gameName] = [];
+  }
+  
+  // Check if user already reviewed this game
+  var existingIndex = globalReviews[gameName].findIndex(r => r.username === username);
+  var review = {
+    username: username,
+    text: text,
+    rating: rating,
+    date: new Date().toLocaleDateString(),
+    timestamp: Date.now()
+  };
+  
+  if (existingIndex !== -1) {
+    globalReviews[gameName][existingIndex] = review;
+  } else {
+    globalReviews[gameName].push(review);
+  }
+  
+  await saveGlobalReviews();
+  
+  // Also save locally as backup
+  var localReviews = JSON.parse(localStorage.getItem('gameReviews_' + gameName) || '[]');
+  var localIndex = localReviews.findIndex(r => r.username === username);
+  if (localIndex !== -1) {
+    localReviews[localIndex] = review;
+  } else {
+    localReviews.push(review);
+  }
+  localStorage.setItem('gameReviews_' + gameName, JSON.stringify(localReviews));
+  
+  return review;
+}
+
+// Delete a review
+async function deleteGameReview(gameName, username) {
+  if (!globalReviews[gameName]) return false;
+  
+  globalReviews[gameName] = globalReviews[gameName].filter(r => r.username !== username);
+  await saveGlobalReviews();
+  
+  var localReviews = JSON.parse(localStorage.getItem('gameReviews_' + gameName) || '[]');
+  localReviews = localReviews.filter(r => r.username !== username);
+  localStorage.setItem('gameReviews_' + gameName, JSON.stringify(localReviews));
+  
+  return true;
+}
+
+// Get reviews for a specific game
+function getGameReviews(gameName) {
+  var reviews = [];
+  
+  if (globalReviews[gameName]) {
+    reviews = [...globalReviews[gameName]];
+  }
+  
+  var localReviews = JSON.parse(localStorage.getItem('gameReviews_' + gameName) || '[]');
+  localReviews.forEach(localReview => {
+    if (!reviews.find(r => r.username === localReview.username && r.timestamp === localReview.timestamp)) {
+      reviews.push(localReview);
+    }
+  });
+  
+  reviews.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+  return reviews;
+}
+
+// Toast helper
+function showToast(message) {
+  let toast = document.querySelector('.rating-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.className = 'rating-toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2000);
+}
 
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -117,10 +238,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     attachGameCardEvents();
-    updateStarDisplays(); // FIX: now defined below
+    updateStarDisplays();
   };
 
-  // ===== FIX: updateStarDisplays — was called but never defined =====
   function updateStarDisplays() {
     if (typeof globalRatings === 'undefined' || typeof userVotes === 'undefined') return;
     
@@ -146,7 +266,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Make updateStarDisplays available globally so ratings.js / other scripts can call it too
   window.updateStarDisplays = updateStarDisplays;
 
   function updateStarDisplay(gameName, userRating) {
@@ -375,7 +494,7 @@ function escapeHtml(str) {
   });
 }
 
-// ===== GAME DETAILS MODAL WITH REVIEWS =====
+// ===== GAME DETAILS MODAL WITH CLOUD REVIEWS =====
 function showGameDetailsModal(gameName, gameUrl, gameImage, gameDescription, gameCategory, gameLoadTime, gameDeveloper, gameReleaseDate) {
   var existingModal = document.getElementById('gameModal');
   if (existingModal) existingModal.remove();
@@ -400,9 +519,9 @@ function showGameDetailsModal(gameName, gameUrl, gameImage, gameDescription, gam
   var categoryColor = getCategoryColor(gameCategory);
   var categoryIcon = getCategoryIcon(gameCategory);
   
-  // Get reviews for this game
-  var gameReviews = JSON.parse(localStorage.getItem('gameReviews_' + gameName) || '[]');
+  var gameReviews = getGameReviews(gameName);
   var currentUser = JSON.parse(localStorage.getItem('fanter_currentUser') || 'null');
+  var userHasReviewed = gameReviews.some(r => r.username === currentUser?.username);
   
   var modal = document.createElement('div');
   modal.id = 'gameModal';
@@ -419,13 +538,11 @@ function showGameDetailsModal(gameName, gameUrl, gameImage, gameDescription, gam
         </div>
       </div>
       
-      <!-- Tabs -->
       <div style="display:flex;gap:5px;padding:15px 20px 0 20px;border-bottom:1px solid rgba(255,255,255,0.1);">
         <button class="modal-tab active" data-tab="details" style="background:none;border:none;color:white;padding:10px 20px;cursor:pointer;font-size:14px;border-bottom:2px solid #ffcc00;margin-bottom:-1px;">📋 details</button>
         <button class="modal-tab" data-tab="reviews" style="background:none;border:none;color:rgba(255,255,255,0.5);padding:10px 20px;cursor:pointer;font-size:14px;border-bottom:2px solid transparent;margin-bottom:-1px;">💬 reviews (${gameReviews.length})</button>
       </div>
       
-      <!-- Details Tab Content -->
       <div id="modalTab-details" class="modal-tab-content" style="display:block;">
         <div style="display:flex;flex-wrap:wrap;padding:20px;gap:20px;">
           <div style="width:200px;flex-shrink:0;">
@@ -463,10 +580,8 @@ function showGameDetailsModal(gameName, gameUrl, gameImage, gameDescription, gam
         </div>
       </div>
       
-      <!-- Reviews Tab Content -->
       <div id="modalTab-reviews" class="modal-tab-content" style="display:none;padding:20px;">
-        <!-- Write Review Section -->
-        ${currentUser && currentUser.username !== 'Guest' ? `
+        ${currentUser && currentUser.username !== 'Guest' && !userHasReviewed ? `
           <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:15px;margin-bottom:20px;">
             <div style="font-size:14px;color:white;margin-bottom:10px;">write a review</div>
             <textarea id="reviewText" placeholder="share your thoughts about this game..." style="width:100%;padding:12px;border-radius:10px;border:1px solid rgba(45,90,227,0.4);background:rgba(0,0,0,0.3);color:white;font-size:13px;resize:vertical;min-height:80px;margin-bottom:10px;"></textarea>
@@ -477,20 +592,24 @@ function showGameDetailsModal(gameName, gameUrl, gameImage, gameDescription, gam
               <button id="submitReviewBtn" style="background:linear-gradient(135deg,#2d5ae3,#1a3a8a);border:none;border-radius:20px;padding:8px 20px;color:white;font-size:13px;cursor:pointer;margin-left:auto;">post review</button>
             </div>
           </div>
+        ` : (currentUser && currentUser.username !== 'Guest' ? `
+          <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;text-align:center;margin-bottom:20px;">
+            <p style="color:rgba(255,255,255,0.5);">you've already reviewed this game</p>
+            <button id="deleteReviewBtn" style="background:rgba(220,50,50,0.2);border:1px solid rgba(220,50,50,0.5);border-radius:20px;padding:8px 20px;color:#ff6666;font-size:12px;cursor:pointer;margin-top:10px;">delete my review</button>
+          </div>
         ` : `
           <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;text-align:center;margin-bottom:20px;">
             <p style="color:rgba(255,255,255,0.5);">please log in to write a review</p>
           </div>
-        `}
+        `)}
         
-        <!-- Reviews List -->
         <div id="reviewsList">
           ${gameReviews.length === 0 ? `
             <div style="text-align:center;padding:40px;color:rgba(255,255,255,0.5);">
               <div style="font-size:48px;margin-bottom:10px;">💬</div>
               <div>no reviews yet. be the first!</div>
             </div>
-          ` : gameReviews.slice().reverse().map(review => `
+          ` : gameReviews.map(review => `
             <div style="background:rgba(255,255,255,0.03);border-radius:12px;padding:15px;margin-bottom:10px;border-left:3px solid ${review.rating >= 4 ? '#00ff88' : review.rating >= 2 ? '#ffcc00' : '#ff4444'};">
               <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
                 <div style="width:30px;height:30px;background:linear-gradient(135deg,#2d5ae3,#ffcc00);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:12px;">${review.username[0].toUpperCase()}</div>
@@ -548,23 +667,28 @@ function showGameDetailsModal(gameName, gameUrl, gameImage, gameDescription, gam
   });
   
   // Submit review
-  document.getElementById('submitReviewBtn')?.addEventListener('click', () => {
+  document.getElementById('submitReviewBtn')?.addEventListener('click', async () => {
     const reviewText = document.getElementById('reviewText').value.trim();
     if (!reviewText) { alert('please write something!'); return; }
     if (selectedReviewRating === 0) { alert('please select a rating!'); return; }
     
-    const reviews = JSON.parse(localStorage.getItem('gameReviews_' + gameName) || '[]');
-    reviews.push({
-      username: currentUser.username,
-      text: reviewText,
-      rating: selectedReviewRating,
-      date: new Date().toLocaleDateString()
-    });
-    localStorage.setItem('gameReviews_' + gameName, JSON.stringify(reviews));
+    document.getElementById('submitReviewBtn').textContent = 'posting...';
+    document.getElementById('submitReviewBtn').disabled = true;
     
-    // Refresh modal
+    await submitGameReview(gameName, currentUser.username, reviewText, selectedReviewRating);
+    
     showGameDetailsModal(gameName, gameUrl, gameImage, gameDescription, gameCategory, gameLoadTime, gameDeveloper, gameReleaseDate);
     showToast('✅ Review posted!');
+  });
+  
+  // Delete review
+  document.getElementById('deleteReviewBtn')?.addEventListener('click', async () => {
+    if (!confirm('delete your review?')) return;
+    
+    await deleteGameReview(gameName, currentUser.username);
+    
+    showGameDetailsModal(gameName, gameUrl, gameImage, gameDescription, gameCategory, gameLoadTime, gameDeveloper, gameReleaseDate);
+    showToast('🗑️ Review deleted');
   });
   
   // Play button
@@ -599,19 +723,6 @@ function showGameDetailsModal(gameName, gameUrl, gameImage, gameDescription, gam
   });
 }
 
-// Toast helper
-function showToast(message) {
-  let toast = document.querySelector('.rating-toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.className = 'rating-toast';
-    document.body.appendChild(toast);
-  }
-  toast.textContent = message;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2000);
-}
-
 // ===== GAME RATINGS SYSTEM =====
 const RATINGS_BIN_ID = "69e045ec856a6821893bc134";
 const RATINGS_API_KEY = "$2a$10$2cPmKAGNYxPTRLV03OfVruvfhNpW/VHtJSzR.AVNHumZ7etLdT33.";
@@ -629,7 +740,6 @@ async function loadGlobalRatings() {
       globalRatings = data.record.ratings;
     }
     console.log('✅ Global ratings loaded:', Object.keys(globalRatings).length, 'games rated');
-    // FIX: re-sync stars after ratings load
     if (typeof window.updateStarDisplays === 'function') {
       window.updateStarDisplays();
     }
@@ -706,6 +816,7 @@ function showRatingToast(message) {
 }
 
 loadGlobalRatings();
+loadGlobalReviews();
 
 // ===== ACCOUNT FUNCTIONS =====
 function getCurrentUser() {
@@ -725,7 +836,6 @@ function updateUserInStorage(updatedUser) {
     localStorage.setItem('fanter_users', JSON.stringify(users));
   }
 
-  // FIX: Sync key stats to Supabase so leaderboard stays current
   if (window.supabase && updatedUser.id && !updatedUser.id.startsWith('guest_')) {
     window.supabase.from('profiles').update({
       coins: updatedUser.coins || 0,
