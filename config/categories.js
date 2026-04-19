@@ -345,13 +345,25 @@ function createCategoryBar() {
 }
 
 function init() {
-  console.log('🚀 Initializing categories system...');
-  setTimeout(function() {
-    storeOriginalOrder();
-    createCategoryBar();
-    addCategoryTags();
-    updateGames();
-  }, 1000); // Wait 1 second for gsmes to load
+  console.log('🚀 Categories ready, waiting for games...');
+  // Wait for games to actually be in the DOM
+  var attempts = 0;
+  var checkInterval = setInterval(function() {
+    var container = document.getElementById('gamesContainer');
+    if (container && container.children.length > 0) {
+      clearInterval(checkInterval);
+      console.log('✅ Games found, initializing categories...');
+      storeOriginalOrder();
+      createCategoryBar();
+      addCategoryTags();
+      updateGames();
+    }
+    attempts++;
+    if (attempts > 50) {
+      clearInterval(checkInterval);
+      console.log('⚠️ Categories timed out waiting for games');
+    }
+  }, 200);
 }
 
 if (document.readyState === 'loading') {
