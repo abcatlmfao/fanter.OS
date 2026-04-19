@@ -298,3 +298,20 @@ body.no-animations * { animation: none !important; transition: none !important; 
 .daily-reward { font-size: 48px; color: #ffcc00; margin: 20px 0; }
 .daily-streak { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 15px; }
 .game { opacity: 1 !important; visibility: visible !important; display: block !important; }
+.game, .game *, .game-image-container, .game-image-container img, .game-info, .game-title-row, .game-name, .game-category-tag, .game-stats-row, .game-rating-row, .game-stars, .game-star, .game-rating-text, .game-play-btn {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.game {
+  display: block !important;
+  background: red !important;
+  border: 5px solid yellow !important;
+  min-height: 200px !important;
+}
+
+#gamesContainer {
+  display: grid !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
