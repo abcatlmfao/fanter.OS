@@ -946,9 +946,153 @@ input[type="color"] {
   font-family: 'DM Sans', sans-serif;
   outline: none; margin-top: 3px;
 }
+
+  /* ===== PROFILE CARD REDESIGN (Discord style) ===== */
+.profile-card {
+  width: 380px;
+  padding: 0;
+  overflow: hidden;
+}
+.profile-banner {
+  height: 100px;
+  background: linear-gradient(135deg, #2d5ae3, #9f5ae3);
+  position: relative;
+}
+.profile-avatar-big {
+  position: absolute;
+  bottom: -40px;
+  left: 20px;
+  width: 80px;
+  height: 80px;
+  border: 4px solid var(--surface);
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+.profile-info-section {
+  padding: 50px 20px 20px;
+  text-align: left;
+}
+.profile-name-big {
+  font-family: 'Syne', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+.profile-username {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.profile-bio {
+  font-size: 13px;
+  color: var(--text);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--blue-border);
+}
+.roles-section {
+  margin-bottom: 16px;
+}
+.roles-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.role-tag {
+  display: inline-block;
+  background: rgba(45,90,227,0.2);
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 11px;
+  margin-right: 6px;
+  margin-bottom: 6px;
+}
+.role-tag.owner { background: rgba(255,68,68,0.2); color: #ff8888; border: 1px solid rgba(255,68,68,0.3); }
+.role-tag.mod { background: rgba(255,204,0,0.15); color: var(--gold); border: 1px solid var(--gold-border); }
+.role-tag.admin { background: rgba(45,90,227,0.2); color: var(--blue); border: 1px solid var(--blue-border); }
+
+.profile-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.profile-actions button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 30px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-mod {
+  background: rgba(255,204,0,0.15);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+}
+.btn-mod:hover { background: rgba(255,204,0,0.3); transform: translateY(-2px); }
+.btn-danger {
+  background: rgba(255,68,68,0.15);
+  border: 1px solid rgba(255,68,68,0.3);
+  color: #ff8888;
+}
+.btn-danger:hover { background: rgba(255,68,68,0.3); transform: translateY(-2px); }
+.btn-owner {
+  background: rgba(45,90,227,0.2);
+  border: 1px solid var(--blue-border);
+  color: var(--blue);
+}
+.btn-owner:hover { background: rgba(45,90,227,0.35); transform: translateY(-2px); }
+
+/* ===== TYPING INDICATOR FIX ===== */
+.typing-indicator {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  min-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity var(--t-fast) var(--ease);
+}
+
+/* ===== MOD BADGE IN MESSAGES ===== */
+.mod-badge {
+  background: var(--gold);
+  color: #1a1200;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: 700;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+.owner-badge {
+  background: #ff4444;
+  color: white;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: 700;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+  
 </style>
-</head>
+
 <body>
+
+  
 
 <!-- ===== WELCOME ===== -->
 <div class="welcome-screen" id="welcomeScreen">
@@ -1013,6 +1157,9 @@ input[type="color"] {
       <button class="footer-btn" id="dailyBtn">🎁 daily reward</button>
     </div>
   </div>
+
+ 
+    
 
   <!-- CHAT AREA -->
   <div class="chat-area">
@@ -1082,21 +1229,39 @@ input[type="color"] {
 
 <!-- ===== OVERLAYS ===== -->
 
-<!-- Profile -->
+<!-- Profile Overlay - Discord Style -->
 <div class="overlay" id="profileOverlay">
   <div class="profile-card">
+    <div class="profile-banner"></div>
     <div class="profile-avatar-big" id="profileAvatar">?</div>
-    <div class="profile-name-big" id="profileName">Username</div>
-    <div class="profile-bio" id="profileBio"></div>
-    <div class="profile-stats">
-      <div class="profile-stat"><div class="stat-val" id="profileMessages">0</div><div class="stat-lbl">messages</div></div>
-      <div class="profile-stat"><div class="stat-val" id="profileLevel">1</div><div class="stat-lbl">level</div></div>
-      <div class="profile-stat"><div class="stat-val" id="profileXP">0</div><div class="stat-lbl">xp</div></div>
-    </div>
-    <div class="badges-row" id="profileBadges"></div>
-    <div class="modal-buttons" style="width:100%;">
-      <button class="btn-primary" id="dmFromProfileBtn" style="flex:1;">💬 DM</button>
-      <button class="profile-close-btn" id="closeProfileBtn" style="flex:1;">close</button>
+    <div class="profile-info-section">
+      <div class="profile-name-big" id="profileName">Username</div>
+      <div class="profile-username" id="profileUsername">@username</div>
+      <div class="profile-bio" id="profileBio"></div>
+      
+      <div class="roles-section">
+        <div class="roles-title">ROLES</div>
+        <div id="profileRoles"></div>
+      </div>
+      
+      <div class="profile-stats">
+        <div class="profile-stat"><div class="stat-val" id="profileMessages">0</div><div class="stat-lbl">messages</div></div>
+        <div class="profile-stat"><div class="stat-val" id="profileLevel">1</div><div class="stat-lbl">level</div></div>
+        <div class="profile-stat"><div class="stat-val" id="profileXP">0</div><div class="stat-lbl">xp</div></div>
+      </div>
+      <div class="badges-row" id="profileBadges"></div>
+      
+      <div class="profile-actions" id="profileActions">
+        <button class="btn-primary" id="dmFromProfileBtn">💬 Message</button>
+        <button class="profile-close-btn" id="closeProfileBtn">Close</button>
+      </div>
+      <div class="profile-actions" id="modActions" style="margin-top: 8px; display: none;">
+        <button class="btn-mod" id="modAssignBtn">👑 Make Mod</button>
+        <button class="btn-mod" id="modRevokeBtn">📉 Revoke Mod</button>
+        <button class="btn-danger" id="kickBtn">👢 Kick</button>
+        <button class="btn-danger" id="banBtn">🔨 Ban</button>
+        <button class="btn-owner" id="ownerGiveCoinsBtn">🎁 Reward Coins</button>
+      </div>
     </div>
   </div>
 </div>
@@ -1192,23 +1357,17 @@ input[type="color"] {
 </div>
 
 <script>
-/* ============================================================
-   FANTARENA — FULL FEATURE SCRIPT
-   ============================================================ */
+
 document.addEventListener('DOMContentLoaded', function () {
 
-  // ============================================================
-  // CONFIG — 🔑 PASTE YOUR GIPHY API KEY ON LINE BELOW
-  // ============================================================
+ 
   const GIPHY_API_KEY = 'PmyjdmHi6rRNGecMM9OaNhQ0dnt2mQfg'; // 
 
   const SUPABASE_URL = "https://luxutkabqgitoteosctr.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1eHV0a2FicWdpdG90ZW9zY3RyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjc5NjAsImV4cCI6MjA5MjIwMzk2MH0.7GjvQMZaujg0YFmTBr2wotGWCIUoBWCBplGocMo6TDM";
   const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  // ============================================================
-  // AUTH
-  // ============================================================
+ 
   let currentUser = null;
   try { currentUser = JSON.parse(localStorage.getItem('fanter_currentUser')); } catch (e) {}
   if (!currentUser || !currentUser.id) {
@@ -1243,6 +1402,127 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!userXP[currentUser.id]) userXP[currentUser.id] = 0;
   if (!messageCounts[currentUser.id]) messageCounts[currentUser.id] = 0;
   if (!userBadges[currentUser.id]) userBadges[currentUser.id] = [];
+  // ============================================================
+// MOD/OWNER SYSTEM
+// ============================================================
+const OWNER_USERNAMES = ['abcatlmfao', 'abcatlmfao1'];
+const MODERATORS_KEY = 'fantarena_moderators';
+
+function loadModerators() {
+  return JSON.parse(localStorage.getItem(MODERATORS_KEY) || '[]');
+}
+
+function saveModerators(mods) {
+  localStorage.setItem(MODERATORS_KEY, JSON.stringify(mods));
+}
+
+function isOwner(username) {
+  return OWNER_USERNAMES.includes(username);
+}
+
+function isModerator(username) {
+  const mods = loadModerators();
+  return mods.includes(username);
+}
+
+function hasModPermissions(username) {
+  return isOwner(username) || isModerator(username);
+}
+
+// ============================================================
+// KICK/BAN FUNCTIONS (close tab)
+// ============================================================
+function kickUser(userId, username) {
+  if (!hasModPermissions(currentUser.displayName || currentUser.username)) {
+    toast('❌ You don\'t have permission to kick users.', 'red');
+    return;
+  }
+  // Send a message that user was kicked (they'll see it when they reload)
+  insertMessage(`⚠️ **${username} was kicked from the server.**`);
+  // Store in localStorage to detect on next load
+  const kickedUsers = JSON.parse(localStorage.getItem('kicked_users') || '[]');
+  if (!kickedUsers.includes(userId)) {
+    kickedUsers.push(userId);
+    localStorage.setItem('kicked_users', JSON.stringify(kickedUsers));
+  }
+  toast(`👢 Kicked ${username}`, 'gold');
+}
+
+function banUser(userId, username) {
+  if (!isOwner(currentUser.displayName || currentUser.username)) {
+    toast('❌ Only owners can ban users.', 'red');
+    return;
+  }
+  insertMessage(`🔨 **${username} was permanently banned.**`);
+  const bannedUsers = JSON.parse(localStorage.getItem('banned_users') || '[]');
+  if (!bannedUsers.includes(userId)) {
+    bannedUsers.push(userId);
+    localStorage.setItem('banned_users', JSON.stringify(bannedUsers));
+  }
+  toast(`🔨 Banned ${username}`, 'gold');
+}
+
+function unbanUser(username) {
+  if (!isOwner(currentUser.displayName || currentUser.username)) {
+    toast('❌ Only owners can unban users.', 'red');
+    return;
+  }
+  // Implementation would need user lookup
+  toast(`✅ User unbanned (implement full user lookup)`, 'gold');
+}
+
+// ============================================================
+// ASSIGN/REVOKE MODERATOR
+// ============================================================
+function assignModerator(username) {
+  if (!isOwner(currentUser.displayName || currentUser.username)) {
+    toast('❌ Only owners can assign moderators.', 'red');
+    return;
+  }
+  const mods = loadModerators();
+  if (!mods.includes(username)) {
+    mods.push(username);
+    saveModerators(mods);
+    insertMessage(`👑 **${username} was promoted to Moderator!**`);
+    toast(`✅ ${username} is now a moderator`, 'gold');
+  }
+}
+
+function revokeModerator(username) {
+  if (!isOwner(currentUser.displayName || currentUser.username)) {
+    toast('❌ Only owners can revoke moderators.', 'red');
+    return;
+  }
+  let mods = loadModerators();
+  mods = mods.filter(m => m !== username);
+  saveModerators(mods);
+  insertMessage(`📉 **${username} is no longer a moderator.**`);
+  toast(`✅ ${username} is no longer a moderator`, 'gold');
+}
+
+// ============================================================
+// OWNER GIVE COINS
+// ============================================================
+function ownerGiveCoins(targetUserId, targetUsername, amount) {
+  if (!isOwner(currentUser.displayName || currentUser.username)) {
+    toast('❌ Only owners can give coins as rewards.', 'red');
+    return false;
+  }
+  if (amount <= 0) return false;
+  
+  // Find user in presence and update
+  // For now, use localStorage
+  let users = JSON.parse(localStorage.getItem('fanter_users') || '[]');
+  const userIndex = users.findIndex(u => u.id === targetUserId || u.username === targetUsername);
+  if (userIndex !== -1) {
+    users[userIndex].coins = (users[userIndex].coins || 0) + amount;
+    localStorage.setItem('fanter_users', JSON.stringify(users));
+  }
+  insertMessage(`🎁 **${currentUser.displayName} rewarded ${targetUsername} with ${amount} 🪙!**`);
+  toast(`🎁 Gave ${amount} coins to ${targetUsername}`, 'gold');
+  return true;
+}
+  
 
   // ============================================================
   // UTILITIES
@@ -1695,6 +1975,24 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     toast('Commands: /roll /8ball /flip /trivia /poll Q|A|B /bet [coins] /nick [name]');
+    // Add to handleCommand function:
+if (cmd === 'reward' && parts[1] && parts[2]) {
+  if (!isOwner(currentUser.displayName || currentUser.username)) {
+    toast('❌ Only owners can reward coins.', 'red');
+    return;
+  }
+  const targetName = parts[1];
+  const amount = parseInt(parts[2]);
+  if (isNaN(amount) || amount <= 0) { toast('Usage: /reward @username amount', 'red'); return; }
+  // Find user by username
+  const { data: users } = await sb.from('fanter_presence').select('user_id,username').ilike('username', targetName.replace('@',''));
+  if (users && users.length) {
+    ownerGiveCoins(users[0].user_id, users[0].username, amount);
+  } else {
+    toast('User not found', 'red');
+  }
+  return;
+}
   }
 
   async function insertMessage(text) {
@@ -1784,30 +2082,73 @@ document.addEventListener('DOMContentLoaded', function () {
   // ============================================================
   // PROFILE
   // ============================================================
-  window.showProfile = async function(userId) {
-    profileViewId = userId;
-    try {
-      const { data } = await sb.from('fanter_presence').select('*').eq('user_id', userId).single();
-      const lv = getLevel(userXP[userId]||0);
-      const badges = userBadges[userId]||[];
-      const name = data?.display_name||data?.username||'Unknown';
-      document.getElementById('profileAvatar').textContent = name[0].toUpperCase();
-      document.getElementById('profileName').textContent = name;
-      document.getElementById('profileBio').textContent = data?.bio||'';
-      document.getElementById('profileMessages').textContent = messageCounts[userId]||0;
-      document.getElementById('profileLevel').textContent = lv;
-      document.getElementById('profileXP').textContent = userXP[userId]||0;
-      document.getElementById('profileBadges').innerHTML = badges.length
-        ? badges.map(b=>`<div class="badge">🏆 ${esc(b)}</div>`).join('')
-        : '<div style="font-size:11px;color:var(--muted)">no badges yet</div>';
-      document.getElementById('dmFromProfileBtn').style.display = userId === currentUser.id ? 'none' : '';
-      document.getElementById('dmFromProfileBtn').onclick = () => {
-        closeOverlay('profileOverlay');
-        openDm(userId, name);
+ window.showProfile = async function(userId) {
+  profileViewId = userId;
+  try {
+    const { data } = await sb.from('fanter_presence').select('*').eq('user_id', userId).single();
+    if (!data) return;
+    const lv = getLevel(userXP[userId]||0);
+    const badges = userBadges[userId]||[];
+    const name = data?.display_name||data?.username||'Unknown';
+    const username = data?.username||'unknown';
+    
+    document.getElementById('profileAvatar').textContent = name[0].toUpperCase();
+    document.getElementById('profileName').textContent = name;
+    document.getElementById('profileUsername').textContent = `@${username}`;
+    document.getElementById('profileBio').textContent = data?.bio || 'Just a gamer';
+    document.getElementById('profileMessages').textContent = messageCounts[userId]||0;
+    document.getElementById('profileLevel').textContent = lv;
+    document.getElementById('profileXP').textContent = userXP[userId]||0;
+    document.getElementById('profileBadges').innerHTML = badges.length
+      ? badges.map(b=>`<div class="badge">🏆 ${esc(b)}</div>`).join('')
+      : '<div style="font-size:11px;color:var(--muted)">no badges yet</div>';
+    
+    // Roles display
+    const isTargetOwner = isOwner(username);
+    const isTargetMod = isModerator(username);
+    const isCurrentOwner = isOwner(currentUser.displayName || currentUser.username);
+    const isCurrentMod = hasModPermissions(currentUser.displayName || currentUser.username);
+    
+    let rolesHtml = '';
+    if (isTargetOwner) rolesHtml += '<span class="role-tag owner">👑 Owner</span>';
+    if (isTargetMod) rolesHtml += '<span class="role-tag mod">🛡️ Moderator</span>';
+    if (userId === currentUser.id) rolesHtml += '<span class="role-tag">👤 You</span>';
+    document.getElementById('profileRoles').innerHTML = rolesHtml || '<span class="role-tag">👤 Member</span>';
+    
+    // Mod actions (only show to mods/owners, not on self)
+    const modActions = document.getElementById('modActions');
+    if ((isCurrentMod || isCurrentOwner) && userId !== currentUser.id) {
+      modActions.style.display = 'flex';
+      document.getElementById('modAssignBtn').style.display = isCurrentOwner && !isTargetMod && !isTargetOwner ? 'block' : 'none';
+      document.getElementById('modRevokeBtn').style.display = isCurrentOwner && isTargetMod ? 'block' : 'none';
+      document.getElementById('kickBtn').style.display = isCurrentMod ? 'block' : 'none';
+      document.getElementById('banBtn').style.display = isCurrentOwner ? 'block' : 'none';
+      document.getElementById('ownerGiveCoinsBtn').style.display = isCurrentOwner ? 'block' : 'none';
+      
+      // Bind actions
+      document.getElementById('modAssignBtn').onclick = () => { assignModerator(username); closeOverlay('profileOverlay'); };
+      document.getElementById('modRevokeBtn').onclick = () => { revokeModerator(username); closeOverlay('profileOverlay'); };
+      document.getElementById('kickBtn').onclick = () => { kickUser(userId, name); closeOverlay('profileOverlay'); };
+      document.getElementById('banBtn').onclick = () => { banUser(userId, name); closeOverlay('profileOverlay'); };
+      document.getElementById('ownerGiveCoinsBtn').onclick = () => {
+        let amt = prompt(`How many coins to give to ${name}?`);
+        if (amt && !isNaN(amt)) {
+          ownerGiveCoins(userId, name, parseInt(amt));
+          closeOverlay('profileOverlay');
+        }
       };
-      openOverlay('profileOverlay');
-    } catch (e) { console.error('Profile:', e); }
-  };
+    } else {
+      modActions.style.display = 'none';
+    }
+    
+    document.getElementById('dmFromProfileBtn').style.display = userId === currentUser.id ? 'none' : 'block';
+    document.getElementById('dmFromProfileBtn').onclick = () => {
+      closeOverlay('profileOverlay');
+      openDm(userId, name);
+    };
+    openOverlay('profileOverlay');
+  } catch (e) { console.error('Profile:', e); }
+};
 
   // ============================================================
   // PRESENCE
@@ -1914,6 +2255,60 @@ document.addEventListener('DOMContentLoaded', function () {
       c.innerHTML = groups.map(g=>`
         <div class="sidebar-item"><span>👥</span><span>${esc(g.name)}</span></div>`).join('');
     } catch (e) {}
+    // Add this after loadGroups function
+async function loadGroups() {
+  try {
+    const { data } = await sb.from('fanter_groups').select('*');
+    const groups = (data||[]).filter(g => g.members && g.members.includes(currentUser.id));
+    const c = document.getElementById('groupsList');
+    if (!groups.length) { c.innerHTML = '<div class="hint">no groups yet</div>'; return; }
+    c.innerHTML = groups.map(g=>`
+      <div class="sidebar-item" data-group-id="${g.id}" data-group-name="${esc(g.name)}">
+        <span>👥</span><span>${esc(g.name)}</span>
+      </div>`).join('');
+    
+    // Add click handlers for groups
+    document.querySelectorAll('[data-group-id]').forEach(el => {
+      el.onclick = () => {
+        const groupId = el.dataset.groupId;
+        const groupName = el.dataset.groupName;
+        switchToGroup(groupId, groupName);
+      };
+    });
+  } catch (e) {}
+}
+
+function switchToGroup(groupId, groupName) {
+  currentChannel = null;
+  currentGroupId = groupId;
+  document.getElementById('chatTitle').innerHTML = `👥 ${esc(groupName)}`;
+  // Update active state
+  document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('[data-group-id]').forEach(g => g.classList.remove('active'));
+  const activeGroup = document.querySelector(`[data-group-id="${groupId}"]`);
+  if (activeGroup) activeGroup.classList.add('active');
+  
+  // Load group messages (need to modify loadMessages to handle group_id)
+  loadGroupMessages(groupId);
+}
+
+async function loadGroupMessages(groupId) {
+  // Similar to loadMessages but with group_id filter
+  try {
+    const { data, error } = await sb.from('fanter_chat').select('*')
+      .eq('group_id', groupId)
+      .order('created_at', {ascending:true}).limit(100);
+    if (error) throw error;
+    const c = document.getElementById('messages');
+    if (!data || !data.length) {
+      c.innerHTML = '<div class="msg-empty">✨ no messages in this group yet ✨</div>';
+      return;
+    }
+    c.innerHTML = data.map(renderMessage).join('');
+    c.scrollTop = c.scrollHeight;
+    for (const msg of data) loadReactions(msg.id);
+  } catch (e) { console.error('Load group messages:', e); }
+}
   }
 
   // ============================================================
