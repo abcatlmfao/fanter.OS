@@ -20,7 +20,6 @@
     body.theme-light .server-item:hover { background: rgba(0,0,0,0.05); color: #000; }
     body.theme-light .friend-item .friend-name { color: #1a1a2e; }
     body.theme-light .member-item { color: #333; }
-    body.theme-light .member-item:hover { color: #000; }
     body.theme-light .chat-header { border-bottom-color: rgba(0,0,0,0.1); }
     body.theme-light .message-input-container { border-top-color: rgba(0,0,0,0.1); }
     body.theme-light #messageInput { background: rgba(255,255,255,0.9); color: #1a1a2e; border-color: rgba(0,0,0,0.2); }
@@ -45,6 +44,8 @@
     .feature-item:hover { background: rgba(45,90,227,0.2); border-color: #ffcc00; transform: translateY(-2px); }
     .enter-btn { background: linear-gradient(135deg, #2d5ae3, #1a3a8a); border: none; border-radius: 40px; padding: 18px 40px; color: white; font-size: 18px; font-weight: 700; cursor: pointer; margin-top: 20px; width: 100%; transition: all 0.3s; }
     .enter-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 25px rgba(45,90,227,0.5); }
+    .skip-welcome { background: transparent; border: 1px solid rgba(255,255,255,0.3); color: rgba(255,255,255,0.6); padding: 8px 20px; border-radius: 20px; margin-top: 15px; cursor: pointer; font-size: 12px; }
+    .skip-welcome:hover { border-color: #ffcc00; color: #ffcc00; }
     
     /* MAIN CHAT LAYOUT */
     .fantarena-container { display: none; height: 100vh; width: 100%; }
@@ -58,40 +59,24 @@
     
     /* CHANNELS SECTION */
     .channels-section { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .section-header { padding: 8px 15px; color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .section-header { padding: 8px 15px; color: rgba(255,255,255,0.5); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; align-items: center; }
     .server-item { padding: 10px 15px; margin: 2px 8px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.7); font-size: 14px; transition: all 0.2s; position: relative; }
     .server-item:hover { background: rgba(45,90,227,0.2); color: white; }
     .server-item.active { background: rgba(45,90,227,0.3); color: #ffcc00; }
     .server-item.active::before { content: ''; position: absolute; left: -8px; top: 0; bottom: 0; width: 3px; background: #ffcc00; border-radius: 3px; transition: transform 0.2s ease; }
+    .unread-badge { background: #ff4444; color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; margin-left: auto; animation: pulse 1s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
     
-    /* SLIDING INDICATOR ANIMATION */
-    .channel-indicator { position: absolute; left: -8px; width: 3px; background: #ffcc00; border-radius: 3px; transition: top 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1); pointer-events: none; }
+    /* CHANNEL TOPIC */
+    .channel-topic { padding: 5px 20px 10px; font-size: 11px; color: rgba(255,255,255,0.4); border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 8px; }
+    .channel-topic span { cursor: pointer; }
+    .channel-topic input { background: rgba(0,0,0,0.3); border: 1px solid rgba(45,90,227,0.4); border-radius: 15px; padding: 4px 10px; color: white; font-size: 11px; flex: 1; }
     
-    /* DMs SECTION */
-    .dms-section { border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .friend-item, .dm-item, .group-item { padding: 8px 15px; display: flex; align-items: center; gap: 10px; cursor: pointer; border-radius: 8px; margin: 2px 8px; font-size: 13px; transition: all 0.2s; }
-    .friend-item:hover, .dm-item:hover, .group-item:hover { background: rgba(45,90,227,0.2); transform: translateX(3px); }
-    .friend-avatar, .dm-avatar { width: 32px; height: 32px; background: linear-gradient(135deg, #2d5ae3, #ffcc00); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; overflow: hidden; flex-shrink: 0; }
-    .friend-avatar img, .dm-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .friend-info, .dm-info { flex: 1; min-width: 0; }
-    .friend-name, .dm-name { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .friend-status { font-size: 10px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 4px; }
-    .status-dot { width: 7px; height: 7px; border-radius: 50%; }
-    .status-dot.online { background: #00ff88; box-shadow: 0 0 6px #00ff88; }
-    .status-dot.offline { background: #666; }
-    .mod-badge, .host-badge { background: #ffcc00; color: #1a1a2e; padding: 1px 5px; border-radius: 10px; font-size: 9px; font-weight: 700; margin-left: 5px; }
-    .host-badge { background: #00ff88; }
-    
-    /* GROUPS SECTION */
-    .groups-section { border-bottom: 1px solid rgba(255,255,255,0.05); }
-    
-    /* FANTER FRIENDS SECTION */
-    .friends-section { padding-bottom: 10px; }
-    
-    /* CHAT MAIN AREA */
+    /* CHAT MAIN */
     .chat-main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
     .chat-header { padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
     .chat-header h3 { font-weight: 700; color: #ffcc00; font-size: 16px; }
+    .slow-mode-indicator { font-size: 10px; background: rgba(255,204,0,0.2); padding: 2px 8px; border-radius: 12px; color: #ffcc00; }
     .messages-container { flex: 1; overflow-y: auto; padding: 15px 20px; display: flex; flex-direction: column; gap: 14px; }
     .message { display: flex; align-items: flex-start; gap: 12px; position: relative; animation: fadeInUp 0.2s ease; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -101,10 +86,15 @@
     .message-content { flex: 1; min-width: 0; }
     .message-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
     .message-name { font-weight: 700; cursor: pointer; font-size: 14px; }
-    .message-time { font-size: 10px; color: rgba(255,255,255,0.4); }
+    .message-time { font-size: 10px; color: rgba(255,255,255,0.4); cursor: pointer; }
+    .message-edited { font-size: 9px; color: rgba(255,255,255,0.3); margin-left: 5px; }
     .message-text { word-break: break-word; line-height: 1.4; font-size: 14px; }
     .message-text img { max-width: 200px; max-height: 150px; border-radius: 8px; margin-top: 5px; cursor: pointer; }
-    .message-actions { display: flex; gap: 4px; position: absolute; right: 0; top: -8px; background: rgba(20,30,50,0.98); border: 1px solid rgba(45,90,227,0.3); border-radius: 15px; padding: 3px 6px; opacity: 0; transition: opacity 0.15s; }
+    .message-reactions { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+    .reaction { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 2px 8px; font-size: 12px; cursor: pointer; transition: all 0.1s; display: inline-flex; align-items: center; gap: 4px; }
+    .reaction:hover { background: rgba(255,204,0,0.2); transform: scale(1.05); }
+    .reaction-count { color: rgba(255,255,255,0.6); font-size: 10px; }
+    .message-actions { display: flex; gap: 4px; position: absolute; right: 0; top: -8px; background: rgba(20,30,50,0.98); border: 1px solid rgba(45,90,227,0.3); border-radius: 15px; padding: 3px 6px; opacity: 0; transition: opacity 0.15s; z-index: 10; }
     .message-action-btn { background: none; border: none; color: rgba(255,255,255,0.6); cursor: pointer; font-size: 11px; padding: 2px 5px; border-radius: 4px; }
     .message-action-btn:hover { background: rgba(45,90,227,0.3); color: white; }
     .typing-indicator { padding: 6px 20px; color: rgba(255,255,255,0.4); font-size: 11px; font-style: italic; }
@@ -112,11 +102,12 @@
     /* INPUT AREA */
     .message-input-container { padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.1); }
     .reply-bar { background: rgba(45,90,227,0.2); padding: 6px 12px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+    .draft-indicator { font-size: 10px; color: #ffcc00; margin-left: 10px; }
     .input-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     #messageInput { flex: 1; padding: 12px 16px; border-radius: 25px; border: 1px solid rgba(45,90,227,0.4); background: rgba(0,0,0,0.3); color: white; font-size: 14px; outline: none; transition: all 0.2s; }
     #messageInput:focus { border-color: #ffcc00; box-shadow: 0 0 15px rgba(255,204,0,0.2); }
-    .format-btn, .emoji-btn, .gif-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 8px 12px; color: white; cursor: pointer; font-size: 16px; position: relative; transition: all 0.2s; }
-    .format-btn:hover, .emoji-btn:hover, .gif-btn:hover { background: rgba(45,90,227,0.3); border-color: #ffcc00; transform: scale(1.05); }
+    .format-btn, .emoji-btn, .gif-btn, .image-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 25px; padding: 8px 12px; color: white; cursor: pointer; font-size: 16px; position: relative; transition: all 0.2s; }
+    .format-btn:hover, .emoji-btn:hover, .gif-btn:hover, .image-btn:hover { background: rgba(45,90,227,0.3); border-color: #ffcc00; transform: scale(1.05); }
     .format-menu { position: absolute; bottom: 50px; left: 0; background: rgba(20,30,50,0.98); border: 1px solid rgba(45,90,227,0.4); border-radius: 10px; padding: 8px; display: none; gap: 5px; z-index: 100; }
     .format-menu.show { display: flex; }
     .format-option { padding: 8px 12px; border-radius: 6px; cursor: pointer; font-weight: 600; }
@@ -124,7 +115,7 @@
     .send-btn { background: linear-gradient(135deg, #2d5ae3, #1a3a8a); border: none; border-radius: 25px; padding: 12px 22px; color: white; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.2s; }
     .send-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(45,90,227,0.5); }
     
-    /* EMOJI & GIF PICKERS */
+    /* PICKERS */
     .emoji-picker, .gif-picker { position: absolute; bottom: 70px; left: 20px; background: rgba(20,30,50,0.98); border: 1px solid rgba(45,90,227,0.4); border-radius: 12px; padding: 10px; width: 280px; max-height: 300px; overflow-y: auto; display: none; z-index: 200; flex-wrap: wrap; gap: 8px; }
     .emoji-picker.show, .gif-picker.show { display: flex; }
     .emoji-picker span { font-size: 28px; cursor: pointer; padding: 5px; transition: transform 0.1s; }
@@ -151,7 +142,7 @@
     .modal input, .modal select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(45,90,227,0.4); background: rgba(0,0,0,0.3); color: white; margin-bottom: 12px; }
     .modal-buttons { display: flex; gap: 10px; justify-content: flex-end; }
     
-    /* PROFILE CARD MODAL */
+    /* PROFILE CARD */
     .profile-card-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(20,30,50,0.98); border: 2px solid rgba(255,204,0,0.5); border-radius: 24px; padding: 25px; width: 350px; z-index: 1100; display: none; flex-direction: column; align-items: center; text-align: center; }
     .profile-card-modal.show { display: flex; animation: popIn 0.2s ease; }
     @keyframes popIn { from { transform: translate(-50%, -50%) scale(0.9); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
@@ -164,6 +155,7 @@
     .profile-card-buttons { display: flex; gap: 10px; width: 100%; }
     .profile-card-buttons button { flex: 1; padding: 10px; border-radius: 30px; border: none; cursor: pointer; font-weight: 600; }
     .dm-btn { background: linear-gradient(135deg, #2d5ae3, #1a3a8a); color: white; }
+    .coin-btn { background: rgba(255,204,0,0.2); border: 1px solid #ffcc00; color: #ffcc00; }
     .close-profile-btn { background: rgba(255,255,255,0.1); color: white; }
     
     /* SETTINGS PANEL */
@@ -171,7 +163,10 @@
     .settings-panel.show { display: block; }
     .setting-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
     
-    /* UTILITY */
+    /* DROP ZONE FOR IMAGES */
+    .drag-over { border: 2px dashed #ffcc00; background: rgba(255,204,0,0.1); }
+    
+    /* NOTIFICATION */
     .notification-badge { position: fixed; bottom: 20px; right: 20px; background: #ff4444; color: white; padding: 12px 18px; border-radius: 30px; font-weight: 600; font-size: 14px; cursor: pointer; z-index: 1000; display: none; animation: slideIn 0.3s; }
     @keyframes slideIn { from { transform: translateX(100px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     .add-btn { background: none; border: none; color: #ffcc00; cursor: pointer; font-size: 16px; transition: all 0.2s; }
@@ -186,21 +181,24 @@
     <h1>🏟️ FANTARENA</h1>
     <h2>the official fanter chat</h2>
     <div class="welcome-section">
-      <h3>💬 what is fantarena?</h3>
-      <p>the community hub for all fanter players. chat, find groups, share recs, flex achievements.</p>
-    </div>
-    <div class="welcome-section">
-      <h3>👥 how to get started</h3>
+      <h3>💬 what's new?</h3>
       <div class="feature-grid">
-        <div class="feature-item"><span>👤</span> click avatar to customize</div>
-        <div class="feature-item"><span>➕</span> add friends with + button</div>
-        <div class="feature-item"><span>💬</span> switch channels in sidebar</div>
-        <div class="feature-item"><span>👥</span> create groups - host adds members</div>
-        <div class="feature-item"><span>🎨</span> group hosts can set themes</div>
-        <div class="feature-item"><span>⚙️</span> customize profile & settings</div>
+        <div class="feature-item">❤️ message reactions</div>
+        <div class="feature-item">📝 edit history</div>
+        <div class="feature-item">🖼️ image uploads</div>
+        <div class="feature-item">🔔 desktop notifications</div>
+        <div class="feature-item">🎲 /roll /8ball /flip</div>
+        <div class="feature-item">💰 give coins</div>
+        <div class="feature-item">💾 message drafts</div>
+        <div class="feature-item">📌 channel topics</div>
       </div>
     </div>
+    <div class="welcome-section">
+      <h3>👥 quick start</h3>
+      <p>• click any username to see their profile<br>• react to messages with emojis<br>• drag & drop images to send<br>• use /commands for fun stuff<br>• right-click to copy message link</p>
+    </div>
     <button class="enter-btn" onclick="enterFantarena()">🏟️ enter fantarena</button>
+    <button class="skip-welcome" onclick="forceEnterFantarena()">skip — i've seen this</button>
     <p style="margin-top: 15px; opacity: 0.5; font-size: 12px;">press ESC anytime to see this again</p>
   </div>
 </div>
@@ -220,15 +218,15 @@
     <div class="channels-section">
       <div class="section-header">📡 CHANNELS</div>
       <div style="position: relative;">
-        <div class="server-item active" data-channel="general" data-display="# general"><span>💬</span> general</div>
-        <div class="server-item" data-channel="game-recs" data-display="# game-recs"><span>🎮</span> game recs</div>
-        <div class="server-item" data-channel="lfg" data-display="# looking for group"><span>👥</span> looking for group</div>
-        <div class="server-item" data-channel="flex" data-display="# flex"><span>🏆</span> flex</div>
+        <div class="server-item" data-channel="general" data-display="# general"><span>💬</span> general <span class="unread-badge" style="display:none;">new</span></div>
+        <div class="server-item" data-channel="game-recs" data-display="# game recs"><span>🎮</span> game recs <span class="unread-badge" style="display:none;">new</span></div>
+        <div class="server-item" data-channel="lfg" data-display="# looking for group"><span>👥</span> looking for group <span class="unread-badge" style="display:none;">new</span></div>
+        <div class="server-item" data-channel="flex" data-display="# flex"><span>🏆</span> flex <span class="unread-badge" style="display:none;">new</span></div>
         <div id="channelIndicator" class="channel-indicator" style="top: 6px; height: 38px;"></div>
       </div>
     </div>
     
-    <!-- DIRECT MESSAGES SECTION (non-friend DMs) -->
+    <!-- DIRECT MESSAGES SECTION -->
     <div class="dms-section">
       <div class="section-header">💬 DIRECT MESSAGES</div>
       <div id="dmList"></div>
@@ -236,7 +234,7 @@
     
     <!-- GROUPS SECTION -->
     <div class="groups-section">
-      <div class="section-header" style="display: flex; justify-content: space-between;">
+      <div class="section-header">
         <span>👥 GROUPS</span>
         <button class="add-btn" onclick="showCreateGroupModal()">+</button>
       </div>
@@ -245,7 +243,7 @@
     
     <!-- FANTER FRIENDS SECTION -->
     <div class="friends-section">
-      <div class="section-header" style="display: flex; justify-content: space-between;">
+      <div class="section-header">
         <span>⭐ FANTER FRIENDS</span>
         <button class="add-btn" onclick="showAddFriendModal()">+</button>
       </div>
@@ -263,7 +261,12 @@
   <div class="chat-main">
     <div class="chat-header">
       <h3 id="chatHeaderTitle"># general</h3>
+      <span class="slow-mode-indicator" id="slowModeIndicator" style="display:none;"></span>
       <span id="chatHeaderInfo"></span>
+    </div>
+    <div class="channel-topic" id="channelTopicBar">
+      <span>📌</span>
+      <span id="channelTopicText" onclick="editChannelTopic()">welcome to the general chat!</span>
     </div>
     <div class="messages-container" id="messagesContainer">
       <div style="text-align:center; color:rgba(255,255,255,0.4);">loading messages...</div>
@@ -271,19 +274,22 @@
     <div class="typing-indicator" id="typingIndicator"></div>
     <div class="message-input-container">
       <div class="reply-bar" id="replyBar" style="display:none;"><span id="replyText"></span><button onclick="cancelReply()">✕</button></div>
+      <div class="draft-indicator" id="draftIndicator" style="display:none;">💾 draft saved</div>
       <div class="input-row">
         <div style="position:relative;">
           <button class="format-btn" onclick="toggleFormatMenu()">Aa</button>
           <div class="format-menu" id="formatMenu">
-            <div class="format-option" onclick="applyFormat('**'); toggleFormatMenu();"><b>B</b></div>
-            <div class="format-option" onclick="applyFormat('*'); toggleFormatMenu();"><i>I</i></div>
-            <div class="format-option" onclick="applyFormat('~~'); toggleFormatMenu();"><s>S</s></div>
-            <div class="format-option" onclick="applyFormat('`'); toggleFormatMenu();">&lt;/&gt;</div>
+            <div class="format-option" onclick="applyFormat('**');"><b>B</b></div>
+            <div class="format-option" onclick="applyFormat('*');"><i>I</i></div>
+            <div class="format-option" onclick="applyFormat('~~');"><s>S</s></div>
+            <div class="format-option" onclick="applyFormat('`');">&lt;/&gt;</div>
           </div>
         </div>
         <button class="emoji-btn" onclick="toggleEmojiPicker()">😊</button>
         <button class="gif-btn" onclick="toggleGifPicker()">GIF</button>
-        <input type="text" id="messageInput" placeholder="send a message..." onkeypress="if(event.key==='Enter'){sendMessage();}" oninput="handleTyping()">
+        <button class="image-btn" onclick="document.getElementById('imageUpload').click()">🖼️</button>
+        <input type="file" id="imageUpload" accept="image/*" style="display:none;" onchange="uploadImage(event)">
+        <input type="text" id="messageInput" placeholder="send a message... (try /help)" onkeypress="if(event.key==='Enter'){sendMessage();}" oninput="saveDraft()">
         <button class="send-btn" onclick="sendMessage()">send</button>
       </div>
     </div>
@@ -301,7 +307,7 @@
   </div>
 </div>
 
-<!-- PROFILE CARD MODAL (for clicking other users) -->
+<!-- PROFILE CARD MODAL -->
 <div class="profile-card-modal" id="profileCardModal">
   <div class="profile-card-avatar" id="profileCardAvatar">👤</div>
   <div class="profile-card-name" id="profileCardName">Username</div>
@@ -310,6 +316,7 @@
   <div class="profile-card-bio" id="profileCardBio">Just a gamer</div>
   <div class="profile-card-buttons">
     <button class="dm-btn" id="profileCardDMBtn" onclick="sendDMFromProfile()">💬 message</button>
+    <button class="coin-btn" id="profileCardCoinBtn" onclick="giveCoinsToUser()">💰 give coins</button>
     <button class="close-profile-btn" onclick="closeProfileCard()">close</button>
   </div>
 </div>
@@ -321,12 +328,15 @@
   <div class="setting-item"><span>🎮 custom activity</span><input type="text" id="activityInput" placeholder="🎮 gaming" onchange="setCustomActivity(this.value)"></div>
   <div class="setting-item"><span>📝 bio</span><input type="text" id="bioInput" placeholder="Just a gamer" onchange="setBio(this.value)"></div>
   <div class="setting-item"><span>🖼️ profile picture</span><input type="file" id="profilePicUpload" accept="image/*" onchange="uploadProfilePic(event)"></div>
+  <div class="setting-item"><span>🔔 desktop notifs</span><button class="send-btn" onclick="requestNotificationPermission()" style="padding:5px 10px;">enable</button></div>
   <button class="send-btn" onclick="closeSettings()" style="width:100%; margin-top:15px;">save & close</button>
 </div>
 
 <!-- MODALS -->
 <div class="modal-overlay" id="addFriendModal" onclick="if(event.target===this)closeAddFriendModal()"><div class="modal"><h3>➕ add fanter friend</h3><input type="text" id="friendUsernameInput" placeholder="username"><div class="modal-buttons"><button class="send-btn" onclick="sendFriendRequest()">send</button><button class="send-btn" onclick="closeAddFriendModal()" style="background:rgba(255,255,255,0.1);">cancel</button></div></div></div>
 <div class="modal-overlay" id="createGroupModal"><div class="modal"><h3>👥 create group</h3><input type="text" id="groupNameInput" placeholder="group name"><div class="modal-buttons"><button class="send-btn" onclick="createGroup()">create</button><button class="send-btn" onclick="closeCreateGroupModal()" style="background:rgba(255,255,255,0.1);">cancel</button></div></div></div>
+<div class="modal-overlay" id="topicModal"><div class="modal"><h3>📌 set channel topic</h3><input type="text" id="topicInput" placeholder="new topic"><div class="modal-buttons"><button class="send-btn" onclick="setChannelTopic()">save</button><button class="send-btn" onclick="closeTopicModal()">cancel</button></div></div></div>
+<div class="modal-overlay" id="giveCoinsModal"><div class="modal"><h3>💰 give coins</h3><input type="number" id="coinAmountInput" placeholder="amount" min="1"><div class="modal-buttons"><button class="send-btn" onclick="confirmGiveCoins()">give</button><button class="send-btn" onclick="closeGiveCoinsModal()">cancel</button></div></div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -357,6 +367,11 @@ let profilePic = localStorage.getItem('fanter_profilePic') || null;
 let customActivity = localStorage.getItem('fanter_activity') || '🎮 chilling on fanter';
 let userBio = localStorage.getItem('fanter_bio') || 'Just a gamer';
 let selectedProfileUser = null;
+let unreadChannels = JSON.parse(localStorage.getItem('unreadChannels') || '{}');
+let slowModeSeconds = 0;
+let lastMessageTime = 0;
+let currentDraft = '';
+let channelTopics = JSON.parse(localStorage.getItem('channelTopics') || '{"general":"welcome to the general chat!","game-recs":"share your favorite games here","lfg":"find people to play with","flex":"show off your achievements"}');
 
 if (!currentUser || currentUser.username === 'Guest') {
   alert('please log in on the main site first!');
@@ -369,6 +384,10 @@ function enterFantarena() {
   document.getElementById('fantarenaContainer').classList.add('show');
   localStorage.setItem('fantarena_welcomed', 'true');
   initChat();
+}
+function forceEnterFantarena() {
+  localStorage.setItem('fantarena_welcomed', 'true');
+  enterFantarena();
 }
 function showWelcomeScreen() {
   document.getElementById('welcomeScreen').style.display = 'flex';
@@ -395,8 +414,13 @@ async function initChat() {
   setupRealtime();
   loadMembers();
   updateChannelIndicator();
+  updateChannelTopicDisplay();
+  loadDraft();
   setInterval(loadMembers, 10000);
   setInterval(() => updatePresence('online'), 30000);
+  if (Notification.permission === 'default') {
+    setTimeout(() => { if (confirm('🔔 enable desktop notifications for messages?')) requestNotificationPermission(); }, 3000);
+  }
 }
 
 async function loadUserProfile() {
@@ -465,6 +489,7 @@ document.querySelectorAll('.server-item').forEach(item => {
     item.classList.add('active');
     updateChannelIndicator();
     
+    const oldChannel = currentChannel;
     currentChannel = item.dataset.channel;
     currentDM = null;
     currentGroup = null;
@@ -472,11 +497,86 @@ document.querySelectorAll('.server-item').forEach(item => {
     const displayName = item.dataset.display || `# ${currentChannel}`;
     document.getElementById('chatHeaderTitle').textContent = displayName;
     
+    // Mark as read
+    if (unreadChannels[currentChannel]) {
+      delete unreadChannels[currentChannel];
+      localStorage.setItem('unreadChannels', JSON.stringify(unreadChannels));
+      item.querySelector('.unread-badge').style.display = 'none';
+    }
+    
     messages = [];
     loadMessages();
     setupRealtime();
+    updateChannelTopicDisplay();
+    loadDraft();
   });
 });
+
+// ===== CHANNEL TOPICS =====
+function updateChannelTopicDisplay() {
+  const topic = channelTopics[currentChannel] || 'no topic set';
+  document.getElementById('channelTopicText').textContent = topic;
+}
+function editChannelTopic() {
+  if (!isMod(currentUser.displayName || currentUser.username) && currentUser.username !== 'Guest') {
+    alert('only mods can change channel topics');
+    return;
+  }
+  document.getElementById('topicInput').value = channelTopics[currentChannel] || '';
+  document.getElementById('topicModal').classList.add('show');
+}
+function setChannelTopic() {
+  const newTopic = document.getElementById('topicInput').value.trim();
+  if (newTopic) {
+    channelTopics[currentChannel] = newTopic;
+    localStorage.setItem('channelTopics', JSON.stringify(channelTopics));
+    updateChannelTopicDisplay();
+  }
+  closeTopicModal();
+}
+function closeTopicModal() { document.getElementById('topicModal').classList.remove('show'); }
+
+// ===== DRAFTS =====
+function saveDraft() {
+  const input = document.getElementById('messageInput');
+  const draftKey = currentDM ? `draft_dm_${currentDM}` : currentGroup ? `draft_group_${currentGroup}` : `draft_${currentChannel}`;
+  if (input.value.trim()) {
+    localStorage.setItem(draftKey, input.value);
+    document.getElementById('draftIndicator').style.display = 'block';
+    setTimeout(() => document.getElementById('draftIndicator').style.display = 'none', 2000);
+  } else {
+    localStorage.removeItem(draftKey);
+  }
+}
+function loadDraft() {
+  const draftKey = currentDM ? `draft_dm_${currentDM}` : currentGroup ? `draft_group_${currentGroup}` : `draft_${currentChannel}`;
+  const draft = localStorage.getItem(draftKey);
+  if (draft) {
+    document.getElementById('messageInput').value = draft;
+  }
+}
+
+// ===== NOTIFICATIONS =====
+function requestNotificationPermission() {
+  if (Notification.permission === 'granted') {
+    alert('notifications already enabled!');
+  } else if (Notification.permission !== 'denied') {
+    Notification.requestPermission().then(perm => {
+      if (perm === 'granted') alert('✅ notifications enabled!');
+    });
+  }
+}
+function showNotification(title, body, channel) {
+  if (Notification.permission === 'granted' && !document.hasFocus() && channel !== currentChannel) {
+    new Notification(title, { body: body, icon: 'https://chipikipal800.github.io/fanter.os/favicon.ico' });
+  }
+  if (channel !== currentChannel) {
+    unreadChannels[channel] = true;
+    localStorage.setItem('unreadChannels', JSON.stringify(unreadChannels));
+    const channelItem = document.querySelector(`.server-item[data-channel="${channel}"]`);
+    if (channelItem) channelItem.querySelector('.unread-badge').style.display = 'inline-block';
+  }
+}
 
 // ===== DMs =====
 async function loadDMConversations() {
@@ -503,7 +603,7 @@ function renderDMList() {
       <div class="dm-avatar">👤</div>
       <div class="dm-info">
         <div class="dm-name">${otherId.slice(0,8)}...</div>
-        <div class="friend-status">${conv.last_message?.slice(0,30) || 'start a conversation'}</div>
+        <div class="friend-status">${(conv.last_message || 'start a conversation').slice(0,30)}</div>
       </div>
     </div>`;
   }).join('');
@@ -518,13 +618,46 @@ async function openDM(userId) {
   messages = [];
   await loadMessages();
   setupRealtime();
+  loadDraft();
 }
 
 async function sendDMFromProfile() {
   if (selectedProfileUser) {
+    const userId = selectedProfileUser.user_id;
     closeProfileCard();
-    await openDM(selectedProfileUser.user_id);
+    await openDM(userId);
   }
+}
+
+// ===== GIVE COINS =====
+let giveCoinsTarget = null;
+function giveCoinsToUser() {
+  if (!selectedProfileUser) return;
+  giveCoinsTarget = selectedProfileUser;
+  document.getElementById('coinAmountInput').value = '';
+  document.getElementById('giveCoinsModal').classList.add('show');
+}
+function closeGiveCoinsModal() { document.getElementById('giveCoinsModal').classList.remove('show'); }
+function confirmGiveCoins() {
+  const amount = parseInt(document.getElementById('coinAmountInput').value);
+  if (!amount || amount <= 0) return alert('enter a valid amount');
+  
+  let user = JSON.parse(localStorage.getItem('fanter_currentUser') || 'null');
+  if ((user.coins || 0) < amount) return alert(`❌ you only have ${user.coins || 0} coins!`);
+  
+  user.coins = (user.coins || 0) - amount;
+  localStorage.setItem('fanter_currentUser', JSON.stringify(user));
+  
+  let users = JSON.parse(localStorage.getItem('fanter_users') || '[]');
+  const targetIndex = users.findIndex(u => u.id === giveCoinsTarget.user_id);
+  if (targetIndex !== -1) {
+    users[targetIndex].coins = (users[targetIndex].coins || 0) + amount;
+    localStorage.setItem('fanter_users', JSON.stringify(users));
+  }
+  
+  alert(`✅ gave ${amount} 🪙 to ${giveCoinsTarget.display_name || giveCoinsTarget.username}!`);
+  closeGiveCoinsModal();
+  if (typeof updateHeaderCoins === 'function') updateHeaderCoins();
 }
 
 // ===== GROUPS =====
@@ -557,6 +690,7 @@ async function openGroup(groupId, groupName) {
   messages = [];
   await loadMessages();
   setupRealtime();
+  loadDraft();
 }
 
 async function createGroup() {
@@ -619,7 +753,7 @@ async function sendFriendRequest() {
   } catch (e) { console.error('Friend request error:', e); alert('failed to send request'); }
 }
 
-// ===== MESSAGES (FIXED) =====
+// ===== MESSAGES WITH REACTIONS =====
 async function loadMessages() {
   try {
     let query = supabase.from('fanter_chat').select('*').order('created_at', { ascending: true }).limit(200);
@@ -632,17 +766,10 @@ async function loadMessages() {
       query = query.eq('channel_id', currentChannel);
     }
     const { data, error } = await query;
-    if (error) {
-      console.error('❌ Load messages error:', error);
-      document.getElementById('messagesContainer').innerHTML = `<div style="text-align:center;color:#ff6666;">error loading messages: ${error.message}</div>`;
-      return;
-    }
+    if (error) throw error;
     messages = data || [];
     renderMessages();
-  } catch (e) {
-    console.error('❌ Load messages exception:', e);
-    document.getElementById('messagesContainer').innerHTML = `<div style="text-align:center;color:#ff6666;">connection error - check console</div>`;
-  }
+  } catch (e) { console.error('Load messages error:', e); }
 }
 
 function renderMessages() {
@@ -654,19 +781,26 @@ function renderMessages() {
   }
   container.innerHTML = messages.map(msg => {
     const isMe = msg.user_id === currentUser.id;
-    const isGif = msg.message?.match(/\.(gif|jpg|jpeg|png)/i) || msg.message?.includes('giphy.com');
+    const reactions = msg.reactions ? JSON.parse(msg.reactions) : {};
     const userPic = msg.profile_pic;
-    return `<div class="message">
+    const isEdited = msg.edited;
+    return `<div class="message" data-message-id="${msg.id}" data-channel="${msg.channel_id}">
       <div class="message-avatar" onclick="showProfileCard('${msg.user_id}')">${userPic ? `<img src="${userPic}">` : (msg.username?.[0]?.toUpperCase() || '👤')}</div>
       <div class="message-content">
         <div class="message-header">
           <span class="message-name" style="color:${msg.nameColor || '#ffcc00'}">${msg.username} ${isMod(msg.username) ? '<span class="mod-badge">MOD</span>' : ''}</span>
-          <span class="message-time">${new Date(msg.created_at).toLocaleTimeString()}</span>
+          <span class="message-time" onclick="copyMessageLink('${msg.id}')" title="click to copy link">${new Date(msg.created_at).toLocaleTimeString()}</span>
+          ${isEdited ? '<span class="message-edited">(edited)</span>' : ''}
         </div>
-        <div class="message-text">${isGif ? `<img src="${msg.message}" alt="gif" onclick="window.open('${msg.message}')">` : formatMessage(msg.message)}</div>
+        <div class="message-text">${formatMessage(msg.message)}</div>
+        <div class="message-reactions" id="reactions-${msg.id}">
+          ${Object.entries(reactions).map(([emoji, users]) => `<span class="reaction" onclick="toggleReaction('${msg.id}', '${emoji}')">${emoji}<span class="reaction-count">${users.length}</span></span>`).join('')}
+          <span class="reaction" onclick="showReactionPicker('${msg.id}')">➕</span>
+        </div>
         <div class="message-actions">
-          ${isMe ? `<button class="message-action-btn" onclick="editMessage('${msg.id}', \`${msg.message?.replace(/`/g,'\\`').replace(/'/g,"\\'") || ''}\`)">✏️</button><button class="message-action-btn" onclick="deleteMessage('${msg.id}')">🗑️</button>` : ''}
           <button class="message-action-btn" onclick="replyToMessage('${msg.id}', '${msg.username}')">↩️</button>
+          ${isMe ? `<button class="message-action-btn" onclick="editMessage('${msg.id}', \`${msg.message?.replace(/`/g,'\\`').replace(/'/g,"\\'") || ''}\`)">✏️</button>` : ''}
+          ${isMe ? `<button class="message-action-btn" onclick="deleteMessage('${msg.id}')">🗑️</button>` : ''}
         </div>
       </div>
     </div>`;
@@ -676,16 +810,37 @@ function renderMessages() {
 
 function formatMessage(text) {
   if (!text) return '';
-  return text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
-             .replace(/\*(.*?)\*/g, '<i>$1</i>')
-             .replace(/~~(.*?)~~/g, '<s>$1</s>')
-             .replace(/`(.*?)`/g, '<code>$1</code>');
+  let formatted = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                     .replace(/\*(.*?)\*/g, '<i>$1</i>')
+                     .replace(/~~(.*?)~~/g, '<s>$1</s>')
+                     .replace(/`(.*?)`/g, '<code>$1</code>');
+  if (text.startsWith('http') && (text.match(/\.(jpg|jpeg|png|gif|webp)/i) || text.includes('giphy.com'))) {
+    formatted = `<img src="${text}" alt="image" onclick="window.open('${text}')">`;
+  }
+  return formatted;
 }
 
 async function sendMessage() {
   const input = document.getElementById('messageInput');
   let message = input.value.trim();
   if (!message) return;
+  
+  // Slash commands
+  if (message.startsWith('/')) {
+    handleSlashCommand(message);
+    input.value = '';
+    return;
+  }
+  
+  // Slow mode
+  if (slowModeSeconds > 0 && !currentDM && !currentGroup) {
+    const now = Date.now();
+    if (now - lastMessageTime < slowModeSeconds * 1000) {
+      alert(`slow mode: wait ${slowModeSeconds}s`);
+      return;
+    }
+    lastMessageTime = now;
+  }
   
   const channelId = currentDM ? `dm_${[currentUser.id, currentDM].sort().join('_')}` : currentGroup ? `group_${currentGroup}` : currentChannel;
   
@@ -699,17 +854,12 @@ async function sendMessage() {
       profile_pic: profilePic
     });
     
-    if (error) {
-      console.error('❌ Send error:', error);
-      alert(`Failed to send: ${error.message}`);
-      return;
-    }
+    if (error) throw error;
     
-    console.log('✅ Message sent to', channelId);
     input.value = '';
     cancelReply();
+    localStorage.removeItem(currentDM ? `draft_dm_${currentDM}` : currentGroup ? `draft_group_${currentGroup}` : `draft_${currentChannel}`);
     
-    // Update DM conversation
     if (currentDM) {
       await supabase.from('fanter_dm_conversations').upsert({
         user1_id: [currentUser.id, currentDM].sort()[0],
@@ -719,12 +869,143 @@ async function sendMessage() {
       });
       loadDMConversations();
     }
-  } catch (e) {
-    console.error('❌ Send exception:', e);
-    alert('Connection error - check console');
+  } catch (e) { console.error('Send error:', e); alert('failed to send message'); }
+}
+
+async function toggleReaction(messageId, emoji) {
+  const msg = messages.find(m => m.id == messageId);
+  if (!msg) return;
+  let reactions = msg.reactions ? JSON.parse(msg.reactions) : {};
+  if (!reactions[emoji]) reactions[emoji] = [];
+  const userIdStr = currentUser.id;
+  const index = reactions[emoji].indexOf(userIdStr);
+  if (index === -1) {
+    reactions[emoji].push(userIdStr);
+  } else {
+    reactions[emoji].splice(index, 1);
+    if (reactions[emoji].length === 0) delete reactions[emoji];
+  }
+  await supabase.from('fanter_chat').update({ reactions: JSON.stringify(reactions) }).eq('id', messageId);
+  await loadMessages();
+}
+
+function showReactionPicker(messageId) {
+  const emojis = ['👍','❤️','😂','😮','😢','🔥','💀','🎮','🏆','⭐','👑','💀','👻','🐉'];
+  const picker = document.createElement('div');
+  picker.style.cssText = 'position:fixed;background:rgba(20,30,50,0.98);border:1px solid #ffcc00;border-radius:12px;padding:8px;display:flex;gap:8px;z-index:1000;';
+  emojis.forEach(emoji => {
+    const btn = document.createElement('span');
+    btn.textContent = emoji;
+    btn.style.cssText = 'font-size:24px;cursor:pointer;padding:5px;';
+    btn.onclick = () => { toggleReaction(messageId, emoji); picker.remove(); };
+    picker.appendChild(btn);
+  });
+  document.body.appendChild(picker);
+  picker.style.left = (event.clientX - 100) + 'px';
+  picker.style.top = (event.clientY - 50) + 'px';
+  setTimeout(() => { document.addEventListener('click', () => picker.remove(), { once: true }); }, 100);
+}
+
+function copyMessageLink(messageId) {
+  navigator.clipboard.writeText(`${window.location.href}?msg=${messageId}`);
+  alert('✅ message link copied!');
+}
+
+async function editMessage(msgId, oldText) {
+  const newText = prompt('Edit message:', oldText);
+  if (newText && newText !== oldText) {
+    await supabase.from('fanter_chat').update({ message: newText, edited: true }).eq('id', msgId);
+    await loadMessages();
   }
 }
 
+async function deleteMessage(msgId) {
+  if (confirm('Delete message?')) {
+    await supabase.from('fanter_chat').delete().eq('id', msgId);
+    await loadMessages();
+  }
+}
+
+function replyToMessage(id, username) {
+  replyingTo = { id, username };
+  document.getElementById('replyBar').style.display = 'flex';
+  document.getElementById('replyText').textContent = `Replying to ${username}`;
+  document.getElementById('messageInput').focus();
+}
+
+function cancelReply() {
+  replyingTo = null;
+  document.getElementById('replyBar').style.display = 'none';
+}
+
+// ===== SLASH COMMANDS =====
+function handleSlashCommand(cmd) {
+  const parts = cmd.slice(1).split(' ');
+  const command = parts[0].toLowerCase();
+  const args = parts.slice(1);
+  
+  switch(command) {
+    case 'help':
+      alert('/roll - roll a dice\n/8ball <question> - ask the magic 8ball\n/flip - flip a coin\n/give <@user> <amount> - give coins (coming soon)');
+      break;
+    case 'roll':
+      const roll = Math.floor(Math.random() * 100) + 1;
+      document.getElementById('messageInput').value = `🎲 rolled ${roll}`;
+      sendMessage();
+      break;
+    case '8ball':
+      const responses = ['yes', 'no', 'maybe', 'definitely', 'ask again later', 'absolutely', 'never', 'probably'];
+      const answer = responses[Math.floor(Math.random() * responses.length)];
+      document.getElementById('messageInput').value = `🎱 ${answer}`;
+      sendMessage();
+      break;
+    case 'flip':
+      const flip = Math.random() > 0.5 ? 'heads' : 'tails';
+      document.getElementById('messageInput').value = `🪙 flipped ${flip}`;
+      sendMessage();
+      break;
+    default:
+      alert(`unknown command: /${command}. try /help`);
+  }
+}
+
+// ===== IMAGE UPLOADS =====
+function uploadImage(event) {
+  const file = event.target.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      document.getElementById('messageInput').value = e.target.result;
+      sendMessage();
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+// Setup drag & drop
+const chatMain = document.querySelector('.chat-main');
+chatMain.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  chatMain.classList.add('drag-over');
+});
+chatMain.addEventListener('dragleave', () => {
+  chatMain.classList.remove('drag-over');
+});
+chatMain.addEventListener('drop', (e) => {
+  e.preventDefault();
+  chatMain.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      document.getElementById('messageInput').value = ev.target.result;
+      sendMessage();
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// ===== REALTIME =====
 function setupRealtime() {
   if (channelSubscription) supabase.removeChannel(channelSubscription);
   
@@ -734,7 +1015,9 @@ function setupRealtime() {
     .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fanter_chat', filter: filter }, payload => {
       messages.push(payload.new);
       renderMessages();
+      showNotification(payload.new.username, payload.new.message, payload.new.channel_id);
     })
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'fanter_chat', filter: filter }, () => loadMessages())
     .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'fanter_chat', filter: filter }, () => loadMessages())
     .subscribe();
 }
@@ -801,7 +1084,7 @@ async function loadMembers() {
 }
 
 // ===== EMOJI, GIF, FORMAT =====
-const emojis = ['😀','😂','😊','😍','🥰','😎','🤔','😭','🔥','💀','🎮','🏆','⭐','💬','👑','✨','❤️','💀','👻','🐉','🍕','⚡','🌀','💜'];
+const emojis = ['😀','😂','😊','😍','🥰','😎','🤔','😭','🔥','💀','🎮','🏆','⭐','💬','👑','✨','❤️','💀','👻','🐉','🍕','⚡','🌀','💜','👍','👎','🙌','🎉'];
 document.getElementById('emojiPicker').innerHTML = emojis.map(e => `<span onclick="insertEmoji('${e}')">${e}</span>`).join('');
 function insertEmoji(emoji) { const input = document.getElementById('messageInput'); if (input) input.value += emoji; document.getElementById('emojiPicker')?.classList.remove('show'); }
 function toggleEmojiPicker() { document.getElementById('emojiPicker')?.classList.toggle('show'); document.getElementById('gifPicker')?.classList.remove('show'); }
@@ -827,10 +1110,6 @@ async function searchGifs(query) {
 function sendGif(url) { const input = document.getElementById('messageInput'); if (input) input.value = url; sendMessage(); document.getElementById('gifPicker')?.classList.remove('show'); }
 function toggleGifPicker() { document.getElementById('gifPicker')?.classList.toggle('show'); document.getElementById('emojiPicker')?.classList.remove('show'); searchGifs('trending'); }
 function handleTyping() { if (typingTimeout) clearTimeout(typingTimeout); typingTimeout = setTimeout(() => {}, 2000); }
-async function editMessage(msgId, oldText) { const newText = prompt('Edit message:', oldText); if (newText) { await supabase.from('fanter_chat').update({ message: newText, edited: true }).eq('id', msgId); loadMessages(); } }
-async function deleteMessage(msgId) { if (confirm('Delete message?')) { await supabase.from('fanter_chat').delete().eq('id', msgId); loadMessages(); } }
-function replyToMessage(id, username) { replyingTo = { id, username }; document.getElementById('replyBar').style.display = 'flex'; document.getElementById('replyText').textContent = `Replying to ${username}`; document.getElementById('messageInput')?.focus(); }
-function cancelReply() { replyingTo = null; document.getElementById('replyBar').style.display = 'none'; }
 
 // ===== MODAL FUNCTIONS =====
 function showAddFriendModal() { document.getElementById('addFriendModal').classList.add('show'); }
@@ -840,6 +1119,7 @@ function closeCreateGroupModal() { document.getElementById('createGroupModal').c
 
 // ===== GLOBAL EXPORTS =====
 window.enterFantarena = enterFantarena;
+window.forceEnterFantarena = forceEnterFantarena;
 window.showWelcomeScreen = showWelcomeScreen;
 window.setTheme = setTheme;
 window.sendMessage = sendMessage;
@@ -871,9 +1151,17 @@ window.openDM = openDM;
 window.showProfileCard = showProfileCard;
 window.closeProfileCard = closeProfileCard;
 window.sendDMFromProfile = sendDMFromProfile;
+window.giveCoinsToUser = giveCoinsToUser;
+window.confirmGiveCoins = confirmGiveCoins;
+window.closeGiveCoinsModal = closeGiveCoinsModal;
 window.openOwnProfileModal = openOwnProfileModal;
+window.editChannelTopic = editChannelTopic;
+window.setChannelTopic = setChannelTopic;
+window.closeTopicModal = closeTopicModal;
+window.requestNotificationPermission = requestNotificationPermission;
+window.uploadImage = uploadImage;
 
-console.log('🏟️ Fantarena ULTRA v2 loaded! Features: profile cards, DMs, groups, fixed messaging');
+console.log('🏟️ Fantarena ULTRA v3 loaded! Features: reactions, drafts, topics, notifications, slash commands, give coins, image uploads');
 </script>
 </body>
 </html>
