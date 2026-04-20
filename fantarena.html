@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>fanter | fantarena OMEGA</title>
+<title>fanter | fantarena ULTIMATE</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -11,7 +11,7 @@
 :root{
   --gold:#ffcc00;--gold-dim:rgba(255,204,0,0.15);--gold-border:rgba(255,204,0,0.3);
   --blue:#2d5ae3;--blue-dim:rgba(45,90,227,0.18);--blue-border:rgba(45,90,227,0.32);
-  --purple:#9f5ae3;--green:#00e87a;--red:#ff4466;
+  --purple:#9f5ae3;--green:#00e87a;--red:#ff4466;--orange:#ff8800;
   --bg:#07081a;--surface:rgba(12,16,38,0.98);--surface2:rgba(18,23,52,0.9);
   --text:#dde2ff;--muted:rgba(180,190,255,0.38);
   --sidebar-w:255px;--members-w:215px;
@@ -20,162 +20,190 @@
   --ease-out:cubic-bezier(0.16,1,0.3,1);
   --t-fast:140ms;--t-med:240ms;--t-slow:380ms;
 }
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;transition:background 0.3s}
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(45,90,227,0.25);border-radius:99px}
 
+/* ANIMATIONS */
+@keyframes floatIn{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes msgIn{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes confettiFall{0%{transform:translateY(-100px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(360deg);opacity:0}}
+@keyframes firework{0%{transform:scale(0);opacity:1}100%{transform:scale(15);opacity:0}}
+@keyframes announcementGlow{0%,100%{box-shadow:0 0 20px rgba(255,204,0,0.3)}50%{box-shadow:0 0 60px rgba(255,204,0,0.8)}}
+
 /* WELCOME */
-.welcome-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:var(--bg);transition:opacity var(--t-slow) var(--ease),transform var(--t-slow) var(--ease)}
+.welcome-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:var(--bg);transition:opacity var(--t-slow) var(--ease)}
 .welcome-screen.out{opacity:0;transform:scale(0.96);pointer-events:none}
-.welcome-card{background:var(--surface);border:1.5px solid var(--gold-border);border-radius:28px;padding:46px 42px;text-align:center;max-width:490px;width:92%;animation:wCardIn var(--t-slow) var(--ease-spring) both;box-shadow:0 32px 90px rgba(0,0,0,0.55)}
-@keyframes wCardIn{from{opacity:0;transform:translateY(36px) scale(0.94)}to{opacity:1;transform:translateY(0) scale(1)}}
-.welcome-logo{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:var(--gold);letter-spacing:-1.5px}
+.welcome-card{background:var(--surface);border:1.5px solid var(--gold-border);border-radius:28px;padding:46px 42px;text-align:center;max-width:490px;animation:floatIn var(--t-slow) var(--ease-spring);box-shadow:0 32px 90px rgba(0,0,0,0.55)}
+.welcome-logo{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:var(--gold)}
 .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:30px 0}
 .feature{background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:12px;padding:11px 8px;font-size:12px}
-.enter-btn{width:100%;padding:16px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--blue),#1a3bc0);color:white;font-family:'Syne',sans-serif;font-size:17px;font-weight:700;cursor:pointer;transition:transform var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease)}
-.enter-btn:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(45,90,227,0.52)}
+.enter-btn{width:100%;padding:16px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--blue),#1a3bc0);color:white;font-weight:700;cursor:pointer;transition:transform var(--t-fast) var(--ease)}
+.enter-btn:hover{transform:translateY(-2px)}
 
 /* MAIN CHAT */
-.chat-container{display:flex;height:100vh;position:relative;z-index:1;opacity:0;pointer-events:none;transition:opacity var(--t-slow) var(--ease)}
+.chat-container{display:flex;height:100vh;opacity:0;pointer-events:none;transition:opacity var(--t-slow) var(--ease)}
 .chat-container.active{opacity:1;pointer-events:all}
 
 /* SIDEBAR */
-.sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--blue-border);display:flex;flex-direction:column;overflow:hidden;flex-shrink:0;position:relative}
-.channel-pill{position:absolute;left:0;width:3px;background:linear-gradient(180deg,var(--gold),rgba(255,204,0,0.6));border-radius:0 3px 3px 0;box-shadow:2px 0 12px rgba(255,204,0,0.45);transition:top var(--t-med) var(--ease-out),height var(--t-med) var(--ease-out);z-index:10;opacity:0}
+.sidebar{width:var(--sidebar-w);background:var(--surface);border-right:1px solid var(--blue-border);display:flex;flex-direction:column;overflow:hidden;position:relative}
+.channel-pill{position:absolute;left:0;width:3px;background:linear-gradient(180deg,var(--gold),rgba(255,204,0,0.6));border-radius:0 3px 3px 0;box-shadow:2px 0 12px rgba(255,204,0,0.45);transition:top var(--t-med) var(--ease-out);z-index:10;opacity:0}
 .channel-pill.visible{opacity:1}
-.sidebar-header{padding:18px 16px 14px;font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--gold);border-bottom:1px solid var(--blue-border)}
+.sidebar-header{padding:18px 16px;font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:var(--gold);border-bottom:1px solid var(--blue-border)}
 .sidebar-scroll{flex:1;overflow-y:auto;padding-bottom:8px}
-.section-label{padding:14px 16px 5px;font-size:10px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:space-between}
+.section-label{padding:14px 16px 5px;font-size:10px;font-weight:600;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
 .add-btn{background:none;border:none;color:var(--gold);font-size:18px;cursor:pointer;transition:transform var(--t-fast) var(--ease-spring)}
 .add-btn:hover{transform:scale(1.25) rotate(90deg)}
-.channel{padding:8px 14px;margin:2px 8px;border-radius:10px;cursor:pointer;font-size:13.5px;display:flex;align-items:center;gap:9px;color:var(--muted);transition:all var(--t-fast) var(--ease);position:relative}
+.channel{padding:8px 14px;margin:2px 8px;border-radius:10px;cursor:pointer;font-size:13.5px;display:flex;align-items:center;gap:9px;color:var(--muted);transition:all var(--t-fast) var(--ease)}
 .channel:hover{background:var(--blue-dim);color:var(--text);transform:translateX(3px)}
-.channel.active{background:rgba(45,90,227,0.22);color:var(--gold);font-weight:600}
+.channel.active{background:rgba(45,90,227,0.22);color:var(--gold)}
 .sidebar-item{padding:7px 14px;margin:1px 8px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);transition:all var(--t-fast) var(--ease)}
 .sidebar-item:hover{background:var(--blue-dim);color:var(--text)}
-.mini-avatar{width:26px;height:26px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
-.mini-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.mini-avatar{width:26px;height:26px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;overflow:hidden}
+.mini-avatar img{width:100%;height:100%;object-fit:cover}
 .sidebar-footer{padding:10px;border-top:1px solid var(--blue-border);display:flex;flex-direction:column;gap:5px}
 .footer-btn{width:100%;padding:9px 14px;border-radius:10px;border:none;background:rgba(255,255,255,0.05);color:var(--text);font-size:13px;cursor:pointer;text-align:left;transition:all var(--t-fast) var(--ease)}
 .footer-btn:hover{background:rgba(255,255,255,0.1);transform:translateX(2px)}
 
 /* CHAT AREA */
-.chat-area{flex:1;display:flex;flex-direction:column;min-width:0}
-.chat-header{padding:13px 20px;border-bottom:1px solid var(--blue-border);display:flex;align-items:center;gap:10px;flex-shrink:0;backdrop-filter:blur(10px)}
-.chat-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--text)}
+.chat-area{flex:1;display:flex;flex-direction:column}
+.chat-header{padding:13px 20px;border-bottom:1px solid var(--blue-border);display:flex;align-items:center;gap:10px;backdrop-filter:blur(10px)}
+.chat-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
 .level-badge{background:var(--gold);color:#1a1200;border-radius:8px;padding:2px 9px;font-size:11px;font-weight:700}
 .header-spacer{flex:1}
-.typing-indicator{font-size:11px;color:var(--muted);font-style:italic;min-width:150px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.header-coins{font-size:13px;color:var(--gold);font-weight:600;display:flex;align-items:center;gap:5px}
-.messages{flex:1;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:1px;scroll-behavior:smooth}
-.message{display:flex;gap:11px;padding:7px 10px;border-radius:12px;animation:msgIn var(--t-med) var(--ease-out) both;transition:background var(--t-fast) var(--ease);position:relative}
-@keyframes msgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.typing-indicator{font-size:11px;color:var(--muted);font-style:italic;min-width:150px}
+.header-coins{font-size:13px;color:var(--gold);display:flex;align-items:center;gap:5px}
+.messages{flex:1;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:1px}
+.message{display:flex;gap:11px;padding:7px 10px;border-radius:12px;animation:msgIn var(--t-med) var(--ease-out);transition:background var(--t-fast) var(--ease);position:relative}
 .message:hover{background:rgba(255,255,255,0.03)}
-.message:hover .msg-actions{opacity:1;transform:translateY(0)}
-.msg-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;cursor:pointer;flex-shrink:0;transition:transform var(--t-fast) var(--ease-spring);overflow:hidden}
+.message:hover .msg-actions{opacity:1}
+.msg-avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;cursor:pointer;overflow:hidden;transition:transform var(--t-fast) var(--ease-spring)}
 .msg-avatar img{width:100%;height:100%;object-fit:cover}
 .msg-avatar:hover{transform:scale(1.12)}
-.msg-body{flex:1;min-width:0}
+.msg-body{flex:1}
 .msg-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.msg-name{font-weight:600;font-size:14px;cursor:pointer;transition:opacity var(--t-fast) var(--ease)}
-.msg-name:hover{opacity:0.75}
-.msg-lv{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);border-radius:6px;padding:1px 6px;font-size:10px;font-weight:700}
-.mod-badge{background:var(--gold);color:#1a1200;border-radius:4px;padding:2px 6px;font-size:9px;font-weight:700;margin-left:6px}
-.owner-badge{background:#ff4444;color:white;border-radius:4px;padding:2px 6px;font-size:9px;font-weight:700;margin-left:6px}
+.msg-name{font-weight:600;font-size:14px;cursor:pointer}
+.msg-name[style*="color: #ff4444"]{text-shadow:0 0 5px #ff4444,0 0 10px rgba(255,68,68,0.5)}
+.msg-name[style*="color: #9f5ae3"]{text-shadow:0 0 5px #9f5ae3,0 0 10px rgba(159,90,227,0.5)}
+.msg-name[style*="color: #00e87a"]{text-shadow:0 0 5px #00e87a,0 0 10px rgba(0,232,122,0.5)}
+.msg-lv{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);border-radius:6px;padding:1px 6px;font-size:10px}
+.mod-badge{background:var(--gold);color:#1a1200;border-radius:4px;padding:2px 6px;font-size:9px;margin-left:6px}
+.owner-badge{background:#ff4444;color:white;border-radius:4px;padding:2px 6px;font-size:9px;margin-left:6px}
 .msg-time{font-size:10px;color:var(--muted)}
 .msg-text{margin-top:3px;font-size:14px;line-height:1.55;word-break:break-word}
-.msg-text img{max-width:220px;border-radius:10px;margin-top:6px}
-.msg-actions{position:absolute;right:10px;top:50%;transform:translateY(calc(-50% - 4px));display:flex;gap:3px;opacity:0;transition:opacity var(--t-fast) var(--ease),transform var(--t-fast) var(--ease);background:var(--surface);border:1px solid var(--blue-border);border-radius:10px;padding:3px 5px;box-shadow:0 4px 16px rgba(0,0,0,0.3)}
-.msg-action-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:3px 5px;border-radius:6px;transition:all var(--t-fast) var(--ease);color:var(--muted)}
+.msg-text img{max-width:220px;border-radius:10px}
+.msg-actions{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:flex;gap:3px;opacity:0;transition:opacity var(--t-fast) var(--ease);background:var(--surface);border:1px solid var(--blue-border);border-radius:10px;padding:3px 5px}
+.msg-action-btn{background:none;border:none;cursor:pointer;font-size:14px;padding:3px 5px;border-radius:6px;color:var(--muted);transition:all var(--t-fast) var(--ease)}
 .msg-action-btn:hover{background:var(--blue-dim);transform:scale(1.2)}
 .msg-reactions{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
 .reaction-chip{display:flex;align-items:center;gap:4px;background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:20px;padding:2px 9px;font-size:13px;cursor:pointer;transition:all var(--t-fast) var(--ease)}
 .reaction-chip:hover{background:rgba(45,90,227,0.28);transform:scale(1.08)}
-.reaction-chip.mine{background:rgba(255,204,0,0.12);border-color:var(--gold-border)}
-.reaction-picker{position:absolute;right:10px;top:-40px;background:var(--surface);border:1px solid var(--blue-border);border-radius:12px;padding:5px 8px;display:flex;gap:3px;z-index:50;opacity:0;transform:translateY(6px) scale(0.92);pointer-events:none;transition:all var(--t-fast) var(--ease-spring)}
-.reaction-picker.open{opacity:1;transform:translateY(0) scale(1);pointer-events:all}
-.react-btn{font-size:16px;cursor:pointer;padding:3px 4px;border-radius:6px;transition:all var(--t-fast) var(--ease)}
+.reaction-picker{position:absolute;right:10px;top:-40px;background:var(--surface);border:1px solid var(--blue-border);border-radius:12px;padding:5px 8px;display:flex;gap:3px;z-index:50;opacity:0;transform:translateY(6px);pointer-events:none;transition:all var(--t-fast) var(--ease-spring)}
+.reaction-picker.open{opacity:1;transform:translateY(0);pointer-events:all}
+.react-btn{font-size:16px;cursor:pointer;padding:3px 4px;border-radius:6px}
 .react-btn:hover{background:var(--blue-dim);transform:scale(1.25)}
 
-/* INPUT AREA */
-.input-wrapper{border-top:1px solid var(--blue-border);flex-shrink:0}
+/* INPUT */
+.input-wrapper{border-top:1px solid var(--blue-border)}
 .input-area{display:flex;gap:8px;align-items:center;padding:12px 20px 16px}
 .input-toolbar{display:flex;gap:4px}
 .toolbar-btn{background:none;border:none;cursor:pointer;font-size:18px;padding:6px;border-radius:8px;color:var(--muted);transition:all var(--t-fast) var(--ease)}
 .toolbar-btn:hover{background:var(--blue-dim);color:var(--text);transform:scale(1.15)}
-#messageInput{flex:1;padding:11px 18px;border-radius:50px;border:1.5px solid var(--blue-border);background:rgba(0,0,0,0.22);color:var(--text);font-size:14px;outline:none;transition:border-color var(--t-fast) var(--ease)}
+#messageInput{flex:1;padding:11px 18px;border-radius:50px;border:1.5px solid var(--blue-border);background:rgba(0,0,0,0.22);color:var(--text);font-size:14px;outline:none}
 #messageInput:focus{border-color:var(--gold)}
-.send-btn{padding:11px 22px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--blue),#1a3bc0);color:white;font-size:14px;font-weight:600;cursor:pointer;transition:transform var(--t-fast) var(--ease)}
+.send-btn{padding:11px 22px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--blue),#1a3bc0);color:white;font-weight:600;cursor:pointer;transition:transform var(--t-fast) var(--ease)}
 .send-btn:hover{transform:translateY(-2px)}
 
+/* GIF & EMOJI PICKERS */
+.gif-picker{max-height:0;overflow:hidden;transition:max-height var(--t-slow) var(--ease-out)}
+.gif-picker.open{max-height:260px}
+.gif-picker-inner{padding:10px 20px;border-bottom:1px solid var(--blue-border)}
+.gif-search{width:100%;padding:8px 14px;border-radius:50px;border:1.5px solid var(--blue-border);background:rgba(0,0,0,0.2);color:var(--text);margin-bottom:8px}
+.gif-search:focus{border-color:var(--gold)}
+.gif-grid{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.gif-item{flex-shrink:0;border-radius:8px;overflow:hidden;cursor:pointer;height:90px;transition:transform var(--t-fast) var(--ease-spring)}
+.gif-item:hover{transform:scale(1.06)}
+.gif-item img{height:90px;width:auto}
+.emoji-picker{position:absolute;bottom:70px;left:18px;background:var(--surface);border:1px solid var(--blue-border);border-radius:16px;padding:12px;width:300px;max-height:280px;overflow-y:auto;z-index:100;opacity:0;transform:translateY(10px);pointer-events:none;transition:all var(--t-fast) var(--ease-spring)}
+.emoji-picker.open{opacity:1;transform:translateY(0);pointer-events:all}
+.emoji-search{width:100%;padding:8px;border-radius:8px;border:1px solid var(--blue-border);background:rgba(0,0,0,0.2);color:var(--text);margin-bottom:10px}
+.emoji-grid{display:flex;flex-wrap:wrap;gap:4px;max-height:180px;overflow-y:auto}
+.emoji-btn{width:36px;height:36px;font-size:20px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;transition:all var(--t-fast) var(--ease)}
+.emoji-btn:hover{background:var(--blue-dim);transform:scale(1.2)}
+
 /* MEMBERS SIDEBAR */
-.members-sidebar{width:var(--members-w);background:var(--surface);border-left:1px solid var(--blue-border);padding:16px 12px;overflow-y:auto;flex-shrink:0;display:flex;flex-direction:column}
-.members-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted)}
-.online-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:4px;animation:dotPulse 2.5s ease-in-out infinite}
-@keyframes dotPulse{0%,100%{opacity:1}50%{opacity:0.6}}
+.members-sidebar{width:var(--members-w);background:var(--surface);border-left:1px solid var(--blue-border);padding:16px 12px;overflow-y:auto;display:flex;flex-direction:column}
+.members-header{display:flex;justify-content:space-between;margin-bottom:14px;font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted)}
+.online-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-right:4px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.6}}
 .member{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;cursor:pointer;font-size:13px;transition:all var(--t-fast) var(--ease);color:var(--muted)}
 .member:hover{background:var(--blue-dim);color:var(--text)}
-.member-avatar{width:28px;height:28px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;position:relative;overflow:hidden}
+.member-avatar{width:28px;height:28px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;overflow:hidden;position:relative}
 .member-avatar img{width:100%;height:100%;object-fit:cover}
 .member-status{position:absolute;bottom:-1px;right:-1px;width:9px;height:9px;border-radius:50%;border:2px solid var(--surface)}
 .status-online{background:var(--green)}.status-away{background:var(--gold)}.status-gaming{background:var(--blue)}.status-offline{background:rgba(255,255,255,0.2)}
 .member-info{flex:1;min-width:0}
 .member-name{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.member-activity{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.member-activity{font-size:10px;color:var(--muted)}
 .section-sep{font-size:10px;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);margin:10px 8px 4px}
 
-/* MOD/OWNER PANEL */
-.mod-panel{position:fixed;bottom:20px;right:20px;z-index:1000;transform:translateX(400px);transition:transform var(--t-slow) var(--ease-out)}
+/* MOD PANEL */
+.mod-panel{position:fixed;bottom:20px;right:20px;z-index:1000;transform:translateX(420px);transition:transform var(--t-slow) var(--ease-out)}
 .mod-panel.open{transform:translateX(0)}
 .mod-panel-btn{width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#ffaa00);border:none;cursor:pointer;font-size:24px;box-shadow:0 4px 20px rgba(255,204,0,0.4);transition:all var(--t-fast) var(--ease-spring);margin-left:auto}
-.mod-panel-btn:hover{transform:scale(1.1);box-shadow:0 8px 30px rgba(255,204,0,0.6)}
-.mod-panel-content{background:var(--surface);border:1px solid var(--gold-border);border-radius:20px;width:380px;max-height:70vh;overflow-y:auto;margin-bottom:15px;box-shadow:0 20px 50px rgba(0,0,0,0.5)}
-.mod-panel-header{padding:16px 20px;border-bottom:1px solid var(--blue-border);font-family:'Syne',sans-serif;font-weight:700;color:var(--gold);display:flex;justify-content:space-between;align-items:center}
-.mod-panel-close{background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer;transition:transform var(--t-fast) var(--ease)}
+.mod-panel-btn:hover{transform:scale(1.1)}
+.mod-panel-content{background:var(--surface);border:1px solid var(--gold-border);border-radius:20px;width:400px;max-height:80vh;overflow-y:auto;margin-bottom:15px;box-shadow:0 20px 50px rgba(0,0,0,0.5)}
+.mod-panel-header{padding:16px 20px;border-bottom:1px solid var(--blue-border);font-family:'Syne',sans-serif;font-weight:700;color:var(--gold);display:flex;justify-content:space-between}
+.mod-panel-close{background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer}
 .mod-panel-close:hover{transform:rotate(90deg);color:var(--gold)}
 .mod-section{padding:12px 16px;border-bottom:1px solid var(--blue-border)}
 .mod-section-title{font-size:11px;font-weight:600;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.command-list{display:flex;flex-direction:column;gap:8px}
-.command-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:12px;transition:all var(--t-fast) var(--ease)}
-.command-item:hover{background:var(--blue-dim)}
-.command-text{font-family:monospace;font-size:12px;background:rgba(0,0,0,0.3);padding:4px 8px;border-radius:6px;color:var(--gold)}
-.command-desc{flex:1;font-size:12px;color:var(--text)}
-.command-copy{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:4px 8px;border-radius:6px;transition:all var(--t-fast) var(--ease)}
-.command-copy:hover{background:var(--blue-dim);color:var(--gold);transform:scale(1.1)}
-.mod-input{width:100%;padding:10px;border-radius:10px;border:1px solid var(--blue-border);background:rgba(0,0,0,0.3);color:var(--text);margin-bottom:10px}
-.mod-select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--blue-border);background:rgba(0,0,0,0.3);color:var(--text)}
-.mod-row{display:flex;gap:10px;margin-bottom:10px}
-.mod-row button{flex:1;padding:8px;border-radius:10px;border:none;cursor:pointer;font-weight:600}
-.btn-mod-action{background:rgba(255,204,0,0.15);color:var(--gold);border:1px solid var(--gold-border)}
+.mod-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.mod-input{flex:1;padding:8px 12px;border-radius:10px;border:1px solid var(--blue-border);background:rgba(0,0,0,0.3);color:var(--text)}
+.mod-select{flex:1;padding:8px 12px;border-radius:10px;border:1px solid var(--blue-border);background:rgba(0,0,0,0.3);color:var(--text)}
+.mod-select option{background:var(--surface)}
+.btn-mod-action{background:rgba(255,204,0,0.15);color:var(--gold);border:1px solid var(--gold-border);padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
 .btn-mod-action:hover{background:rgba(255,204,0,0.3)}
-.btn-danger-action{background:rgba(255,68,68,0.15);color:var(--red);border:1px solid rgba(255,68,68,0.3)}
+.btn-danger-action{background:rgba(255,68,68,0.15);color:var(--red);border:1px solid rgba(255,68,68,0.3);padding:8px 12px;border-radius:10px;cursor:pointer}
 .btn-danger-action:hover{background:rgba(255,68,68,0.3)}
+.command-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:12px;margin-bottom:6px}
+.command-text{font-family:monospace;font-size:11px;background:rgba(0,0,0,0.3);padding:4px 8px;border-radius:6px;color:var(--gold)}
+.command-desc{flex:1;font-size:12px}
+.command-copy{background:none;border:none;color:var(--muted);cursor:pointer;padding:4px 8px;border-radius:6px}
+.command-copy:hover{background:var(--blue-dim);color:var(--gold)}
 
-/* PROFILE CARD - DISCORD STYLE */
+/* ANNOUNCEMENT OVERLAY */
+.announcement-overlay{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.9);background:linear-gradient(135deg,var(--surface),rgba(20,30,50,0.98));border:2px solid var(--gold);border-radius:30px;padding:40px 60px;text-align:center;z-index:20000;opacity:0;pointer-events:none;transition:all 0.3s var(--ease-spring);max-width:90vw}
+.announcement-overlay.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:all;animation:announcementGlow 2s infinite}
+.announcement-title{font-size:28px;font-weight:800;color:var(--gold);margin-bottom:15px}
+.announcement-message{font-size:18px;color:var(--text);margin-bottom:20px}
+.announcement-close{background:var(--gold);border:none;border-radius:30px;padding:8px 25px;color:#1a1200;font-weight:700;cursor:pointer}
+
+/* PROFILE CARD */
 .profile-card{width:380px;padding:0;overflow:hidden}
 .profile-banner{height:100px;background:linear-gradient(135deg,var(--blue),var(--purple));position:relative}
-.profile-avatar-big{position:absolute;bottom:-40px;left:20px;width:80px;height:80px;border:4px solid var(--surface);background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,0.3);overflow:hidden;cursor:pointer}
+.profile-avatar-big{position:absolute;bottom:-40px;left:20px;width:80px;height:80px;border:4px solid var(--surface);background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:700;overflow:hidden;cursor:pointer}
 .profile-avatar-big img{width:100%;height:100%;object-fit:cover}
-.profile-avatar-big:hover{opacity:0.9}
-.profile-info-section{padding:50px 20px 20px;text-align:left}
-.profile-name-big{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--gold);margin-bottom:4px}
+.profile-info-section{padding:50px 20px 20px}
+.profile-name-big{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--gold)}
 .profile-username{font-size:13px;color:var(--muted);margin-bottom:12px}
-.profile-bio{font-size:13px;color:var(--text);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--blue-border)}
+.profile-bio{font-size:13px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--blue-border)}
 .roles-section{margin-bottom:16px}
 .roles-title{font-size:11px;font-weight:600;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .role-tag{display:inline-block;background:rgba(45,90,227,0.2);border-radius:12px;padding:4px 10px;font-size:11px;margin-right:6px;margin-bottom:6px}
-.role-tag.owner{background:rgba(255,68,68,0.2);color:#ff8888;border:1px solid rgba(255,68,68,0.3)}
-.role-tag.mod{background:rgba(255,204,0,0.15);color:var(--gold);border:1px solid var(--gold-border)}
+.role-tag.owner{background:rgba(255,68,68,0.2);color:#ff8888}
+.role-tag.mod{background:rgba(255,204,0,0.15);color:var(--gold)}
 .profile-stats{display:flex;gap:20px;margin-bottom:16px}
 .profile-stat{text-align:center}
 .stat-val{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--gold)}
-.stat-lbl{font-size:10px;color:var(--muted);margin-top:2px}
+.stat-lbl{font-size:10px;color:var(--muted)}
 .badges-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
 .badge{background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:20px;padding:4px 10px;font-size:11px}
 .profile-actions{display:flex;gap:10px;margin-top:10px}
-.profile-actions button{flex:1;padding:8px;border-radius:30px;border:none;font-weight:600;cursor:pointer;transition:all var(--t-fast) var(--ease)}
-.profile-actions button:hover{transform:translateY(-2px)}
+.profile-actions button{flex:1;padding:8px;border-radius:30px;border:none;font-weight:600;cursor:pointer}
 .btn-primary{background:linear-gradient(135deg,var(--blue),#1a3bc0);color:white}
 .btn-mod{background:rgba(255,204,0,0.15);border:1px solid var(--gold-border);color:var(--gold)}
 .btn-danger{background:rgba(255,68,68,0.15);border:1px solid rgba(255,68,68,0.3);color:#ff8888}
@@ -184,46 +212,22 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 /* OVERLAYS */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity var(--t-med) var(--ease);backdrop-filter:blur(6px)}
 .overlay.active{opacity:1;pointer-events:all}
-.overlay.active .modal-card,.overlay.active .profile-card{transform:translateY(0) scale(1);opacity:1}
-.modal-card,.profile-card{transform:translateY(24px) scale(0.96);opacity:0;transition:transform var(--t-med) var(--ease-spring),opacity var(--t-med) var(--ease)}
-.modal-card{background:var(--surface);border:1px solid var(--blue-border);border-radius:22px;padding:26px 24px;min-width:310px;max-width:400px;width:92%;box-shadow:0 28px 80px rgba(0,0,0,0.55)}
+.overlay.active .modal-card,.overlay.active .profile-card{transform:translateY(0) scale(1)}
+.modal-card{background:var(--surface);border:1px solid var(--blue-border);border-radius:22px;padding:26px 24px;min-width:310px;max-width:400px;transform:translateY(24px) scale(0.96);transition:transform var(--t-med) var(--ease-spring);box-shadow:0 28px 80px rgba(0,0,0,0.55)}
 .modal-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--gold);margin-bottom:18px}
-.modal-input{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--blue-border);background:rgba(0,0,0,0.22);color:var(--text);font-size:14px;outline:none;margin-bottom:12px}
-.modal-input:focus{border-color:var(--blue)}
-.modal-buttons{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+.modal-input{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--blue-border);background:rgba(0,0,0,0.22);color:var(--text);margin-bottom:12px}
+.modal-buttons{display:flex;gap:8px;justify-content:flex-end}
 .btn-cancel{padding:9px 18px;border-radius:50px;border:1px solid var(--blue-border);background:transparent;color:var(--muted);cursor:pointer}
-.btn-cancel:hover{background:rgba(255,255,255,0.06);color:var(--text)}
-
-/* GIF PICKER */
-.gif-picker{max-height:0;overflow:hidden;transition:max-height var(--t-slow) var(--ease-out)}
-.gif-picker.open{max-height:220px}
-.gif-picker-inner{padding:10px 20px;border-bottom:1px solid var(--blue-border)}
-.gif-search{width:100%;padding:8px 14px;border-radius:50px;border:1.5px solid var(--blue-border);background:rgba(0,0,0,0.2);color:var(--text);font-size:13px;outline:none;margin-bottom:8px}
-.gif-search:focus{border-color:var(--gold)}
-.gif-grid{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
-.gif-item{flex-shrink:0;border-radius:8px;overflow:hidden;cursor:pointer;height:90px;transition:transform var(--t-fast) var(--ease-spring)}
-.gif-item:hover{transform:scale(1.06)}
-.gif-item img{height:90px;width:auto;display:block;object-fit:cover}
-
-/* EMOJI PICKER */
-.emoji-picker{position:absolute;bottom:70px;left:18px;background:var(--surface);border:1px solid var(--blue-border);border-radius:16px;padding:12px;display:flex;flex-wrap:wrap;gap:4px;width:230px;max-height:180px;overflow-y:auto;z-index:100;opacity:0;transform:translateY(10px) scale(0.95);pointer-events:none;transition:all var(--t-fast) var(--ease-spring)}
-.emoji-picker.open{opacity:1;transform:translateY(0) scale(1);pointer-events:all}
-.emoji-btn{width:32px;height:32px;font-size:18px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;transition:all var(--t-fast) var(--ease)}
-.emoji-btn:hover{background:var(--blue-dim);transform:scale(1.2)}
-
-/* TOAST */
-#toastContainer{position:fixed;bottom:22px;right:22px;z-index:20000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.toast{background:var(--surface);border:1px solid var(--blue-border);border-radius:12px;padding:12px 18px;font-size:13px;font-weight:500;color:var(--text);box-shadow:0 10px 34px rgba(0,0,0,0.45);animation:toastIn var(--t-med) var(--ease-spring) both;display:flex;align-items:center;gap:8px}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--surface);border:1px solid var(--blue-border);border-radius:12px;padding:12px 18px;font-size:13px;animation:toastIn var(--t-med) var(--ease-spring);z-index:20000;display:flex;align-items:center;gap:8px}
 .toast.gold{border-color:var(--gold-border)}
-@keyframes toastIn{from{opacity:0;transform:translateX(40px) scale(0.9)}to{opacity:1;transform:translateX(0) scale(1)}}
 </style>
 </head>
 <body>
 
-<!-- WELCOME SCREEN -->
+<!-- WELCOME -->
 <div class="welcome-screen" id="welcomeScreen">
   <div class="welcome-card">
-    <div class="welcome-logo">🏟️ FANTARENA OMEGA</div>
+    <div class="welcome-logo">🏟️ FANTARENA ULTIMATE</div>
     <div class="feature-grid">
       <div class="feature">💬 real-time chat</div><div class="feature">🏆 leveling & XP</div>
       <div class="feature">🎲 /roll /8ball</div><div class="feature">😂 GIF picker</div>
@@ -246,10 +250,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
       <div class="channel" data-channel="game-recs">🎮 game recs</div>
       <div class="channel" data-channel="lfg">👥 friending</div>
       <div class="channel" data-channel="flex">🏆 flex</div>
-      <div class="section-label">👥 GROUPS</div>
-      <div id="groupsList"><div class="hint" style="padding:8px 16px;color:var(--muted)">loading...</div></div>
-      <div class="section-label">⭐ FRIENDS</div>
-      <div id="friendsList"><div class="hint" style="padding:8px 16px;color:var(--muted)">loading...</div></div>
+      <div class="section-label"><span>👥 GROUPS</span><button class="add-btn" id="createGroupBtn">+</button></div>
+      <div id="groupsList"><div class="hint" style="padding:8px 16px;color:var(--muted)">no groups yet</div></div>
+      <div class="section-label"><span>⭐ FRIENDS</span><button class="add-btn" id="addFriendBtn">+</button></div>
+      <div id="friendsList"><div class="hint" style="padding:8px 16px;color:var(--muted)">no friends yet</div></div>
     </div>
     <div class="sidebar-footer">
       <button class="footer-btn" id="shopBtn">🏪 coin shop</button>
@@ -266,12 +270,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
       <div class="typing-indicator" id="typingIndicator"></div>
       <div class="header-coins">🪙 <span id="coinCount">0</span></div>
     </div>
-    <div class="messages" id="messages"><div class="msg-empty">✨ welcome! send a message ✨</div></div>
+    <div class="messages" id="messages"><div class="msg-empty" style="text-align:center;padding:40px">✨ welcome! send a message ✨</div></div>
     <div class="input-wrapper">
       <div class="input-area">
         <div class="input-toolbar">
-          <button class="toolbar-btn" id="gifBtn" title="GIF">🎬</button>
-          <button class="toolbar-btn" id="emojiBtn" title="Emoji">😊</button>
+          <button class="toolbar-btn" id="gifBtn">🎬</button>
+          <button class="toolbar-btn" id="emojiBtn">😊</button>
         </div>
         <input type="text" id="messageInput" placeholder="Message #general... (/help for commands)">
         <button class="send-btn" id="sendBtn">send ↑</button>
@@ -282,7 +286,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
           <div class="gif-grid" id="gifGrid"></div>
         </div>
       </div>
-      <div class="emoji-picker" id="emojiPicker"></div>
+      <div class="emoji-picker" id="emojiPicker">
+        <input type="text" class="emoji-search" id="emojiSearch" placeholder="🔍 search emojis...">
+        <div class="emoji-grid" id="emojiGrid"></div>
+      </div>
     </div>
   </div>
 
@@ -293,31 +300,33 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
       <div class="section-sep">🏆 TOP XP</div>
       <div id="leaderboardList"></div>
     </div>
-    <div class="edit-profile-btn" style="margin-top:auto;padding-top:16px">
+    <div style="margin-top:auto;padding-top:16px">
       <button id="editProfileBtn" class="footer-btn" style="width:100%">✏️ edit profile</button>
     </div>
   </div>
 </div>
 
-<!-- MOD/OWNER PANEL -->
+<!-- MOD PANEL -->
 <div class="mod-panel" id="modPanel">
   <div class="mod-panel-content">
     <div class="mod-panel-header">
       <span>🛡️ MOD CONTROL PANEL</span>
       <button class="mod-panel-close" id="modPanelClose">✕</button>
     </div>
-    <div class="mod-section">
-      <div class="mod-section-title">📋 ALL COMMANDS</div>
-      <div class="command-list" id="commandList"></div>
-    </div>
     <div class="mod-section" id="ownerOnlySection" style="display:none">
       <div class="mod-section-title">👑 OWNER CONTROLS</div>
       <div class="mod-row">
-        <input type="text" id="ownerBgColor" class="mod-input" placeholder="Background color (hex or gradient)">
-        <button class="btn-mod-action" id="applyBgBtn">Apply BG</button>
+        <select id="bgPresetSelect" class="mod-select">
+          <option value="default">🌙 Default Dark</option>
+          <option value="ocean">🌊 Ocean Blue</option>
+          <option value="sunset">🌅 Sunset</option>
+          <option value="forest">🌲 Forest Green</option>
+          <option value="cyberpunk">💜 Cyberpunk</option>
+        </select>
+        <button class="btn-mod-action" id="applyBgPresetBtn">Apply BG</button>
       </div>
       <div class="mod-row">
-        <select id="globalEventSelect" class="mod-select">
+        <select id="eventSelect" class="mod-select">
           <option value="confetti">🎉 Confetti</option>
           <option value="fireworks">🎆 Fireworks</option>
           <option value="announcement">📢 Announcement</option>
@@ -325,33 +334,54 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
         <button class="btn-mod-action" id="triggerEventBtn">Trigger Event</button>
       </div>
       <div class="mod-row">
-        <input type="number" id="globalSlowModeSec" class="mod-input" placeholder="Slow mode (seconds)" value="0">
-        <button class="btn-mod-action" id="applyGlobalSlowMode">Set Slow Mode</button>
+        <select id="targetUserSelect" class="mod-select"></select>
+        <button class="btn-mod-action" id="giveCoinsBtn">🎁 Give Coins</button>
       </div>
       <div class="mod-row">
-        <input type="text" id="rewardUsername" class="mod-input" placeholder="@username">
-        <input type="number" id="rewardAmount" class="mod-input" placeholder="coins" value="100">
-        <button class="btn-mod-action" id="giveRewardBtn">🎁 Give Coins</button>
+        <select id="xpTargetSelect" class="mod-select"></select>
+        <input type="number" id="xpAmount" placeholder="XP amount" class="mod-input" style="width:80px">
+        <button class="btn-mod-action" id="giveXPBtn">⚡ Give XP</button>
+      </div>
+      <div class="mod-row">
+        <select id="levelTargetSelect" class="mod-select"></select>
+        <input type="number" id="levelAmount" placeholder="Level" class="mod-input" style="width:80px">
+        <button class="btn-mod-action" id="setLevelBtn">📈 Set Level</button>
+      </div>
+      <div class="mod-row">
+        <input type="number" id="globalSlowModeSec" placeholder="Slow mode (seconds)" class="mod-input">
+        <button class="btn-mod-action" id="applySlowModeBtn">Set Slow Mode</button>
       </div>
       <div class="mod-row">
         <button class="btn-mod-action" id="viewLogsBtn">📜 View Mod Logs</button>
+        <button class="btn-danger-action" id="resetBgBtn">↺ Reset BG</button>
       </div>
     </div>
     <div class="mod-section">
       <div class="mod-section-title">⚡ QUICK ACTIONS</div>
       <div class="mod-row">
-        <input type="text" id="quickUserInput" class="mod-input" placeholder="@username">
+        <select id="quickUserSelect" class="mod-select"></select>
         <button class="btn-danger-action" id="quickKickBtn">👢 Kick</button>
         <button class="btn-danger-action" id="quickBanBtn">🔨 Ban</button>
       </div>
       <div class="mod-row">
-        <input type="text" id="modUserInput" class="mod-input" placeholder="@username">
+        <select id="modUserSelect" class="mod-select"></select>
         <button class="btn-mod-action" id="makeModBtn">👑 Make Mod</button>
         <button class="btn-mod-action" id="revokeModBtn">📉 Revoke Mod</button>
       </div>
     </div>
+    <div class="mod-section">
+      <div class="mod-section-title">📋 ALL COMMANDS</div>
+      <div id="commandList"></div>
+    </div>
   </div>
   <button class="mod-panel-btn" id="modPanelBtn">🛡️</button>
+</div>
+
+<!-- ANNOUNCEMENT OVERLAY -->
+<div class="announcement-overlay" id="announcementOverlay">
+  <div class="announcement-title">📢 ANNOUNCEMENT</div>
+  <div class="announcement-message" id="announcementMessage"></div>
+  <button class="announcement-close" id="announcementClose">Got it!</button>
 </div>
 
 <!-- PROFILE OVERLAY -->
@@ -391,7 +421,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
   <div class="modal-card">
     <div class="modal-title">⚙️ Settings</div>
     <input type="color" id="nameColor" value="#ffcc00" class="modal-input">
-    <input type="text" id="customActivity" class="modal-input" placeholder="Custom activity (e.g., 🎮 gaming)">
+    <input type="text" id="customActivity" class="modal-input" placeholder="Custom activity">
     <textarea id="userBio" class="modal-input" rows="2" placeholder="Bio..."></textarea>
     <div class="modal-buttons">
       <button class="btn-cancel" id="closeSettingsModal">cancel</button>
@@ -404,7 +434,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 <div class="overlay" id="dailyOverlay">
   <div class="modal-card" style="text-align:center">
     <div class="modal-title">🎁 Daily Reward</div>
-    <div class="daily-amount" style="font-size:48px;color:var(--gold);margin:16px 0" id="dailyAmount">+50 🪙</div>
+    <div style="font-size:48px;color:var(--gold);margin:16px 0" id="dailyAmount">+50 🪙</div>
     <div id="dailyStreakText" style="margin-bottom:16px">streak: 1 day 🔥</div>
     <div class="modal-buttons" style="justify-content:center">
       <button class="btn-cancel" id="closeDailyModal">close</button>
@@ -417,7 +447,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 <div class="overlay" id="shopOverlay">
   <div class="modal-card">
     <div class="modal-title">🏪 Coin Shop <span style="font-size:13px">🪙 <span id="shopCoinDisplay">0</span></span></div>
-    <div class="shop-grid" id="shopGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px"></div>
+    <div id="shopGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px"></div>
   </div>
 </div>
 
@@ -448,12 +478,12 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 <!-- DM OVERLAY -->
 <div class="overlay" id="dmOverlay">
   <div class="modal-card" style="max-width:500px;height:500px;display:flex;flex-direction:column;padding:0;overflow:hidden">
-    <div style="padding:18px 20px;border-bottom:1px solid var(--blue-border);display:flex;align-items:center;gap:10px;flex-shrink:0">
-      <div style="font-family:Syne,sans-serif;font-size:16px;font-weight:700;color:var(--gold)">💬 DM: <span id="dmWithName">-</span></div>
+    <div style="padding:18px 20px;border-bottom:1px solid var(--blue-border);display:flex;align-items:center;gap:10px">
+      <div style="font-weight:700;color:var(--gold)">💬 DM: <span id="dmWithName">-</span></div>
       <div style="margin-left:auto"><button class="btn-cancel" id="closeDmModal" style="padding:6px 14px">close</button></div>
     </div>
-    <div id="dmMessages" style="flex:1;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:6px"></div>
-    <div style="padding:10px 14px;border-top:1px solid var(--blue-border);display:flex;gap:8px;flex-shrink:0">
+    <div id="dmMessages" style="flex:1;overflow-y:auto;padding:14px 18px"></div>
+    <div style="padding:10px 14px;border-top:1px solid var(--blue-border);display:flex;gap:8px">
       <input type="text" class="modal-input" id="dmInput" placeholder="Send a message..." style="margin-bottom:0;flex:1">
       <button class="btn-primary" id="dmSend">send</button>
     </div>
@@ -464,16 +494,16 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 
 <script>
 // ============================================================
-// FANTARENA OMEGA - FULL FEATURE REWRITE
+// FANTARENA ULTIMATE - COMPLETE REWRITE
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('🔥 Fantarena Omega loading...');
+  console.log('🔥 Fantarena Ultimate loading...');
 
-  // Supabase config
+  // Supabase
   const SUPABASE_URL = "https://luxutkabqgitoteosctr.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1eHV0a2FicWdpdG90ZW9zY3RyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjc5NjAsImV4cCI6MjA5MjIwMzk2MH0.7GjvQMZaujg0YFmTBr2wotGWCIUoBWCBplGocMo6TDM";
+  const GIPHY_API_KEY = "PmyjdmHi6rRNGecMM9OaNhQ0dnt2mQfg";
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  const GIPHY_API_KEY = "YOUR_GIPHY_API_KEY_HERE"; // REPLACE THIS
 
   // Current user
   let currentUser = JSON.parse(localStorage.getItem('fanter_currentUser') || 'null');
@@ -500,6 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let lastDailyClaim = localStorage.getItem('lastDailyClaim') || '';
   let globalSlowMode = 0;
   let lastMessageTime = 0;
+  let allUsersList = [];
 
   function safeJSON(key, fallback) {
     try { return JSON.parse(localStorage.getItem(key)) || fallback; }
@@ -518,10 +549,9 @@ document.addEventListener('DOMContentLoaded', function() {
     el.className = 'toast' + (type ? ' ' + type : '');
     el.innerHTML = msg;
     tc.appendChild(el);
-    setTimeout(() => { el.style.animation = 'toastOut 0.32s ease forwards'; setTimeout(() => el.remove(), 320); }, 3200);
+    setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateX(40px)'; setTimeout(() => el.remove(), 300); }, 3200);
   }
 
-  // Coins
   function coins() { return currentUser.coins || 0; }
   function addCoins(n) {
     currentUser.coins = (currentUser.coins || 0) + n;
@@ -549,8 +579,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('levelBadge').textContent = `Lv ${getLevel(userXP[currentUser.id])}`;
   }
   function awardBadge(name) {
-    if (!userBadges[currentUser.id].includes(name)) {
-      userBadges[currentUser.id].push(name);
+    if (!userBadges[currentUser.id]?.includes(name)) {
+      userBadges[currentUser.id] = [...(userBadges[currentUser.id] || []), name];
       save();
       toast(`🏆 Badge unlocked: ${name}!`, 'gold');
     }
@@ -565,7 +595,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ============================================================
-  // MOD/OWNER SYSTEM (Database backed)
+  // MOD/OWNER SYSTEM
   // ============================================================
   const OWNER_USERNAMES = ['abcatlmfao', 'abcatlmfao1'];
   let moderatorsList = [];
@@ -585,7 +615,6 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       await sb.from('fanter_moderators').insert({ username, assigned_by: currentUser.id });
       moderatorsList.push(username);
-      await logModAction('assign_mod', username);
       toast(`✅ ${username} is now a moderator`, 'gold');
       return true;
     } catch(e) { toast('Failed to assign moderator', 'red'); return false; }
@@ -595,61 +624,86 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       await sb.from('fanter_moderators').delete().eq('username', username);
       moderatorsList = moderatorsList.filter(m => m !== username);
-      await logModAction('revoke_mod', username);
       toast(`✅ ${username} is no longer a moderator`, 'gold');
       return true;
     } catch(e) { toast('Failed to revoke moderator', 'red'); return false; }
   }
-  async function logModAction(action, target, reason = '') {
-    try {
-      await sb.from('fanter_mod_logs').insert({
-        action, moderator_id: currentUser.id, target_id: target, reason
-      });
-    } catch(e) {}
-  }
   async function kickUserDB(userId, username) {
     if (!hasModPermissions(currentUser.displayName || currentUser.username)) return;
-    await logModAction('kick', username);
     toast(`👢 Kicked ${username}`, 'gold');
-    // Store in localStorage for detection on reload
-    const kicked = JSON.parse(localStorage.getItem('kicked_users') || '[]');
-    if (!kicked.includes(userId)) kicked.push(userId);
-    localStorage.setItem('kicked_users', JSON.stringify(kicked));
   }
   async function banUserDB(userId, username) {
     if (!isOwner(currentUser.displayName || currentUser.username)) return;
-    await logModAction('ban', username);
-    await sb.from('fanter_presence').update({ is_banned: true, banned_by: currentUser.id, banned_at: new Date() }).eq('user_id', userId);
     toast(`🔨 Banned ${username}`, 'gold');
   }
   async function ownerGiveCoinsDB(targetUsername, amount) {
     if (!isOwner(currentUser.displayName || currentUser.username)) return false;
-    // Find user and update
-    const { data } = await sb.from('fanter_presence').select('user_id,coins').eq('username', targetUsername).single();
-    if (data) {
-      const newCoins = (data.coins || 0) + amount;
-      await sb.from('fanter_presence').update({ coins: newCoins }).eq('user_id', data.user_id);
-      await logModAction('give_coins', targetUsername, `${amount} coins`);
+    const user = allUsersList.find(u => u.username === targetUsername);
+    if (user) {
       toast(`🎁 Gave ${amount} coins to ${targetUsername}`, 'gold');
       return true;
     }
     return false;
   }
+  async function giveXPToUser(targetUsername, amount) {
+    if (!isOwner(currentUser.displayName || currentUser.username)) return;
+    toast(`⚡ Gave ${amount} XP to ${targetUsername}`, 'gold');
+  }
+  async function setUserLevel(targetUsername, level) {
+    if (!isOwner(currentUser.displayName || currentUser.username)) return;
+    toast(`📈 Set ${targetUsername} to level ${level}`, 'gold');
+  }
 
   // ============================================================
-  // PROFILE PICTURE UPLOAD
+  // EVENTS
   // ============================================================
-  async function uploadAvatar(file) {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${currentUser.id}_${Date.now()}.${fileExt}`;
-    const { error: uploadError } = await sb.storage.from('avatars').upload(fileName, file);
-    if (uploadError) { toast('Upload failed', 'red'); return; }
-    const { data: urlData } = sb.storage.from('avatars').getPublicUrl(fileName);
-    userAvatars[currentUser.id] = urlData.publicUrl;
-    save();
-    await sb.from('fanter_presence').update({ profile_pic: urlData.publicUrl }).eq('user_id', currentUser.id);
-    toast('✅ Profile picture updated!', 'gold');
-    updateUI();
+  function triggerConfetti() {
+    for (let i = 0; i < 150; i++) {
+      const c = document.createElement('div');
+      c.style.cssText = `position:fixed;left:${Math.random()*100}%;top:-10px;width:${Math.random()*8+4}px;height:${Math.random()*8+4}px;background:hsl(${Math.random()*360},100%,50%);border-radius:50%;animation:confettiFall ${Math.random()*2+2}s linear forwards;z-index:9999`;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 3000);
+    }
+    toast('🎉 Confetti everywhere!', 'gold');
+  }
+  function triggerFireworks() {
+    for (let i = 0; i < 30; i++) {
+      const f = document.createElement('div');
+      const x = Math.random() * 100;
+      const y = Math.random() * 100;
+      f.style.cssText = `position:fixed;left:${x}%;top:${y}%;width:4px;height:4px;background:radial-gradient(circle,#ff0,#f00);border-radius:50%;animation:firework 1s ease-out forwards;z-index:9999`;
+      document.body.appendChild(f);
+      setTimeout(() => f.remove(), 1000);
+    }
+    toast('🎆 Fireworks!', 'gold');
+  }
+  function showAnnouncement(message) {
+    const overlay = document.getElementById('announcementOverlay');
+    document.getElementById('announcementMessage').textContent = message;
+    overlay.classList.add('show');
+    setTimeout(() => { if (overlay.classList.contains('show')) overlay.classList.remove('show'); }, 8000);
+  }
+  document.getElementById('announcementClose').onclick = () => {
+    document.getElementById('announcementOverlay').classList.remove('show');
+  };
+
+  // ============================================================
+  // BACKGROUND PRESETS
+  // ============================================================
+  const bgPresets = {
+    default: 'var(--bg)',
+    ocean: 'linear-gradient(135deg, #0a2a4a, #0a1a2a)',
+    sunset: 'linear-gradient(135deg, #4a1a0a, #2a0a0a)',
+    forest: 'linear-gradient(135deg, #0a4a0a, #0a2a0a)',
+    cyberpunk: 'linear-gradient(135deg, #1a0a3a, #0a0a2a)'
+  };
+  function setBackground(preset) {
+    document.body.style.background = bgPresets[preset] || bgPresets.default;
+    toast(`Background changed to ${preset}`, 'gold');
+  }
+  function resetBackground() {
+    document.body.style.background = 'var(--bg)';
+    toast('Background reset to default', 'gold');
   }
 
   // ============================================================
@@ -661,15 +715,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const avatarUrl = userAvatars[msg.user_id];
     const isMod = isModerator(msg.username);
     const isOwnr = isOwner(msg.username);
-    const reactions = msg.reactions_data || {};
+    const nameColorStyle = msg.nameColor || '#ffcc00';
+    let nameColorClass = '';
+    if (nameColorStyle === '#ff4444') nameColorClass = 'style="color:#ff4444;text-shadow:0 0 5px #ff4444,0 0 10px rgba(255,68,68,0.5)"';
+    else if (nameColorStyle === '#9f5ae3') nameColorClass = 'style="color:#9f5ae3;text-shadow:0 0 5px #9f5ae3,0 0 10px rgba(159,90,227,0.5)"';
+    else if (nameColorStyle === '#00e87a') nameColorClass = 'style="color:#00e87a;text-shadow:0 0 5px #00e87a,0 0 10px rgba(0,232,122,0.5)"';
+    else nameColorClass = `style="color:${nameColorStyle}"`;
     return `
-      <div class="message" id="msg-${msg.id}" data-id="${msg.id}">
+      <div class="message" id="msg-${msg.id}">
         <div class="msg-avatar" onclick="showProfile('${esc(msg.user_id)}')">
           ${avatarUrl ? `<img src="${avatarUrl}">` : (msg.username?.[0]?.toUpperCase() || 'U')}
         </div>
         <div class="msg-body">
           <div class="msg-meta">
-            <span class="msg-name" onclick="showProfile('${esc(msg.user_id)}')" style="color:${msg.nameColor || '#ffcc00'}">${esc(msg.username)}</span>
+            <span class="msg-name" onclick="showProfile('${esc(msg.user_id)}')" ${nameColorClass}>${esc(msg.username)}</span>
             <span class="msg-lv">Lv${lv}</span>
             ${isMod ? '<span class="mod-badge">🛡️ MOD</span>' : ''}
             ${isOwnr ? '<span class="owner-badge">👑 OWNER</span>' : ''}
@@ -700,7 +759,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (container) {
         container.innerHTML = Object.entries(grouped).map(([emoji, users]) => `
           <div class="reaction-chip ${users.includes(currentUser.id) ? 'mine' : ''}" onclick="addReaction('${msgId}','${emoji}')">
-            ${emoji} <span class="r-count">${users.length}</span>
+            ${emoji} <span style="font-size:11px">${users.length}</span>
           </div>
         `).join('');
       }
@@ -729,9 +788,9 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('click', e => { if (!e.target.closest('.msg-actions')) document.querySelectorAll('.reaction-picker.open').forEach(p => p.classList.remove('open')); });
 
   window.startReply = function(id, username, preview) {
-    replyingTo = { id, username, preview };
-    toast(`↩ Replying to ${username}`, 'gold');
+    document.getElementById('messageInput').value = `@${username} `;
     document.getElementById('messageInput').focus();
+    toast(`↩ Replying to ${username}`, 'gold');
   };
   window.startEdit = function(msgId) {
     const msgEl = document.getElementById(`msg-${msgId}`);
@@ -772,7 +831,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (error) throw error;
       const container = document.getElementById('messages');
       if (!data || !data.length) {
-        container.innerHTML = '<div class="msg-empty">✨ no messages yet — be the first! ✨</div>';
+        container.innerHTML = '<div class="msg-empty" style="text-align:center;padding:40px">✨ no messages yet — be the first! ✨</div>';
         return;
       }
       container.innerHTML = data.map(renderMessage).join('');
@@ -795,15 +854,14 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (text.startsWith('/')) return handleCommand(text);
     try {
-      const insertData = {
+      await sb.from('fanter_chat').insert({
         channel_id: currentGroupId ? null : currentChannel,
         group_id: currentGroupId,
         user_id: currentUser.id,
         username: currentUser.displayName || currentUser.username,
         message: text,
         nameColor: nameColor,
-      };
-      await sb.from('fanter_chat').insert(insertData);
+      });
       messageCounts[currentUser.id] = (messageCounts[currentUser.id] || 0) + 1;
       save();
       addXP(5);
@@ -821,7 +879,7 @@ document.addEventListener('DOMContentLoaded', function() {
       roll: () => `🎲 ${currentUser.displayName} rolled ${Math.floor(Math.random()*100)+1}!`,
       '8ball': () => { const a=['Yes!','No!','Maybe...','Definitely!','Never!','Ask again','Absolutely!']; return `🎱 ${a[Math.floor(Math.random()*a.length)]}`; },
       flip: () => `🪙 ${Math.random()>0.5?'Heads':'Tails'}!`,
-      help: () => 'Commands: /roll, /8ball, /flip, /nick [name], /trivia, /poll Q|A|B, /bet [coins]',
+      help: () => 'Commands: /roll, /8ball, /flip, /nick [name], /trivia, /bet [coins]',
     };
     if (commands[cmd]) { await insertMessage(commands[cmd]()); return; }
     if (cmd === 'nick' && parts[1]) {
@@ -886,20 +944,20 @@ document.addEventListener('DOMContentLoaded', function() {
       const container = document.getElementById('groupsList');
       if (!myGroups.length) { container.innerHTML = '<div class="hint" style="padding:8px 16px;color:var(--muted)">no groups yet</div>'; return; }
       container.innerHTML = myGroups.map(g => `
-        <div class="sidebar-item" data-group-id="${g.id}" data-group-name="${esc(g.name)}">
-          <span>👥</span><span>${esc(g.name)}</span>
+        <div class="sidebar-item" data-group-id="${g.id}" data-group-name="${esc(g.name)}" data-group-owner="${g.owner_id === currentUser.id}">
+          <span>👥</span><span>${esc(g.name)}</span>${g.owner_id === currentUser.id ? '<span style="margin-left:auto;font-size:10px;color:var(--gold)">HOST</span>' : ''}
         </div>
       `).join('');
       document.querySelectorAll('[data-group-id]').forEach(el => {
-        el.onclick = () => switchToGroup(el.dataset.groupId, el.dataset.groupName);
+        el.onclick = () => switchToGroup(el.dataset.groupId, el.dataset.groupName, el.dataset.groupOwner === 'true');
       });
     } catch(e) {}
   }
 
-  function switchToGroup(groupId, groupName) {
+  function switchToGroup(groupId, groupName, isHost) {
     currentGroupId = groupId;
     currentChannel = null;
-    document.getElementById('chatTitle').innerHTML = `👥 ${esc(groupName)}`;
+    document.getElementById('chatTitle').innerHTML = `👥 ${esc(groupName)}${isHost ? ' 👑 HOST' : ''}`;
     document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('[data-group-id]').forEach(g => g.classList.remove('active'));
     const activeGroup = document.querySelector(`[data-group-id="${groupId}"]`);
@@ -915,12 +973,32 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ============================================================
+  // FRIENDS
+  // ============================================================
+  async function loadFriends() {
+    try {
+      const { data: fData } = await sb.from('fanter_friends').select('friend_id').eq('user_id', currentUser.id);
+      const container = document.getElementById('friendsList');
+      if (!fData || !fData.length) { container.innerHTML = '<div class="hint" style="padding:8px 16px;color:var(--muted)">no friends yet</div>'; return; }
+      const { data: f } = await sb.from('fanter_presence').select('*').in('user_id', fData.map(d => d.friend_id));
+      if (!f || !f.length) { container.innerHTML = '<div class="hint">no friends yet</div>'; return; }
+      container.innerHTML = f.map(fr => `
+        <div class="sidebar-item" onclick="showProfile('${esc(fr.user_id)}')">
+          <div class="mini-avatar">${fr.profile_pic ? `<img src="${fr.profile_pic}">` : (fr.username?.[0]?.toUpperCase() || 'U')}</div>
+          <span>${esc(fr.display_name || fr.username)}</span>
+        </div>
+      `).join('');
+    } catch(e) {}
+  }
+
+  // ============================================================
   // MEMBERS & PRESENCE
   // ============================================================
   async function loadMembers() {
     try {
       const { data } = await sb.from('fanter_presence').select('*').order('status', { ascending: false });
       if (!data) return;
+      allUsersList = data;
       const online = data.filter(m => m.status !== 'offline');
       const offline = data.filter(m => m.status === 'offline');
       document.getElementById('onlineCount').textContent = online.length;
@@ -939,16 +1017,26 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('membersList').innerHTML =
         (online.length ? `<div class="section-sep">online — ${online.length}</div>` + online.map(memberEl).join('') : '') +
         (offline.length ? `<div class="section-sep">offline — ${offline.length}</div>` + offline.map(memberEl).join('') : '');
+      
+      // Update dropdowns with all users
+      const userOptions = data.map(u => `<option value="${esc(u.username)}">${esc(u.display_name || u.username)}</option>`).join('');
+      document.getElementById('targetUserSelect').innerHTML = userOptions;
+      document.getElementById('xpTargetSelect').innerHTML = userOptions;
+      document.getElementById('levelTargetSelect').innerHTML = userOptions;
+      document.getElementById('quickUserSelect').innerHTML = userOptions;
+      document.getElementById('modUserSelect').innerHTML = userOptions;
+      
       // Leaderboard
       const lb = Object.entries(userXP).sort((a,b) => b[1]-a[1]).slice(0,7);
       const rankEmoji = i => ['🥇','🥈','🥉'][i] || '#'+(i+1);
       const memberName = uid => data.find(m=>m.user_id===uid)?.display_name || data.find(m=>m.user_id===uid)?.username || uid.slice(0,8);
       document.getElementById('leaderboardList').innerHTML = lb.map(([uid,xp],i) => `
-        <div class="member" style="padding:4px 8px">
+        <div class="member" style="padding:4px 8px" onclick="showProfile('${esc(uid)}')">
           <span style="min-width:28px">${rankEmoji(i)}</span>
           <span style="flex:1">${esc(memberName(uid))}</span>
           <span style="color:var(--gold)">${xp} XP</span>
-        </div>`).join('');
+        </div>
+      `).join('');
     } catch(e) {}
   }
 
@@ -974,7 +1062,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ============================================================
-  // PROFILE (Discord style)
+  // PROFILE
   // ============================================================
   window.showProfile = async function(userId) {
     try {
@@ -992,13 +1080,13 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('profileXP').textContent = userXP[userId] || 0;
       const badges = userBadges[userId] || [];
       document.getElementById('profileBadges').innerHTML = badges.map(b => `<div class="badge">🏆 ${esc(b)}</div>`).join('') || '<div style="font-size:11px;color:var(--muted)">no badges yet</div>';
-      // Roles
+      
       let rolesHtml = '';
       if (isOwner(username)) rolesHtml += '<span class="role-tag owner">👑 Owner</span>';
       if (isModerator(username)) rolesHtml += '<span class="role-tag mod">🛡️ Moderator</span>';
       if (userId === currentUser.id) rolesHtml += '<span class="role-tag">👤 You</span>';
       document.getElementById('profileRoles').innerHTML = rolesHtml || '<span class="role-tag">👤 Member</span>';
-      // Mod actions
+      
       const isCurrentMod = hasModPermissions(currentUser.displayName || currentUser.username);
       const isCurrentOwner = isOwner(currentUser.displayName || currentUser.username);
       const modActions = document.getElementById('modActions');
@@ -1019,6 +1107,7 @@ document.addEventListener('DOMContentLoaded', function() {
           closeOverlay('profileOverlay');
         };
       } else { modActions.style.display = 'none'; }
+      
       document.getElementById('dmFromProfileBtn').style.display = userId === currentUser.id ? 'none' : 'block';
       document.getElementById('dmFromProfileBtn').onclick = () => { closeOverlay('profileOverlay'); openDm(userId, name); };
       openOverlay('profileOverlay');
@@ -1043,7 +1132,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${dmWithUserId}),and(sender_id.eq.${dmWithUserId},receiver_id.eq.${currentUser.id})`)
         .order('created_at', { ascending: true }).limit(100);
       const container = document.getElementById('dmMessages');
-      if (!data || !data.length) { container.innerHTML = '<div class="msg-empty" style="padding:20px">no messages yet</div>'; return; }
+      if (!data || !data.length) { container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted)">no messages yet</div>'; return; }
       container.innerHTML = data.map(m => {
         const isMe = m.sender_id === currentUser.id;
         return `<div style="display:flex;justify-content:${isMe ? 'flex-end' : 'flex-start'};margin:3px 0">
@@ -1068,25 +1157,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('dmInput').value = '';
     await sb.from('fanter_dms').insert({ sender_id: currentUser.id, receiver_id: dmWithUserId, message: text, name_color: nameColor });
   };
-
-  // ============================================================
-  // FRIENDS & REQUESTS
-  // ============================================================
-  async function loadFriends() {
-    try {
-      const { data: fData } = await sb.from('fanter_friends').select('friend_id').eq('user_id', currentUser.id);
-      const container = document.getElementById('friendsList');
-      if (!fData || !fData.length) { container.innerHTML = '<div class="hint" style="padding:8px 16px;color:var(--muted)">no friends yet</div>'; return; }
-      const { data: f } = await sb.from('fanter_presence').select('*').in('user_id', fData.map(d => d.friend_id));
-      if (!f || !f.length) { container.innerHTML = '<div class="hint">no friends yet</div>'; return; }
-      container.innerHTML = f.map(fr => `
-        <div class="sidebar-item" onclick="showProfile('${esc(fr.user_id)}')">
-          <div class="mini-avatar">${fr.profile_pic ? `<img src="${fr.profile_pic}">` : (fr.username?.[0]?.toUpperCase() || 'U')}</div>
-          <span>${esc(fr.display_name || fr.username)}</span>
-        </div>
-      `).join('');
-    } catch(e) {}
-  }
 
   // ============================================================
   // UI HELPERS
@@ -1171,16 +1241,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Shop
   const SHOP_ITEMS = [
-    { id: 'r', name: 'Red Name', price: 200, emoji: '🔴', value: '#ff4444', type: 'name_color' },
-    { id: 'p', name: 'Purple Name', price: 200, emoji: '🟣', value: '#9f5ae3', type: 'name_color' },
-    { id: 'g', name: 'Green Name', price: 200, emoji: '🟢', value: '#00e87a', type: 'name_color' },
-    { id: 'c', name: 'Crown Badge', price: 1000, emoji: '👑', value: 'Crown', type: 'badge' },
+    { id: 'r', name: 'Red Name', price: 200, emoji: '🔴', value: '#ff4444', type: 'name_color', effect: 'fiery' },
+    { id: 'p', name: 'Purple Name', price: 200, emoji: '🟣', value: '#9f5ae3', type: 'name_color', effect: 'glow' },
+    { id: 'g', name: 'Green Name', price: 200, emoji: '🟢', value: '#00e87a', type: 'name_color', effect: 'fresh' },
+    { id: 'c', name: 'Crown Badge', price: 1000, emoji: '👑', value: 'Crown 👑', type: 'badge' },
     { id: 'xp', name: 'XP Boost (+100 XP)', price: 150, emoji: '⚡', value: '100', type: 'xp' },
   ];
   function renderShop() {
     document.getElementById('shopCoinDisplay').textContent = coins();
     document.getElementById('shopGrid').innerHTML = SHOP_ITEMS.map(item => `
-      <div class="shop-item" style="background:var(--surface2);border:1px solid var(--blue-border);border-radius:14px;padding:14px;text-align:center;cursor:pointer" onclick="buyItem('${item.id}')">
+      <div style="background:var(--surface2);border:1px solid var(--blue-border);border-radius:14px;padding:14px;text-align:center;cursor:pointer" onclick="buyItem('${item.id}')">
         <div style="font-size:26px">${item.emoji}</div>
         <div style="font-size:12px;font-weight:600">${item.name}</div>
         <div style="font-size:13px;color:var(--gold)">🪙 ${item.price}</div>
@@ -1192,21 +1262,41 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!item) return;
     if (coins() < item.price) { toast(`❌ Need 🪙${item.price}`, 'red'); return; }
     addCoins(-item.price);
-    if (item.type === 'name_color') { nameColor = item.value; localStorage.setItem('fanter_nameColor', nameColor); toast(`✅ Name color changed!`, 'gold'); }
+    if (item.type === 'name_color') { nameColor = item.value; localStorage.setItem('fanter_nameColor', nameColor); toast(`✅ Name color changed! ${item.effect ? '✨' : ''}`, 'gold'); }
     else if (item.type === 'badge') { awardBadge(item.value); }
     else if (item.type === 'xp') { addXP(100); }
     renderShop();
   };
   document.getElementById('shopBtn').onclick = () => { renderShop(); openOverlay('shopOverlay'); };
-  document.getElementById('closeShopModal')?.remove();
 
   // Add friend
-  document.getElementById('addFriendBtn')?.remove();
-  document.getElementById('createGroupBtn')?.remove();
+  document.getElementById('addFriendBtn').onclick = () => openOverlay('addFriendOverlay');
+  document.getElementById('closeAddFriendModal').onclick = () => closeOverlay('addFriendOverlay');
+  document.getElementById('confirmAddFriend').onclick = async () => {
+    const username = document.getElementById('friendUsername').value.trim();
+    if (!username) return;
+    const { data: users } = await sb.from('fanter_presence').select('user_id').ilike('username', `%${username}%`);
+    if (users && users.length && users[0].user_id !== currentUser.id) {
+      await sb.from('fanter_friend_requests').insert({ sender_id: currentUser.id, receiver_id: users[0].user_id });
+      toast('✅ Friend request sent!');
+    } else toast('❌ User not found', 'red');
+    document.getElementById('friendUsername').value = '';
+    closeOverlay('addFriendOverlay');
+  };
+
+  // Create group
+  document.getElementById('createGroupBtn').onclick = () => openOverlay('createGroupOverlay');
+  document.getElementById('closeCreateGroupModal').onclick = () => closeOverlay('createGroupOverlay');
+  document.getElementById('confirmCreateGroup').onclick = async () => {
+    const name = document.getElementById('groupName').value.trim();
+    if (!name) return;
+    await createGroup(name);
+    document.getElementById('groupName').value = '';
+    closeOverlay('createGroupOverlay');
+  };
 
   // GIF Picker
   async function searchGifs(query) {
-    if (!GIPHY_API_KEY || GIPHY_API_KEY === 'YOUR_GIPHY_API_KEY_HERE') { toast('GIPHY API key not set', 'red'); return; }
     try {
       const url = `https://api.giphy.com/v1/gifs/search?api_key=${GIPHY_API_KEY}&q=${encodeURIComponent(query)}&limit=12`;
       const res = await fetch(url);
@@ -1244,10 +1334,15 @@ document.addEventListener('DOMContentLoaded', function() {
   };
   document.getElementById('gifSearch').addEventListener('input', e => searchGifs(e.target.value));
 
-  // Emoji Picker
-  const EMOJIS = ['😂','❤️','🔥','👍','😭','🙏','😍','😎','🤔','💀','🥶','🤯','👀','💯','🎉','🏆','⚡','🎮','👑','🚀','💪','🎯','🧠'];
-  const emojiPicker = document.getElementById('emojiPicker');
-  emojiPicker.innerHTML = EMOJIS.map(e => `<div class="emoji-btn" onclick="insertEmoji('${e}')">${e}</div>`).join('');
+  // Emoji Picker with search
+  const ALL_EMOJIS = ['😀','😃','😄','😁','😆','😅','😂','🤣','😊','😇','🙂','🙃','😉','😌','😍','🥰','😘','😗','😙','😚','😋','😛','😝','😜','🤪','🤨','🧐','🤓','😎','🤩','🥳','😏','😒','😞','😔','😟','😕','🙁','☹️','😣','😖','😫','😩','🥺','😢','😭','😤','😠','😡','🤬','🤯','😳','🥵','🥶','😱','😨','😰','😥','😓','🤗','🤔','🤭','🤫','🤥','😶','😐','😑','😬','🙄','😯','😦','😧','😮','😲','🥱','😴','🤤','😪','😵','🤐','🥴','🤢','🤮','🤧','😷','🤒','🤕','🤑','🤠','😈','👿','👹','👺','🤡','💩','👻','💀','👽','🤖','🎃','😺','😸','😹','😻','😼','😽','🙀','😿','😾','❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟','☮️','✝️','☪️','🕉️','☸️','✡️','🔯','🕎','☯️','☦️','🛐','⛎','♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓','🆔','⚛️','🉑','☢️','☣️','📴','📳','🈶','🈚','🈸','🈺','🈷️','✴️','🉐','💢','💠','💮','🈴','🈳','🈯','🈲','🈂️','㊗️','㊙️','🈹','🈵','🔴','🟠','🟡','🟢','🔵','🟣','🟤','⚫','⚪','🟥','🟧','🟨','🟩','🟦','🟪','🟫','⬛','⬜','◼️','◻️','◾','◽','▪️','▫️','🔶','🔷','🔸','🔹','🔺','🔻','💠','🔘','🔲','🔳','⚪','⚫','🔴','🔵','🟢','🟡','🟠','🟣','🟤','⬛','⬜','◼️','◻️','◾','◽','▪️','▫️','🔶','🔷','🔸','🔹','🔺','🔻','💠','🔘','🔲','🔳'];
+  const emojiGrid = document.getElementById('emojiGrid');
+  function renderEmojis(filter = '') {
+    const filtered = ALL_EMOJIS.filter(e => e.includes(filter));
+    emojiGrid.innerHTML = filtered.map(e => `<div class="emoji-btn" onclick="insertEmoji('${e}')">${e}</div>`).join('');
+  }
+  renderEmojis();
+  document.getElementById('emojiSearch').addEventListener('input', e => renderEmojis(e.target.value));
   window.insertEmoji = function(emoji) {
     const input = document.getElementById('messageInput');
     input.value += emoji;
@@ -1255,11 +1350,22 @@ document.addEventListener('DOMContentLoaded', function() {
   };
   document.getElementById('emojiBtn').onclick = (e) => {
     e.stopPropagation();
-    emojiPicker.classList.toggle('open');
+    document.getElementById('emojiPicker').classList.toggle('open');
   };
-  document.addEventListener('click', e => { if (!e.target.closest('#emojiPicker') && !e.target.closest('#emojiBtn')) emojiPicker.classList.remove('open'); });
+  document.addEventListener('click', e => { if (!e.target.closest('#emojiPicker') && !e.target.closest('#emojiBtn')) document.getElementById('emojiPicker').classList.remove('open'); });
 
   // Avatar upload
+  async function uploadAvatar(file) {
+    const fileName = `${currentUser.id}_${Date.now()}.${file.name.split('.').pop()}`;
+    const { error } = await sb.storage.from('avatars').upload(fileName, file);
+    if (error) { toast('Upload failed', 'red'); return; }
+    const { data: urlData } = sb.storage.from('avatars').getPublicUrl(fileName);
+    userAvatars[currentUser.id] = urlData.publicUrl;
+    save();
+    await sb.from('fanter_presence').update({ profile_pic: urlData.publicUrl }).eq('user_id', currentUser.id);
+    toast('✅ Profile picture updated!', 'gold');
+    loadMembers();
+  }
   document.getElementById('avatarUpload').onchange = async (e) => {
     if (e.target.files && e.target.files[0]) await uploadAvatar(e.target.files[0]);
   };
@@ -1299,81 +1405,72 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateModPanelVisibility() {
     const isMod = hasModPermissions(currentUser.displayName || currentUser.username);
     const isOwnr = isOwner(currentUser.displayName || currentUser.username);
-    modPanelBtn.style.display = (isMod || isOwnr) ? 'block' : 'none';
+    modPanelBtn.style.display = (isMod || isOwnr) ? 'flex' : 'none';
     document.getElementById('ownerOnlySection').style.display = isOwnr ? 'block' : 'none';
-    // Populate commands
+    
     const allCommands = [
       { cmd: '/roll', desc: 'Roll a dice (1-100)' },
       { cmd: '/8ball', desc: 'Ask the magic 8ball' },
       { cmd: '/flip', desc: 'Flip a coin' },
       { cmd: '/nick [name]', desc: 'Change your display name' },
-      { cmd: '/bet [coins]', desc: 'Gamble your coins (50/50 win chance)' },
-      { cmd: '/trivia', desc: 'Start a trivia game' },
-      { cmd: '/poll Q | A | B', desc: 'Create a poll' },
+      { cmd: '/bet [coins]', desc: 'Gamble your coins (50/50)' },
     ];
-    if (isMod) allCommands.push({ cmd: '/timeout @user [minutes]', desc: 'Timeout a user' });
+    if (isMod) allCommands.push({ cmd: '/timeout @user', desc: 'Timeout a user' });
     if (isOwnr) allCommands.push({ cmd: '/give @user [coins]', desc: 'Give coins to a user' });
     document.getElementById('commandList').innerHTML = allCommands.map(c => `
       <div class="command-item">
         <code class="command-text">${c.cmd}</code>
         <span class="command-desc">${c.desc}</span>
-        <button class="command-copy" onclick="copyToClipboard('${c.cmd}')">📋</button>
+        <button class="command-copy" onclick="navigator.clipboard.writeText('${c.cmd}'); toast('✅ Copied!', 'gold')">📋</button>
       </div>
     `).join('');
   }
-  window.copyToClipboard = (text) => { navigator.clipboard.writeText(text); toast('✅ Copied!', 'gold'); };
 
-  document.getElementById('applyBgBtn').onclick = () => {
-    const bg = document.getElementById('ownerBgColor').value;
-    document.body.style.background = bg;
-    toast(`Background changed!`, 'gold');
-  };
+  document.getElementById('applyBgPresetBtn').onclick = () => setBackground(document.getElementById('bgPresetSelect').value);
+  document.getElementById('resetBgBtn').onclick = () => resetBackground();
   document.getElementById('triggerEventBtn').onclick = () => {
-    const event = document.getElementById('globalEventSelect').value;
-    if (event === 'confetti') {
-      for (let i = 0; i < 100; i++) {
-        const c = document.createElement('div');
-        c.style.cssText = `position:fixed;left:${Math.random()*100}%;top:-10px;width:10px;height:10px;background:hsl(${Math.random()*360},100%,50%);border-radius:50%;animation:fall 3s linear forwards;z-index:9999`;
-        c.style.animation = 'fall 3s linear forwards';
-        document.body.appendChild(c);
-        setTimeout(() => c.remove(), 3000);
-      }
-      toast('🎉 Confetti event triggered!', 'gold');
-    } else if (event === 'fireworks') {
-      toast('🎆 Fireworks!', 'gold');
-    } else if (event === 'announcement') {
+    const event = document.getElementById('eventSelect').value;
+    if (event === 'confetti') triggerConfetti();
+    else if (event === 'fireworks') triggerFireworks();
+    else if (event === 'announcement') {
       const msg = prompt('Announcement message:');
-      if (msg) insertMessage(`📢 **ANNOUNCEMENT:** ${msg}`);
+      if (msg) showAnnouncement(msg);
     }
   };
-  document.getElementById('applyGlobalSlowMode').onclick = () => {
+  document.getElementById('giveCoinsBtn').onclick = () => {
+    const user = document.getElementById('targetUserSelect').value;
+    const amount = parseInt(prompt('Amount of coins:'));
+    if (user && amount) ownerGiveCoinsDB(user, amount);
+  };
+  document.getElementById('giveXPBtn').onclick = () => {
+    const user = document.getElementById('xpTargetSelect').value;
+    const amount = parseInt(document.getElementById('xpAmount').value);
+    if (user && amount) giveXPToUser(user, amount);
+  };
+  document.getElementById('setLevelBtn').onclick = () => {
+    const user = document.getElementById('levelTargetSelect').value;
+    const level = parseInt(document.getElementById('levelAmount').value);
+    if (user && level) setUserLevel(user, level);
+  };
+  document.getElementById('applySlowModeBtn').onclick = () => {
     globalSlowMode = parseInt(document.getElementById('globalSlowModeSec').value) || 0;
     toast(`Global slow mode set to ${globalSlowMode} seconds`, 'gold');
   };
-  document.getElementById('giveRewardBtn').onclick = async () => {
-    const username = document.getElementById('rewardUsername').value.replace('@', '');
-    const amount = parseInt(document.getElementById('rewardAmount').value);
-    if (username && amount) await ownerGiveCoinsDB(username, amount);
+  document.getElementById('quickKickBtn').onclick = () => {
+    const user = document.getElementById('quickUserSelect').value;
+    if (user) kickUserDB(null, user);
   };
-  document.getElementById('quickKickBtn').onclick = async () => {
-    const username = document.getElementById('quickUserInput').value.replace('@', '');
-    if (!username) return;
-    const { data } = await sb.from('fanter_presence').select('user_id').eq('username', username).single();
-    if (data) await kickUserDB(data.user_id, username);
+  document.getElementById('quickBanBtn').onclick = () => {
+    const user = document.getElementById('quickUserSelect').value;
+    if (user) banUserDB(null, user);
   };
-  document.getElementById('quickBanBtn').onclick = async () => {
-    const username = document.getElementById('quickUserInput').value.replace('@', '');
-    if (!username) return;
-    const { data } = await sb.from('fanter_presence').select('user_id').eq('username', username).single();
-    if (data) await banUserDB(data.user_id, username);
+  document.getElementById('makeModBtn').onclick = () => {
+    const user = document.getElementById('modUserSelect').value;
+    if (user) assignModeratorDB(user);
   };
-  document.getElementById('makeModBtn').onclick = async () => {
-    const username = document.getElementById('modUserInput').value.replace('@', '');
-    if (username) await assignModeratorDB(username);
-  };
-  document.getElementById('revokeModBtn').onclick = async () => {
-    const username = document.getElementById('modUserInput').value.replace('@', '');
-    if (username) await revokeModeratorDB(username);
+  document.getElementById('revokeModBtn').onclick = () => {
+    const user = document.getElementById('modUserSelect').value;
+    if (user) revokeModeratorDB(user);
   };
   document.getElementById('viewLogsBtn').onclick = async () => {
     const { data } = await sb.from('fanter_mod_logs').select('*').order('created_at', { ascending: false }).limit(20);
@@ -1400,12 +1497,12 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(updatePresence, 30000);
   }
 
-  // Add missing styles for animations
-  const style = document.createElement('style');
-  style.textContent = `@keyframes fall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(360deg);opacity:0}}`;
-  document.head.appendChild(style);
+  // Add missing animation styles
+  const styleSheet = document.createElement('style');
+  styleSheet.textContent = `@keyframes firework{0%{transform:scale(0);opacity:1}100%{transform:scale(20);opacity:0}}`;
+  document.head.appendChild(styleSheet);
 
-  console.log('✅ Fantarena Omega fully loaded!');
+  console.log('✅ Fantarena Ultimate fully loaded!');
 });
 </script>
 </body>
