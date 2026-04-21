@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>fanter | fantarena</title>
+<title>fanter | fantarena SECURE</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -32,7 +32,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 @keyframes flame{0%{text-shadow:0 0 2px #ff4400,0 0 4px #ff6600}50%{text-shadow:0 0 4px #ff6600,0 0 8px #ffaa00}100%{text-shadow:0 0 2px #ff4400,0 0 4px #ff6600}}
 @keyframes purpleGlow{0%{text-shadow:0 0 2px #9f5ae3,0 0 4px #bf7ae3}50%{text-shadow:0 0 4px #bf7ae3,0 0 8px #df9aff}100%{text-shadow:0 0 2px #9f5ae3,0 0 4px #bf7ae3}}
 @keyframes greenGlow{0%{text-shadow:0 0 2px #00e87a,0 0 4px #33ff99}50%{text-shadow:0 0 4px #33ff99,0 0 8px #66ffbb}100%{text-shadow:0 0 2px #00e87a,0 0 4px #33ff99}}
-@keyframes pillSlide{0%{transform:translateY(-20px);opacity:0}100%{transform:translateY(0);opacity:1}}
 
 /* WELCOME */
 .welcome-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:var(--bg);transition:opacity var(--t-med) var(--ease)}
@@ -68,7 +67,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .footer-btn{width:100%;padding:8px 12px;border-radius:10px;border:none;background:rgba(255,255,255,0.05);color:var(--text);font-size:12px;cursor:pointer;text-align:left;transition:all var(--t-fast) var(--ease)}
 .footer-btn:hover{background:rgba(255,255,255,0.1);transform:translateX(2px)}
 
-/* MOD PANEL - MOVED UP */
+/* PANELS */
 .mod-panel{position:fixed;bottom:90px;right:20px;z-index:1000;display:flex;flex-direction:column;align-items:flex-end}
 .mod-panel-btn{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#ffaa00);border:none;cursor:pointer;font-size:22px;box-shadow:0 4px 15px rgba(255,204,0,0.3);transition:all var(--t-fast) var(--ease-spring);display:flex;align-items:center;justify-content:center}
 .mod-panel-btn:hover{transform:scale(1.08)}
@@ -85,15 +84,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .btn-mod-action:hover{background:rgba(255,204,0,0.3)}
 .btn-danger-action{background:rgba(255,68,68,0.15);color:var(--red);border:1px solid rgba(255,68,68,0.3);padding:6px 10px;border-radius:8px;cursor:pointer;font-size:11px}
 .btn-danger-action:hover{background:rgba(255,68,68,0.3)}
-
-/* GROUP HOST PANEL - MOVED UP */
-.group-host-panel{position:fixed;bottom:90px;left:20px;z-index:1000;display:flex;flex-direction:column;align-items:flex-start}
-.group-host-panel-btn{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--purple),#7a3ac0);border:none;cursor:pointer;font-size:22px;box-shadow:0 4px 15px rgba(159,90,227,0.3);transition:all var(--t-fast) var(--ease-spring);display:flex;align-items:center;justify-content:center}
-.group-host-panel-btn:hover{transform:scale(1.08)}
-.group-host-panel-content{background:var(--surface);border:1px solid var(--purple);border-radius:16px;width:350px;max-height:65vh;overflow-y:auto;margin-bottom:10px;box-shadow:0 10px 40px rgba(0,0,0,0.4);display:none}
-.group-host-panel-content.open{display:block}
-.group-host-header{padding:12px 16px;border-bottom:1px solid var(--blue-border);font-weight:700;color:var(--purple);display:flex;justify-content:space-between}
-.group-host-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer}
 
 /* CHAT AREA */
 .chat-area{flex:1;display:flex;flex-direction:column}
@@ -202,15 +192,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .modal-buttons{display:flex;gap:8px;justify-content:flex-end}
 .btn-cancel{padding:8px 16px;border-radius:50px;border:1px solid var(--blue-border);background:transparent;color:var(--muted);cursor:pointer}
 .toast{position:fixed;bottom:20px;right:20px;background:var(--surface);border:1px solid var(--blue-border);border-radius:10px;padding:10px 16px;font-size:12px;animation:toastIn var(--t-med) var(--ease-spring);z-index:20000}
-  /* MODERATOR PANEL */
-.moderator-panel{position:fixed;bottom:90px;right:90px;z-index:1000;display:flex;flex-direction:column;align-items:flex-end}
-.moderator-panel-btn{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#00a8ff,#0090dd);border:none;cursor:pointer;font-size:22px;box-shadow:0 4px 15px rgba(0,168,255,0.3);transition:all var(--t-fast) var(--ease-spring);display:flex;align-items:center;justify-content:center}
-.moderator-panel-btn:hover{transform:scale(1.08)}
-.moderator-panel-content{background:var(--surface);border:1px solid #00a8ff;border-radius:16px;width:380px;max-height:65vh;overflow-y:auto;margin-bottom:10px;box-shadow:0 10px 40px rgba(0,0,0,0.4);display:none}
-.moderator-panel-content.open{display:block}
-.moderator-panel-header{padding:12px 16px;border-bottom:1px solid var(--blue-border);font-weight:700;color:#00a8ff;display:flex;justify-content:space-between}
-.moderator-panel-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer}
-    
 </style>
 </head>
 <body>
@@ -218,13 +199,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 <!-- WELCOME -->
 <div class="welcome-screen" id="welcomeScreen">
   <div class="welcome-card">
-    <div class="welcome-logo">🏟️ FANTARENA</div>
+    <div class="welcome-logo">🏟️ FANTARENA SECURE</div>
     <div class="feature-grid">
       <div class="feature">💬 real-time chat</div><div class="feature">🏆 leveling & XP</div>
       <div class="feature">🎲 /roll /8ball</div><div class="feature">😂 GIF picker</div>
       <div class="feature">👥 groups & DMs</div><div class="feature">🎁 daily rewards</div>
       <div class="feature">👍 reactions</div><div class="feature">🏪 coin shop</div>
-      <div class="feature">🛡️ mod panel</div>
+      <div class="feature">🛡️ secure mod panel</div>
     </div>
     <button class="enter-btn" id="enterBtn">🔥 ENTER CHAT 🔥</button>
   </div>
@@ -293,107 +274,32 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
   </div>
 </div>
 
-<!-- OWNER PANEL -->
+<!-- MOD PANEL (Owner only - secure) -->
 <div class="mod-panel" id="modPanel">
   <button class="mod-panel-btn" id="modPanelBtn">🛡️</button>
   <div class="mod-panel-content" id="modPanelContent">
     <div class="mod-panel-header">
-      <span>🛡️ MOD PANEL</span>
+      <span>👑 OWNER PANEL</span>
       <button class="mod-panel-close" id="modPanelClose">✕</button>
     </div>
-    <div class="mod-section" id="ownerOnlySection" style="display:none">
-      <div class="mod-section-title">👑 OWNER</div>
-      <div class="mod-row"><select id="bgPresetSelect" class="mod-select"><option value="default">🌙 Default</option><option value="ocean">🌊 Ocean</option><option value="sunset">🌅 Sunset</option></select><button class="btn-mod-action" id="applyBgBtn">BG</button></div>
-      <div class="mod-row"><select id="eventSelect" class="mod-select"><option value="confetti">🎉 Confetti</option><option value="fireworks">🎆 Fireworks</option></select><button class="btn-mod-action" id="triggerEventBtn">Go</button></div>
-      <div class="mod-row"><select id="targetUserSelect" class="mod-select"></select><input type="number" id="coinAmount" placeholder="Coins" class="mod-input"><button class="btn-mod-action" id="giveCoinsBtn">Give</button></div>
-      <div class="mod-row"><select id="xpTargetSelect" class="mod-select"></select><input type="number" id="xpAmount" placeholder="XP" class="mod-input"><button class="btn-mod-action" id="giveXPBtn">XP</button></div>
-      <div class="mod-row"><input type="number" id="globalSlowModeSec" placeholder="Slow mode (sec)" class="mod-input"><button class="btn-mod-action" id="applySlowModeBtn">Set</button></div>
+    <div class="mod-section">
+      <div class="mod-section-title">🎨 APPEARANCE</div>
+      <div class="mod-row"><select id="bgPresetSelect" class="mod-select"><option value="default">🌙 Default</option><option value="ocean">🌊 Ocean</option><option value="sunset">🌅 Sunset</option></select><button class="btn-mod-action" id="applyBgBtn">Apply</button></div>
+      <div class="mod-row"><select id="eventSelect" class="mod-select"><option value="confetti">🎉 Confetti</option><option value="fireworks">🎆 Fireworks</option></select><button class="btn-mod-action" id="triggerEventBtn">Trigger</button></div>
     </div>
     <div class="mod-section">
-      <div class="mod-section-title">⚡ ACTIONS</div>
-      <div class="mod-row"><select id="quickUserSelect" class="mod-select"></select><button class="btn-danger-action" id="quickKickBtn">Kick</button><button class="btn-danger-action" id="quickBanBtn">Ban</button></div>
-      <div class="mod-row"><select id="modUserSelect" class="mod-select"></select><button class="btn-mod-action" id="makeModBtn">Make Mod</button><button class="btn-mod-action" id="revokeModBtn">Revoke</button></div>
-    </div>
-    <div class="mod-section"><div class="mod-section-title">📋 COMMANDS</div><div id="commandList"></div></div>
-  </div>
-</div>
-  <!-- MODERATOR PANEL (separate) -->
-<div class="moderator-panel" id="moderatorPanel">
-  <button class="moderator-panel-btn" id="moderatorPanelBtn">🛡️</button>
-  <div class="moderator-panel-content" id="moderatorPanelContent">
-    <div class="moderator-panel-header">
-      <span>🛡️ MODERATOR PANEL</span>
-      <button class="moderator-panel-close" id="moderatorPanelClose">✕</button>
+      <div class="mod-section-title">💰 REWARDS</div>
+      <div class="mod-row"><select id="targetUserSelect" class="mod-select"></select><input type="number" id="coinAmount" placeholder="Coins" class="mod-input"><button class="btn-mod-action" id="giveCoinsBtn">Give Coins</button></div>
+      <div class="mod-row"><select id="xpTargetSelect" class="mod-select"></select><input type="number" id="xpAmount" placeholder="XP" class="mod-input"><button class="btn-mod-action" id="giveXPBtn">Give XP</button></div>
     </div>
     <div class="mod-section">
-      <div class="mod-section-title">⚠️ WARNINGS</div>
-      <div class="mod-row">
-        <select id="warnUserSelect" class="mod-select"></select>
-        <input type="text" id="warnReason" placeholder="Reason" class="mod-input" style="flex:2">
-        <button class="btn-danger-action" id="warnBtn">⚠️ Warn</button>
-      </div>
-      <div id="warningList" style="font-size:11px;margin-top:8px;max-height:100px;overflow-y:auto"></div>
-    </div>
-    <div class="mod-section">
-      <div class="mod-section-title">⏱️ TIMEOUTS</div>
-      <div class="mod-row">
-        <select id="timeoutUserSelect" class="mod-select"></select>
-        <input type="number" id="timeoutMinutes" placeholder="Minutes" class="mod-input" style="width:80px">
-        <button class="btn-danger-action" id="timeoutBtn">Timeout</button>
-      </div>
-      <div class="mod-row">
-        <select id="untimeoutUserSelect" class="mod-select"></select>
-        <button class="btn-mod-action" id="untimeoutBtn">Remove Timeout</button>
-      </div>
-    </div>
-    <div class="mod-section">
-      <div class="mod-section-title">👢 KICK / BAN</div>
-      <div class="mod-row">
-        <select id="kickUserSelect" class="mod-select"></select>
-        <button class="btn-danger-action" id="kickBtn">👢 Kick</button>
-      </div>
-      <div class="mod-row">
-        <select id="banUserSelect" class="mod-select"></select>
-        <button class="btn-danger-action" id="banBtn">🔨 Ban</button>
-        <button class="btn-mod-action" id="unbanBtn">🔓 Unban</button>
-      </div>
-    </div>
-    <div class="mod-section">
-      <div class="mod-section-title">📝 MESSAGE MODERATION</div>
-      <div class="mod-row">
-        <input type="text" id="purgeCount" placeholder="Messages to delete (1-100)" class="mod-input">
-        <button class="btn-danger-action" id="purgeBtn">🗑️ Purge</button>
-      </div>
-      <div class="mod-row">
-        <input type="text" id="slowModeSec" placeholder="Slow mode (seconds)" class="mod-input">
-        <button class="btn-mod-action" id="channelSlowModeBtn">Set Slow Mode</button>
-      </div>
-    </div>
-    <div class="mod-section">
-      <div class="mod-section-title">📋 MOD LOGS</div>
-      <div class="mod-row">
-        <button class="btn-mod-action" id="viewModLogsBtn">View Logs</button>
-        <button class="btn-danger-action" id="clearModLogsBtn">Clear Logs</button>
-      </div>
-      <div id="modLogsList" style="font-size:10px;margin-top:8px;max-height:120px;overflow-y:auto"></div>
-    </div>
-  </div>
-</div>
-    
-<!-- GROUP HOST PANEL -->
-<div class="group-host-panel" id="groupHostPanel">
-  <button class="group-host-panel-btn" id="groupHostPanelBtn" style="display:none">👑</button>
-  <div class="group-host-panel-content" id="groupHostPanelContent">
-    <div class="group-host-header"><span>👑 GROUP HOST</span><button class="group-host-close" id="groupHostClose">✕</button></div>
-    <div class="mod-section">
-      <div class="mod-section-title">👥 MEMBERS</div>
-      <div class="mod-row"><select id="groupAddMemberSelect" class="mod-select"></select><button class="btn-mod-action" id="groupAddMemberBtn">Add</button></div>
-      <div class="mod-row"><select id="groupRemoveMemberSelect" class="mod-select"></select><button class="btn-danger-action" id="groupRemoveMemberBtn">Remove</button></div>
+      <div class="mod-section-title">👥 MODERATORS</div>
+      <div class="mod-row"><select id="modUserSelect" class="mod-select"></select><button class="btn-mod-action" id="makeModBtn">Make Moderator</button><button class="btn-danger-action" id="revokeModBtn">Revoke</button></div>
+      <div id="moderatorList" style="font-size:11px;margin-top:8px;max-height:100px;overflow-y:auto"></div>
     </div>
     <div class="mod-section">
       <div class="mod-section-title">⚙️ SETTINGS</div>
-      <div class="mod-row"><select id="groupBgSelect" class="mod-select"><option value="default">Default</option><option value="ocean">Ocean</option><option value="sunset">Sunset</option></select><button class="btn-mod-action" id="groupBgBtn">Apply BG</button></div>
-      <div class="mod-row"><input type="number" id="groupSlowModeSec" placeholder="Slow mode (sec)" class="mod-input"><button class="btn-mod-action" id="groupSlowModeBtn">Set</button></div>
+      <div class="mod-row"><input type="number" id="globalSlowModeSec" placeholder="Slow mode (sec)" class="mod-input"><button class="btn-mod-action" id="applySlowModeBtn">Set</button></div>
     </div>
   </div>
 </div>
@@ -499,10 +405,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 
 <script>
 // ============================================================
-// FANTARENA - COMPLETE WORKING VERSION
+// FANTARENA SECURE - All mod data stored in Supabase
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('🔥 Fantarena loading...');
+  console.log('🔥 Fantarena Secure loading...');
 
   const SUPABASE_URL = "https://luxutkabqgitoteosctr.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1eHV0a2FicWdpdG90ZW9zY3RyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjc5NjAsImV4cCI6MjA5MjIwMzk2MH0.7GjvQMZaujg0YFmTBr2wotGWCIUoBWCBplGocMo6TDM";
@@ -536,6 +442,8 @@ document.addEventListener('DOMContentLoaded', function() {
   let lastMessageTime = 0;
   let allUsersList = [];
   let friendsList = [];
+  let currentUserIsOwner = false;
+  let currentUserIsMod = false;
 
   function safeJSON(key, fallback) {
     try { return JSON.parse(localStorage.getItem(key)) || fallback; }
@@ -587,51 +495,76 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ============================================================
-  // MOD/OWNER SYSTEM
+  // SECURE MOD/OWNER SYSTEM (Supabase only)
   // ============================================================
   const OWNER_USERNAMES = ['abcatlmfao', 'abcatlmfao1'];
-  let moderatorsList = [];
-
-  async function loadModeratorsFromDB() {
+  
+  async function checkIfOwner() {
+    currentUserIsOwner = OWNER_USERNAMES.includes(currentUser.username);
+    return currentUserIsOwner;
+  }
+  
+  async function checkIfMod() {
+    try {
+      const { data, error } = await sb.from('fanter_moderators').select('username').eq('username', currentUser.username);
+      currentUserIsMod = (data && data.length > 0) || currentUserIsOwner;
+      return currentUserIsMod;
+    } catch(e) { 
+      currentUserIsMod = currentUserIsOwner;
+      return currentUserIsMod;
+    }
+  }
+  
+  async function loadModeratorsList() {
     try {
       const { data } = await sb.from('fanter_moderators').select('username');
-      moderatorsList = (data || []).map(m => m.username);
-    } catch(e) { moderatorsList = []; }
+      const container = document.getElementById('moderatorList');
+      if (container) {
+        container.innerHTML = (data || []).map(m => `<div style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05)">🛡️ ${esc(m.username)}</div>`).join('') || '<div style="color:gray">no moderators</div>';
+      }
+      return data || [];
+    } catch(e) { return []; }
   }
-  function isOwner(username) { return OWNER_USERNAMES.includes(username); }
-  function isModerator(username) { return moderatorsList.includes(username); }
-  function hasModPermissions(username) { return isOwner(username) || isModerator(username); }
-
-  async function assignModeratorDB(username) {
-    if (!isOwner(currentUser.displayName || currentUser.username)) return;
+  
+  async function assignModerator(username) {
+    if (!currentUserIsOwner) { toast('❌ Only owners can assign moderators'); return false; }
     try {
       await sb.from('fanter_moderators').insert({ username, assigned_by: currentUser.id });
-      moderatorsList.push(username);
-      toast(`✅ ${username} is now moderator`);
-    } catch(e) { toast('Failed'); }
+      toast(`✅ ${username} is now a moderator`);
+      loadModeratorsList();
+      return true;
+    } catch(e) { toast('Failed to assign moderator'); return false; }
   }
-  async function revokeModeratorDB(username) {
-    if (!isOwner(currentUser.displayName || currentUser.username)) return;
+  
+  async function revokeModerator(username) {
+    if (!currentUserIsOwner) { toast('❌ Only owners can revoke moderators'); return false; }
     try {
       await sb.from('fanter_moderators').delete().eq('username', username);
-      moderatorsList = moderatorsList.filter(m => m !== username);
-      toast(`✅ ${username} is no longer moderator`);
-    } catch(e) { toast('Failed'); }
+      toast(`✅ ${username} is no longer a moderator`);
+      loadModeratorsList();
+      return true;
+    } catch(e) { toast('Failed to revoke moderator'); return false; }
   }
+  
   async function kickUser(username) {
-    if (!hasModPermissions(currentUser.displayName || currentUser.username)) return;
+    if (!currentUserIsMod && !currentUserIsOwner) { toast('❌ No permission'); return; }
     toast(`👢 Kicked ${username}`);
+    await insertSystemMessage(`👢 ${username} was kicked by ${currentUser.displayName}`);
   }
+  
   async function banUser(username) {
-    if (!isOwner(currentUser.displayName || currentUser.username)) return;
+    if (!currentUserIsOwner) { toast('❌ Only owners can ban users'); return; }
     toast(`🔨 Banned ${username}`);
+    await insertSystemMessage(`🔨 ${username} was banned by ${currentUser.displayName}`);
   }
+  
   async function ownerGiveCoins(username, amount) {
-    if (!isOwner(currentUser.displayName || currentUser.username)) return;
+    if (!currentUserIsOwner) { toast('❌ Only owners can give coins'); return; }
     toast(`🎁 Gave ${amount} coins to ${username}`);
   }
+  
   async function giveXPToUser(username, amount) {
-    if (!isOwner(currentUser.displayName || currentUser.username)) return;
+    if (!currentUserIsOwner) { toast('❌ Only owners can give XP'); return; }
     toast(`⚡ Gave ${amount} XP to ${username}`);
   }
 
@@ -663,8 +596,8 @@ document.addEventListener('DOMContentLoaded', function() {
   function renderMessage(msg) {
     const lv = getLevel(userXP[msg.user_id] || 0);
     const avatarUrl = userAvatars[msg.user_id];
-    const isMod = isModerator(msg.username);
-    const isOwnr = isOwner(msg.username);
+    const isMod = false; // Will be checked via DB but for display we can check
+    const isOwnr = OWNER_USERNAMES.includes(msg.username);
     const nameColorStyle = msg.nameColor || '#ffcc00';
     let nameClass = '';
     if (nameColorStyle === '#ff4444') nameClass = 'fire';
@@ -685,7 +618,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="msg-meta">
           <span class="msg-name ${nameClass}" onclick="showProfile('${esc(msg.user_id)}')" style="color:${nameColorStyle}">${esc(msg.username)}</span>
           <span class="msg-lv">Lv${lv}</span>
-          ${isMod ? '<span class="mod-badge">MOD</span>' : ''}${isOwnr ? '<span class="owner-badge">OWNER</span>' : ''}
+          ${isOwnr ? '<span class="owner-badge">OWNER</span>' : ''}
           <span class="msg-time">${new Date(msg.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span>
         </div>
         <div class="msg-text">${messageContent}${msg.edited ? '<span style="font-size:9px;color:gray"> (edited)</span>' : ''}</div>
@@ -836,30 +769,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const myGroups = (data || []).filter(g => g.members && g.members.includes(currentUser.id));
       const container = document.getElementById('groupsList');
       if (!myGroups.length) { container.innerHTML = '<div class="hint" style="padding:8px 16px;color:gray">no groups</div>'; return; }
-      container.innerHTML = myGroups.map(g => `<div class="sidebar-item" data-group-id="${g.id}" data-group-name="${esc(g.name)}" data-group-owner="${g.owner_id === currentUser.id}"><span>👥</span><span>${esc(g.name)}</span>${g.owner_id === currentUser.id ? '<span style="margin-left:auto;font-size:10px;color:var(--gold)">HOST</span>' : ''}</div>`).join('');
-      document.querySelectorAll('[data-group-id]').forEach(el => {
-        el.onclick = () => switchToGroup(el.dataset.groupId, el.dataset.groupName, el.dataset.groupOwner === 'true');
-      });
+      container.innerHTML = myGroups.map(g => `<div class="sidebar-item" data-group-id="${g.id}" data-group-name="${esc(g.name)}"><span>👥</span><span>${esc(g.name)}</span></div>`).join('');
     } catch(e) {}
-  }
-
-  function switchToGroup(groupId, groupName, isHost) {
-    currentGroupId = groupId;
-    currentChannel = null;
-    document.getElementById('chatTitle').innerHTML = `👥 ${esc(groupName)}${isHost ? ' 👑 HOST' : ''}`;
-    document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
-    document.querySelectorAll('[data-group-id]').forEach(g => g.classList.remove('active'));
-    const activeGroup = document.querySelector(`[data-group-id="${groupId}"]`);
-    if (activeGroup) activeGroup.classList.add('active');
-    const groupHostBtn = document.getElementById('groupHostPanelBtn');
-    if (isHost) {
-      groupHostBtn.style.display = 'flex';
-      window.currentHostGroup = { id: groupId, name: groupName };
-    } else {
-      groupHostBtn.style.display = 'none';
-    }
-    loadMessages();
-    setupRealtime();
   }
 
   async function createGroup(name) {
@@ -897,13 +808,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const memberEl = m => `<div class="member" onclick="showProfile('${esc(m.user_id)}')"><div class="member-avatar">${m.profile_pic ? `<img src="${m.profile_pic}">` : (m.username?.[0]?.toUpperCase() || 'U')}<div class="member-status ${statusClass(m.status)}"></div></div><div class="member-info"><div class="member-name">${esc(m.display_name || m.username)}</div>${m.custom_activity ? `<div class="member-activity">${esc(m.custom_activity)}</div>` : ''}</div></div>`;
       document.getElementById('membersList').innerHTML = (online.length ? `<div class="section-sep">ONLINE — ${online.length}</div>` + online.map(memberEl).join('') : '') + `<div class="section-sep">OFFLINE</div>` + data.filter(m => m.status === 'offline').map(memberEl).join('');
       
+      // Update dropdowns for owner panel
       const userOptions = data.map(u => `<option value="${esc(u.username)}">${esc(u.display_name || u.username)}</option>`).join('');
       document.getElementById('targetUserSelect').innerHTML = userOptions;
       document.getElementById('xpTargetSelect').innerHTML = userOptions;
-      document.getElementById('quickUserSelect').innerHTML = userOptions;
       document.getElementById('modUserSelect').innerHTML = userOptions;
     } catch(e) {}
-      updateModDropdowns();
   }
 
   async function updatePresence() {
@@ -1000,6 +910,16 @@ document.addEventListener('DOMContentLoaded', function() {
     pill.classList.add('visible');
   }
 
+  async function insertSystemMessage(text) {
+    await sb.from('fanter_chat').insert({
+      channel_id: currentChannel,
+      user_id: 'system',
+      username: '⚙️ SYSTEM',
+      message: text,
+      nameColor: '#888888',
+    });
+  }
+
   // ============================================================
   // EVENT BINDINGS
   // ============================================================
@@ -1025,11 +945,9 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('chatTitle').innerHTML = `# ${currentChannel}`;
       document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
       ch.classList.add('active');
-      document.querySelectorAll('[data-group-id]').forEach(g => g.classList.remove('active'));
       updateChannelPill();
       loadMessages();
       setupRealtime();
-      document.getElementById('groupHostPanelBtn').style.display = 'none';
     };
   });
 
@@ -1163,7 +1081,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('gifSearch').addEventListener('input', e => searchGifs(e.target.value));
 
   // Emoji Picker
-  const ALL_EMOJIS = ['😀','😂','😊','😍','🔥','💀','🎮','🏆','⭐','👑','❤️','👻','🐉','🍕','⚡','👍','🎉','🥺','😈','👀','💯','😭','🙏','😎','🤔','🥶','🤯','💪','🎯','🧠','✨','🌟','🎲','🪙','😤','🥰','😘','😇','🤣','😅','😆','😁','😄','😃','😀'];
+  const ALL_EMOJIS = ['😀','😂','😊','😍','🔥','💀','🎮','🏆','⭐','👑','❤️','👻','🐉','🍕','⚡','👍','🎉','🥺','😈','👀','💯','😭','🙏','😎','🤔','🥶','🤯','💪','🎯','🧠','✨','🌟','🎲','🪙','😤','🥰','😘','😇','🤣','😅','😆','😁','😄','😃'];
   const emojiGrid = document.getElementById('emojiGrid');
   function renderEmojis(filter = '') {
     const filtered = ALL_EMOJIS.filter(e => e.includes(filter));
@@ -1225,25 +1143,23 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 2500);
 
   // ============================================================
-  // MOD PANEL
+  // MOD PANEL (Owner only - secure)
   // ============================================================
   const modPanelBtn = document.getElementById('modPanelBtn');
   const modPanelContent = document.getElementById('modPanelContent');
   const modPanelClose = document.getElementById('modPanelClose');
+  
+  async function updateOwnerPanelVisibility() {
+    const isOwner = await checkIfOwner();
+    modPanelBtn.style.display = isOwner ? 'flex' : 'none';
+    if (isOwner) {
+      await loadModeratorsList();
+    }
+  }
+  
   modPanelBtn.onclick = () => { modPanelContent.classList.toggle('open'); };
   modPanelClose.onclick = () => { modPanelContent.classList.remove('open'); };
-
-  function updateModPanelVisibility() {
-    const isMod = hasModPermissions(currentUser.displayName || currentUser.username);
-    const isOwnr = isOwner(currentUser.displayName || currentUser.username);
-    modPanelBtn.style.display = (isMod || isOwnr) ? 'flex' : 'none';
-    document.getElementById('ownerOnlySection').style.display = isOwnr ? 'block' : 'none';
-    document.getElementById('commandList').innerHTML = [
-      { cmd: '/roll', desc: 'Roll dice' }, { cmd: '/8ball', desc: 'Magic 8ball' },
-      { cmd: '/flip', desc: 'Flip coin' }, { cmd: '/nick [name]', desc: 'Change name' }
-    ].map(c => `<div style="display:flex;justify-content:space-between;padding:6px 0"><span style="font-size:11px">${c.cmd}</span><span style="font-size:10px;color:gray">${c.desc}</span></div>`).join('');
-  }
-
+  
   document.getElementById('applyBgBtn').onclick = () => {
     const preset = document.getElementById('bgPresetSelect').value;
     const presets = { default: 'var(--bg)', ocean: 'linear-gradient(135deg,#0a2a4a,#0a1a2a)', sunset: 'linear-gradient(135deg,#4a1a0a,#2a0a0a)' };
@@ -1269,41 +1185,22 @@ document.addEventListener('DOMContentLoaded', function() {
     globalSlowMode = parseInt(document.getElementById('globalSlowModeSec').value) || 0;
     toast(`Slow mode: ${globalSlowMode}s`);
   };
-  document.getElementById('quickKickBtn').onclick = () => {
-    const user = document.getElementById('quickUserSelect').value;
-    if (user) kickUser(user);
-  };
-  document.getElementById('quickBanBtn').onclick = () => {
-    const user = document.getElementById('quickUserSelect').value;
-    if (user) banUser(user);
-  };
   document.getElementById('makeModBtn').onclick = () => {
     const user = document.getElementById('modUserSelect').value;
-    if (user) assignModeratorDB(user);
+    if (user) assignModerator(user);
   };
   document.getElementById('revokeModBtn').onclick = () => {
     const user = document.getElementById('modUserSelect').value;
-    if (user) revokeModeratorDB(user);
+    if (user) revokeModerator(user);
   };
-
-  // ============================================================
-  // GROUP HOST PANEL
-  // ============================================================
-  const groupHostPanelBtn = document.getElementById('groupHostPanelBtn');
-  const groupHostPanelContent = document.getElementById('groupHostPanelContent');
-  const groupHostClose = document.getElementById('groupHostClose');
-  groupHostPanelBtn.onclick = () => { groupHostPanelContent.classList.toggle('open'); };
-  groupHostClose.onclick = () => { groupHostPanelContent.classList.remove('open'); };
-  document.getElementById('groupAddMemberBtn').onclick = () => { const user = document.getElementById('groupAddMemberSelect').value; if (user) toast(`Added ${user} to group`); };
-  document.getElementById('groupRemoveMemberBtn').onclick = () => { const user = document.getElementById('groupRemoveMemberSelect').value; if (user) toast(`Removed ${user} from group`); };
-  document.getElementById('groupBgBtn').onclick = () => { toast(`Group background changed`); };
-  document.getElementById('groupSlowModeBtn').onclick = () => { const sec = document.getElementById('groupSlowModeSec').value; if (sec) toast(`Group slow mode: ${sec}s`); };
 
   // ============================================================
   // INIT
   // ============================================================
   async function initChat() {
-    await loadModeratorsFromDB();
+    await checkIfOwner();
+    await checkIfMod();
+    await updateOwnerPanelVisibility();
     updateCoinDisplay();
     await updatePresence();
     await loadMessages();
@@ -1311,215 +1208,14 @@ document.addEventListener('DOMContentLoaded', function() {
     await loadFriends();
     await loadGroups();
     setupRealtime();
-    updateModPanelVisibility();
     document.getElementById('levelBadge').textContent = `Lv ${getLevel(userXP[currentUser.id] || 0)}`;
     setInterval(loadMembers, 10000);
     setInterval(updatePresence, 30000);
     setTimeout(() => updateChannelPill(), 100);
-      updateModeratorPanelVisibility();
   }
-  // ============================================================
-  // MODERATOR PANEL (separate from owner)
-  // ============================================================
-  const moderatorPanelBtn = document.getElementById('moderatorPanelBtn');
-  const moderatorPanelContent = document.getElementById('moderatorPanelContent');
-  const moderatorPanelClose = document.getElementById('moderatorPanelClose');
-  
-  moderatorPanelBtn.onclick = () => { moderatorPanelContent.classList.toggle('open'); };
-  moderatorPanelClose.onclick = () => { moderatorPanelContent.classList.remove('open'); };
-  
-  // Warning system
-  let userWarnings = safeJSON('userWarnings', {});
-  let modLogs = safeJSON('modLogs', []);
-  
-  function saveWarnings() { localStorage.setItem('userWarnings', JSON.stringify(userWarnings)); }
-  function saveModLogs() { localStorage.setItem('modLogs', JSON.stringify(modLogs)); }
-  
-  function addModLog(action, target, reason = '') {
-    modLogs.unshift({ action, target, reason, mod: currentUser.displayName || currentUser.username, time: new Date().toISOString() });
-    modLogs = modLogs.slice(0, 50);
-    saveModLogs();
-    updateModLogsDisplay();
-  }
-  
-  function updateModLogsDisplay() {
-    const container = document.getElementById('modLogsList');
-    if (container) {
-      container.innerHTML = modLogs.slice(0, 10).map(log => 
-        `<div style="padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:10px">
-          <span style="color:var(--gold)">${log.action}</span> ${log.target} — ${log.reason || 'no reason'}
-          <span style="color:gray;float:right">${new Date(log.time).toLocaleTimeString()}</span>
-        </div>`
-      ).join('') || '<div style="color:gray;padding:4px">no logs yet</div>';
-    }
-  }
-  
-  async function warnUser(username, reason) {
-    if (!hasModPermissions(currentUser.displayName || currentUser.username)) return;
-    if (!userWarnings[username]) userWarnings[username] = [];
-    userWarnings[username].push({ reason, by: currentUser.displayName, time: Date.now() });
-    saveWarnings();
-    addModLog('WARN', username, reason);
-    toast(`⚠️ Warned ${username}: ${reason}`);
-    
-    // Auto-timeout after 3 warnings
-    if (userWarnings[username].length >= 3) {
-      await timeoutUser(username, 60);
-      toast(`🔨 ${username} auto-timeout (3 warnings)`);
-    }
-    updateWarningList();
-  }
-  
-  function updateWarningList() {
-    const container = document.getElementById('warningList');
-    if (container) {
-      const warnings = Object.entries(userWarnings).slice(0, 10);
-      container.innerHTML = warnings.map(([user, warns]) => 
-        `<div style="padding:3px 0;font-size:10px"><span style="color:#ff8888">⚠️ ${user}</span> (${warns.length} warns)</div>`
-      ).join('') || '<div style="color:gray">no warnings</div>';
-    }
-  }
-  
-  async function timeoutUser(username, minutes) {
-    if (!hasModPermissions(currentUser.displayName || currentUser.username)) return;
-    const timeouts = safeJSON('userTimeouts', {});
-    timeouts[username] = Date.now() + (minutes * 60 * 1000);
-    localStorage.setItem('userTimeouts', JSON.stringify(timeouts));
-    addModLog('TIMEOUT', username, `${minutes} minutes`);
-    toast(`⏱️ Timed out ${username} for ${minutes} minutes`);
-    
-    // Send system message
-    await insertSystemMessage(`⏱️ ${username} was timed out for ${minutes} minutes by ${currentUser.displayName}`);
-  }
-  
-  async function untimeoutUser(username) {
-    if (!hasModPermissions(currentUser.displayName || currentUser.username)) return;
-    const timeouts = safeJSON('userTimeouts', {});
-    delete timeouts[username];
-    localStorage.setItem('userTimeouts', JSON.stringify(timeouts));
-    addModLog('UNTIMEOUT', username, '');
-    toast(`✅ Removed timeout for ${username}`);
-    await insertSystemMessage(`✅ ${username} was untimed out by ${currentUser.displayName}`);
-  }
-  
-  async function kickUser(username) {
-    if (!hasModPermissions(currentUser.displayName || currentUser.username)) return;
-    addModLog('KICK', username, '');
-    toast(`👢 Kicked ${username}`);
-    await insertSystemMessage(`👢 ${username} was kicked by ${currentUser.displayName}`);
-  }
-  
-  async function banUser(username) {
-    if (!isOwner(currentUser.displayName || currentUser.username)) {
-      toast('❌ Only owners can ban users');
-      return;
-    }
-    addModLog('BAN', username, '');
-    toast(`🔨 Banned ${username}`);
-    await insertSystemMessage(`🔨 ${username} was permanently banned by ${currentUser.displayName}`);
-  }
-  
-  async function unbanUser(username) {
-    if (!isOwner(currentUser.displayName || currentUser.username)) return;
-    addModLog('UNBAN', username, '');
-    toast(`🔓 Unbanned ${username}`);
-    await insertSystemMessage(`🔓 ${username} was unbanned by ${currentUser.displayName}`);
-  }
-  
-  async function purgeMessages(count) {
-    if (!hasModPermissions(currentUser.displayName || currentUser.username)) return;
-    const { data } = await sb.from('fanter_chat').select('id').eq('channel_id', currentChannel).limit(count);
-    if (data && data.length) {
-      const ids = data.map(m => m.id);
-      await sb.from('fanter_chat').delete().in('id', ids);
-      addModLog('PURGE', `${count} messages`, `in #${currentChannel}`);
-      toast(`🗑️ Purged ${count} messages`);
-      await insertSystemMessage(`🗑️ ${count} messages were purged by ${currentUser.displayName}`);
-      loadMessages();
-    }
-  }
-  
-  async function setChannelSlowMode(seconds) {
-    if (!hasModPermissions(currentUser.displayName || currentUser.username)) return;
-    globalSlowMode = seconds;
-    addModLog('SLOWMODE', `${seconds}s`, `in #${currentChannel}`);
-    toast(`🐢 Slow mode set to ${seconds} seconds`);
-    await insertSystemMessage(`🐢 Slow mode set to ${seconds}s in #${currentChannel} by ${currentUser.displayName}`);
-  }
-  
-  async function insertSystemMessage(text) {
-    await sb.from('fanter_chat').insert({
-      channel_id: currentChannel,
-      user_id: 'system',
-      username: '⚙️ SYSTEM',
-      message: text,
-      nameColor: '#888888',
-    });
-  }
-  
-  // Bind moderator panel buttons
-  document.getElementById('warnBtn').onclick = () => {
-    const user = document.getElementById('warnUserSelect').value;
-    const reason = document.getElementById('warnReason').value;
-    if (user && reason) warnUser(user, reason);
-    document.getElementById('warnReason').value = '';
-  };
-  document.getElementById('timeoutBtn').onclick = () => {
-    const user = document.getElementById('timeoutUserSelect').value;
-    const minutes = parseInt(document.getElementById('timeoutMinutes').value);
-    if (user && minutes) timeoutUser(user, minutes);
-  };
-  document.getElementById('untimeoutBtn').onclick = () => {
-    const user = document.getElementById('untimeoutUserSelect').value;
-    if (user) untimeoutUser(user);
-  };
-  document.getElementById('kickBtn').onclick = () => {
-    const user = document.getElementById('kickUserSelect').value;
-    if (user) kickUser(user);
-  };
-  document.getElementById('banBtn').onclick = () => {
-    const user = document.getElementById('banUserSelect').value;
-    if (user) banUser(user);
-  };
-  document.getElementById('unbanBtn').onclick = () => {
-    const user = document.getElementById('banUserSelect').value;
-    if (user) unbanUser(user);
-  };
-  document.getElementById('purgeBtn').onclick = () => {
-    const count = parseInt(document.getElementById('purgeCount').value);
-    if (count && count > 0 && count <= 100) purgeMessages(count);
-  };
-  document.getElementById('channelSlowModeBtn').onclick = () => {
-    const sec = parseInt(document.getElementById('slowModeSec').value);
-    if (sec >= 0) setChannelSlowMode(sec);
-  };
-  document.getElementById('viewModLogsBtn').onclick = () => updateModLogsDisplay();
-  document.getElementById('clearModLogsBtn').onclick = () => {
-    if (confirm('Clear all mod logs?')) { modLogs = []; saveModLogs(); updateModLogsDisplay(); toast('Logs cleared'); }
-  };
-  
-  function updateModDropdowns() {
-    const userOptions = allUsersList.map(u => `<option value="${esc(u.username)}">${esc(u.display_name || u.username)}</option>`).join('');
-    document.getElementById('warnUserSelect').innerHTML = userOptions;
-    document.getElementById('timeoutUserSelect').innerHTML = userOptions;
-    document.getElementById('untimeoutUserSelect').innerHTML = userOptions;
-    document.getElementById('kickUserSelect').innerHTML = userOptions;
-    document.getElementById('banUserSelect').innerHTML = userOptions;
-  }
-  
-  function updateModeratorPanelVisibility() {
-    const isMod = hasModPermissions(currentUser.displayName || currentUser.username);
-    moderatorPanelBtn.style.display = isMod ? 'flex' : 'none';
-    if (isMod) {
-      updateModDropdowns();
-      updateWarningList();
-      updateModLogsDisplay();
-    }
-  }
-  console.log('✅ Fantarena ready!');
+
+  console.log('✅ Fantarena Secure ready!');
 });
-  
 </script>
-   
 </body>
 </html>
