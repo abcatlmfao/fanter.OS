@@ -367,7 +367,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 
 <script>
 // ============================================================
-// FANTARENA WITH VOICE MESSAGES - COMPLETE REWRITE
+// FANTARENA WITH WORKING VOICE MESSAGES (Base64 storage)
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
   console.log('🔥 Fantarena loading...');
@@ -385,7 +385,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ============================================================
-  // VOICE MESSAGES
+  // VOICE MESSAGES (Base64 - no storage bucket needed!)
   // ============================================================
   let mediaRecorder = null;
   let audioChunks = [];
@@ -408,31 +408,29 @@ document.addEventListener('DOMContentLoaded', function() {
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
         const duration = Math.round((Date.now() - recordingStartTime) / 1000);
-        const fileName = `voice_${currentUser.id}_${Date.now()}.webm`;
         
-        const { error: uploadError } = await sb.storage.from('voice_messages').upload(fileName, audioBlob);
-        if (uploadError) {
-          toast('❌ Failed to upload voice message');
-          if (currentStream) currentStream.getTracks().forEach(t => t.stop());
-          return;
-        }
+        // Convert blob to base64
+        const reader = new FileReader();
+        reader.readAsDataURL(audioBlob);
+        reader.onloadend = async () => {
+          const base64Audio = reader.result;
+          
+          const channelId = currentGroupId ? `group_${currentGroupId}` : currentChannel;
+          await sb.from('fanter_chat').insert({
+            channel_id: currentGroupId ? null : currentChannel,
+            group_id: currentGroupId,
+            user_id: currentUser.id,
+            username: currentUser.displayName || currentUser.username,
+            message: `[VOICE_BASE64]${base64Audio}`,
+            nameColor: nameColor,
+            is_voice_message: true,
+            voice_duration: duration,
+            voice_url: base64Audio
+          });
+          
+          toast('✅ Voice message sent!');
+        };
         
-        const { data: urlData } = sb.storage.from('voice_messages').getPublicUrl(fileName);
-        
-        const channelId = currentGroupId ? `group_${currentGroupId}` : currentChannel;
-        await sb.from('fanter_chat').insert({
-          channel_id: currentGroupId ? null : currentChannel,
-          group_id: currentGroupId,
-          user_id: currentUser.id,
-          username: currentUser.displayName || currentUser.username,
-          message: `[VOICE] ${urlData.publicUrl}`,
-          nameColor: nameColor,
-          is_voice_message: true,
-          voice_duration: duration,
-          voice_url: urlData.publicUrl
-        });
-        
-        toast('✅ Voice message sent!');
         if (currentStream) currentStream.getTracks().forEach(t => t.stop());
         document.querySelector('.voice-recording-indicator')?.remove();
       };
@@ -461,8 +459,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  window.playVoiceMessage = function(url, btn) {
-    const audio = new Audio(url);
+  window.playVoiceMessage = function(base64Data, btn) {
+    const audio = new Audio(base64Data);
     const waveContainer = btn.parentElement.querySelector('.voice-wave');
     
     audio.onplay = () => {
@@ -578,15 +576,15 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let messageContent = esc(msg.message);
     
-    if (msg.is_voice_message || (msg.message && msg.message.startsWith('[VOICE]'))) {
-      let voiceUrl = msg.voice_url;
-      if (!voiceUrl && msg.message) {
-        voiceUrl = msg.message.replace('[VOICE]', '').trim();
+    if (msg.is_voice_message || (msg.message && msg.message.startsWith('[VOICE_BASE64]'))) {
+      let base64Data = msg.voice_url;
+      if (!base64Data && msg.message) {
+        base64Data = msg.message.replace('[VOICE_BASE64]', '');
       }
       const duration = msg.voice_duration || 5;
       messageContent = `
         <div class="voice-message">
-          <button class="voice-play-btn" onclick="playVoiceMessage('${voiceUrl}', this)">🔊</button>
+          <button class="voice-play-btn" onclick="playVoiceMessage('${base64Data}', this)">🔊</button>
           <div class="voice-wave" style="display:none">
             <span></span><span></span><span></span><span></span><span></span>
           </div>
