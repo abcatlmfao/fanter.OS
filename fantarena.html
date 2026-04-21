@@ -469,10 +469,10 @@ input[type="color"]{width:40px;height:34px;border:1.5px solid var(--blue-border)
 
 <script>
 // ============================================================
-// FANTARENA - COMPLETE MERGED VERSION
+// FANTARENA - COMPLETE FIXED VERSION
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('🔥 Fantarena Complete loading...');
+  console.log('🔥 Fantarena loading...');
 
   const SUPABASE_URL = "https://luxutkabqgitoteosctr.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1eHV0a2FicWdpdG90ZW9zY3RyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjc5NjAsImV4cCI6MjA5MjIwMzk2MH0.7GjvQMZaujg0YFmTBr2wotGWCIUoBWCBplGocMo6TDM";
@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const base64Audio = reader.result;
           const channelId = currentDMUserId ? `dm_${[currentUser.id, currentDMUserId].sort().join('_')}` : currentGroupId ? `group_${currentGroupId}` : currentChannel;
           
-          await sb.from('fanter_chat').insert({
+          const { error } = await sb.from('fanter_chat').insert({
             channel_id: channelId,
             user_id: currentUser.id,
             username: currentUser.displayName || currentUser.username,
@@ -536,7 +536,12 @@ document.addEventListener('DOMContentLoaded', function() {
             voice_url: base64Audio
           });
           
-          toast('✅ Voice message sent!');
+          if (error) {
+            console.error('Voice send error:', error);
+            toast('❌ Failed to send voice message');
+          } else {
+            toast('✅ Voice message sent!');
+          }
         };
         
         if (currentStream) currentStream.getTracks().forEach(t => t.stop());
@@ -577,7 +582,7 @@ document.addEventListener('DOMContentLoaded', function() {
     audio.onended = () => {
       if (waveContainer) waveContainer.style.display = 'none';
     };
-    audio.play();
+    audio.play().catch(e => toast('❌ Cannot play audio'));
   };
 
   // ============================================================
@@ -896,7 +901,7 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   // ============================================================
-  // LOAD MESSAGES
+  // LOAD MESSAGES - FIXED
   // ============================================================
   async function loadMessages() {
     try {
@@ -908,57 +913,75 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         channelId = currentChannel;
       }
-      const { data, error } = await sb.from('fanter_chat').select('*').eq('channel_id', channelId).order('created_at', { ascending: true }).limit(100);
-      if (error) throw error;
+      
+      console.log('📥 Loading messages for channel:', channelId);
+      
+      const { data, error } = await sb
+        .from('fanter_chat')
+        .select('*')
+        .eq('channel_id', channelId)
+        .order('created_at', { ascending: true })
+        .limit(100);
+        
+      if (error) {
+        console.error('Load error:', error);
+        toast('❌ Failed to load messages');
+        return;
+      }
+      
       const container = document.getElementById('messages');
-      if (!data || !data.length) {
+      if (!data || data.length === 0) {
         container.innerHTML = '<div class="hint" style="text-align:center">✨ no messages yet ✨</div>';
         return;
       }
+      
+      console.log(`📥 Loaded ${data.length} messages`);
       container.innerHTML = data.map(renderMessage).join('');
       container.scrollTop = container.scrollHeight;
       for (const msg of data) loadReactions(msg.id);
-    } catch(e) { console.error(e); }
+    } catch(e) { 
+      console.error('loadMessages error:', e);
+      toast('❌ Error loading messages');
+    }
   }
 
+  // ============================================================
+  // SEND MESSAGE - FIXED
+  // ============================================================
   async function sendMessage() {
     let text = document.getElementById('messageInput').value.trim();
     if (!text) return;
+    
+    const originalText = text;
     document.getElementById('messageInput').value = '';
     
     if (globalSlowMode > 0 && !currentDMUserId && !currentGroupId) {
       const now = Date.now();
       if (now - lastMessageTime < globalSlowMode * 1000) {
         toast(`⏸ Slow mode! Wait ${globalSlowMode}s`);
+        document.getElementById('messageInput').value = originalText;
         return;
       }
       lastMessageTime = now;
     }
     
+    // Handle commands
     if (text.startsWith('/')) {
       const parts = text.slice(1).split(' ');
       const cmd = parts[0].toLowerCase();
       if (cmd === 'roll') text = `🎲 ${currentUser.displayName} rolled ${Math.floor(Math.random()*100)+1}!`;
       else if (cmd === '8ball') { const a=['Yes','No','Maybe','Definitely','Never','Probably']; text = `🎱 ${a[Math.floor(Math.random()*a.length)]}`; }
       else if (cmd === 'flip') text = `🪙 ${Math.random()>0.5?'Heads':'Tails'}!`;
-      else if (cmd === 'help') { toast('Commands: /roll, /8ball, /flip, /nick [name], /trivia, /poll Q|A|B'); return; }
+      else if (cmd === 'help') { toast('Commands: /roll, /8ball, /flip, /nick [name]'); document.getElementById('messageInput').value = ''; return; }
       else if (cmd === 'nick' && parts[1]) {
         currentUser.displayName = parts.slice(1).join(' ');
         localStorage.setItem('fanter_currentUser', JSON.stringify(currentUser));
         toast(`✅ Nickname: ${currentUser.displayName}`);
         updatePresence();
+        document.getElementById('messageInput').value = '';
         return;
       }
-      else if (cmd === 'trivia') {
-        const triviaQ = { q: 'What is 7 × 8?', options: ['54', '56', '58', '62'] };
-        text = `[POLL]${JSON.stringify({ question: triviaQ.q, options: triviaQ.options, votes: {} })}`;
-      }
-      else if (cmd === 'poll') {
-        const pollParts = text.slice(6).split('|').map(s => s.trim()).filter(Boolean);
-        if (pollParts.length < 3) { toast('Usage: /poll Question|Option A|Option B'); return; }
-        text = `[POLL]${JSON.stringify({ question: pollParts[0], options: pollParts.slice(1), votes: {} })}`;
-      }
-      else { toast('Unknown command. Try /help'); return; }
+      else { toast('Unknown command. Try /help'); document.getElementById('messageInput').value = ''; return; }
     }
     
     try {
@@ -971,7 +994,10 @@ document.addEventListener('DOMContentLoaded', function() {
         channelId = currentChannel;
       }
       
-      await sb.from('fanter_chat').insert({
+      console.log('📤 Sending to channel:', channelId);
+      console.log('📤 Message:', text);
+      
+      const { data, error } = await sb.from('fanter_chat').insert({
         channel_id: channelId,
         user_id: currentUser.id,
         username: currentUser.displayName || currentUser.username,
@@ -983,20 +1009,37 @@ document.addEventListener('DOMContentLoaded', function() {
         is_voice_message: false
       });
       
+      if (error) {
+        console.error('Send error:', error);
+        toast('❌ Failed to send: ' + error.message);
+        document.getElementById('messageInput').value = originalText;
+        return;
+      }
+      
+      console.log('📤 Send success!', data);
+      
       replyingTo = null;
       document.getElementById('replyBar').classList.remove('show');
       messageCounts[currentUser.id] = (messageCounts[currentUser.id] || 0) + 1;
       save();
       addXP(5);
       checkBadges();
-    } catch(e) { toast('❌ Failed to send'); }
+      
+    } catch(e) { 
+      console.error('Send exception:', e);
+      toast('❌ Failed to send');
+      document.getElementById('messageInput').value = originalText;
+    }
   }
 
   // ============================================================
-  // REALTIME
+  // REALTIME - FIXED
   // ============================================================
   function setupRealtime() {
-    if (channelSub) sb.removeChannel(channelSub);
+    if (channelSub) {
+      sb.removeChannel(channelSub);
+    }
+    
     let channelId;
     if (currentDMUserId) {
       channelId = `dm_${[currentUser.id, currentDMUserId].sort().join('_')}`;
@@ -1005,16 +1048,34 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       channelId = currentChannel;
     }
-    channelSub = sb.channel(`channel-${channelId}`)
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fanter_chat', filter: `channel_id=eq.${channelId}` }, payload => {
-        const container = document.getElementById('messages');
-        if (container.querySelector('.hint')?.textContent.includes('no messages')) container.innerHTML = '';
-        container.insertAdjacentHTML('beforeend', renderMessage(payload.new));
-        container.scrollTop = container.scrollHeight;
-        loadReactions(payload.new.id);
-      })
-      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'fanter_chat' }, () => loadMessages())
-      .subscribe();
+    
+    console.log('🔌 Setting up realtime for:', channelId);
+    
+    channelSub = sb
+      .channel(`room-${channelId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'fanter_chat',
+          filter: `channel_id=eq.${channelId}`
+        },
+        (payload) => {
+          console.log('📨 New message received!', payload.new);
+          const container = document.getElementById('messages');
+          const emptyHint = container.querySelector('.hint');
+          if (emptyHint && emptyHint.textContent.includes('no messages')) {
+            container.innerHTML = '';
+          }
+          container.insertAdjacentHTML('beforeend', renderMessage(payload.new));
+          container.scrollTop = container.scrollHeight;
+          loadReactions(payload.new.id);
+        }
+      )
+      .subscribe((status) => {
+        console.log('🔌 Realtime status:', status);
+      });
   }
 
   // ============================================================
@@ -1116,30 +1177,64 @@ document.addEventListener('DOMContentLoaded', function() {
     try {
       const { data } = await sb.from('fanter_presence').select('*');
       if (!data) return;
+      
       allUsersList = data;
+      
+      // Update userAvatars from presence data
+      for (const user of data) {
+        if (user.profile_pic && !userAvatars[user.user_id]) {
+          userAvatars[user.user_id] = user.profile_pic;
+        }
+      }
+      save();
+      
       const online = data.filter(m => m.status !== 'offline');
       document.getElementById('onlineCount').textContent = online.length;
-      const statusClass = s => ({ online: 'status-online', away: 'status-away', gaming: 'status-gaming' }[s] || 'status-offline');
-      const memberEl = m => `<div class="member" onclick="showProfile('${esc(m.user_id)}')"><div class="member-avatar">${m.profile_pic ? `<img src="${m.profile_pic}">` : (m.username?.[0]?.toUpperCase() || 'U')}<div class="member-status ${statusClass(m.status)}"></div></div><div class="member-info"><div class="member-name">${esc(m.display_name || m.username)}</div>${m.custom_activity ? `<div class="member-activity">${esc(m.custom_activity)}</div>` : ''}</div></div>`;
-      document.getElementById('membersList').innerHTML = (online.length ? `<div class="section-sep">ONLINE — ${online.length}</div>` + online.map(memberEl).join('') : '') + `<div class="section-sep">OFFLINE</div>` + data.filter(m => m.status === 'offline').map(memberEl).join('');
+      
+      const statusClass = s => ({ 
+        online: 'status-online', 
+        away: 'status-away', 
+        gaming: 'status-gaming' 
+      }[s] || 'status-offline');
+      
+      const memberEl = m => {
+        const avatarUrl = userAvatars[m.user_id] || m.profile_pic;
+        return `<div class="member" onclick="showProfile('${esc(m.user_id)}')">
+          <div class="member-avatar">
+            ${avatarUrl ? `<img src="${avatarUrl}">` : (m.username?.[0]?.toUpperCase() || 'U')}
+            <div class="member-status ${statusClass(m.status)}"></div>
+          </div>
+          <div class="member-info">
+            <div class="member-name">${esc(m.display_name || m.username)}</div>
+            ${m.custom_activity ? `<div class="member-activity">${esc(m.custom_activity)}</div>` : ''}
+          </div>
+        </div>`;
+      };
+      
+      document.getElementById('membersList').innerHTML = 
+        (online.length ? `<div class="section-sep">ONLINE — ${online.length}</div>` + online.map(memberEl).join('') : '') +
+        (data.filter(m => m.status === 'offline').length ? `<div class="section-sep">OFFLINE</div>` + data.filter(m => m.status === 'offline').map(memberEl).join('') : '');
       
       // Update dropdowns for mod panel
       const userOptions = data.map(u => `<option value="${esc(u.user_id)}|${esc(u.display_name || u.username)}">${esc(u.display_name || u.username)}</option>`).join('');
       document.getElementById('targetUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
       document.getElementById('xpTargetSelect').innerHTML = '<option value="">select user</option>' + userOptions;
       document.getElementById('modUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
-    } catch(e) {}
+      
+    } catch(e) { 
+      console.error('loadMembers error:', e);
+    }
   }
 
   // ============================================================
-  // PROFILE
+  // PROFILE - GLOBAL AVATAR FIXED
   // ============================================================
   window.showProfile = async function(userId) {
     try {
       const { data } = await sb.from('fanter_presence').select('*').eq('user_id', userId).single();
       if (!data) return;
       const name = data.display_name || data.username;
-      const avatarUrl = userAvatars[userId];
+      const avatarUrl = userAvatars[userId] || data.profile_pic;
       const isOwn = userId === currentUser.id;
       document.getElementById('profileAvatar').innerHTML = avatarUrl ? `<img src="${avatarUrl}">` : name[0].toUpperCase();
       document.getElementById('profileAvatar').style.cursor = isOwn ? 'pointer' : 'default';
@@ -1157,34 +1252,76 @@ document.addEventListener('DOMContentLoaded', function() {
       dmBtn.style.display = isOwn ? 'none' : 'block';
       dmBtn.onclick = () => { closeOverlay('profileOverlay'); openDM(userId, name); };
       openOverlay('profileOverlay');
-    } catch(e) {}
+    } catch(e) { console.error('showProfile error:', e); }
   };
 
+  // GLOBAL AVATAR UPLOAD - FIXED
   async function uploadAvatar(file) {
     if (!file) return;
-    const fileName = `${currentUser.id}_${Date.now()}.${file.name.split('.').pop()}`;
+    
+    toast('📸 Uploading profile picture...');
+    
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${currentUser.id}_${Date.now()}.${fileExt}`;
+    const filePath = `avatars/${fileName}`;
+    
     try {
-      const { error } = await sb.storage.from('avatars').upload(fileName, file);
-      if (error) { 
+      // Upload to Supabase Storage
+      const { error: uploadError } = await sb.storage
+        .from('avatars')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: true
+        });
+      
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
         // Fallback to base64
         const reader = new FileReader();
         reader.onloadend = async () => {
-          userAvatars[currentUser.id] = reader.result;
+          const base64 = reader.result;
+          userAvatars[currentUser.id] = base64;
           save();
           await updatePresence();
-          toast('✅ Profile picture updated (local)');
+          toast('✅ Profile picture saved (local fallback)');
           loadMembers();
+          const profileAvatar = document.getElementById('profileAvatar');
+          if (profileAvatar) profileAvatar.innerHTML = `<img src="${base64}">`;
         };
         reader.readAsDataURL(file);
         return;
       }
-      const { data: urlData } = sb.storage.from('avatars').getPublicUrl(fileName);
-      userAvatars[currentUser.id] = urlData.publicUrl;
+      
+      // Get public URL
+      const { data: urlData } = sb.storage
+        .from('avatars')
+        .getPublicUrl(filePath);
+      
+      const publicUrl = urlData.publicUrl;
+      console.log('Public URL:', publicUrl);
+      
+      // Save to userAvatars and presence
+      userAvatars[currentUser.id] = publicUrl;
       save();
-      await updatePresence();
-      toast('✅ Profile picture updated!');
+      
+      // Update presence table
+      await sb.from('fanter_presence')
+        .update({ profile_pic: publicUrl })
+        .eq('user_id', currentUser.id);
+      
+      toast('✅ Profile picture updated globally!');
+      
+      // Refresh UI
       loadMembers();
-    } catch(e) { toast('Upload failed'); }
+      
+      // Update profile avatar in open modal
+      const profileAvatar = document.getElementById('profileAvatar');
+      if (profileAvatar) profileAvatar.innerHTML = `<img src="${publicUrl}">`;
+      
+    } catch(e) {
+      console.error('Upload exception:', e);
+      toast('❌ Upload failed');
+    }
   }
   
   document.getElementById('avatarUpload').onchange = async (e) => {
@@ -1513,6 +1650,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // INIT
   // ============================================================
   async function initChat() {
+    console.log('🚀 Initializing chat...');
     updateCoinDisplay();
     await updatePresence();
     await loadMessages();
@@ -1526,9 +1664,10 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(loadMembers, 10000);
     setInterval(updatePresence, 30000);
     setTimeout(() => updateChannelPill(), 100);
+    console.log('✅ Fantarena ready!');
   }
 
-  console.log('✅ Fantarena Complete ready! 🔥');
+  console.log('✅ Fantarena script loaded! 🔥');
 });
 </script>
 </body>
