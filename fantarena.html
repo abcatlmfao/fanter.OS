@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>fanter | fantarena COMPLETE</title>
+<title>fanter | fantarena COMPLETE - Owner/Mod/Host Panels</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
@@ -11,7 +11,7 @@
 :root{
   --gold:#ffcc00;--gold-dim:rgba(255,204,0,0.15);--gold-border:rgba(255,204,0,0.3);
   --blue:#2d5ae3;--blue-dim:rgba(45,90,227,0.18);--blue-border:rgba(45,90,227,0.32);
-  --purple:#9f5ae3;--green:#00e87a;--red:#ff4466;
+  --purple:#9f5ae3;--green:#00e87a;--red:#ff4466;--orange:#ff8844;
   --bg:#07081a;--surface:rgba(12,16,38,0.98);--surface2:rgba(20,26,55,0.9);
   --text:#dde2ff;--muted:rgba(180,190,255,0.38);
   --ease:cubic-bezier(0.25,0.46,0.45,0.94);
@@ -31,7 +31,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .voice-wave span:nth-child(5){animation-delay:0.4s}
 @keyframes wave{0%,100%{height:4px}50%{height:18px}}
 .voice-duration{font-size:11px;color:var(--muted)}
-.voice-recording-indicator{position:fixed;bottom:90px;right:20px;background:var(--red);color:white;padding:8px 16px;border-radius:30px;font-size:12px;z-index:9000;cursor:pointer;animation:recPulse 1s infinite;box-shadow:0 4px 20px rgba(255,68,102,0.4)}
+.voice-recording-indicator{position:fixed;bottom:90px;right:20px;background:var(--red);color:white;padding:8px 16px;border-radius:30px;font-size:12px;z-index:9000;cursor:pointer;animation:recPulse 1s infinite}
 @keyframes recPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.7;transform:scale(0.97)}}
 @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 @keyframes toastIn{from{opacity:0;transform:translateX(40px) scale(0.9)}to{opacity:1;transform:translateX(0) scale(1)}}
@@ -45,13 +45,13 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 /* WELCOME */
 .welcome-screen{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;background:var(--bg);transition:opacity 0.4s var(--ease),transform 0.4s var(--ease)}
 .welcome-screen.out{opacity:0;transform:scale(0.96);pointer-events:none}
-.welcome-card{background:var(--surface);border:1.5px solid var(--gold-border);border-radius:28px;padding:44px 40px;text-align:center;max-width:490px;width:92%;animation:slideUp 0.5s var(--ease-spring);box-shadow:0 32px 90px rgba(0,0,0,0.55)}
-.welcome-logo{font-family:'Syne',sans-serif;font-size:46px;font-weight:800;color:var(--gold);letter-spacing:-1px}
+.welcome-card{background:var(--surface);border:1.5px solid var(--gold-border);border-radius:28px;padding:44px 40px;text-align:center;max-width:490px;width:92%;animation:slideUp 0.5s var(--ease-spring)}
+.welcome-logo{font-family:'Syne',sans-serif;font-size:46px;font-weight:800;color:var(--gold)}
 .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:28px}
-.feature{background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:11px;padding:10px 6px;font-size:11px;transition:background 0.15s}
+.feature{background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:11px;padding:10px 6px;font-size:11px}
 .feature:hover{background:rgba(45,90,227,0.28)}
-.enter-btn{width:100%;padding:15px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--blue),#1a3bc0);color:white;font-family:'Syne',sans-serif;font-size:17px;font-weight:700;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s}
-.enter-btn:hover{transform:translateY(-2px);box-shadow:0 14px 44px rgba(45,90,227,0.5)}
+.enter-btn{width:100%;padding:15px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--blue),#1a3bc0);color:white;font-family:'Syne',sans-serif;font-size:17px;font-weight:700;cursor:pointer}
+.enter-btn:hover{transform:translateY(-2px)}
 
 /* MAIN CHAT */
 .chat-container{display:flex;height:100vh;opacity:0;pointer-events:none;transition:opacity 0.4s var(--ease)}
@@ -64,17 +64,17 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .sidebar-header{padding:16px;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--gold);border-bottom:1px solid var(--blue-border)}
 .sidebar-scroll{flex:1;overflow-y:auto;padding-bottom:8px}
 .section-label{padding:12px 16px 4px;font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between}
-.add-btn{background:none;border:none;color:var(--gold);font-size:18px;cursor:pointer;transition:transform 0.15s}
+.add-btn{background:none;border:none;color:var(--gold);font-size:18px;cursor:pointer}
 .add-btn:hover{transform:scale(1.25) rotate(90deg)}
-.channel{padding:8px 14px;margin:2px 8px;border-radius:10px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:9px;color:var(--muted);transition:all 0.12s}
+.channel{padding:8px 14px;margin:2px 8px;border-radius:10px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:9px;color:var(--muted)}
 .channel:hover{background:var(--blue-dim);color:var(--text);transform:translateX(3px)}
 .channel.active{background:rgba(45,90,227,0.22);color:var(--gold);font-weight:600}
-.sidebar-item{padding:7px 12px;margin:1px 8px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted);transition:background 0.12s}
+.sidebar-item{padding:7px 12px;margin:1px 8px;border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:9px;font-size:13px;color:var(--muted)}
 .sidebar-item:hover{background:var(--blue-dim);color:var(--text)}
 .mini-avatar{width:26px;height:26px;background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;overflow:hidden}
 .mini-avatar img{width:100%;height:100%;object-fit:cover}
 .sidebar-footer{padding:10px;border-top:1px solid var(--blue-border);display:flex;flex-direction:column;gap:5px}
-.footer-btn{width:100%;padding:8px 12px;border-radius:10px;border:none;background:rgba(255,255,255,0.05);color:var(--text);font-size:12px;cursor:pointer;text-align:left;transition:all 0.12s}
+.footer-btn{width:100%;padding:8px 12px;border-radius:10px;border:none;background:rgba(255,255,255,0.05);color:var(--text);font-size:12px;cursor:pointer;text-align:left}
 .footer-btn:hover{background:rgba(255,255,255,0.1);transform:translateX(2px)}
 
 /* CHAT AREA */
@@ -100,23 +100,24 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .msg-lv{background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);border-radius:6px;padding:1px 5px;font-size:9px}
 .mod-badge{background:var(--gold);color:#1a1200;border-radius:4px;padding:1px 5px;font-size:8px}
 .owner-badge{background:#ff4444;color:white;border-radius:4px;padding:1px 5px;font-size:8px}
+.host-badge{background:var(--orange);color:#1a1200;border-radius:4px;padding:1px 5px;font-size:8px}
 .msg-time{font-size:9px;color:var(--muted)}
 .msg-text{margin-top:3px;font-size:13px;line-height:1.5;word-break:break-word}
 .msg-text img{max-width:200px;border-radius:8px;cursor:pointer}
-.msg-actions{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:flex;gap:2px;opacity:0;transition:opacity 0.12s;background:var(--surface);border:1px solid var(--blue-border);border-radius:8px;padding:2px 4px}
+.msg-actions{position:absolute;right:8px;top:50%;transform:translateY(-50%);display:flex;gap:2px;opacity:0;background:var(--surface);border:1px solid var(--blue-border);border-radius:8px;padding:2px 4px}
 .msg-action-btn{background:none;border:none;cursor:pointer;font-size:12px;padding:2px 4px;border-radius:5px;color:var(--muted)}
 .msg-action-btn:hover{background:var(--blue-dim);transform:scale(1.1)}
 .msg-reactions{display:flex;flex-wrap:wrap;gap:3px;margin-top:4px}
 .reaction-chip{display:flex;align-items:center;gap:3px;background:var(--blue-dim);border:1px solid var(--blue-border);border-radius:20px;padding:2px 8px;font-size:11px;cursor:pointer}
 .reaction-chip:hover{background:rgba(45,90,227,0.3)}
-.reaction-picker{position:absolute;right:8px;top:-38px;background:var(--surface);border:1px solid var(--blue-border);border-radius:10px;padding:4px 6px;display:flex;gap:3px;z-index:50;opacity:0;transform:translateY(5px);pointer-events:none;transition:all 0.12s}
+.reaction-picker{position:absolute;right:8px;top:-38px;background:var(--surface);border:1px solid var(--blue-border);border-radius:10px;padding:4px 6px;display:flex;gap:3px;z-index:50;opacity:0;transform:translateY(5px);pointer-events:none}
 .reaction-picker.open{opacity:1;transform:translateY(0);pointer-events:all}
 .react-btn{font-size:14px;cursor:pointer;padding:2px 3px;border-radius:5px}
 .react-btn:hover{background:var(--blue-dim);transform:scale(1.25)}
 
 /* INPUT AREA */
 .input-wrapper{border-top:1px solid var(--blue-border)}
-.reply-bar{display:flex;align-items:center;gap:8px;padding:0 16px;font-size:11px;color:var(--muted);max-height:0;overflow:hidden;transition:max-height 0.2s}
+.reply-bar{display:flex;align-items:center;gap:8px;padding:0 16px;font-size:11px;color:var(--muted);max-height:0;overflow:hidden}
 .reply-bar.show{max-height:34px;padding:7px 16px}
 .reply-cancel{background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px}
 .reply-cancel:hover{color:var(--red)}
@@ -130,7 +131,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .send-btn:hover{transform:translateY(-2px)}
 
 /* GIF & EMOJI PICKERS */
-.gif-picker{max-height:0;overflow:hidden;transition:max-height 0.22s}
+.gif-picker{max-height:0;overflow:hidden}
 .gif-picker.open{max-height:220px}
 .gif-picker-inner{padding:8px 16px;border-bottom:1px solid var(--blue-border)}
 .gif-search{width:100%;padding:6px 12px;border-radius:50px;border:1.5px solid var(--blue-border);background:rgba(0,0,0,0.2);color:var(--text);margin-bottom:6px}
@@ -138,7 +139,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .gif-item{flex-shrink:0;border-radius:7px;overflow:hidden;cursor:pointer;height:75px}
 .gif-item:hover{transform:scale(1.06)}
 .gif-item img{height:75px;width:auto}
-.emoji-picker{position:absolute;bottom:68px;left:16px;background:var(--surface);border:1px solid var(--blue-border);border-radius:14px;padding:10px;width:310px;max-height:280px;overflow-y:auto;z-index:200;opacity:0;transform:translateY(8px);pointer-events:none;transition:all 0.12s}
+.emoji-picker{position:absolute;bottom:68px;left:16px;background:var(--surface);border:1px solid var(--blue-border);border-radius:14px;padding:10px;width:310px;max-height:280px;overflow-y:auto;z-index:200;opacity:0;transform:translateY(8px);pointer-events:none}
 .emoji-picker.open{opacity:1;transform:translateY(0);pointer-events:all}
 .emoji-search{width:100%;padding:6px 10px;border-radius:8px;border:1px solid var(--blue-border);background:rgba(0,0,0,0.2);color:var(--text);margin-bottom:8px}
 .emoji-grid{display:flex;flex-wrap:wrap;gap:3px}
@@ -161,7 +162,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .section-sep{font-size:9px;letter-spacing:0.5px;text-transform:uppercase;color:var(--muted);margin:8px 6px 4px}
 
 /* MODALS */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.22s;backdrop-filter:blur(6px)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;backdrop-filter:blur(6px)}
 .overlay.active{opacity:1;pointer-events:all}
 .modal-card{background:var(--surface);border:1px solid var(--blue-border);border-radius:20px;padding:22px;min-width:290px;max-width:390px;width:92%}
 .modal-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--gold);margin-bottom:15px}
@@ -170,6 +171,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .modal-buttons{display:flex;gap:8px;justify-content:flex-end}
 .btn-primary{padding:8px 18px;border-radius:50px;border:none;background:linear-gradient(135deg,var(--blue),#1a3bc0);color:white;font-size:13px;font-weight:600;cursor:pointer}
 .btn-cancel{padding:8px 16px;border-radius:50px;border:1px solid var(--blue-border);background:transparent;color:var(--muted);cursor:pointer}
+.btn-danger{background:rgba(255,68,102,0.2);color:var(--red);border:1px solid rgba(255,68,102,0.3)}
+.btn-warning{background:rgba(255,136,68,0.2);color:var(--orange);border:1px solid rgba(255,136,68,0.3)}
 .profile-card{background:var(--surface);border:2px solid var(--gold-border);border-radius:24px;width:360px;overflow:hidden}
 .profile-banner{height:85px;background:linear-gradient(135deg,var(--blue),var(--purple))}
 .profile-avatar-big{position:relative;margin-top:-38px;margin-left:20px;width:70px;height:70px;border:3px solid var(--surface);background:linear-gradient(135deg,var(--blue),var(--purple));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;overflow:hidden;cursor:pointer}
@@ -186,21 +189,23 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 .badge{background:var(--gold-dim);border:1px solid var(--gold-border);border-radius:20px;padding:3px 9px;font-size:10px;color:var(--gold)}
 .profile-actions{display:flex;gap:8px}
 
-/* MOD PANEL */
+/* PANELS - Owner, Moderator, Group Host */
 .mod-panel{position:fixed;bottom:20px;right:20px;z-index:5000;display:none;flex-direction:column;align-items:flex-end;gap:10px}
 .mod-panel.visible{display:flex}
 .mod-panel-btn{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#ffaa00);border:none;cursor:pointer;font-size:22px;box-shadow:0 4px 18px rgba(255,204,0,0.35);display:flex;align-items:center;justify-content:center}
 .mod-panel-btn:hover{transform:scale(1.1)}
-.mod-panel-content{background:var(--surface);border:1px solid var(--gold-border);border-radius:16px;width:360px;max-height:65vh;overflow-y:auto;display:none}
+.mod-panel-content{background:var(--surface);border:1px solid var(--gold-border);border-radius:16px;width:380px;max-height:70vh;overflow-y:auto;display:none}
 .mod-panel-content.open{display:block}
 .mod-panel-header{padding:12px 16px;border-bottom:1px solid var(--blue-border);font-weight:700;color:var(--gold);display:flex;justify-content:space-between}
 .mod-panel-close{background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer}
 .mod-section{padding:10px 14px;border-bottom:1px solid var(--blue-border)}
 .mod-section-title{font-size:10px;font-weight:600;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
-.mod-row{display:flex;gap:6px;margin-bottom:7px;align-items:center}
-.mod-select,.mod-input{flex:1;padding:6px 9px;border-radius:8px;border:1px solid var(--blue-border);background:rgba(0,0,0,0.3);color:var(--text);font-size:12px}
+.mod-row{display:flex;gap:6px;margin-bottom:7px;align-items:center;flex-wrap:wrap}
+.mod-select,.mod-input{flex:1;padding:6px 9px;border-radius:8px;border:1px solid var(--blue-border);background:rgba(0,0,0,0.3);color:var(--text);font-size:12px;min-width:100px}
 .btn-mod-action{padding:5px 10px;border-radius:8px;border:1px solid var(--gold-border);background:rgba(255,204,0,0.12);color:var(--gold);font-size:11px;cursor:pointer}
+.btn-mod-action:hover{background:rgba(255,204,0,0.22)}
 .btn-danger-action{padding:5px 10px;border-radius:8px;border:1px solid rgba(255,68,102,0.3);background:rgba(255,68,102,0.12);color:var(--red);font-size:11px;cursor:pointer}
+.btn-warning-action{padding:5px 10px;border-radius:8px;border:1px solid rgba(255,136,68,0.3);background:rgba(255,136,68,0.12);color:var(--orange);font-size:11px;cursor:pointer}
 .shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .shop-item{background:var(--surface2);border:1px solid var(--blue-border);border-radius:13px;padding:12px;text-align:center;cursor:pointer}
 .shop-item:hover{border-color:var(--gold);transform:translateY(-3px)}
@@ -210,8 +215,6 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);hei
 #toastContainer{position:fixed;bottom:22px;right:22px;z-index:20000;display:flex;flex-direction:column;gap:7px}
 .toast{background:var(--surface);border:1px solid var(--blue-border);border-radius:11px;padding:10px 16px;font-size:12px;animation:toastIn 0.25s both}
 .hint{padding:7px 16px;color:var(--muted);font-size:12px}
-.divider{height:1px;background:var(--blue-border);margin:10px 0}
-input[type="color"]{width:40px;height:34px;border:1.5px solid var(--blue-border);border-radius:8px;background:none;padding:2px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -225,8 +228,8 @@ input[type="color"]{width:40px;height:34px;border:1.5px solid var(--blue-border)
       <div class="feature">🎲 /roll /8ball</div><div class="feature">😂 GIF picker</div>
       <div class="feature">👥 groups & DMs</div><div class="feature">🎁 daily rewards</div>
       <div class="feature">👍 reactions</div><div class="feature">🏪 coin shop</div>
-      <div class="feature">🎙️ voice messages</div><div class="feature">🛡️ mod panel</div>
-      <div class="feature">📸 profile pics</div><div class="feature">✏️ edit messages</div>
+      <div class="feature">🎙️ voice messages</div><div class="feature">👑 Owner Panel</div>
+      <div class="feature">🛡️ Mod Panel</div><div class="feature">👥 Host Panel</div>
     </div>
     <button class="enter-btn" id="enterBtn">🔥 ENTER CHAT 🔥</button>
   </div>
@@ -303,28 +306,27 @@ input[type="color"]{width:40px;height:34px;border:1.5px solid var(--blue-border)
   </div>
 </div>
 
-<!-- MOD PANEL -->
-<div class="mod-panel" id="modPanel">
-  <div class="mod-panel-content" id="modPanelContent">
+<!-- ============================================================ -->
+<!-- OWNER PANEL -->
+<!-- ============================================================ -->
+<div class="mod-panel" id="ownerPanel">
+  <div class="mod-panel-content" id="ownerPanelContent">
     <div class="mod-panel-header">
       <span>👑 OWNER PANEL</span>
-      <button class="mod-panel-close" id="modPanelClose">✕</button>
+      <button class="mod-panel-close" id="ownerPanelClose">✕</button>
     </div>
-    <div id="ownerOnlySection">
+    <div id="ownerSection">
       <div class="mod-section">
         <div class="mod-section-title">🎨 APPEARANCE</div>
         <div class="mod-row">
           <select class="mod-select" id="bgPresetSelect">
-            <option value="default">🌙 Default</option>
-            <option value="ocean">🌊 Ocean</option>
-            <option value="sunset">🌅 Sunset</option>
+            <option value="default">🌙 Default</option><option value="ocean">🌊 Ocean</option><option value="sunset">🌅 Sunset</option>
           </select>
           <button class="btn-mod-action" id="applyBgBtn">Apply</button>
         </div>
         <div class="mod-row">
           <select class="mod-select" id="eventSelect">
-            <option value="confetti">🎉 Confetti</option>
-            <option value="fireworks">🎆 Fireworks</option>
+            <option value="confetti">🎉 Confetti</option><option value="fireworks">🎆 Fireworks</option>
           </select>
           <button class="btn-mod-action" id="triggerEventBtn">Trigger</button>
         </div>
@@ -334,7 +336,7 @@ input[type="color"]{width:40px;height:34px;border:1.5px solid var(--blue-border)
         <div class="mod-row">
           <select class="mod-select" id="targetUserSelect"><option value="">select user</option></select>
           <input type="number" class="mod-input" id="coinAmount" placeholder="Coins" style="max-width:80px">
-          <button class="btn-mod-action" id="giveCoinsBtn">Give</button>
+          <button class="btn-mod-action" id="giveCoinsBtn">Give 🪙</button>
         </div>
         <div class="mod-row">
           <select class="mod-select" id="xpTargetSelect"><option value="">select user</option></select>
@@ -352,15 +354,122 @@ input[type="color"]{width:40px;height:34px;border:1.5px solid var(--blue-border)
         <div id="moderatorList" style="font-size:11px;margin-top:6px;color:var(--muted)">no moderators</div>
       </div>
       <div class="mod-section">
-        <div class="mod-section-title">⚙️ SETTINGS</div>
+        <div class="mod-section-title">⚙️ CHAT CONTROLS</div>
         <div class="mod-row">
           <input type="number" class="mod-input" id="globalSlowModeSec" placeholder="Slow mode (sec)">
           <button class="btn-mod-action" id="applySlowModeBtn">Set</button>
         </div>
       </div>
+      <div class="mod-section">
+        <div class="mod-section-title">🔨 USER ACTIONS</div>
+        <div class="mod-row">
+          <select class="mod-select" id="actionUserSelect"><option value="">select user</option></select>
+          <input type="number" class="mod-input" id="timeoutMinutes" placeholder="Minutes" style="max-width:70px">
+          <button class="btn-warning-action" id="timeoutUserBtn">Timeout</button>
+        </div>
+        <div class="mod-row">
+          <select class="mod-select" id="kickUserSelect"><option value="">select user</option></select>
+          <button class="btn-warning-action" id="kickUserBtn">Kick (close tab)</button>
+        </div>
+        <div class="mod-row">
+          <select class="mod-select" id="muteUserSelect"><option value="">select user</option></select>
+          <input type="number" class="mod-input" id="muteMinutes" placeholder="Minutes" style="max-width:70px">
+          <button class="btn-warning-action" id="muteUserBtn">Mute</button>
+        </div>
+        <div class="mod-row">
+          <select class="mod-select" id="warnUserSelect"><option value="">select user</option></select>
+          <input type="text" class="mod-input" id="warnReason" placeholder="Reason">
+          <button class="btn-warning-action" id="warnUserBtn">Warn</button>
+        </div>
+      </div>
     </div>
   </div>
-  <button class="mod-panel-btn" id="modPanelBtn">🛡️</button>
+  <button class="mod-panel-btn" id="ownerPanelBtn">👑</button>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODERATOR PANEL -->
+<!-- ============================================================ -->
+<div class="mod-panel" id="moderatorPanel">
+  <div class="mod-panel-content" id="moderatorPanelContent">
+    <div class="mod-panel-header">
+      <span>🛡️ MODERATOR PANEL</span>
+      <button class="mod-panel-close" id="moderatorPanelClose">✕</button>
+    </div>
+    <div class="mod-section">
+      <div class="mod-section-title">🔨 USER ACTIONS</div>
+      <div class="mod-row">
+        <select class="mod-select" id="modActionUserSelect"><option value="">select user</option></select>
+        <input type="number" class="mod-input" id="modTimeoutMinutes" placeholder="Minutes" style="max-width:70px">
+        <button class="btn-warning-action" id="modTimeoutUserBtn">Timeout</button>
+      </div>
+      <div class="mod-row">
+        <select class="mod-select" id="modKickUserSelect"><option value="">select user</option></select>
+        <button class="btn-warning-action" id="modKickUserBtn">Kick (close tab)</button>
+      </div>
+      <div class="mod-row">
+        <select class="mod-select" id="modMuteUserSelect"><option value="">select user</option></select>
+        <input type="number" class="mod-input" id="modMuteMinutes" placeholder="Minutes" style="max-width:70px">
+        <button class="btn-warning-action" id="modMuteUserBtn">Mute</button>
+      </div>
+      <div class="mod-row">
+        <select class="mod-select" id="modWarnUserSelect"><option value="">select user</option></select>
+        <input type="text" class="mod-input" id="modWarnReason" placeholder="Reason">
+        <button class="btn-warning-action" id="modWarnUserBtn">Warn</button>
+      </div>
+    </div>
+    <div class="mod-section">
+      <div class="mod-section-title">📋 ACTION LOGS</div>
+      <div id="modActionLogs" style="font-size:11px;max-height:150px;overflow-y:auto;color:var(--muted)">loading...</div>
+    </div>
+  </div>
+  <button class="mod-panel-btn" id="moderatorPanelBtn" style="background:linear-gradient(135deg,var(--blue),#1a3bc0);">🛡️</button>
+</div>
+
+<!-- ============================================================ -->
+<!-- GROUP HOST PANEL -->
+<!-- ============================================================ -->
+<div class="mod-panel" id="hostPanel">
+  <div class="mod-panel-content" id="hostPanelContent">
+    <div class="mod-panel-header">
+      <span>👥 GROUP HOST PANEL - <span id="currentGroupName">No Group</span></span>
+      <button class="mod-panel-close" id="hostPanelClose">✕</button>
+    </div>
+    <div id="hostSection">
+      <div class="mod-section">
+        <div class="mod-section-title">👋 INVITE MEMBERS</div>
+        <div class="mod-row">
+          <select class="mod-select" id="inviteFriendSelect"><option value="">select friend</option></select>
+          <button class="btn-mod-action" id="inviteToGroupBtn">Invite to Group</button>
+        </div>
+        <div class="mod-row">
+          <button class="btn-mod-action" id="createInviteLinkBtn">🔗 Create Invite Link</button>
+          <input type="text" class="mod-input" id="inviteLinkDisplay" placeholder="Invite link" readonly style="font-size:10px">
+        </div>
+      </div>
+      <div class="mod-section">
+        <div class="mod-section-title">👥 GROUP MEMBERS</div>
+        <div id="groupMembersList" style="font-size:12px;max-height:150px;overflow-y:auto"></div>
+      </div>
+      <div class="mod-section">
+        <div class="mod-section-title">👑 GROUP HOSTS</div>
+        <div class="mod-row">
+          <select class="mod-select" id="hostUserSelect"><option value="">select member</option></select>
+          <button class="btn-mod-action" id="addHostBtn">Make Host</button>
+          <button class="btn-danger-action" id="removeHostBtn">Remove Host</button>
+        </div>
+        <div id="groupHostsList" style="font-size:11px;margin-top:6px;color:var(--muted)">no hosts</div>
+      </div>
+      <div class="mod-section">
+        <div class="mod-section-title">🚫 GROUP ACTIONS</div>
+        <div class="mod-row">
+          <select class="mod-select" id="kickMemberSelect"><option value="">select member</option></select>
+          <button class="btn-warning-action" id="kickMemberBtn">Kick from Group</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="mod-panel-btn" id="hostPanelBtn" style="background:linear-gradient(135deg,var(--orange),#cc6600);">👥</button>
 </div>
 
 <!-- PROFILE OVERLAY -->
@@ -469,10 +578,10 @@ input[type="color"]{width:40px;height:34px;border:1.5px solid var(--blue-border)
 
 <script>
 // ============================================================
-// FANTARENA - COMPLETE FIXED VERSION
+// FANTARENA - COMPLETE WITH OWNER/MOD/HOST PANELS
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('🔥 Fantarena loading...');
+  console.log('🔥 Fantarena Loading...');
 
   const SUPABASE_URL = "https://luxutkabqgitoteosctr.supabase.co";
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx1eHV0a2FicWdpdG90ZW9zY3RyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjc5NjAsImV4cCI6MjA5MjIwMzk2MH0.7GjvQMZaujg0YFmTBr2wotGWCIUoBWCBplGocMo6TDM";
@@ -511,78 +620,49 @@ document.addEventListener('DOMContentLoaded', function() {
       audioChunks = [];
       recordingStartTime = Date.now();
       
-      mediaRecorder.ondataavailable = (e) => {
-        if (e.data.size > 0) audioChunks.push(e.data);
-      };
+      mediaRecorder.ondataavailable = (e) => { if (e.data.size > 0) audioChunks.push(e.data); };
       
       mediaRecorder.onstop = async () => {
         const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
         const duration = Math.round((Date.now() - recordingStartTime) / 1000);
-        
         const reader = new FileReader();
         reader.readAsDataURL(audioBlob);
         reader.onloadend = async () => {
           const base64Audio = reader.result;
           const channelId = currentDMUserId ? `dm_${[currentUser.id, currentDMUserId].sort().join('_')}` : currentGroupId ? `group_${currentGroupId}` : currentChannel;
-          
-          const { error } = await sb.from('fanter_chat').insert({
-            channel_id: channelId,
-            user_id: currentUser.id,
+          await sb.from('fanter_chat').insert({
+            channel_id: channelId, user_id: currentUser.id,
             username: currentUser.displayName || currentUser.username,
-            message: `[VOICE]${base64Audio}`,
-            nameColor: nameColor,
-            is_voice_message: true,
-            voice_duration: duration,
-            voice_url: base64Audio
+            message: `[VOICE]${base64Audio}`, nameColor: nameColor,
+            is_voice_message: true, voice_duration: duration, voice_url: base64Audio
           });
-          
-          if (error) {
-            console.error('Voice send error:', error);
-            toast('❌ Failed to send voice message');
-          } else {
-            toast('✅ Voice message sent!');
-          }
+          toast('✅ Voice message sent!');
         };
-        
         if (currentStream) currentStream.getTracks().forEach(t => t.stop());
         document.querySelector('.voice-recording-indicator')?.remove();
       };
-      
       mediaRecorder.start();
       isRecording = true;
-      
       const indicator = document.createElement('div');
       indicator.className = 'voice-recording-indicator';
       indicator.innerHTML = '🔴 Recording... click to stop';
       indicator.onclick = stopVoiceRecording;
       document.body.appendChild(indicator);
-      
-      toast('🔴 Recording... click the red indicator to stop');
-    } catch(e) {
-      console.error(e);
-      toast('❌ Could not access microphone');
-    }
+      toast('🔴 Recording... click to stop');
+    } catch(e) { toast('❌ Microphone access denied'); }
   }
   
   function stopVoiceRecording() {
-    if (mediaRecorder && isRecording) {
-      mediaRecorder.stop();
-      isRecording = false;
-      document.querySelector('.voice-recording-indicator')?.remove();
-    }
+    if (mediaRecorder && isRecording) { mediaRecorder.stop(); isRecording = false; }
+    document.querySelector('.voice-recording-indicator')?.remove();
   }
   
   window.playVoiceMessage = function(base64Data, btn) {
     const audio = new Audio(base64Data);
-    const waveContainer = btn.parentElement.querySelector('.voice-wave');
-    
-    audio.onplay = () => {
-      if (waveContainer) waveContainer.style.display = 'flex';
-    };
-    audio.onended = () => {
-      if (waveContainer) waveContainer.style.display = 'none';
-    };
-    audio.play().catch(e => toast('❌ Cannot play audio'));
+    const wave = btn.parentElement.querySelector('.voice-wave');
+    audio.onplay = () => { if(wave) wave.style.display = 'flex'; };
+    audio.onended = () => { if(wave) wave.style.display = 'none'; };
+    audio.play();
   };
 
   // ============================================================
@@ -606,7 +686,10 @@ document.addEventListener('DOMContentLoaded', function() {
   let lastMessageTime = 0;
   let allUsersList = [];
   let moderatorsList = safeJSON('fanter_moderators', []);
+  let groupHostsList = [];
   let replyingTo = null;
+  let mutedUsers = {};
+  let timedOutUsers = {};
 
   if (!userXP[currentUser.id]) userXP[currentUser.id] = 0;
   if (!messageCounts[currentUser.id]) messageCounts[currentUser.id] = 0;
@@ -639,9 +722,8 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function updateCoinDisplay() {
-    const c = currentUser.coins || 0;
-    document.getElementById('coinCount').textContent = c;
-    document.getElementById('shopCoinDisplay').textContent = c;
+    document.getElementById('coinCount').textContent = currentUser.coins || 0;
+    document.getElementById('shopCoinDisplay').textContent = currentUser.coins || 0;
   }
   
   function addCoins(n) {
@@ -656,15 +738,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // LEVEL SYSTEM
   // ============================================================
   function getLevel(xp) {
-    if (xp >= 5000) return 20;
-    if (xp >= 4000) return 18;
-    if (xp >= 3000) return 15;
-    if (xp >= 2000) return 12;
-    if (xp >= 1400) return 10;
-    if (xp >= 900) return 7;
-    if (xp >= 500) return 5;
-    if (xp >= 250) return 3;
-    if (xp >= 100) return 2;
+    if (xp >= 5000) return 20; if (xp >= 4000) return 18; if (xp >= 3000) return 15;
+    if (xp >= 2000) return 12; if (xp >= 1400) return 10; if (xp >= 900) return 7;
+    if (xp >= 500) return 5; if (xp >= 250) return 3; if (xp >= 100) return 2;
     return 1;
   }
   
@@ -682,14 +758,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('levelBadge').textContent = `Lv ${getLevel(userXP[currentUser.id])}`;
   }
 
-  // ============================================================
-  // BADGES
-  // ============================================================
   function awardBadge(name) {
     if (!userBadges[currentUser.id]?.includes(name)) {
       userBadges[currentUser.id] = [...(userBadges[currentUser.id] || []), name];
       save();
-      toast(`🏆 Badge unlocked: ${name}!`);
+      toast(`🏆 Badge: ${name}!`);
     }
   }
   
@@ -704,35 +777,107 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ============================================================
-  // MOD/OWNER SYSTEM
+  // ROLE FUNCTIONS
   // ============================================================
-  function isOwner(username) { return OWNER_USERNAMES.includes(username); }
-  function isModerator(username) { return moderatorsList.includes(username); }
-  function hasModPermissions(username) { return isOwner(username) || isModerator(username); }
+  function isOwner() { return OWNER_USERNAMES.includes(currentUser.displayName || currentUser.username); }
+  function isModerator() { return moderatorsList.includes(currentUser.displayName || currentUser.username) || isOwner(); }
   
-  async function assignModerator(username) {
-    if (!isOwner(currentUser.displayName || currentUser.username)) return;
-    if (!moderatorsList.includes(username)) {
-      moderatorsList.push(username);
-      save();
-      toast(`✅ ${username} is now a moderator`);
-      updateModPanelUI();
-    }
+  async function isGroupOwner() {
+    if (!currentGroupId) return false;
+    const { data } = await sb.from('fanter_groups').select('owner_id').eq('id', currentGroupId).single();
+    return data?.owner_id === currentUser.id;
   }
   
-  async function revokeModerator(username) {
-    if (!isOwner(currentUser.displayName || currentUser.username)) return;
-    moderatorsList = moderatorsList.filter(m => m !== username);
-    save();
-    toast(`✅ ${username} is no longer a moderator`);
-    updateModPanelUI();
+  async function isGroupHost() {
+    if (!currentGroupId) return false;
+    if (await isGroupOwner()) return true;
+    const { data } = await sb.from('fanter_group_hosts').select('*').eq('group_id', currentGroupId).eq('user_id', currentUser.id);
+    return data && data.length > 0;
+  }
+
+  // ============================================================
+  // MODERATOR ACTIONS
+  // ============================================================
+  async function timeoutUser(userId, minutes, reason = '') {
+    if (!isModerator()) return toast('❌ Only moderators can timeout');
+    const until = new Date(Date.now() + minutes * 60 * 1000).toISOString();
+    timedOutUsers[userId] = until;
+    await sb.from('fanter_presence').update({ timeout_until: until }).eq('user_id', userId);
+    await sb.from('fanter_timeout_logs').insert({ user_id: userId, moderator_id: currentUser.id, duration: minutes, reason });
+    toast(`⏰ User timed out for ${minutes} minutes`);
+    if (userId === currentUser.id) setTimeout(() => location.reload(), 1000);
   }
   
-  function updateModPanelUI() {
-    document.getElementById('moderatorList').innerHTML = moderatorsList.map(m => `<div style="padding:4px 0">🛡️ ${esc(m)}</div>`).join('') || '<div style="color:gray">no moderators</div>';
-    const isOwnerUser = isOwner(currentUser.displayName || currentUser.username);
-    document.getElementById('ownerOnlySection').style.display = isOwnerUser ? 'block' : 'none';
-    document.getElementById('modPanel').style.display = isOwnerUser ? 'flex' : 'none';
+  async function kickUser(userId) {
+    if (!isModerator()) return toast('❌ Only moderators can kick');
+    await sb.from('fanter_kick_logs').insert({ user_id: userId, moderator_id: currentUser.id, reason: 'Kicked by moderator' });
+    toast(`👢 User kicked`);
+    if (userId === currentUser.id) { toast('You were kicked!'); setTimeout(() => location.reload(), 500); }
+  }
+  
+  async function muteUser(userId, minutes, reason = '') {
+    if (!isModerator()) return toast('❌ Only moderators can mute');
+    const until = new Date(Date.now() + minutes * 60 * 1000).toISOString();
+    mutedUsers[userId] = until;
+    await sb.from('fanter_presence').update({ is_muted: true, muted_until: until }).eq('user_id', userId);
+    toast(`🔇 User muted for ${minutes} minutes`);
+  }
+  
+  async function warnUser(userId, reason) {
+    if (!isModerator()) return toast('❌ Only moderators can warn');
+    toast(`⚠️ User warned: ${reason}`);
+  }
+
+  // ============================================================
+  // GROUP HOST ACTIONS
+  // ============================================================
+  async function inviteToGroup(userId) {
+    if (!await isGroupHost()) return toast('❌ Only group hosts can invite');
+    const { data: group } = await sb.from('fanter_groups').select('members').eq('id', currentGroupId).single();
+    let members = group?.members || [];
+    if (!members.includes(userId)) {
+      members.push(userId);
+      await sb.from('fanter_groups').update({ members }).eq('id', currentGroupId);
+      toast('✅ User invited to group!');
+      loadGroups();
+    } else toast('User already in group');
+  }
+  
+  async function kickFromGroup(userId) {
+    if (!await isGroupHost()) return toast('❌ Only group hosts can kick');
+    const { data: group } = await sb.from('fanter_groups').select('members, owner_id').eq('id', currentGroupId).single();
+    if (group?.owner_id === userId) return toast('❌ Cannot kick group owner');
+    let members = group?.members || [];
+    members = members.filter(m => m !== userId);
+    await sb.from('fanter_groups').update({ members }).eq('id', currentGroupId);
+    toast('✅ User kicked from group');
+    loadGroups();
+    if (currentGroupId && userId === currentUser.id) { currentGroupId = null; loadMessages(); }
+  }
+  
+  async function addGroupHost(userId) {
+    if (!await isGroupOwner()) return toast('❌ Only group owner can add hosts');
+    await sb.from('fanter_group_hosts').insert({ group_id: currentGroupId, user_id: userId, assigned_by: currentUser.id });
+    toast('✅ Added as group host');
+    loadGroupHosts();
+  }
+  
+  async function removeGroupHost(userId) {
+    if (!await isGroupOwner()) return toast('❌ Only group owner can remove hosts');
+    await sb.from('fanter_group_hosts').delete().eq('group_id', currentGroupId).eq('user_id', userId);
+    toast('✅ Removed group host');
+    loadGroupHosts();
+  }
+  
+  async function loadGroupHosts() {
+    if (!currentGroupId) return;
+    const { data } = await sb.from('fanter_group_hosts').select('*').eq('group_id', currentGroupId);
+    groupHostsList = data || [];
+    const usernames = await Promise.all(groupHostsList.map(async h => {
+      const { data: u } = await sb.from('fanter_presence').select('display_name').eq('user_id', h.user_id).single();
+      return u?.display_name || h.user_id.slice(0,8);
+    }));
+    document.getElementById('groupHostsList').innerHTML = usernames.map(u => `<div>👑 ${esc(u)}</div>`).join('') || 'no hosts';
   }
 
   // ============================================================
@@ -764,8 +909,8 @@ document.addEventListener('DOMContentLoaded', function() {
   function renderMessage(msg) {
     const lv = getLevel(userXP[msg.user_id] || 0);
     const avatarUrl = userAvatars[msg.user_id];
-    const isMod = isModerator(msg.username);
-    const isOwnr = isOwner(msg.username);
+    const isMod = moderatorsList.includes(msg.username);
+    const isOwnr = OWNER_USERNAMES.includes(msg.username);
     const nameColorStyle = msg.nameColor || '#ffcc00';
     let nameClass = '';
     if (nameColorStyle === '#ff4444') nameClass = 'fire';
@@ -773,35 +918,16 @@ document.addEventListener('DOMContentLoaded', function() {
     else if (nameColorStyle === '#00e87a') nameClass = 'green';
     
     let messageContent = esc(msg.message);
-    const canDelete = (msg.user_id === currentUser.id) || hasModPermissions(currentUser.displayName || currentUser.username);
+    const canDelete = (msg.user_id === currentUser.id) || isModerator();
     
     if (msg.is_voice_message || (msg.message && msg.message.startsWith('[VOICE]'))) {
-      let base64Data = msg.voice_url;
-      if (!base64Data && msg.message) {
-        base64Data = msg.message.replace('[VOICE]', '');
-      }
+      let base64Data = msg.voice_url || msg.message.replace('[VOICE]', '');
       const duration = msg.voice_duration || 5;
-      messageContent = `
-        <div class="voice-message">
-          <button class="voice-play-btn" onclick="playVoiceMessage('${base64Data}', this)">🔊</button>
-          <div class="voice-wave" style="display:none">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <span class="voice-duration">${duration}s</span>
-        </div>
-      `;
+      messageContent = `<div class="voice-message"><button class="voice-play-btn" onclick="playVoiceMessage('${base64Data}', this)">🔊</button><div class="voice-wave" style="display:none"><span></span><span></span><span></span><span></span><span></span></div><span class="voice-duration">${duration}s</span></div>`;
     } else {
       const gifMatch = msg.message.match(/\[GIF\]\s*(https?:\/\/[^\s]+)/i);
-      if (gifMatch) {
-        messageContent = `<img src="${gifMatch[1]}" onclick="window.open('${gifMatch[1]}')">`;
-      } else if (msg.message.match(/\.(gif|jpg|jpeg|png)(\?.*)?$/i)) {
-        messageContent = `<img src="${esc(msg.message)}" onclick="window.open('${esc(msg.message)}')">`;
-      }
+      if (gifMatch) messageContent = `<img src="${gifMatch[1]}" onclick="window.open('${gifMatch[1]}')">`;
     }
-    
-    const replyHtml = (msg.reply_to_id && msg.reply_preview)
-      ? `<div style="background:rgba(45,90,227,0.1);border-left:3px solid var(--blue);border-radius:4px;padding:4px 10px;margin-bottom:4px;font-size:11px;color:var(--muted);cursor:pointer" onclick="scrollToMsg(${msg.reply_to_id})">↩ <strong>${esc(msg.reply_username || '?')}</strong>: ${esc((msg.reply_preview || '').slice(0,55))}</div>`
-      : '';
     
     return `<div class="message" id="msg-${msg.id}">
       <div class="msg-avatar" onclick="showProfile('${esc(msg.user_id)}')">${avatarUrl ? `<img src="${avatarUrl}">` : (msg.username?.[0]?.toUpperCase() || 'U')}</div>
@@ -809,30 +935,30 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="msg-meta">
           <span class="msg-name ${nameClass}" onclick="showProfile('${esc(msg.user_id)}')" style="color:${nameColorStyle}">${esc(msg.username)}</span>
           <span class="msg-lv">Lv${lv}</span>
-          ${isMod ? '<span class="mod-badge">MOD</span>' : ''}
           ${isOwnr ? '<span class="owner-badge">OWNER</span>' : ''}
+          ${isMod && !isOwnr ? '<span class="mod-badge">MOD</span>' : ''}
           <span class="msg-time">${new Date(msg.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</span>
         </div>
-        ${replyHtml}
         <div class="msg-text">${messageContent}${msg.edited ? '<span style="font-size:9px;color:gray"> (edited)</span>' : ''}</div>
         <div class="msg-reactions" id="reactions-${msg.id}"></div>
       </div>
       <div class="msg-actions">
-        <div class="reaction-picker" id="rp-${msg.id}">${['👍','❤️','😂','🔥','💀','🏆','😭','🎉'].map(e => `<span class="react-btn" onclick="addReaction('${msg.id}','${e}')">${e}</span>`).join('')}</div>
+        <div class="reaction-picker" id="rp-${msg.id}">${['👍','❤️','😂','🔥','💀','🏆'].map(e => `<span class="react-btn" onclick="addReaction('${msg.id}','${e}')">${e}</span>`).join('')}</div>
         <button class="msg-action-btn" onclick="toggleReactionPicker('${msg.id}')">😊</button>
         <button class="msg-action-btn" onclick="startReply(${msg.id},'${esc(msg.username)}','${esc((msg.message||'').slice(0,50))}')">↩</button>
         ${msg.user_id === currentUser.id ? `<button class="msg-action-btn" onclick="editMessage('${msg.id}')">✏️</button>` : ''}
         ${canDelete ? `<button class="msg-action-btn" onclick="deleteMsg('${msg.id}')" style="color:var(--red)">🗑</button>` : ''}
+        ${isModerator() && msg.user_id !== currentUser.id ? `<button class="msg-action-btn" onclick="modActions('${msg.user_id}','${esc(msg.username)}')" style="color:var(--orange)">🛡️</button>` : ''}
       </div>
     </div>`;
   }
 
-  window.scrollToMsg = function(id) {
-    const el = document.getElementById('msg-' + id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    el.style.background = 'rgba(45,90,227,0.15)';
-    setTimeout(() => el.style.background = '', 1500);
+  window.modActions = function(userId, username) {
+    const action = prompt(`Actions for ${username}:\n1 - Timeout\n2 - Kick\n3 - Mute\n4 - Warn\nEnter number:`);
+    if (action === '1') { const mins = prompt('Minutes to timeout:'); if(mins) timeoutUser(userId, parseInt(mins)); }
+    else if (action === '2') { if(confirm(`Kick ${username}?`)) kickUser(userId); }
+    else if (action === '3') { const mins = prompt('Minutes to mute:'); if(mins) muteUser(userId, parseInt(mins)); }
+    else if (action === '4') { const reason = prompt('Warning reason:'); if(reason) warnUser(userId, reason); }
   };
 
   async function loadReactions(msgId) {
@@ -842,21 +968,15 @@ document.addEventListener('DOMContentLoaded', function() {
       const grouped = {};
       data.forEach(r => { if (!grouped[r.emoji]) grouped[r.emoji] = []; grouped[r.emoji].push(r.user_id); });
       const container = document.getElementById(`reactions-${msgId}`);
-      if (container) {
-        container.innerHTML = Object.entries(grouped).map(([emoji, users]) => `<div class="reaction-chip" onclick="addReaction('${msgId}','${emoji}')">${emoji} ${users.length}</div>`).join('');
-      }
+      if (container) container.innerHTML = Object.entries(grouped).map(([emoji, users]) => `<div class="reaction-chip" onclick="addReaction('${msgId}','${emoji}')">${emoji} ${users.length}</div>`).join('');
     } catch(e) {}
   }
 
   window.addReaction = async function(msgId, emoji) {
     try {
       const { data: existing } = await sb.from('fanter_reactions').select('id').eq('message_id', msgId).eq('user_id', currentUser.id).eq('emoji', emoji);
-      if (existing && existing.length) {
-        await sb.from('fanter_reactions').delete().eq('id', existing[0].id);
-      } else {
-        await sb.from('fanter_reactions').insert({ message_id: msgId, user_id: currentUser.id, emoji });
-        addXP(1);
-      }
+      if (existing && existing.length) await sb.from('fanter_reactions').delete().eq('id', existing[0].id);
+      else { await sb.from('fanter_reactions').insert({ message_id: msgId, user_id: currentUser.id, emoji }); addXP(1); }
       loadReactions(msgId);
     } catch(e) {}
   };
@@ -867,7 +987,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.reaction-picker.open').forEach(p => p.classList.remove('open'));
     picker.classList.add('open');
   };
-  
   document.addEventListener('click', e => { if (!e.target.closest('.msg-actions')) document.querySelectorAll('.reaction-picker.open').forEach(p => p.classList.remove('open')); });
 
   window.startReply = function(id, username, preview) {
@@ -876,7 +995,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('replyBar').classList.add('show');
     document.getElementById('messageInput').focus();
   };
-  
   document.getElementById('replyCancel').onclick = () => { replyingTo = null; document.getElementById('replyBar').classList.remove('show'); };
   
   window.editMessage = async function(msgId) {
@@ -884,213 +1002,115 @@ document.addEventListener('DOMContentLoaded', function() {
     const textEl = msgEl?.querySelector('.msg-text');
     if (!textEl) return;
     const original = textEl.textContent.replace('(edited)', '').trim();
-    const newText = prompt('Edit message:', original);
+    const newText = prompt('Edit:', original);
     if (newText && newText !== original) {
       await sb.from('fanter_chat').update({ message: newText, edited: true }).eq('id', msgId);
       loadMessages();
-      toast('✅ Message edited');
+      toast('✅ Edited');
     }
   };
   
   window.deleteMsg = async function(msgId) {
-    if (confirm('Delete this message?')) {
+    if (confirm('Delete?')) {
       await sb.from('fanter_chat').delete().eq('id', msgId);
       document.getElementById(`msg-${msgId}`)?.remove();
-      toast('🗑 Message deleted');
+      toast('🗑 Deleted');
     }
   };
 
   // ============================================================
-  // LOAD MESSAGES - FIXED
+  // LOAD MESSAGES
   // ============================================================
   async function loadMessages() {
     try {
       let channelId;
-      if (currentDMUserId) {
-        channelId = `dm_${[currentUser.id, currentDMUserId].sort().join('_')}`;
-      } else if (currentGroupId) {
-        channelId = `group_${currentGroupId}`;
-      } else {
-        channelId = currentChannel;
-      }
+      if (currentDMUserId) channelId = `dm_${[currentUser.id, currentDMUserId].sort().join('_')}`;
+      else if (currentGroupId) channelId = `group_${currentGroupId}`;
+      else channelId = currentChannel;
       
-      console.log('📥 Loading messages for channel:', channelId);
-      
-      const { data, error } = await sb
-        .from('fanter_chat')
-        .select('*')
-        .eq('channel_id', channelId)
-        .order('created_at', { ascending: true })
-        .limit(100);
-        
-      if (error) {
-        console.error('Load error:', error);
-        toast('❌ Failed to load messages');
-        return;
-      }
-      
+      const { data, error } = await sb.from('fanter_chat').select('*').eq('channel_id', channelId).order('created_at', { ascending: true }).limit(100);
+      if (error) throw error;
       const container = document.getElementById('messages');
-      if (!data || data.length === 0) {
-        container.innerHTML = '<div class="hint" style="text-align:center">✨ no messages yet ✨</div>';
-        return;
-      }
-      
-      console.log(`📥 Loaded ${data.length} messages`);
+      if (!data || !data.length) { container.innerHTML = '<div class="hint" style="text-align:center">✨ no messages yet ✨</div>'; return; }
       container.innerHTML = data.map(renderMessage).join('');
       container.scrollTop = container.scrollHeight;
       for (const msg of data) loadReactions(msg.id);
-    } catch(e) { 
-      console.error('loadMessages error:', e);
-      toast('❌ Error loading messages');
-    }
+    } catch(e) { console.error(e); }
   }
 
- // REPLACE the sendMessage function with this - it works with BOTH column names
-async function sendMessage() {
-  let text = document.getElementById('messageInput').value.trim();
-  if (!text) return;
-  
-  const originalText = text;
-  document.getElementById('messageInput').value = '';
-  
-  if (globalSlowMode > 0 && !currentDMUserId && !currentGroupId) {
-    const now = Date.now();
-    if (now - lastMessageTime < globalSlowMode * 1000) {
-      toast(`⏸ Slow mode! Wait ${globalSlowMode}s`);
-      document.getElementById('messageInput').value = originalText;
-      return;
-    }
-    lastMessageTime = now;
-  }
-  
-  // Handle commands
-  if (text.startsWith('/')) {
-    const parts = text.slice(1).split(' ');
-    const cmd = parts[0].toLowerCase();
-    if (cmd === 'roll') text = `🎲 ${currentUser.displayName} rolled ${Math.floor(Math.random()*100)+1}!`;
-    else if (cmd === '8ball') { const a=['Yes','No','Maybe','Definitely','Never','Probably']; text = `🎱 ${a[Math.floor(Math.random()*a.length)]}`; }
-    else if (cmd === 'flip') text = `🪙 ${Math.random()>0.5?'Heads':'Tails'}!`;
-    else if (cmd === 'help') { toast('Commands: /roll, /8ball, /flip, /nick [name]'); return; }
-    else if (cmd === 'nick' && parts[1]) {
-      currentUser.displayName = parts.slice(1).join(' ');
-      localStorage.setItem('fanter_currentUser', JSON.stringify(currentUser));
-      toast(`✅ Nickname: ${currentUser.displayName}`);
-      updatePresence();
-      return;
-    }
-    else { toast('Unknown command. Try /help'); return; }
-  }
-  
-  try {
-    let channelId;
-    if (currentDMUserId) {
-      channelId = `dm_${[currentUser.id, currentDMUserId].sort().join('_')}`;
-    } else if (currentGroupId) {
-      channelId = `group_${currentGroupId}`;
-    } else {
-      channelId = currentChannel;
+  // ============================================================
+  // SEND MESSAGE
+  // ============================================================
+  async function sendMessage() {
+    let text = document.getElementById('messageInput').value.trim();
+    if (!text) return;
+    document.getElementById('messageInput').value = '';
+    
+    if (globalSlowMode > 0 && !currentDMUserId && !currentGroupId) {
+      const now = Date.now();
+      if (now - lastMessageTime < globalSlowMode * 1000) { toast(`⏸ Slow mode! Wait ${globalSlowMode}s`); return; }
+      lastMessageTime = now;
     }
     
-    console.log('📤 Sending to channel:', channelId);
-    console.log('📤 Message:', text);
+    if (mutedUsers[currentUser.id] && new Date(mutedUsers[currentUser.id]) > new Date()) { toast('🔇 You are muted!'); return; }
+    if (timedOutUsers[currentUser.id] && new Date(timedOutUsers[currentUser.id]) > new Date()) { toast('⏰ You are timed out!'); return; }
     
-    // Try with nameColor first (camelCase), fallback to name_color if needed
-    const messageData = {
-      channel_id: channelId,
-      user_id: currentUser.id,
-      username: currentUser.displayName || currentUser.username,
-      message: text,
-      reply_to_id: replyingTo?.id || null,
-      reply_username: replyingTo?.username || null,
-      reply_preview: replyingTo?.preview || null,
-      is_voice_message: false
-    };
-    
-    // Add color - try both formats
-    messageData.nameColor = nameColor;
-    messageData.name_color = nameColor;  // Include both to be safe
-    
-    const { data, error } = await sb.from('fanter_chat').insert(messageData);
-    
-    if (error) {
-      console.error('Send error:', error);
-      // If error is about column, try without color first
-      if (error.message.includes('column')) {
-        delete messageData.nameColor;
-        delete messageData.name_color;
-        const { data: retryData, error: retryError } = await sb.from('fanter_chat').insert(messageData);
-        if (retryError) {
-          toast('❌ Failed to send: ' + retryError.message);
-          document.getElementById('messageInput').value = originalText;
-          return;
-        }
-      } else {
-        toast('❌ Failed to send: ' + error.message);
-        document.getElementById('messageInput').value = originalText;
+    if (text.startsWith('/')) {
+      const parts = text.slice(1).split(' ');
+      const cmd = parts[0].toLowerCase();
+      if (cmd === 'roll') text = `🎲 ${currentUser.displayName} rolled ${Math.floor(Math.random()*100)+1}!`;
+      else if (cmd === '8ball') { const a=['Yes','No','Maybe','Definitely','Never']; text = `🎱 ${a[Math.floor(Math.random()*a.length)]}`; }
+      else if (cmd === 'flip') text = `🪙 ${Math.random()>0.5?'Heads':'Tails'}!`;
+      else if (cmd === 'help') { toast('Commands: /roll, /8ball, /flip, /nick [name]'); return; }
+      else if (cmd === 'nick' && parts[1]) {
+        currentUser.displayName = parts.slice(1).join(' ');
+        localStorage.setItem('fanter_currentUser', JSON.stringify(currentUser));
+        toast(`✅ Nickname: ${currentUser.displayName}`);
+        updatePresence();
         return;
       }
+      else { toast('Unknown command'); return; }
     }
     
-    console.log('📤 Send success!');
-    
-    replyingTo = null;
-    document.getElementById('replyBar').classList.remove('show');
-    messageCounts[currentUser.id] = (messageCounts[currentUser.id] || 0) + 1;
-    save();
-    addXP(5);
-    checkBadges();
-    
-  } catch(e) { 
-    console.error('Send exception:', e);
-    toast('❌ Failed to send');
-    document.getElementById('messageInput').value = originalText;
+    try {
+      let channelId;
+      if (currentDMUserId) channelId = `dm_${[currentUser.id, currentDMUserId].sort().join('_')}`;
+      else if (currentGroupId) channelId = `group_${currentGroupId}`;
+      else channelId = currentChannel;
+      
+      await sb.from('fanter_chat').insert({
+        channel_id: channelId, user_id: currentUser.id,
+        username: currentUser.displayName || currentUser.username,
+        message: text, nameColor: nameColor,
+        reply_to_id: replyingTo?.id || null, reply_username: replyingTo?.username || null, reply_preview: replyingTo?.preview || null,
+        is_voice_message: false
+      });
+      replyingTo = null;
+      document.getElementById('replyBar').classList.remove('show');
+      messageCounts[currentUser.id] = (messageCounts[currentUser.id] || 0) + 1;
+      save(); addXP(5); checkBadges();
+    } catch(e) { toast('❌ Failed'); }
   }
-}
 
   // ============================================================
-  // REALTIME - FIXED
+  // REALTIME
   // ============================================================
   function setupRealtime() {
-    if (channelSub) {
-      sb.removeChannel(channelSub);
-    }
-    
+    if (channelSub) sb.removeChannel(channelSub);
     let channelId;
-    if (currentDMUserId) {
-      channelId = `dm_${[currentUser.id, currentDMUserId].sort().join('_')}`;
-    } else if (currentGroupId) {
-      channelId = `group_${currentGroupId}`;
-    } else {
-      channelId = currentChannel;
-    }
+    if (currentDMUserId) channelId = `dm_${[currentUser.id, currentDMUserId].sort().join('_')}`;
+    else if (currentGroupId) channelId = `group_${currentGroupId}`;
+    else channelId = currentChannel;
     
-    console.log('🔌 Setting up realtime for:', channelId);
-    
-    channelSub = sb
-      .channel(`room-${channelId}`)
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'fanter_chat',
-          filter: `channel_id=eq.${channelId}`
-        },
-        (payload) => {
-          console.log('📨 New message received!', payload.new);
-          const container = document.getElementById('messages');
-          const emptyHint = container.querySelector('.hint');
-          if (emptyHint && emptyHint.textContent.includes('no messages')) {
-            container.innerHTML = '';
-          }
-          container.insertAdjacentHTML('beforeend', renderMessage(payload.new));
-          container.scrollTop = container.scrollHeight;
-          loadReactions(payload.new.id);
-        }
-      )
-      .subscribe((status) => {
-        console.log('🔌 Realtime status:', status);
-      });
+    channelSub = sb.channel(`room-${channelId}`)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fanter_chat', filter: `channel_id=eq.${channelId}` }, payload => {
+        const container = document.getElementById('messages');
+        if (container.querySelector('.hint')) container.innerHTML = '';
+        container.insertAdjacentHTML('beforeend', renderMessage(payload.new));
+        container.scrollTop = container.scrollHeight;
+        loadReactions(payload.new.id);
+      })
+      .subscribe();
   }
 
   // ============================================================
@@ -1106,14 +1126,35 @@ async function sendMessage() {
     } catch(e) {}
   }
   
-  window.openGroup = function(gid, name) {
+  window.openGroup = async function(gid, name) {
     currentGroupId = gid;
     currentDMUserId = null;
     document.getElementById('chatTitle').innerHTML = `👥 ${name}`;
+    document.getElementById('currentGroupName').textContent = name;
     document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
-    loadMessages();
+    await loadMessages();
     setupRealtime();
+    await loadGroupHosts();
+    await loadGroupMembers();
+    updatePanels();
   };
+  
+  async function loadGroupMembers() {
+    if (!currentGroupId) return;
+    const { data: group } = await sb.from('fanter_groups').select('members, owner_id').eq('id', currentGroupId).single();
+    const members = group?.members || [];
+    const memberNames = await Promise.all(members.map(async m => {
+      const { data: u } = await sb.from('fanter_presence').select('display_name, user_id').eq('user_id', m).single();
+      const isOwner = group?.owner_id === m;
+      const isHost = groupHostsList.some(h => h.user_id === m);
+      return `<div style="padding:4px 0">${isOwner ? '👑' : isHost ? '👥' : '👤'} ${esc(u?.display_name || m.slice(0,8))}</div>`;
+    }));
+    document.getElementById('groupMembersList').innerHTML = memberNames.join('') || 'no members';
+    
+    const memberOptions = members.map(m => `<option value="${m}">${esc(m.slice(0,8))}</option>`).join('');
+    document.getElementById('hostUserSelect').innerHTML = '<option value="">select member</option>' + memberOptions;
+    document.getElementById('kickMemberSelect').innerHTML = '<option value="">select member</option>' + memberOptions;
+  }
   
   async function createGroup(name) {
     await sb.from('fanter_groups').insert({ name, owner_id: currentUser.id, members: [currentUser.id] });
@@ -1132,6 +1173,9 @@ async function sendMessage() {
       const { data: f } = await sb.from('fanter_presence').select('*').in('user_id', fData.map(d => d.friend_id));
       if (!f || !f.length) { container.innerHTML = '<div class="hint">no friends</div>'; return; }
       container.innerHTML = f.map(fr => `<div class="sidebar-item" onclick="openDM('${fr.user_id}', '${esc(fr.display_name || fr.username)}')"><div class="mini-avatar">${fr.profile_pic ? `<img src="${fr.profile_pic}">` : (fr.username?.[0]?.toUpperCase() || 'U')}</div><span>${esc(fr.display_name || fr.username)}</span></div>`).join('');
+      
+      const friendOptions = f.map(fr => `<option value="${fr.user_id}">${esc(fr.display_name || fr.username)}</option>`).join('');
+      document.getElementById('inviteFriendSelect').innerHTML = '<option value="">select friend</option>' + friendOptions;
     } catch(e) {}
   }
   
@@ -1143,7 +1187,7 @@ async function sendMessage() {
       container.innerHTML = data.map(d => {
         const otherId = d.user1_id === currentUser.id ? d.user2_id : d.user1_id;
         const otherUser = allUsersList.find(u => u.user_id === otherId);
-        const name = otherUser?.display_name || otherUser?.username || otherId.slice(0, 8);
+        const name = otherUser?.display_name || otherUser?.username || otherId.slice(0,8);
         return `<div class="sidebar-item" onclick="openDM('${esc(otherId)}','${esc(name)}')"><span>💬</span><span>${esc(name)}</span></div>`;
       }).join('');
     } catch(e) {}
@@ -1156,7 +1200,6 @@ async function sendMessage() {
     document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
     await loadMessages();
     setupRealtime();
-    
     try {
       const ids = [currentUser.id, userId].sort();
       await sb.from('fanter_dm_conversations').upsert({ user1_id: ids[0], user2_id: ids[1], last_message_time: new Date().toISOString() });
@@ -1170,20 +1213,13 @@ async function sendMessage() {
   async function updatePresence() {
     try {
       await sb.from('fanter_presence').upsert({
-        user_id: currentUser.id,
-        username: currentUser.username,
+        user_id: currentUser.id, username: currentUser.username,
         display_name: currentUser.displayName || currentUser.username,
-        status: 'online',
-        custom_activity: customActivity,
-        bio: userBio,
-        profile_pic: userAvatars[currentUser.id] || null,
-        name_color: nameColor,
-        xp: userXP[currentUser.id] || 0,
-        level: getLevel(userXP[currentUser.id] || 0),
-        coins: currentUser.coins || 0,
-        message_count: messageCounts[currentUser.id] || 0,
-        badges: userBadges[currentUser.id] || [],
-        last_seen: new Date().toISOString()
+        status: 'online', custom_activity: customActivity, bio: userBio,
+        profile_pic: userAvatars[currentUser.id] || null, nameColor: nameColor,
+        xp: userXP[currentUser.id] || 0, level: getLevel(userXP[currentUser.id] || 0),
+        coins: currentUser.coins || 0, message_count: messageCounts[currentUser.id] || 0,
+        badges: userBadges[currentUser.id] || [], last_seen: new Date().toISOString()
       });
     } catch(e) {}
   }
@@ -1192,64 +1228,45 @@ async function sendMessage() {
     try {
       const { data } = await sb.from('fanter_presence').select('*');
       if (!data) return;
-      
       allUsersList = data;
-      
-      // Update userAvatars from presence data
-      for (const user of data) {
-        if (user.profile_pic && !userAvatars[user.user_id]) {
-          userAvatars[user.user_id] = user.profile_pic;
-        }
-      }
+      for (const user of data) { if (user.profile_pic && !userAvatars[user.user_id]) userAvatars[user.user_id] = user.profile_pic; }
       save();
-      
       const online = data.filter(m => m.status !== 'offline');
       document.getElementById('onlineCount').textContent = online.length;
-      
-      const statusClass = s => ({ 
-        online: 'status-online', 
-        away: 'status-away', 
-        gaming: 'status-gaming' 
-      }[s] || 'status-offline');
-      
+      const statusClass = s => ({ online:'status-online', away:'status-away', gaming:'status-gaming' }[s] || 'status-offline');
       const memberEl = m => {
         const avatarUrl = userAvatars[m.user_id] || m.profile_pic;
         return `<div class="member" onclick="showProfile('${esc(m.user_id)}')">
-          <div class="member-avatar">
-            ${avatarUrl ? `<img src="${avatarUrl}">` : (m.username?.[0]?.toUpperCase() || 'U')}
-            <div class="member-status ${statusClass(m.status)}"></div>
-          </div>
-          <div class="member-info">
-            <div class="member-name">${esc(m.display_name || m.username)}</div>
-            ${m.custom_activity ? `<div class="member-activity">${esc(m.custom_activity)}</div>` : ''}
-          </div>
+          <div class="member-avatar">${avatarUrl ? `<img src="${avatarUrl}">` : (m.username?.[0]?.toUpperCase() || 'U')}<div class="member-status ${statusClass(m.status)}"></div></div>
+          <div class="member-info"><div class="member-name">${esc(m.display_name || m.username)}</div>${m.custom_activity ? `<div class="member-activity">${esc(m.custom_activity)}</div>` : ''}</div>
         </div>`;
       };
+      document.getElementById('membersList').innerHTML = (online.length ? `<div class="section-sep">ONLINE — ${online.length}</div>` + online.map(memberEl).join('') : '') + `<div class="section-sep">OFFLINE</div>` + data.filter(m => m.status === 'offline').map(memberEl).join('');
       
-      document.getElementById('membersList').innerHTML = 
-        (online.length ? `<div class="section-sep">ONLINE — ${online.length}</div>` + online.map(memberEl).join('') : '') +
-        (data.filter(m => m.status === 'offline').length ? `<div class="section-sep">OFFLINE</div>` + data.filter(m => m.status === 'offline').map(memberEl).join('') : '');
-      
-      // Update dropdowns for mod panel
       const userOptions = data.map(u => `<option value="${esc(u.user_id)}|${esc(u.display_name || u.username)}">${esc(u.display_name || u.username)}</option>`).join('');
       document.getElementById('targetUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
       document.getElementById('xpTargetSelect').innerHTML = '<option value="">select user</option>' + userOptions;
       document.getElementById('modUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
-      
-    } catch(e) { 
-      console.error('loadMembers error:', e);
-    }
+      document.getElementById('actionUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
+      document.getElementById('kickUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
+      document.getElementById('muteUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
+      document.getElementById('warnUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
+      document.getElementById('modActionUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
+      document.getElementById('modKickUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
+      document.getElementById('modMuteUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
+      document.getElementById('modWarnUserSelect').innerHTML = '<option value="">select user</option>' + userOptions;
+    } catch(e) {}
   }
 
   // ============================================================
-  // PROFILE - GLOBAL AVATAR FIXED
+  // PROFILE
   // ============================================================
   window.showProfile = async function(userId) {
     try {
       const { data } = await sb.from('fanter_presence').select('*').eq('user_id', userId).single();
       if (!data) return;
       const name = data.display_name || data.username;
-      const avatarUrl = userAvatars[userId] || data.profile_pic;
+      const avatarUrl = userAvatars[userId];
       const isOwn = userId === currentUser.id;
       document.getElementById('profileAvatar').innerHTML = avatarUrl ? `<img src="${avatarUrl}">` : name[0].toUpperCase();
       document.getElementById('profileAvatar').style.cursor = isOwn ? 'pointer' : 'default';
@@ -1262,111 +1279,44 @@ async function sendMessage() {
       document.getElementById('profileXP').textContent = userXP[userId] || 0;
       document.getElementById('profileCoins').textContent = userCoinsMap[userId] || 0;
       const badges = userBadges[userId] || [];
-      document.getElementById('profileBadges').innerHTML = badges.length ? badges.map(b => `<div class="badge">🏆 ${esc(b)}</div>`).join('') : '<div style="font-size:11px;color:var(--muted)">no badges yet</div>';
+      document.getElementById('profileBadges').innerHTML = badges.length ? badges.map(b => `<div class="badge">🏆 ${esc(b)}</div>`).join('') : '<div style="font-size:11px;color:var(--muted)">no badges</div>';
       const dmBtn = document.getElementById('dmFromProfileBtn');
       dmBtn.style.display = isOwn ? 'none' : 'block';
       dmBtn.onclick = () => { closeOverlay('profileOverlay'); openDM(userId, name); };
       openOverlay('profileOverlay');
-    } catch(e) { console.error('showProfile error:', e); }
+    } catch(e) {}
   };
 
-  // GLOBAL AVATAR UPLOAD - FIXED
   async function uploadAvatar(file) {
     if (!file) return;
-    
-    toast('📸 Uploading profile picture...');
-    
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${currentUser.id}_${Date.now()}.${fileExt}`;
-    const filePath = `avatars/${fileName}`;
-    
+    const fileName = `${currentUser.id}_${Date.now()}.${file.name.split('.').pop()}`;
     try {
-      // Upload to Supabase Storage
-      const { error: uploadError } = await sb.storage
-        .from('avatars')
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: true
-        });
-      
-      if (uploadError) {
-        console.error('Upload error:', uploadError);
-        // Fallback to base64
-        const reader = new FileReader();
-        reader.onloadend = async () => {
-          const base64 = reader.result;
-          userAvatars[currentUser.id] = base64;
-          save();
-          await updatePresence();
-          toast('✅ Profile picture saved (local fallback)');
-          loadMembers();
-          const profileAvatar = document.getElementById('profileAvatar');
-          if (profileAvatar) profileAvatar.innerHTML = `<img src="${base64}">`;
-        };
-        reader.readAsDataURL(file);
-        return;
-      }
-      
-      // Get public URL
-      const { data: urlData } = sb.storage
-        .from('avatars')
-        .getPublicUrl(filePath);
-      
-      const publicUrl = urlData.publicUrl;
-      console.log('Public URL:', publicUrl);
-      
-      // Save to userAvatars and presence
-      userAvatars[currentUser.id] = publicUrl;
+      const { error } = await sb.storage.from('avatars').upload(fileName, file);
+      if (error) throw error;
+      const { data: urlData } = sb.storage.from('avatars').getPublicUrl(fileName);
+      userAvatars[currentUser.id] = urlData.publicUrl;
       save();
-      
-      // Update presence table
-      await sb.from('fanter_presence')
-        .update({ profile_pic: publicUrl })
-        .eq('user_id', currentUser.id);
-      
-      toast('✅ Profile picture updated globally!');
-      
-      // Refresh UI
+      await updatePresence();
+      toast('✅ Profile picture updated!');
       loadMembers();
-      
-      // Update profile avatar in open modal
-      const profileAvatar = document.getElementById('profileAvatar');
-      if (profileAvatar) profileAvatar.innerHTML = `<img src="${publicUrl}">`;
-      
-    } catch(e) {
-      console.error('Upload exception:', e);
-      toast('❌ Upload failed');
-    }
+    } catch(e) { toast('Upload failed'); }
   }
-  
-  document.getElementById('avatarUpload').onchange = async (e) => {
-    if (e.target.files && e.target.files[0]) await uploadAvatar(e.target.files[0]);
-  };
+  document.getElementById('avatarUpload').onchange = async (e) => { if (e.target.files?.[0]) await uploadAvatar(e.target.files[0]); };
 
   // ============================================================
   // TYPING INDICATOR
   // ============================================================
-  let isTyping = false;
-  let typingTimeout = null;
+  let isTyping = false, typingTimeout = null;
   document.getElementById('messageInput').addEventListener('input', async () => {
-    if (!isTyping) {
-      isTyping = true;
-      await sb.from('fanter_presence').upsert({ user_id: currentUser.id, is_typing: currentChannel });
-    }
+    if (!isTyping) { isTyping = true; await sb.from('fanter_presence').upsert({ user_id: currentUser.id, is_typing: currentChannel }); }
     clearTimeout(typingTimeout);
-    typingTimeout = setTimeout(async () => {
-      isTyping = false;
-      await sb.from('fanter_presence').upsert({ user_id: currentUser.id, is_typing: null });
-    }, 2000);
+    typingTimeout = setTimeout(async () => { isTyping = false; await sb.from('fanter_presence').upsert({ user_id: currentUser.id, is_typing: null }); }, 2000);
   });
-  
   setInterval(async () => {
     const { data } = await sb.from('fanter_presence').select('display_name,is_typing').eq('is_typing', currentChannel).neq('user_id', currentUser.id);
     const ti = document.getElementById('typingIndicator');
-    if (data && data.length) {
-      const names = data.map(d => d.display_name).join(', ');
-      ti.textContent = `${names} ${data.length > 1 ? 'are' : 'is'} typing...`;
-    } else { ti.textContent = ''; }
+    if (data && data.length) ti.textContent = `${data.map(d => d.display_name).join(', ')} ${data.length > 1 ? 'are' : 'is'} typing...`;
+    else ti.textContent = '';
   }, 2500);
 
   // ============================================================
@@ -1377,15 +1327,24 @@ async function sendMessage() {
   document.querySelectorAll('.overlay').forEach(o => { o.addEventListener('click', e => { if (e.target === o) o.classList.remove('active'); }); });
 
   function updateChannelPill() {
-    const activeChannel = document.querySelector('.channel.active');
-    if (!activeChannel) return;
+    const active = document.querySelector('.channel.active');
+    if (!active) return;
     const pill = document.getElementById('channelPill');
     const sidebar = document.getElementById('sidebar');
-    const sidebarRect = sidebar.getBoundingClientRect();
-    const channelRect = activeChannel.getBoundingClientRect();
-    const targetY = channelRect.top - sidebarRect.top + (channelRect.height / 2) - 16;
-    pill.style.transform = `translateY(${targetY}px)`;
+    const sRect = sidebar.getBoundingClientRect();
+    const aRect = active.getBoundingClientRect();
+    pill.style.transform = `translateY(${aRect.top - sRect.top + (aRect.height/2) - 16}px)`;
     pill.classList.add('visible');
+  }
+
+  function updatePanels() {
+    const isOwnerUser = isOwner();
+    const isModUser = isModerator();
+    document.getElementById('ownerPanel').style.display = isOwnerUser ? 'flex' : 'none';
+    document.getElementById('moderatorPanel').style.display = (isModUser && !isOwnerUser) ? 'flex' : 'none';
+    isGroupHost().then(isHost => {
+      document.getElementById('hostPanel').style.display = (isHost && currentGroupId) ? 'flex' : 'none';
+    });
   }
 
   // ============================================================
@@ -1397,12 +1356,10 @@ async function sendMessage() {
     { id: 'g', name: 'Green Name', price: 200, emoji: '🟢', value: '#00e87a', type: 'name_color' },
     { id: 'xp', name: 'XP Boost (+100 XP)', price: 150, emoji: '⚡', value: '100', type: 'xp' },
   ];
-  
   function renderShop() {
     updateCoinDisplay();
     document.getElementById('shopGrid').innerHTML = SHOP_ITEMS.map(item => `<div class="shop-item" onclick="buyItem('${item.id}')"><div class="shop-emoji">${item.emoji}</div><div class="shop-name">${item.name}</div><div class="shop-price">🪙 ${item.price}</div></div>`).join('');
   }
-  
   window.buyItem = function(itemId) {
     const item = SHOP_ITEMS.find(i => i.id === itemId);
     if (!item) return;
@@ -1434,52 +1391,24 @@ async function sendMessage() {
       });
     } catch(e) {}
   }
-  
   async function sendGif(url) {
     let channelId = currentDMUserId ? `dm_${[currentUser.id, currentDMUserId].sort().join('_')}` : currentGroupId ? `group_${currentGroupId}` : currentChannel;
-    await sb.from('fanter_chat').insert({
-      channel_id: channelId,
-      user_id: currentUser.id,
-      username: currentUser.displayName || currentUser.username,
-      message: `[GIF] ${url}`,
-      nameColor: nameColor,
-      is_voice_message: false
-    });
+    await sb.from('fanter_chat').insert({ channel_id: channelId, user_id: currentUser.id, username: currentUser.displayName || currentUser.username, message: `[GIF] ${url}`, nameColor: nameColor, is_voice_message: false });
     addXP(3);
     document.getElementById('gifPicker').classList.remove('open');
   }
-  
-  document.getElementById('gifBtn').onclick = () => {
-    const picker = document.getElementById('gifPicker');
-    picker.classList.toggle('open');
-    if (picker.classList.contains('open')) searchGifs('trending');
-  };
+  document.getElementById('gifBtn').onclick = () => { const p = document.getElementById('gifPicker'); p.classList.toggle('open'); if (p.classList.contains('open')) searchGifs('trending'); };
   document.getElementById('gifSearch').addEventListener('input', e => searchGifs(e.target.value));
 
   // ============================================================
   // EMOJI PICKER
   // ============================================================
-  const ALL_EMOJIS = ['😀','😂','😊','😍','🔥','💀','🎮','🏆','⭐','👑','❤️','👻','🐉','🍕','⚡','👍','🎉','🥺','😈','👀','💯','😭','🙏','😎','🤔','🥶','🤯','💪','🎯','🧠','✨','🌟','🎲','🪙','😅','😆','😁','😄','🥳','😏','😒','😔','😟','🙁','😣','😫','😢','😤','😠','😡','🤬','😱','😰','😥','🤗','🤭','🤫','🤥','😶','😐','😬','🙄','😯','😲','🥱','😴','🤐','🥴','🤢','🤮','🤧','😷','🎃','💔','💕','💞','💓','💗','💖','💘','💝','🔴','🟠','🟡','🟢','🔵','🟣','🏅','🎖️','🥇','🥈','🥉'];
-  
-  function renderEmojis(filter = '') {
-    const filtered = ALL_EMOJIS.filter(e => e.includes(filter));
-    document.getElementById('emojiGrid').innerHTML = filtered.map(e => `<div class="emoji-btn" onclick="insertEmoji('${e}')">${e}</div>`).join('');
-  }
-  
+  const ALL_EMOJIS = ['😀','😂','😊','😍','🔥','💀','🎮','🏆','⭐','👑','❤️','👻','🐉','🍕','⚡','👍','🎉','🥺','😈','👀','💯','😭','🙏','😎','🤔','🥶','🤯','💪','🎯','🧠','✨','🌟','🎲','🪙'];
+  function renderEmojis(filter = '') { const f = ALL_EMOJIS.filter(e => e.includes(filter)); document.getElementById('emojiGrid').innerHTML = f.map(e => `<div class="emoji-btn" onclick="insertEmoji('${e}')">${e}</div>`).join(''); }
   renderEmojis();
   document.getElementById('emojiSearch').addEventListener('input', e => renderEmojis(e.target.value));
-  
-  window.insertEmoji = function(emoji) {
-    const input = document.getElementById('messageInput');
-    input.value += emoji;
-    input.focus();
-  };
-  
-  document.getElementById('emojiBtn').onclick = (e) => {
-    e.stopPropagation();
-    document.getElementById('emojiPicker').classList.toggle('open');
-  };
-  
+  window.insertEmoji = function(emoji) { const inp = document.getElementById('messageInput'); inp.value += emoji; inp.focus(); };
+  document.getElementById('emojiBtn').onclick = (e) => { e.stopPropagation(); document.getElementById('emojiPicker').classList.toggle('open'); };
   document.addEventListener('click', e => { if (!e.target.closest('#emojiPicker') && !e.target.closest('#emojiBtn')) document.getElementById('emojiPicker').classList.remove('open'); });
 
   // ============================================================
@@ -1487,14 +1416,9 @@ async function sendMessage() {
   // ============================================================
   document.getElementById('enterBtn').onclick = () => {
     document.getElementById('welcomeScreen').classList.add('out');
-    setTimeout(() => {
-      document.getElementById('welcomeScreen').style.display = 'none';
-      document.getElementById('chatContainer').classList.add('active');
-      initChat();
-    }, 500);
+    setTimeout(() => { document.getElementById('welcomeScreen').style.display = 'none'; document.getElementById('chatContainer').classList.add('active'); initChat(); }, 500);
     localStorage.setItem('fantarena_welcomed', 'true');
   };
-  
   if (localStorage.getItem('fantarena_welcomed') === 'true') {
     document.getElementById('welcomeScreen').style.display = 'none';
     document.getElementById('chatContainer').classList.add('active');
@@ -1503,29 +1427,20 @@ async function sendMessage() {
 
   document.querySelectorAll('.channel').forEach(ch => {
     ch.onclick = () => {
-      currentDMUserId = null;
-      currentGroupId = null;
+      currentDMUserId = null; currentGroupId = null;
       currentChannel = ch.dataset.channel;
       document.getElementById('chatTitle').innerHTML = `# ${currentChannel}`;
       document.querySelectorAll('.channel').forEach(c => c.classList.remove('active'));
       ch.classList.add('active');
-      document.querySelectorAll('.group-item')?.forEach(g => g.classList.remove('active'));
       updateChannelPill();
-      loadMessages();
-      setupRealtime();
+      loadMessages(); setupRealtime(); updatePanels();
     };
   });
 
   document.getElementById('sendBtn').onclick = sendMessage;
   document.getElementById('messageInput').addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
-  document.getElementById('voiceMsgBtn').onclick = () => {
-    if (isRecording) stopVoiceRecording();
-    else startVoiceRecording();
-  };
-  
-  document.getElementById('stageBtn').onclick = () => {
-    window.open('fantarena-voice.html', 'TheStage', 'width=500,height=700,popup=true,resizable=true');
-  };
+  document.getElementById('voiceMsgBtn').onclick = () => { if (isRecording) stopVoiceRecording(); else startVoiceRecording(); };
+  document.getElementById('stageBtn').onclick = () => { window.open('fantarena-voice.html', 'TheStage', 'width=500,height=700,popup=true'); };
 
   // Settings
   document.getElementById('settingsBtn').onclick = () => openOverlay('settingsOverlay');
@@ -1548,22 +1463,21 @@ async function sendMessage() {
 
   // Daily
   document.getElementById('dailyBtn').onclick = () => {
-    if (lastDailyClaim === new Date().toDateString()) { toast('Already claimed today!'); return; }
+    if (lastDailyClaim === new Date().toDateString()) { toast('Already claimed!'); return; }
     const bonus = dailyStreak >= 6 ? 150 : dailyStreak >= 3 ? 100 : 50;
     document.getElementById('dailyAmount').innerHTML = `+${bonus} 🪙`;
-    document.getElementById('dailyStreakText').innerHTML = `streak: ${dailyStreak + 1} day 🔥`;
+    document.getElementById('dailyStreakText').innerHTML = `streak: ${dailyStreak + 1} day`;
     openOverlay('dailyOverlay');
   };
   document.getElementById('claimDaily').onclick = () => {
     const bonus = dailyStreak >= 6 ? 150 : dailyStreak >= 3 ? 100 : 50;
-    addCoins(bonus);
-    addXP(25);
+    addCoins(bonus); addXP(25);
     lastDailyClaim = new Date().toDateString();
     dailyStreak++;
     localStorage.setItem('lastDailyClaim', lastDailyClaim);
     localStorage.setItem('dailyStreak', dailyStreak);
     closeOverlay('dailyOverlay');
-    toast(`🎁 Claimed +${bonus} coins!`);
+    toast(`🎁 +${bonus} coins!`);
     checkBadges();
   };
   document.getElementById('closeDailyModal').onclick = () => closeOverlay('dailyOverlay');
@@ -1595,27 +1509,26 @@ async function sendMessage() {
     closeOverlay('createGroupOverlay');
   };
 
-  // Mod Panel
-  const modPanelBtn = document.getElementById('modPanelBtn');
-  const modPanelContent = document.getElementById('modPanelContent');
-  const modPanelClose = document.getElementById('modPanelClose');
-  
-  modPanelBtn.onclick = () => { modPanelContent.classList.toggle('open'); };
-  modPanelClose.onclick = () => { modPanelContent.classList.remove('open'); };
-  
+  // ============================================================
+  // OWNER PANEL
+  // ============================================================
+  const ownerPanelBtn = document.getElementById('ownerPanelBtn');
+  const ownerPanelContent = document.getElementById('ownerPanelContent');
+  const ownerPanelClose = document.getElementById('ownerPanelClose');
+  ownerPanelBtn.onclick = () => ownerPanelContent.classList.toggle('open');
+  ownerPanelClose.onclick = () => ownerPanelContent.classList.remove('open');
+
   document.getElementById('applyBgBtn').onclick = () => {
     const preset = document.getElementById('bgPresetSelect').value;
     const presets = { default: 'var(--bg)', ocean: 'linear-gradient(135deg,#0a2a4a,#0a1a2a)', sunset: 'linear-gradient(135deg,#4a1a0a,#2a0a0a)' };
     document.body.style.background = presets[preset] || presets.default;
-    toast(`Background changed`);
+    toast('Background changed');
   };
-  
   document.getElementById('triggerEventBtn').onclick = () => {
     const event = document.getElementById('eventSelect').value;
     if (event === 'confetti') triggerConfetti();
     else if (event === 'fireworks') triggerFireworks();
   };
-  
   document.getElementById('giveCoinsBtn').onclick = () => {
     const val = document.getElementById('targetUserSelect').value;
     const amount = parseInt(document.getElementById('coinAmount').value);
@@ -1623,49 +1536,124 @@ async function sendMessage() {
       const [userId, username] = val.split('|');
       userCoinsMap[userId] = (userCoinsMap[userId] || 0) + amount;
       if (userId === currentUser.id) currentUser.coins = userCoinsMap[userId];
-      save();
-      toast(`🎁 Gave ${amount} coins to ${username}`);
-      updateCoinDisplay();
+      save(); toast(`🎁 Gave ${amount} coins to ${username}`); updateCoinDisplay();
     }
   };
-  
   document.getElementById('giveXPBtn').onclick = () => {
     const val = document.getElementById('xpTargetSelect').value;
     const amount = parseInt(document.getElementById('xpAmount').value);
     if (val && amount) {
       const [userId, username] = val.split('|');
       userXP[userId] = (userXP[userId] || 0) + amount;
-      save();
-      toast(`⚡ Gave ${amount} XP to ${username}`);
+      save(); toast(`⚡ Gave ${amount} XP to ${username}`);
     }
   };
-  
   document.getElementById('makeModBtn').onclick = () => {
     const val = document.getElementById('modUserSelect').value;
     if (val) {
       const [_, username] = val.split('|');
-      assignModerator(username);
+      if (!moderatorsList.includes(username)) { moderatorsList.push(username); save(); toast(`✅ ${username} is now a moderator`); updatePanels(); }
     }
   };
-  
   document.getElementById('revokeModBtn').onclick = () => {
     const val = document.getElementById('modUserSelect').value;
     if (val) {
       const [_, username] = val.split('|');
-      revokeModerator(username);
+      moderatorsList = moderatorsList.filter(m => m !== username);
+      save(); toast(`✅ ${username} is no longer a moderator`); updatePanels();
     }
   };
-  
   document.getElementById('applySlowModeBtn').onclick = () => {
     globalSlowMode = parseInt(document.getElementById('globalSlowModeSec').value) || 0;
     toast(`Slow mode: ${globalSlowMode}s`);
+  };
+  document.getElementById('timeoutUserBtn').onclick = () => {
+    const val = document.getElementById('actionUserSelect').value;
+    const mins = parseInt(document.getElementById('timeoutMinutes').value);
+    if (val && mins) { const [userId] = val.split('|'); timeoutUser(userId, mins); }
+  };
+  document.getElementById('kickUserBtn').onclick = () => {
+    const val = document.getElementById('kickUserSelect').value;
+    if (val) { const [userId] = val.split('|'); kickUser(userId); }
+  };
+  document.getElementById('muteUserBtn').onclick = () => {
+    const val = document.getElementById('muteUserSelect').value;
+    const mins = parseInt(document.getElementById('muteMinutes').value);
+    if (val && mins) { const [userId] = val.split('|'); muteUser(userId, mins); }
+  };
+  document.getElementById('warnUserBtn').onclick = () => {
+    const val = document.getElementById('warnUserSelect').value;
+    const reason = document.getElementById('warnReason').value;
+    if (val) { const [_, username] = val.split('|'); warnUser(username, reason); }
+  };
+
+  // ============================================================
+  // MODERATOR PANEL
+  // ============================================================
+  const modPanelBtn = document.getElementById('moderatorPanelBtn');
+  const modPanelContent = document.getElementById('moderatorPanelContent');
+  const modPanelClose = document.getElementById('moderatorPanelClose');
+  modPanelBtn.onclick = () => modPanelContent.classList.toggle('open');
+  modPanelClose.onclick = () => modPanelContent.classList.remove('open');
+
+  document.getElementById('modTimeoutUserBtn').onclick = () => {
+    const val = document.getElementById('modActionUserSelect').value;
+    const mins = parseInt(document.getElementById('modTimeoutMinutes').value);
+    if (val && mins) { const [userId] = val.split('|'); timeoutUser(userId, mins); }
+  };
+  document.getElementById('modKickUserBtn').onclick = () => {
+    const val = document.getElementById('modKickUserSelect').value;
+    if (val) { const [userId] = val.split('|'); kickUser(userId); }
+  };
+  document.getElementById('modMuteUserBtn').onclick = () => {
+    const val = document.getElementById('modMuteUserSelect').value;
+    const mins = parseInt(document.getElementById('modMuteMinutes').value);
+    if (val && mins) { const [userId] = val.split('|'); muteUser(userId, mins); }
+  };
+  document.getElementById('modWarnUserBtn').onclick = () => {
+    const val = document.getElementById('modWarnUserSelect').value;
+    const reason = document.getElementById('modWarnReason').value;
+    if (val) { const [_, username] = val.split('|'); warnUser(username, reason); }
+  };
+
+  // ============================================================
+  // GROUP HOST PANEL
+  // ============================================================
+  const hostPanelBtn = document.getElementById('hostPanelBtn');
+  const hostPanelContent = document.getElementById('hostPanelContent');
+  const hostPanelClose = document.getElementById('hostPanelClose');
+  hostPanelBtn.onclick = () => hostPanelContent.classList.toggle('open');
+  hostPanelClose.onclick = () => hostPanelContent.classList.remove('open');
+
+  document.getElementById('inviteToGroupBtn').onclick = () => {
+    const val = document.getElementById('inviteFriendSelect').value;
+    if (val) inviteToGroup(val);
+  };
+  document.getElementById('createInviteLinkBtn').onclick = async () => {
+    if (!currentGroupId) return toast('No group selected');
+    const code = Math.random().toString(36).slice(2,10);
+    await sb.from('fanter_group_invites').insert({ group_id: currentGroupId, invite_code: code, created_by: currentUser.id });
+    const link = `${window.location.origin}${window.location.pathname}?invite=${code}`;
+    document.getElementById('inviteLinkDisplay').value = link;
+    toast('Invite link created!');
+  };
+  document.getElementById('addHostBtn').onclick = () => {
+    const val = document.getElementById('hostUserSelect').value;
+    if (val) addGroupHost(val);
+  };
+  document.getElementById('removeHostBtn').onclick = () => {
+    const val = document.getElementById('hostUserSelect').value;
+    if (val) removeGroupHost(val);
+  };
+  document.getElementById('kickMemberBtn').onclick = () => {
+    const val = document.getElementById('kickMemberSelect').value;
+    if (val) kickFromGroup(val);
   };
 
   // ============================================================
   // INIT
   // ============================================================
   async function initChat() {
-    console.log('🚀 Initializing chat...');
     updateCoinDisplay();
     await updatePresence();
     await loadMessages();
@@ -1674,7 +1662,7 @@ async function sendMessage() {
     await loadGroups();
     await loadDMList();
     setupRealtime();
-    updateModPanelUI();
+    updatePanels();
     document.getElementById('levelBadge').textContent = `Lv ${getLevel(userXP[currentUser.id] || 0)}`;
     setInterval(loadMembers, 10000);
     setInterval(updatePresence, 30000);
@@ -1682,7 +1670,7 @@ async function sendMessage() {
     console.log('✅ Fantarena ready!');
   }
 
-  console.log('✅ Fantarena script loaded! 🔥');
+  console.log('✅ Fantarena script loaded!');
 });
 </script>
 </body>
