@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>fanter v0.4</title>
+  <title>fanter v0.5</title>
   <link rel="stylesheet" href="config/main.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -50,7 +50,7 @@
       position: fixed;
       top: 80px;
       right: -250px;
-      width: 220px;
+      width: 240px;
       background: rgba(15, 20, 40, 0.95);
       backdrop-filter: blur(15px);
       border: 1px solid rgba(45, 90, 227, 0.5);
@@ -88,16 +88,18 @@
       display: flex;
       align-items: center;
       gap: 15px;
-      padding: 15px 20px;
+      padding: 12px 18px;
       margin: 5px 0;
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(45, 90, 227, 0.3);
-      border-radius: 15px;
+      border-radius: 12px;
       color: white;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
       transition: all 0.2s ease;
       text-decoration: none;
+      width: 100%;
+      box-sizing: border-box;
     }
     
     .menu-item:hover {
@@ -108,15 +110,32 @@
     
     .menu-icon {
       font-size: 22px;
-      min-width: 30px;
+      min-width: 32px;
       text-align: center;
     }
     
     .menu-label {
       font-family: 'Ubuntu', sans-serif;
       font-weight: 500;
+      flex: 1;
     }
     
+    .menu-badge {
+      background: rgba(255, 204, 0, 0.2);
+      border: 1px solid rgba(255, 204, 0, 0.3);
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-size: 10px;
+      color: #ffcc00;
+    }
+    
+    .menu-divider {
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 12px 0;
+    }
+    
+    /* AI Quick Toggle Button (kept for quick access, now opens in new tab) */
     .ai-quick-toggle {
       position: fixed;
       bottom: 20px;
@@ -144,79 +163,381 @@
       font-size: 18px;
     }
     
-    #aiOverlayBg {
+    /* Studios Quick Toggle */
+    .studios-quick-toggle {
+      position: fixed;
+      bottom: 20px;
+      left: 100px;
+      background: rgba(20, 30, 50, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(45, 90, 227, 0.4);
+      border-radius: 30px;
+      padding: 8px 15px;
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: white;
+    }
+    
+    .studios-quick-toggle:hover {
+      border-color: #9f5ae3;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(159, 90, 227, 0.3);
+    }
+    
+    .center {
+      text-align: center;
+    }
+    
+    /* Rest of your existing styles */
+    #loadingScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    #matrixCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    .loading-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: #00ff88;
+    }
+    
+    .loading-progress {
+      width: 300px;
+      height: 4px;
+      background: rgba(0, 255, 136, 0.2);
+      border-radius: 2px;
+      margin: 20px auto;
+      overflow: hidden;
+    }
+    
+    .loading-progress-bar {
+      width: 0%;
+      height: 100%;
+      background: #00ff88;
+      transition: width 0.3s ease;
+    }
+    
+    .loading-commands {
+      font-family: monospace;
+      font-size: 12px;
+      color: rgba(0, 255, 136, 0.7);
+      margin-top: 20px;
+    }
+    
+    #whiteFlash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    #revealOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 10001;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    
+    .daily-bonus-overlay {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(270deg, #1a0000, #1a0a00, #0d0d00, #001a00, #001a1a, #00001a, #0d001a, #1a001a, #1a0000);
-      background-size: 800% 800%;
-      animation: gradientShift 22.5s linear infinite;
-      backdrop-filter: blur(8px);
-      z-index: 999;
-    }
-    
-    #aiChatOverlay {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 450px;
-      height: 600px;
-      background: rgba(20, 30, 50, 0.95);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(45, 90, 227, 0.4);
-      border-radius: 20px;
-      z-index: 1000;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    }
-    
-    #aiChatOverlay iframe {
-      width: 100%;
-      height: 540px;
-      border: none;
-      border-radius: 0 0 20px 20px;
-    }
-    
-    .chat-header {
-      padding: 15px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      display: flex;
-      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 10002;
       align-items: center;
+      justify-content: center;
     }
     
-    .chat-header span {
+    .daily-bonus-overlay.show {
+      display: flex;
+    }
+    
+    .daily-bonus-card {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      border: 2px solid #ffcc00;
+      border-radius: 20px;
+      padding: 30px;
+      text-align: center;
+      color: white;
+    }
+    
+    .daily-reward {
+      font-size: 36px;
       color: #ffcc00;
-      font-family: Orbitron;
-      font-size: 16px;
+      margin: 20px 0;
     }
     
-    .chat-header button {
-      background: none;
-      border: none;
+    .account-btn-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+    }
+    
+    .account-btn {
+      background: rgba(20, 30, 50, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(45, 90, 227, 0.5);
+      border-radius: 30px;
+      padding: 8px 16px;
       color: white;
       cursor: pointer;
-      font-size: 20px;
-      opacity: 0.7;
-      transition: opacity 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
     }
     
-    .chat-header button:hover {
-      opacity: 1;
+    .account-btn:hover {
+      border-color: #ffcc00;
+      transform: translateY(-2px);
+    }
+    
+    .coin-display-header {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(20, 30, 50, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(45, 90, 227, 0.5);
+      border-radius: 30px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 100;
+    }
+    
+    .coin-icon {
+      font-size: 18px;
+    }
+    
+    .coin-amount-header {
+      font-weight: bold;
+      color: #ffcc00;
+    }
+    
+    .fav-sidebar-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: rgba(20, 30, 50, 0.9);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(45, 90, 227, 0.5);
+      border-radius: 50%;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.2s;
+    }
+    
+    .fav-sidebar-btn:hover {
+      border-color: #ffcc00;
+      transform: scale(1.05);
+    }
+    
+    .game-of-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, rgba(255, 204, 0, 0.1), rgba(45, 90, 227, 0.1));
+      border: 1px solid rgba(255, 204, 0, 0.3);
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 400px;
+    }
+    
+    .game-of-day-label span {
+      background: #ffcc00;
+      color: #1a1200;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    
+    .game-of-day-name {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 10px 0;
+      color: #ffcc00;
+    }
+    
+    .game-of-day-play {
+      background: linear-gradient(135deg, #2d5ae3, #1a3bc0);
+      border: none;
+      border-radius: 30px;
+      padding: 10px 24px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .game-of-day-play:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(45, 90, 227, 0.4);
+    }
+    
+    #searchInput {
+      width: 300px;
+      padding: 12px 20px;
+      border-radius: 30px;
+      border: 1px solid rgba(45, 90, 227, 0.5);
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      font-size: 14px;
+      margin: 20px auto;
+    }
+    
+    #searchInput:focus {
+      outline: none;
+      border-color: #ffcc00;
+    }
+    
+    .search-history {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      background: rgba(15, 20, 40, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(45, 90, 227, 0.5);
+      border-radius: 15px;
+      margin-top: 5px;
+      display: none;
+      z-index: 1000;
+    }
+    
+    .search-history.show {
+      display: block;
+    }
+    
+    .search-history-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .search-history-clear {
+      cursor: pointer;
+      color: #ff4466;
+    }
+    
+    .search-history-item {
+      padding: 10px 15px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .search-history-item:hover {
+      background: rgba(45, 90, 227, 0.2);
+    }
+    
+    #gamesContainer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 12px;
+    }
+    
+    .link {
+      color: #ffcc00;
+      text-decoration: none;
+      margin-left: 10px;
+    }
+    
+    .link:hover {
+      text-decoration: underline;
+    }
+    
+    #sessionTimer {
+      position: fixed;
+      bottom: 20px;
+      right: 80px;
+      background: rgba(20, 30, 50, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(45, 90, 227, 0.4);
+      border-radius: 30px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 100;
+      font-size: 14px;
+    }
+    
+    .timer-icon {
+      font-size: 14px;
+    }
+    
+    .timer-display {
+      font-family: monospace;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    
+    .timer-label {
+      font-size: 10px;
+      opacity: 0.6;
     }
   </style>
 </head>
 <body>
   <div id="loadingScreen">
     <canvas id="matrixCanvas"></canvas>
-    <div class="matrix-scanlines"></div>
-    <div id="brokenWallContainer"></div>
     <div class="loading-content">
-      <div class="loading-icon"></div>
       <h1 class="loading-title">Loading fanter.OS</h1>
       <div class="loading-progress"><div class="loading-progress-bar"></div></div>
       <p class="loading-status" id="loadingStatus">Initializing systems...</p>
@@ -255,6 +576,7 @@
     
     <!-- Sidebar Menu -->
     <div class="sidebar-menu" id="sidebarMenu">
+      <!-- Main Links -->
       <div class="menu-item" onclick="window.location.href='settings.html'">
         <span class="menu-icon">⚙️</span>
         <span class="menu-label">Settings</span>
@@ -266,23 +588,46 @@
       <div class="menu-item" onclick="window.location.href='fantarena.html'">
         <span class="menu-icon">🏟️</span>
         <span class="menu-label">Fantarena</span>
+        <span class="menu-badge">CHAT</span>
+      </div>
+      
+      <div class="menu-divider"></div>
+      
+      <!-- External Links (Open in New Tab) -->
+      <div class="menu-item" onclick="window.open('https://chipikipal800.github.io/fanter.ai/', '_blank')">
+        <span class="menu-icon">🤖</span>
+        <span class="menu-label">AI Chatbot</span>
+        <span class="menu-badge">NEW</span>
+      </div>
+      <div class="menu-item" onclick="window.open('https://chipikipal800.github.io/fanter-studios/', '_blank')">
+        <span class="menu-icon">🎮</span>
+        <span class="menu-label">Fanter Studios</span>
+        <span class="menu-badge">CREATE</span>
+      </div>
+      
+      <div class="menu-divider"></div>
+      
+      <!-- Account Links -->
+      <div class="menu-item" onclick="window.location.href='fantaccount.html'">
+        <span class="menu-icon">👤</span>
+        <span class="menu-label">My Account</span>
+      </div>
+      <div class="menu-item" onclick="window.location.href='achievements.html'">
+        <span class="menu-icon">🏆</span>
+        <span class="menu-label">Achievements</span>
       </div>
     </div>
 
-    <!-- AI Chat Button -->
-    <div class="ai-quick-toggle" id="aiQuickToggle" onclick="toggleAIChat()">
+    <!-- AI Quick Toggle Button (opens in new tab) -->
+    <div class="ai-quick-toggle" id="aiQuickToggle" onclick="window.open('https://chipikipal800.github.io/fanter.ai/', '_blank')">
       <span class="ai-toggle-icon">💬</span>
-      <span>chat</span>
+      <span>AI Chat</span>
     </div>
-
-    <!-- AI Chat Overlay -->
-    <div id="aiOverlayBg" onclick="toggleAIChat()"></div>
-    <div id="aiChatOverlay">
-      <div class="chat-header">
-        <span> fanter ai</span>
-        <button onclick="toggleAIChat()">✕</button>
-      </div>
-      <iframe src="https://chipikipal800.github.io/fanter.ai/"></iframe>
+    
+    <!-- Fanter Studios Quick Toggle Button -->
+    <div class="studios-quick-toggle" id="studiosQuickToggle" onclick="window.open('https://chipikipal800.github.io/fanter-studios/', '_blank')">
+      <span class="ai-toggle-icon">🎮</span>
+      <span>Studios</span>
     </div>
 
     <!-- Account Button (Top Right) -->
@@ -348,31 +693,26 @@
       btn.classList.toggle('active');
     }
     
-    // Close menu when clicking a menu item
+    // Close menu when clicking a menu item (but not for external links that open in new tab)
     document.querySelectorAll('.menu-item').forEach(item => {
-      item.addEventListener('click', () => {
-        const menu = document.getElementById('sidebarMenu');
-        const overlay = document.getElementById('menuOverlay');
-        const btn = document.getElementById('menuToggleBtn');
-        
-        menu.classList.remove('open');
-        overlay.classList.remove('open');
-        btn.classList.remove('active');
+      item.addEventListener('click', (e) => {
+        // Don't auto-close if it's an external link - let it open in new tab
+        const onclick = item.getAttribute('onclick');
+        if (onclick && onclick.includes('window.open')) {
+          // External link - just open in new tab, menu stays open
+          e.stopPropagation();
+        } else {
+          // Internal link - close menu
+          const menu = document.getElementById('sidebarMenu');
+          const overlay = document.getElementById('menuOverlay');
+          const btn = document.getElementById('menuToggleBtn');
+          
+          menu.classList.remove('open');
+          overlay.classList.remove('open');
+          btn.classList.remove('active');
+        }
       });
     });
-
-    // ===== AI CHAT TOGGLE =====
-    function toggleAIChat() {
-      const overlay = document.getElementById('aiChatOverlay');
-      const bg = document.getElementById('aiOverlayBg');
-      if (overlay.style.display === 'none' || !overlay.style.display) {
-        overlay.style.display = 'block';
-        bg.style.display = 'block';
-      } else {
-        overlay.style.display = 'none';
-        bg.style.display = 'none';
-      }
-    }
 
     // Session Timer
     (function() {
@@ -484,7 +824,7 @@
       }
       sessionStorage.setItem('fanterLoaded', 'true');
       const ls = document.getElementById('loadingScreen'), pb = document.querySelector('.loading-progress-bar'), se = document.getElementById('loadingStatus');
-      const wf = document.getElementById('whiteFlash'), ro = document.getElementById('revealOverlay'), bw = document.getElementById('brokenWallContainer');
+      const wf = document.getElementById('whiteFlash'), ro = document.getElementById('revealOverlay');
       const mc = document.getElementById('mainContent'), lc = document.getElementById('loadingCommands');
       const cmds = [">_ Loading kernel modules...", ">_ Establishing secure connection...", ">_ Decrypting game database...", ">_ Loading user preferences...", ">_ Initializing game engine...", ">_ Connecting to game servers...", ">_ Verifying achievements...", ">_ Loading shop inventory...", ">_ Syncing cloud saves...", ">_ Almost there...", ">_ Starting fanter.OS..."];
       let ci = 0;
