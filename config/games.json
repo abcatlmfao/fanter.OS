@@ -482,5 +482,49 @@
     "loadTime": "instant",
     "releaseDate": "2018-10-05",
     "developer": "crociDB"
-  }
+  },
+  {
+    "name": "web dashers",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRj_VsA7Ris1i_82u1_C8qmfPrnFMae-EPYXQ&s",
+    "url": "https://abcatlmfao.github.io/w-dashers.github.io123/",
+    "new": true,
+    "category": "arcade",
+    "desc": "jump over spike, die, cry, rage",
+    "loadTime": "instant",
+    "releaseDate": "??",
+    "developer": "bog"
+  },
+  {
+    "name": "re:run",
+    "image": "https://1games.io/data/image/game//banner/re-run.png",
+    "url": "https://aukak.github.io/RE-RUN/",
+    "new": true,
+    "category": "platformer",
+    "desc": "idk",
+    "loadTime": "3-5 seconds",
+    "releaseDate": "??",
+    "developer": "bog"
+  },
+   {
+    "name": "n.gon",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIiXBQof9-UTot6CA0A-X9Ntyq0pNALernmg&s",
+    "url": "https://abcatlmfao.github.io/n-gon/",
+    "new": true,
+    "category": "platformer",
+    "desc": "umm idk fun",
+    "loadTime": "2-3 seconds",
+    "releaseDate": "??",
+    "developer": "landgreen"
+  },
+  {
+    "name": "10 minutes till dawn",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIiXBQof9-UTot6CA0A-X9Ntyq0pNALernmg&s",
+    "url": "https://abcatlmfao.github.io/10MinutesTillDawn.github.io/",
+    "new": true,
+    "category": "arcade",
+    "desc": "live, sorry for the like outside page just click fullscreen on the game, then click fullscreen on fanter",
+    "loadTime": "2-3 seconds",
+    "releaseDate": "??",
+    "developer": "klenne"
+  },
 ]
