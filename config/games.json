@@ -618,7 +618,7 @@
   },
    {
     "name": "alien hominid",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPrVh1enVCEzhdUWn0uqBOiEZT8sepgz7YRA&s",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdKqpK0dWwdc0i2SdSO8c-gJHn25XTQJJBI0EPXN7jGs-8ogGi_KiSxxqpa2j-ibEcElPYsoAl7X2m4SViraC1pSf-kDSd0MHRBXlrkgSlqQfPtg6v55qx5lnZVFIdSA&s=10&ec=121657078",
     "url": "https://upload.wikimedia.org/wikipedia/en/2/20/Alien_Hominid_cover.png",
     "new": true,
     "category": "arcade",
@@ -758,5 +758,49 @@
     "loadTime": "9-15 seconds",
     "releaseDate": "tmrw",
     "developer": "javyquavy"
+  },
+   {
+    "name": "super mario bros 2",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOCLNAC1Kij4R6-Vq2jCJod2cs9rT4DHKS4g&s",
+    "url": "https://chipikipal800.github.io/SuperMarioBros2/",
+    "new": true,
+    "category": "arcade",
+    "desc": "mario",
+    "loadTime": "2-3 seconds",
+    "releaseDate": "tmrw",
+    "developer": "javyquavy"
+  },
+  {
+    "name": "mario kart super circuit",
+    "image": "https://m.media-amazon.com/images/M/MV5BODY5ZTU3ODQtYjJkYi00NjlkLWI2MzItNjYxY2VhZGFkNDkwXkEyXkFqcGc@._V1_.jpg",
+    "url": "https://chipikipal800.github.io/MarioKartSuperCircuit/",
+    "new": true,
+    "category": "arcade",
+    "desc": "mario",
+    "loadTime": "6-10 seconds",
+    "releaseDate": "tmrw",
+    "developer": "javyquavy"
+  },
+  {
+    "name": "swingo",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPsC9G6XeIUET1BSCwQa8HB3222OQggw0tIA&s",
+    "url": "https://chipikipal800.github.io/Swingo/",
+    "new": true,
+    "category": "platformer",
+    "desc": "very fun :)",
+    "loadTime": "instant",
+    "releaseDate": "tmrw",
+    "developer": "??"
+  },
+  {
+    "name": "super mario world (snes)",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmVwk-eFAAZPiiioISsQOk9x86d1w3duYtwg&s",
+    "url": "https://chipikipal800.github.io/SuperMarioWorldSNES/",
+    "new": true,
+    "category": "platformer",
+    "desc": "67",
+    "loadTime": "instant",
+    "releaseDate": "tmrw",
+    "developer": "??"
   }
 ]
