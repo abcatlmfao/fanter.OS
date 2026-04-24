@@ -582,5 +582,170 @@
     "loadTime": "2-5 seconds",
     "releaseDate": "tmrw",
     "developer": "98corbins"
-  }
+  },
+  {
+    "name": "your only move is HUSTLE",
+    "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2212330/header.jpg?t=1702425086",
+    "url": "https://chipikipal800.github.io/Your-Only-Move-Is-HUSTLE/",
+    "new": true,
+    "category": "arcade",
+    "desc": "tuff!!!",
+    "loadTime": "2-4 seconds",
+    "releaseDate": "tmrw",
+    "developer": "bog"
+  },
+   {
+    "name": "hollow knight silksong",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnbxS_tGt_4QH4Zu4W6ogpWcnBsDe6IJJjvg&s",
+    "url": "https://chipikipal800.github.io/Hollow-Knight-Silksong/",
+    "new": true,
+    "category": "platformer",
+    "desc": "Load it once and it loads really quickly forever by the way, figure the game out on your own (only words: amazing)",
+    "loadTime": "4-6 min",
+    "releaseDate": "tmrw",
+    "developer": "bog & breadbb"
+  },
+   {
+    "name": "friday night funkin",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPrVh1enVCEzhdUWn0uqBOiEZT8sepgz7YRA&s",
+    "url": "https://chipikipal800.github.io/Funkin-HTML-Port/",
+    "new": true,
+    "category": "arcade",
+    "desc": "arrows you see, click one be. one must see, the ole song too swole.",
+    "loadTime": "4-7 seconds",
+    "releaseDate": "tmrw",
+    "developer": "The Funkin' Crew Inc."
+  },
+   {
+    "name": "alien hominid",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPrVh1enVCEzhdUWn0uqBOiEZT8sepgz7YRA&s",
+    "url": "https://upload.wikimedia.org/wikipedia/en/2/20/Alien_Hominid_cover.png",
+    "new": true,
+    "category": "arcade",
+    "desc": "classic xbox 360 game, i loved playing this on my dads xbox",
+    "loadTime": "5-8 seconds",
+    "releaseDate": "2002-8-7",
+    "developer": "The Behemoth"
+  },
+   {
+    "name": "fancy pants 2",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8_nAHc0DKl0lQ3uzSNKyvw_pAHnPVue3q0A&s",
+    "url": "https://chipikipal800.github.io/FancyPants2/",
+    "new": true,
+    "category": "platformer",
+    "desc": "absolute cinema, classic game, peak of design.",
+    "loadTime": "5-8 seconds",
+    "releaseDate": "2008-1-17",
+    "developer": "Brad Borne"
+  },
+   {
+    "name": "drift boss",
+    "image": "https://play-lh.googleusercontent.com/Zu0LoruCtIG45qs6iffZkWqGTuzEWflNoH8TNRtfMJ2NGgJxQGfw8kqSrxKtXGjPqeqFLNsnubW6EnPUJvOi8g=w240-h480-rw",
+    "url": "https://chipikipal800.github.io/DriftBoss/",
+    "new": true,
+    "category": "arcade",
+    "desc": "kind of repetitive but ik people like this game so i added it :D",
+    "loadTime": "instant",
+    "releaseDate": "tmrw",
+    "developer": "PlayGama"
+  },
+  {
+    "name": "clash of tanks",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhN_udd_pjeaUd0qQWxJf4BpvMofDTOcqLR0pDWRBS5g5R_m8oLXP5Px7v2EjBspKrR5daWzgskZ0NEkUKRmnmnF_69jW5ZUG7zL_yjQ&s=10",
+    "url": "https://chipikipal800.github.io/ClashOfTanks/",
+    "new": true,
+    "category": "arcade",
+    "desc": "idek what this is bro :sob:",
+    "loadTime": "instant",
+    "releaseDate": "tmrw",
+    "developer": "Next Gen Studios"
+  },
+  {
+    "name": "idle breakout",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_7gMTLMzzfyJV_SwQFflGlI4_guz4-pUUFja_VQYJ9JLeAwzlwKlgXMIKtkhhZm_MbfImS71VlAZhQgKap1uxEJxnHwJ43MaM3R_mYA&s=10",
+    "url": "https://chipikipal800.github.io/IdleBreakout/",
+    "new": true,
+    "category": "arcade",
+    "desc": "slightly repetitive but a really fun idle game",
+    "loadTime": "instant",
+    "releaseDate": "2019-1-10",
+    "developer": "Kodiqi"
+  },
+  {
+    "name": "run 3",
+    "image": "https://www.openfl.org/images/showcase/large/Run3.jpg",
+    "url": "https://chipikipal800.github.io/Run3/",
+    "new": true,
+    "category": "arcade",
+    "desc": "funnnnn",
+    "loadTime": "instant",
+    "releaseDate": "2014-6-5",
+    "developer": "player_03"
+  },
+   {
+    "name": "vex3",
+    "image": "https://kotaku.com/igdb/image/upload/t_cover_big/co52se.jpg",
+    "url": "https://chipikipal800.github.io/Vex3/",
+    "new": true,
+    "category": "platformer",
+    "desc": "fun platformer but pretty difficult if you're newr to games like these",
+    "loadTime": "instant",
+    "releaseDate": "2014-8-?",
+    "developer": "royalin"
+  },
+  {
+    "name": "2048 fusion",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTiSZdFjKl1aFcvmOSBI8Ledf27FQ3B-IY61g&s",
+    "url": "https://chipikipal800.github.io/2048Fusion/",
+    "new": true,
+    "category": "arcade",
+    "desc": "normal 2048 but better",
+    "loadTime": "instant",
+    "releaseDate": "tmrw",
+    "developer": "idk"
+  },
+   {
+    "name": "soccer random",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnBENS6gJUZOlcQ-qsdyhW197OqfivqwlqEw&s",
+    "url": "https://chipikipal800.github.io/SoccerRandom/",
+    "new": true,
+    "category": "multiplayer",
+    "desc": "bloxy & :) are gonna love this",
+    "loadTime": "instant",
+    "releaseDate": "tmrw",
+    "developer": "idk"
+  },
+  {
+    "name": "rooftop snipers",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLSDYCC3re3lAUGg2dW_Wyy-zFE8zTVYLjrQ&s",
+    "url": "https://chipikipal800.github.io/RooftopSnipers/",
+    "new": true,
+    "category": "arcade",
+    "desc": "shoot on roof?",
+    "loadTime": "instant",
+    "releaseDate": "tmrw",
+    "developer": "idk"
+  },
+  {
+    "name": "poly art 3d",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUO-kjWh1KJDSap2vRsjtmT1mCespqyP7_mg&s",
+    "url": "https://chipikipal800.github.io/PolyArt3D/",
+    "new": true,
+    "category": "arcade",
+    "desc": "idk maybe some people would play?",
+    "loadTime": "instant",
+    "releaseDate": "tmrw",
+    "developer": "idk"
+  },
+   {
+    "name": "super mario wonder",
+    "image": "https://i.ytimg.com/vi/QqwAHt_nrU4/maxresdefault.jpg",
+    "url": "https://chipikipal800.github.io/SuperMarioWonder/",
+    "new": true,
+    "category": "platformer",
+    "desc": "pretty fun kinda like gd",
+    "loadTime": "instant",
+    "releaseDate": "tmrw",
+    "developer": "idk"
+  },
 ]
