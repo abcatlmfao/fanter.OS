@@ -153,7 +153,7 @@
     .emulators-menu-container {
       position: fixed;
       top: 140px;
-      right: 20px;
+      left: 20px;
       z-index: 100;
       display: flex;
       flex-direction: column;
@@ -801,7 +801,7 @@
     <div class="menu-toggle-btn" id="menuToggleBtn" onclick="toggleMenu()">≡</div>
   </div>
 
-  <!-- NEW: EMULATORS MENU BUTTON (SECOND MENU) -->
+ 
   <div class="emulators-menu-container">
     <div class="emulators-toggle-btn" id="emulatorsToggleBtn" onclick="toggleEmulators()">🎮</div>
   </div>
@@ -813,29 +813,10 @@
     </div>
     <div class="emulator-item" onclick="window.open('https://chipikipal800.github.io/MKGBA2.0/', '_blank')">
       <span class="emulator-icon">🎮</span>
-      <span class="emulator-label">MKGBA 2.0</span>
-      <span class="emulator-badge">GBA</span>
+      <span class="emulator-label">game boy advance 2</span>
+      <span class="emulator-badge">gba</span>
     </div>
-    <div class="emulator-item" onclick="window.open('https://chipikipal800.github.io/snes-emu/', '_blank')">
-      <span class="emulator-icon">🕹️</span>
-      <span class="emulator-label">SNES Emulator</span>
-      <span class="emulator-badge">SNES</span>
-    </div>
-    <div class="emulator-item" onclick="window.open('https://chipikipal800.github.io/nes-emu/', '_blank')">
-      <span class="emulator-icon">📺</span>
-      <span class="emulator-label">NES Emulator</span>
-      <span class="emulator-badge">NES</span>
-    </div>
-    <div class="emulator-item" onclick="window.open('https://chipikipal800.github.io/gbc-emu/', '_blank')">
-      <span class="emulator-icon">🌸</span>
-      <span class="emulator-label">GBC Emulator</span>
-      <span class="emulator-badge">GBC</span>
-    </div>
-    <div class="emulator-item" onclick="window.open('https://chipikipal800.github.io/sega-emu/', '_blank')">
-      <span class="emulator-icon">🌀</span>
-      <span class="emulator-label">Sega Genesis</span>
-      <span class="emulator-badge">MEGA DRIVE</span>
-    </div>
+    
   </div>
   <div class="emulators-overlay" id="emulatorsOverlay" onclick="toggleEmulators()"></div>
 
