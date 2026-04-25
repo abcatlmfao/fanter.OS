@@ -28,6 +28,7 @@
     @keyframes scaleIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @keyframes windowPop { 0% { transform: scale(0.8); opacity: 0; } 80% { transform: scale(1.02); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes taskbarHover { 0% { height: 48px; } 100% { height: 40px; } }
     
     /* Login Screen */
     .login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ee4c29a6-9564-4bee-befd-79a0597c29ca/dhsrl04-16049839-0c0f-4077-977f-09a992ec4b07.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9lZTRjMjlhNi05NTY0LTRiZWUtYmVmZC03OWEwNTk3YzI5Y2EvZGhzcmwwNC0xNjA0OTgzOS0wYzBmLTQwNzctOTc3Zi0wOWE5OTJlYzRiMDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.XIZi3LNLcPUgY_lP-4R7TJ2r6klMfpBRxT7-cMHGvic') center/cover no-repeat; z-index: 10000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.6s ease; }
@@ -48,16 +49,18 @@
     /* Desktop */
     .desktop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; visibility: hidden; transition: opacity 0.5s ease; z-index: 1; }
     .desktop.visible { opacity: 1; visibility: visible; }
-    .desktop-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ee4c29a6-9564-4bee-befd-79a0597c29ca/dhsrl04-16049839-0c0f-4077-977f-09a992ec4b07.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9lZTRjMjlhNi05NTY0LTRiZWUtYmVmZC03OWEwNTk3YzI5Y2EvZGhzcmwwNC0xNjA0OTgzOS0wYzBmLTQwNzctOTc3Zi0wOWE5OTJlYzRiMDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.XIZi3LNLcPUgY_lP-4R7TJ2r6klMfpBRxT7-cMHGvic') center/cover no-repeat; z-index: -1; }
+    .desktop-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ee4c29a6-9564-4bee-befd-79a0597c29ca/dhsrl04-16049839-0c0f-4077-977f-09a992ec4b07.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9lZTRjMjlhNi05NTY0LTRiZWUtYmVmZC03OWEwNTk3YzI5Y2EvZGhzcmwwNC0xNjA0OTgzOS0wYzBmLTQwNzctOTc3Zi0wOWE5OTJlYzRiMDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.XIZi3LNLcPUgY_lP-4R7TJ2r6klMfpBRxT7-cMHGvic') center/cover no-repeat; z-index: -1; transition: background-image 0.5s ease; }
     .desktop-bg::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); }
     
-    /* Desktop Icons - Left side (normal apps) */
+    /* Desktop Icons */
     .desktop-icons-left { position: absolute; top: 20px; left: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 15; }
     .desktop-icons-right { position: absolute; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 8px; z-index: 15; }
     .desktop-icon { display: flex; flex-direction: column; align-items: center; width: 85px; padding: 10px 6px; border-radius: 14px; cursor: pointer; transition: all 0.2s ease; background: transparent; }
     .desktop-icon:hover { background: rgba(255,255,255,0.15); transform: translateY(-3px) scale(1.02); backdrop-filter: blur(4px); }
     .desktop-icon .icon { font-size: 36px; margin-bottom: 6px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
     .desktop-icon .label { font-size: 11px; text-align: center; color: white; font-weight: 500; text-shadow: 0 1px 2px rgba(0,0,0,0.5); }
+    .desktop-icon .delete-btn { position: absolute; top: -4px; right: -4px; width: 18px; height: 18px; background: var(--danger); border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 10px; color: white; cursor: pointer; }
+    .desktop-icon:hover .delete-btn { display: flex; }
     
     /* Desktop Widgets */
     .desktop-widgets { position: absolute; bottom: 80px; left: 20px; display: flex; gap: 12px; z-index: 15; }
@@ -81,15 +84,20 @@
     .recent-game-icon { font-size: 28px; }
     .recent-game-name { font-size: 9px; color: var(--text-secondary); text-align: center; max-width: 60px; overflow: hidden; text-overflow: ellipsis; }
     
-    /* Taskbar - Windows style, gets smaller on hover */
+    /* Taskbar - gets smaller on hover */
     .taskbar { position: fixed; bottom: 0; left: 0; right: 0; height: 48px; background: var(--bg-glass); backdrop-filter: blur(20px); border-top: 1px solid var(--border-glass); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; z-index: 1000; transition: all 0.2s ease; }
     .taskbar:hover { height: 40px; }
     .start-btn { display: flex; align-items: center; gap: 8px; padding: 6px 16px; background: linear-gradient(135deg, var(--accent), #5a3cc9); border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.15s; }
     .start-btn:hover { transform: scale(1.02); filter: brightness(1.05); }
     .taskbar-apps { display: flex; gap: 4px; flex: 1; margin: 0 12px; overflow-x: auto; }
-    .taskbar-app { padding: 6px 14px; background: rgba(255,255,255,0.08); border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 12px; transition: all 0.15s; }
+    .taskbar-app { padding: 6px 14px; background: rgba(255,255,255,0.08); border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 12px; transition: all 0.15s; position: relative; }
     .taskbar-app:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); }
     .taskbar-app.active { background: var(--accent); }
+    /* Window preview on hover */
+    .taskbar-app:hover .window-preview { display: block; }
+    .window-preview { display: none; position: absolute; bottom: 45px; left: 50%; transform: translateX(-50%); background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--border-glass); border-radius: 8px; padding: 8px; min-width: 160px; z-index: 2000; }
+    .window-preview-title { font-size: 10px; color: var(--text-secondary); text-align: center; }
+    
     .taskbar-right { display: flex; align-items: center; gap: 12px; }
     .taskbar-datetime { display: flex; flex-direction: column; align-items: flex-end; padding: 4px 8px; cursor: pointer; border-radius: 8px; transition: all 0.15s; }
     .taskbar-datetime:hover { background: rgba(255,255,255,0.1); }
@@ -141,6 +149,66 @@
     .quick-settings-slider { width: 100px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px; position: relative; cursor: pointer; }
     .quick-settings-slider-fill { width: 70%; height: 100%; background: var(--accent); border-radius: 2px; }
     .quick-settings-input { background: rgba(0,0,0,0.3); border: 1px solid var(--border-glass); border-radius: 20px; padding: 6px 12px; color: white; width: 140px; outline: none; }
+    .quick-settings-divider { height: 1px; background: var(--border-glass); margin: 8px 0; }
+    
+    /* Lock Screen */
+    .lock-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 20000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s; }
+    .lock-screen.open { opacity: 1; visibility: visible; }
+    .lock-card { text-align: center; }
+    .lock-clock { font-size: 72px; font-weight: 600; font-family: monospace; margin-bottom: 20px; }
+    .lock-input { padding: 14px 20px; background: rgba(255,255,255,0.1); border: 1px solid var(--border-glass); border-radius: 30px; color: white; font-size: 16px; text-align: center; outline: none; width: 250px; }
+    .lock-submit { margin-top: 16px; padding: 8px 24px; background: var(--accent); border: none; border-radius: 30px; color: white; cursor: pointer; }
+    
+    /* Task Manager */
+    .task-manager { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; background: var(--bg-glass); backdrop-filter: blur(24px); border-radius: 20px; border: 1px solid var(--border-glass); z-index: 10004; display: none; flex-direction: column; max-height: 80vh; }
+    .task-manager.open { display: flex; animation: scaleIn 0.2s; }
+    .task-manager-header { padding: 16px 20px; border-bottom: 1px solid var(--border-glass); display: flex; justify-content: space-between; font-weight: 600; }
+    .task-manager-list { padding: 16px; overflow-y: auto; }
+    .task-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border-glass); }
+    .task-item-name { display: flex; align-items: center; gap: 12px; }
+    .task-item-close { background: var(--danger); border: none; border-radius: 8px; padding: 4px 12px; color: white; cursor: pointer; }
+    
+    /* Notification Center */
+    .notification-center { position: fixed; top: 12px; right: -380px; width: 360px; background: var(--bg-glass); backdrop-filter: blur(24px); border-radius: 16px; border: 1px solid var(--border-glass); z-index: 1003; transition: right 0.3s; max-height: 80vh; overflow-y: auto; }
+    .notification-center.open { right: 12px; }
+    .notification-header { padding: 14px 18px; border-bottom: 1px solid var(--border-glass); display: flex; justify-content: space-between; font-weight: 600; }
+    .notification-item { padding: 12px 16px; border-bottom: 1px solid var(--border-glass); display: flex; gap: 12px; cursor: pointer; transition: all 0.1s; }
+    .notification-item:hover { background: rgba(255,255,255,0.05); }
+    .notification-icon { font-size: 20px; }
+    .notification-content { flex: 1; }
+    .notification-title { font-size: 13px; font-weight: 500; }
+    .notification-time { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
+    
+    /* File Explorer */
+    .file-explorer { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px; height: 500px; background: var(--bg-glass); backdrop-filter: blur(24px); border-radius: 20px; border: 1px solid var(--border-glass); z-index: 10005; display: none; flex-direction: column; }
+    .file-explorer.open { display: flex; animation: scaleIn 0.2s; }
+    .file-explorer-header { padding: 16px 20px; border-bottom: 1px solid var(--border-glass); display: flex; gap: 12px; }
+    .file-explorer-path { flex: 1; background: rgba(0,0,0,0.3); border: 1px solid var(--border-glass); border-radius: 8px; padding: 8px 12px; color: white; font-size: 12px; }
+    .file-explorer-content { flex: 1; padding: 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; overflow-y: auto; }
+    .file-item { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px; border-radius: 12px; cursor: pointer; transition: all 0.1s; }
+    .file-item:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+    .file-item-icon { font-size: 32px; }
+    .file-item-name { font-size: 11px; text-align: center; word-break: break-word; max-width: 80px; }
+    
+    /* Recycle Bin */
+    .recycle-bin { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 400px; background: var(--bg-glass); backdrop-filter: blur(24px); border-radius: 20px; border: 1px solid var(--border-glass); z-index: 10006; display: none; flex-direction: column; }
+    .recycle-bin.open { display: flex; animation: scaleIn 0.2s; }
+    .recycle-bin-header { padding: 16px 20px; border-bottom: 1px solid var(--border-glass); display: flex; justify-content: space-between; }
+    .recycle-bin-content { flex: 1; padding: 16px; overflow-y: auto; }
+    .recycle-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid var(--border-glass); }
+    .recycle-restore { background: var(--success); border: none; border-radius: 8px; padding: 4px 12px; color: white; cursor: pointer; margin-right: 8px; }
+    .recycle-delete { background: var(--danger); border: none; border-radius: 8px; padding: 4px 12px; color: white; cursor: pointer; }
+    
+    /* RSS Reader */
+    .rss-reader { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 500px; background: var(--bg-glass); backdrop-filter: blur(24px); border-radius: 20px; border: 1px solid var(--border-glass); z-index: 10007; display: none; flex-direction: column; }
+    .rss-reader.open { display: flex; animation: scaleIn 0.2s; }
+    .rss-header { padding: 16px 20px; border-bottom: 1px solid var(--border-glass); display: flex; gap: 12px; }
+    .rss-url { flex: 1; background: rgba(0,0,0,0.3); border: 1px solid var(--border-glass); border-radius: 8px; padding: 8px 12px; color: white; }
+    .rss-feed-list { flex: 1; padding: 16px; overflow-y: auto; }
+    .rss-item { padding: 12px; border-bottom: 1px solid var(--border-glass); cursor: pointer; transition: all 0.1s; }
+    .rss-item:hover { background: rgba(255,255,255,0.05); transform: translateX(4px); }
+    .rss-item-title { font-weight: 500; }
+    .rss-item-date { font-size: 10px; color: var(--text-muted); margin-top: 4px; }
     
     /* Window */
     .window { position: absolute; min-width: 400px; min-height: 300px; background: rgba(18,18,26,0.95); backdrop-filter: blur(4px); border-radius: 12px; border: 1px solid var(--border-glass); box-shadow: 0 20px 40px rgba(0,0,0,0.4); z-index: 100; display: flex; flex-direction: column; overflow: hidden; animation: windowPop 0.2s ease; }
@@ -199,9 +267,25 @@
     .close-modal { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 20px; cursor: pointer; color: white; transition: all 0.15s; }
     .close-modal:hover { background: var(--danger); transform: scale(1.05); }
     
+    /* Achievement Popup */
+    .achievement-popup { position: fixed; bottom: 60px; right: 20px; width: 300px; background: linear-gradient(135deg, #1a1a2e, #0f0f1a); border-left: 4px solid var(--warning); border-radius: 12px; padding: 12px 16px; z-index: 20000; transform: translateX(400px); transition: transform 0.3s; display: flex; gap: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+    .achievement-popup.show { transform: translateX(0); }
+    .achievement-icon { font-size: 32px; }
+    .achievement-text { flex: 1; }
+    .achievement-title { font-size: 12px; color: var(--warning); font-weight: 600; }
+    .achievement-name { font-size: 13px; font-weight: 500; }
+    .achievement-reward { font-size: 11px; color: var(--success); margin-top: 4px; }
+    
     /* Toast */
     .toast { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.9); backdrop-filter: blur(12px); border: 1px solid var(--accent); border-radius: 30px; padding: 10px 20px; color: white; font-size: 13px; z-index: 20001; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
     .toast.show { opacity: 1; }
+    
+    /* Context Menu */
+    .context-menu { position: fixed; background: var(--bg-glass); backdrop-filter: blur(20px); border: 1px solid var(--border-glass); border-radius: 12px; padding: 8px 0; min-width: 220px; z-index: 10001; opacity: 0; visibility: hidden; transition: opacity 0.1s; }
+    .context-menu.visible { opacity: 1; visibility: visible; }
+    .context-menu-item { padding: 8px 16px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 12px; transition: all 0.1s; }
+    .context-menu-item:hover { background: rgba(255,255,255,0.1); transform: translateX(4px); }
+    .context-menu-divider { height: 1px; background: var(--border-glass); margin: 6px 0; }
     
     /* Mobile */
     @media (max-width: 768px) {
@@ -224,6 +308,7 @@
 </head>
 <body>
 
+<!-- Login Screen -->
 <div class="login-screen" id="loginScreen">
   <div class="login-card">
     <div class="login-logo">🍥</div>
@@ -237,6 +322,16 @@
   </div>
 </div>
 
+<!-- Lock Screen -->
+<div class="lock-screen" id="lockScreen">
+  <div class="lock-card">
+    <div class="lock-clock" id="lockClock">--:--</div>
+    <input type="password" class="lock-input" id="lockPassword" placeholder="Enter password" autocomplete="off">
+    <button class="lock-submit" id="unlockBtn">Unlock</button>
+  </div>
+</div>
+
+<!-- Desktop -->
 <div class="desktop" id="desktop">
   <div class="desktop-bg" id="desktopBg"></div>
   <div class="desktop-icons-left" id="desktopIconsLeft"></div>
@@ -264,6 +359,7 @@
   </div>
 </div>
 
+<!-- Taskbar -->
 <div class="taskbar" id="taskbar">
   <div class="start-btn" id="startBtn">🍥 Start</div>
   <div class="virtual-desktops" id="virtualDesktops">
@@ -280,6 +376,7 @@
   </div>
 </div>
 
+<!-- Start Menu -->
 <div class="start-menu" id="startMenu">
   <div class="start-header">
     <div class="start-avatar">👤</div>
@@ -292,12 +389,14 @@
   <div class="start-apps" id="startApps"></div>
 </div>
 
+<!-- Boot Menu -->
 <div class="boot-menu" id="bootMenu">
   <div class="boot-search"><input type="text" id="bootSearch" placeholder="Search games..." autocomplete="off"></div>
   <div class="boot-results" id="bootResults"></div>
   <div class="boot-footer"><span>↑↓ navigate</span><span>↵ play</span><span>esc close</span></div>
 </div>
 
+<!-- Quick Settings -->
 <div class="quick-settings" id="quickSettings">
   <div class="quick-settings-header">Quick Settings <span id="closeQuickSettings" style="cursor:pointer;">✕</span></div>
   <div class="quick-settings-item">🔊 Volume <div class="quick-settings-slider"><div class="quick-settings-slider-fill" style="width: 70%;"></div></div></div>
@@ -305,17 +404,82 @@
   <div class="quick-settings-item">🔍 Search Games <input type="text" id="quickGameSearch" class="quick-settings-input" placeholder="Search..."></div>
   <div class="quick-settings-divider"></div>
   <div class="quick-settings-item" id="qsLockScreen">🔒 Lock Screen</div>
+  <div class="quick-settings-item" id="qsTaskManager">📊 Task Manager</div>
   <div class="quick-settings-item" id="qsSettings">⚙️ Full Settings</div>
 </div>
 
+<!-- Task Manager -->
+<div class="task-manager" id="taskManager">
+  <div class="task-manager-header">Task Manager <span id="closeTaskManager" style="cursor:pointer;">✕</span></div>
+  <div class="task-manager-list" id="taskManagerList"></div>
+</div>
+
+<!-- Notification Center -->
+<div class="notification-center" id="notificationCenter">
+  <div class="notification-header">Notifications <span id="closeNotif" style="cursor:pointer;">✕</span></div>
+  <div class="notification-list" id="notificationList">
+    <div class="notification-item"><span class="notification-icon">🎉</span><div class="notification-content"><div class="notification-title">Welcome to fanterOS!</div><div class="notification-time">Just now</div></div></div>
+  </div>
+</div>
+
+<!-- File Explorer -->
+<div class="file-explorer" id="fileExplorer">
+  <div class="file-explorer-header">
+    <input type="text" class="file-explorer-path" id="filePath" value="Documents">
+    <span id="closeFileExplorer" style="cursor:pointer;">✕</span>
+  </div>
+  <div class="file-explorer-content" id="fileExplorerContent"></div>
+</div>
+
+<!-- Recycle Bin -->
+<div class="recycle-bin" id="recycleBin">
+  <div class="recycle-bin-header">🗑️ Recycle Bin <span id="closeRecycleBin" style="cursor:pointer;">✕</span></div>
+  <div class="recycle-bin-content" id="recycleBinContent"></div>
+</div>
+
+<!-- RSS Reader -->
+<div class="rss-reader" id="rssReader">
+  <div class="rss-header">
+    <input type="text" class="rss-url" id="rssUrl" value="https://feeds.feedburner.com/techcrunch/startups">
+    <button id="loadRssBtn" class="taskbar-icon" style="background:var(--accent); border:none; border-radius:8px; padding:4px 12px; color:white; cursor:pointer;">Load</button>
+    <span id="closeRssReader" style="cursor:pointer;">✕</span>
+  </div>
+  <div class="rss-feed-list" id="rssFeedList"></div>
+</div>
+
+<!-- Game Modal -->
 <div class="game-modal" id="gameModal">
   <div class="game-modal-content" id="gameModalContent"></div>
+</div>
+
+<!-- Achievement Popup -->
+<div class="achievement-popup" id="achievementPopup">
+  <div class="achievement-icon">🏆</div>
+  <div class="achievement-text">
+    <div class="achievement-title">ACHIEVEMENT UNLOCKED!</div>
+    <div class="achievement-name" id="achievementName">Welcome Aboard</div>
+    <div class="achievement-reward" id="achievementReward">+3 🪙</div>
+  </div>
+</div>
+
+<!-- Context Menu -->
+<div class="context-menu" id="contextMenu">
+  <div class="context-menu-item" id="ctxRefresh">🔄 Refresh</div>
+  <div class="context-menu-item" id="ctxNewFolder">📁 New Folder</div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item" id="ctxWallpaper">🖼️ Change Wallpaper</div>
+  <div class="context-menu-divider"></div>
+  <div class="context-menu-item" id="ctxTaskManager">📊 Task Manager</div>
+  <div class="context-menu-item" id="ctxLock">🔒 Lock Screen</div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// Supabase
+// ============================================
+// FANTER OS - COMPLETE v2.0
+// ============================================
+
 const SUPABASE_URL = "https://gvzgnclowylrrpovdvtw.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2emduY2xvd3lscnJwb3ZkdnR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NjM5ODEsImV4cCI6MjA5MjAzOTk4MX0.p7oeYBVX870iSK-TLDRj6pfW7wLj7HJsTHjNWaNpL7o";
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -324,7 +488,11 @@ let GAMES_DATA = [];
 let userRatings = JSON.parse(localStorage.getItem('userRatings') || '{}');
 let gamePlayTime = JSON.parse(localStorage.getItem('gamePlayTime') || '{}');
 let recentGames = JSON.parse(localStorage.getItem('recentGames') || '[]');
+let achievements = JSON.parse(localStorage.getItem('achievements') || '{}');
+let files = JSON.parse(localStorage.getItem('files') || '{ "Documents": [], "Downloads": [], "Pictures": [] }');
+let recycleBinFiles = JSON.parse(localStorage.getItem('recycleBin') || '[]');
 let currentUser = null;
+let lockPassword = null;
 let windows = [];
 let nextWindowId = 1;
 let activeWindowId = null;
@@ -338,6 +506,9 @@ const APPS = [
   { id: 'gamehub', name: 'Game Hub', icon: '🎮', isBuiltin: true, category: 'games' },
   { id: 'emulators', name: 'Emulators', icon: '🕹️', isEmulator: true, category: 'games' },
   { id: 'fanterclicker', name: 'Fanter Clicker', icon: '🍪', url: 'https://chipikipal800.github.io/Fanter-Clicker/', external: true, category: 'games' },
+  { id: 'fileexplorer', name: 'File Explorer', icon: '📁', appType: 'fileexplorer', category: 'system' },
+  { id: 'recyclebin', name: 'Recycle Bin', icon: '🗑️', appType: 'recyclebin', category: 'system' },
+  { id: 'rssreader', name: 'RSS Reader', icon: '📰', appType: 'rssreader', category: 'tools' },
   { id: 'calculator', name: 'Calculator', icon: '🧮', appType: 'calculator', category: 'tools' },
   { id: 'notes', name: 'Notes', icon: '📋', appType: 'notes', category: 'tools' },
   { id: 'whiteboard', name: 'Whiteboard', icon: '✏️', appType: 'whiteboard', category: 'tools' },
@@ -366,6 +537,7 @@ const EMULATORS = [
 ];
 
 const DESKTOP_ICONS_LEFT = [
+  { id: 'fileexplorer', icon: '📁', label: 'Files' },
   { id: 'calculator', icon: '🧮', label: 'Calc' },
   { id: 'notes', icon: '📋', label: 'Notes' },
   { id: 'settings', icon: '⚙️', label: 'Settings' }
@@ -374,7 +546,8 @@ const DESKTOP_ICONS_LEFT = [
 const DESKTOP_ICONS_RIGHT = [
   { id: 'gamehub', icon: '🎮', label: 'Game Hub' },
   { id: 'fanterclicker', icon: '🍪', label: 'Clicker' },
-  { id: 'snake', icon: '🐍', label: 'Snake' }
+  { id: 'snake', icon: '🐍', label: 'Snake' },
+  { id: 'fortuneteller', icon: '🔮', label: 'Fortune' }
 ];
 
 function showToast(msg) {
@@ -384,10 +557,26 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
+function showAchievement(name, reward) {
+  const popup = document.getElementById('achievementPopup');
+  document.getElementById('achievementName').textContent = name;
+  document.getElementById('achievementReward').textContent = `+${reward} 🪙`;
+  popup.classList.add('show');
+  setTimeout(() => popup.classList.remove('show'), 4000);
+  if (!achievements[name]) {
+    achievements[name] = true;
+    localStorage.setItem('achievements', JSON.stringify(achievements));
+    if (currentUser) {
+      currentUser.coins = (currentUser.coins || 0) + reward;
+    }
+  }
+}
+
 function updateClock() {
   const now = new Date();
   document.getElementById('taskbarTime').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   document.getElementById('taskbarDate').textContent = now.toLocaleDateString([], { month: 'short', day: 'numeric' });
+  document.getElementById('lockClock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   document.getElementById('widgetTime').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   document.getElementById('widgetDate').textContent = now.toLocaleDateString([], { month: 'short', day: 'numeric' });
   document.getElementById('calendarDay').textContent = now.getDate();
@@ -407,9 +596,12 @@ async function loadGames() {
     let text = await res.text();
     text = text.replace(/,(\s*}\s*)\]/g, '$1]').replace(/,\s*\]/, ']');
     GAMES_DATA = JSON.parse(text);
+    console.log(`Loaded ${GAMES_DATA.length} games`);
   } catch(e) {
+    console.error('Games load failed:', e);
     GAMES_DATA = [
-      { name: "Hollow Knight", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsLIpQXZ-qUzdIOxeFC9LAaYznn0jmMIE9WA&s", url: "https://abcatlmfao.github.io/hollow-knight2/", category: "adventure", desc: "Descend into a bug kingdom.", developer: "Team Cherry", releaseDate: "2017" }
+      { name: "Hollow Knight", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsLIpQXZ-qUzdIOxeFC9LAaYznn0jmMIE9WA&s", url: "https://abcatlmfao.github.io/hollow-knight2/", category: "adventure", desc: "Descend into a bug kingdom.", developer: "Team Cherry", releaseDate: "2017" },
+      { name: "Cuphead", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9qSIX-nkzPX90AalYjAOofWbbOfNZUcrlyg&s", url: "https://woahhcrackers.github.io/CupheadWeb/", category: "platformer", desc: "Run and gun action.", developer: "Studio MDHR", releaseDate: "2017" }
     ];
   }
 }
@@ -462,12 +654,23 @@ function showGameDetails(game) {
   document.getElementById('playGameBtn').onclick = () => {
     window.location.href = game.url;
     modal.classList.remove('open');
-    gamePlayTime[game.name] = (gamePlayTime[game.name] || 0) + 0.5;
-    localStorage.setItem('gamePlayTime', JSON.stringify(gamePlayTime));
-    recentGames = [game, ...recentGames.filter(g => g.name !== game.name)].slice(0, 10);
-    localStorage.setItem('recentGames', JSON.stringify(recentGames));
-    renderRecentGames();
+    trackGamePlay(game.name);
+    addToRecentGames(game);
   };
+}
+
+function trackGamePlay(gameName) {
+  gamePlayTime[gameName] = (gamePlayTime[gameName] || 0) + 0.5;
+  localStorage.setItem('gamePlayTime', JSON.stringify(gamePlayTime));
+  if (gamePlayTime[gameName] >= 10 && !achievements[`${gameName}_10h`]) {
+    showAchievement(`${gameName} Veteran`, 25);
+  }
+}
+
+function addToRecentGames(game) {
+  recentGames = [game, ...recentGames.filter(g => g.name !== game.name)].slice(0, 10);
+  localStorage.setItem('recentGames', JSON.stringify(recentGames));
+  renderRecentGames();
 }
 
 function renderRecentGames() {
@@ -487,8 +690,110 @@ function renderRecentGames() {
     el.addEventListener('click', () => {
       const game = JSON.parse(el.dataset.game);
       window.location.href = game.url;
+      trackGamePlay(game.name);
     });
   });
+}
+
+function renderFileExplorer() {
+  const container = document.getElementById('fileExplorerContent');
+  const currentPath = document.getElementById('filePath').value;
+  const currentFiles = files[currentPath] || [];
+  container.innerHTML = currentFiles.map(file => `
+    <div class="file-item" data-file="${file.name}" data-type="${file.type}">
+      <div class="file-item-icon">${file.type === 'folder' ? '📁' : '📄'}</div>
+      <div class="file-item-name">${file.name}</div>
+    </div>
+  `).join('');
+  container.querySelectorAll('.file-item').forEach(el => {
+    el.addEventListener('dblclick', () => {
+      if (el.dataset.type === 'folder') {
+        document.getElementById('filePath').value = el.dataset.file;
+        renderFileExplorer();
+      }
+    });
+    el.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      showFileContextMenu(e.clientX, e.clientY, currentPath, el.dataset.file);
+    });
+  });
+}
+
+function showFileContextMenu(x, y, path, fileName) {
+  const menu = document.getElementById('contextMenu');
+  menu.innerHTML = `
+    <div class="context-menu-item" id="ctxDelete">🗑️ Delete</div>
+    <div class="context-menu-item" id="ctxRename">✏️ Rename</div>
+  `;
+  menu.style.left = `${x}px`;
+  menu.style.top = `${y}px`;
+  menu.classList.add('visible');
+  document.getElementById('ctxDelete').onclick = () => {
+    const currentFiles = files[path] || [];
+    const file = currentFiles.find(f => f.name === fileName);
+    if (file) {
+      recycleBinFiles.push({ ...file, originalPath: path, deletedAt: Date.now() });
+      files[path] = currentFiles.filter(f => f.name !== fileName);
+      localStorage.setItem('files', JSON.stringify(files));
+      localStorage.setItem('recycleBin', JSON.stringify(recycleBinFiles));
+      renderFileExplorer();
+      showToast(`Moved "${fileName}" to Recycle Bin`);
+    }
+    menu.classList.remove('visible');
+  };
+  setTimeout(() => document.addEventListener('click', () => menu.classList.remove('visible'), { once: true }), 10);
+}
+
+function renderRecycleBin() {
+  const container = document.getElementById('recycleBinContent');
+  container.innerHTML = recycleBinFiles.map((file, i) => `
+    <div class="recycle-item">
+      <span>${file.type === 'folder' ? '📁' : '📄'} ${file.name}</span>
+      <div>
+        <button class="recycle-restore" data-index="${i}">Restore</button>
+        <button class="recycle-delete" data-index="${i}">Delete Forever</button>
+      </div>
+    </div>
+  `).join('');
+  container.querySelectorAll('.recycle-restore').forEach(btn => {
+    btn.onclick = () => {
+      const idx = parseInt(btn.dataset.index);
+      const file = recycleBinFiles[idx];
+      if (file) {
+        if (!files[file.originalPath]) files[file.originalPath] = [];
+        files[file.originalPath].push({ name: file.name, type: file.type });
+        recycleBinFiles.splice(idx, 1);
+        localStorage.setItem('files', JSON.stringify(files));
+        localStorage.setItem('recycleBin', JSON.stringify(recycleBinFiles));
+        renderRecycleBin();
+        showToast(`Restored "${file.name}"`);
+      }
+    };
+  });
+  container.querySelectorAll('.recycle-delete').forEach(btn => {
+    btn.onclick = () => {
+      const idx = parseInt(btn.dataset.index);
+      recycleBinFiles.splice(idx, 1);
+      localStorage.setItem('recycleBin', JSON.stringify(recycleBinFiles));
+      renderRecycleBin();
+      showToast('File permanently deleted');
+    };
+  });
+}
+
+async function loadRSS(url, containerId) {
+  try {
+    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`;
+    const res = await fetch(proxyUrl);
+    const data = await res.json();
+    const container = document.getElementById(containerId);
+    container.innerHTML = data.items.slice(0, 20).map(item => `
+      <div class="rss-item" onclick="window.open('${item.link}', '_blank')">
+        <div class="rss-item-title">${item.title}</div>
+        <div class="rss-item-date">${new Date(item.pubDate).toLocaleDateString()}</div>
+      </div>
+    `).join('');
+  } catch(e) { showToast('Failed to load RSS feed'); }
 }
 
 function renderDesktopIcons() {
@@ -534,7 +839,7 @@ function createGameHubWindow() {
       </div>
     </div>
     <div class="window-content" style="padding: 20px;">
-      <div style="display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap;">
+      <div style="display: flex; gap: 12px; margin-bottom: 20px;">
         <input type="text" id="gameSearch-${id}" placeholder="Search games..." style="flex:2; padding: 12px 16px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-glass); border-radius: 30px; color: white;">
         <select id="categorySelect-${id}" style="padding: 12px 20px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-glass); border-radius: 30px; color: white;">
           <option value="all">🎮 All Games</option>
@@ -542,6 +847,7 @@ function createGameHubWindow() {
           <option value="platformer">🏃 Platformer</option>
           <option value="adventure">🗺️ Adventure</option>
           <option value="horror">👻 Horror</option>
+          <option value="arcade">🕹️ Arcade</option>
         </select>
         <button id="randomGameBtn-${id}" style="padding: 12px 24px; background: var(--accent); border: none; border-radius: 30px; color: white; cursor: pointer;">🎲 Random</button>
       </div>
@@ -655,10 +961,10 @@ function createAppWindow(app, x = 150, y = 100, w = 500, h = 400) {
       content = `<textarea id="notesApp-${id}" style="width:100%; height:100%; background:rgba(0,0,0,0.3); border:none; color:white; padding:12px; resize:none;" placeholder="Write your notes here..."></textarea>`;
       break;
     case 'whiteboard':
-      content = `<canvas id="whiteboard-${id}" style="width:100%; height:300px; background:white; border-radius:12px; cursor:crosshair;"></canvas><div style="display:flex; gap:8px; margin-top:12px;"><button class="calc-btn" id="clearCanvas-${id}" style="padding:8px 16px; background:rgba(255,255,255,0.1); border:none; border-radius:8px; color:white; cursor:pointer;">Clear</button><button class="calc-btn" id="saveCanvas-${id}" style="padding:8px 16px;">Save</button><input type="color" id="penColor-${id}" value="#000000"></div>`;
+      content = `<canvas id="whiteboard-${id}" style="width:100%; height:300px; background:white; border-radius:12px; cursor:crosshair;"></canvas><div style="display:flex; gap:8px; margin-top:12px;"><button class="calc-btn" id="clearCanvas-${id}" style="padding:8px 16px;">Clear</button><button class="calc-btn" id="saveCanvas-${id}" style="padding:8px 16px;">Save</button><input type="color" id="penColor-${id}" value="#000000"></div>`;
       break;
     case 'timer':
-      content = `<div style="text-align:center; padding:20px;"><div style="font-size:48px; font-family:monospace;" id="timerDisplay-${id}">25:00</div><div style="display:flex; gap:10px; justify-content:center; margin-top:20px;"><button class="calc-btn" id="timerStart-${id}" style="padding:8px 16px;">Start</button><button class="calc-btn" id="timerPause-${id}">Pause</button><button class="calc-btn" id="timerReset-${id}">Reset</button></div></div>`;
+      content = `<div style="text-align:center; padding:20px;"><div style="font-size:48px; font-family:monospace;" id="timerDisplay-${id}">25:00</div><div style="display:flex; gap:10px; justify-content:center; margin-top:20px;"><button class="calc-btn" id="timerStart-${id}">Start</button><button class="calc-btn" id="timerPause-${id}">Pause</button><button class="calc-btn" id="timerReset-${id}">Reset</button></div></div>`;
       break;
     case 'tasks':
       content = `<div style="display:flex; gap:8px; margin-bottom:16px;"><input type="text" id="taskInput-${id}" placeholder="New task..." style="flex:1; padding:10px; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:12px; color:white;"><button class="calc-btn" id="addTask-${id}" style="padding:10px 20px;">Add</button></div><div id="taskList-${id}" style="display:flex; flex-direction:column; gap:8px;"></div>`;
@@ -680,6 +986,15 @@ function createAppWindow(app, x = 150, y = 100, w = 500, h = 400) {
       break;
     case 'browser':
       content = `<iframe src="https://www.google.com" style="width:100%; height:100%; border:none;"></iframe>`;
+      break;
+    case 'fileexplorer':
+      content = `<div style="margin-bottom:12px;"><input type="text" id="filePath-${id}" value="Documents" style="width:100%; padding:8px; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:8px; color:white;"></div><div id="fileList-${id}" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(100px,1fr)); gap:12px;"></div>`;
+      break;
+    case 'recyclebin':
+      content = `<div id="recycleList-${id}" style="display:flex; flex-direction:column; gap:8px;"></div>`;
+      break;
+    case 'rssreader':
+      content = `<div style="margin-bottom:12px;"><input type="text" id="rssUrl-${id}" placeholder="RSS URL" style="width:100%; padding:8px; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:8px; color:white;" value="https://feeds.feedburner.com/techcrunch/startups"><button id="loadRss-${id}" style="margin-top:8px; padding:8px; background:var(--accent); border:none; border-radius:8px; color:white; cursor:pointer;">Load Feed</button></div><div id="rssList-${id}" style="max-height:300px; overflow-y:auto;"></div>`;
       break;
     default:
       content = `<div style="text-align:center; padding:40px;">${app.name} - Coming Soon!</div>`;
@@ -912,6 +1227,66 @@ function initAppLogic(win, id, app) {
       document.getElementById(`eightballAnswer-${id}`).innerHTML = `🎱 ${answer}`;
     };
   }
+  
+  if (app.appType === 'fileexplorer') {
+    function renderFiles() {
+      const path = document.getElementById(`filePath-${id}`).value;
+      const currentFiles = files[path] || [];
+      const container = document.getElementById(`fileList-${id}`);
+      container.innerHTML = currentFiles.map(file => `
+        <div class="file-item" data-name="${file.name}" data-type="${file.type}">
+          <div class="file-item-icon">${file.type === 'folder' ? '📁' : '📄'}</div>
+          <div class="file-item-name">${file.name}</div>
+        </div>
+      `).join('');
+      container.querySelectorAll('.file-item').forEach(el => {
+        el.addEventListener('dblclick', () => {
+          if (el.dataset.type === 'folder') {
+            document.getElementById(`filePath-${id}`).value = el.dataset.name;
+            renderFiles();
+          }
+        });
+      });
+    }
+    document.getElementById(`filePath-${id}`).addEventListener('change', renderFiles);
+    renderFiles();
+  }
+  
+  if (app.appType === 'recyclebin') {
+    function renderRecycle() {
+      const container = document.getElementById(`recycleList-${id}`);
+      container.innerHTML = recycleBinFiles.map((file, i) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px; background:rgba(255,255,255,0.05); border-radius:8px;">
+          <span>${file.type === 'folder' ? '📁' : '📄'} ${file.name}</span>
+          <button class="restore-file" data-index="${i}" style="background:var(--success); border:none; border-radius:6px; padding:4px 12px; color:white; cursor:pointer;">Restore</button>
+        </div>
+      `).join('');
+      container.querySelectorAll('.restore-file').forEach(btn => {
+        btn.onclick = () => {
+          const idx = parseInt(btn.dataset.index);
+          const file = recycleBinFiles[idx];
+          if (file) {
+            if (!files[file.originalPath]) files[file.originalPath] = [];
+            files[file.originalPath].push({ name: file.name, type: file.type });
+            recycleBinFiles.splice(idx, 1);
+            localStorage.setItem('files', JSON.stringify(files));
+            localStorage.setItem('recycleBin', JSON.stringify(recycleBinFiles));
+            renderRecycle();
+            showToast(`Restored "${file.name}"`);
+          }
+        };
+      });
+    }
+    renderRecycle();
+  }
+  
+  if (app.appType === 'rssreader') {
+    document.getElementById(`loadRss-${id}`).onclick = () => {
+      const url = document.getElementById(`rssUrl-${id}`).value;
+      loadRSS(url, `rssList-${id}`);
+    };
+    loadRSS('https://feeds.feedburner.com/techcrunch/startups', `rssList-${id}`);
+  }
 }
 
 function setupWindowEvents(win, id) {
@@ -1011,6 +1386,9 @@ function updateTaskbar() {
     <div class="taskbar-app ${activeWindowId === win.id ? 'active' : ''}" data-id="${win.id}">
       <span>${win.app.icon}</span>
       <span>${win.app.name}</span>
+      <div class="window-preview">
+        <div class="window-preview-title">${win.app.name}</div>
+      </div>
     </div>
   `).join('');
   container.querySelectorAll('.taskbar-app').forEach(el => {
@@ -1022,6 +1400,19 @@ function updateTaskbar() {
         else focusWindow(id);
       }
     });
+  });
+}
+
+function updateTaskManager() {
+  const container = document.getElementById('taskManagerList');
+  container.innerHTML = windows.map(win => `
+    <div class="task-item">
+      <div class="task-item-name"><span>${win.app.icon}</span><span>${win.app.name}</span></div>
+      <button class="task-item-close" data-id="${win.id}">End Task</button>
+    </div>
+  `).join('');
+  container.querySelectorAll('.task-item-close').forEach(btn => {
+    btn.onclick = () => closeWindow(parseInt(btn.dataset.id));
   });
 }
 
@@ -1091,6 +1482,39 @@ function toggleBootMenu() {
   if (bootMenuOpen) { document.getElementById('bootSearch').focus(); updateBootResults(''); }
 }
 
+function uploadWallpaper() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        localStorage.setItem('fanter_wallpaper', ev.target.result);
+        document.getElementById('desktopBg').style.backgroundImage = `url(${ev.target.result})`;
+        showToast('Wallpaper changed!');
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  input.click();
+}
+
+function lockScreen() {
+  document.getElementById('lockScreen').classList.add('open');
+}
+
+function unlockScreen() {
+  const input = document.getElementById('lockPassword').value;
+  if (input === lockPassword) {
+    document.getElementById('lockScreen').classList.remove('open');
+    document.getElementById('lockPassword').value = '';
+  } else {
+    showToast('Wrong password');
+  }
+}
+
 async function handleLogin() {
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
@@ -1102,6 +1526,7 @@ async function handleLogin() {
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
     currentUser = data.user;
+    lockPassword = password;
     localStorage.setItem('fanter_currentUser', JSON.stringify(currentUser));
     document.getElementById('startUserName').textContent = currentUser.email?.split('@')[0] || 'User';
     document.getElementById('startUserEmail').textContent = currentUser.email;
@@ -1116,10 +1541,6 @@ async function handleLogin() {
 
 function showRegister() {
   window.location.href = 'fantaccount.html';
-}
-
-function lockScreen() {
-  alert('Lock screen feature - set password in settings');
 }
 
 async function initDesktop() {
@@ -1152,7 +1573,40 @@ async function initDesktop() {
   document.getElementById('datetimeBtn').onclick = () => document.getElementById('quickSettings').classList.toggle('open');
   document.getElementById('closeQuickSettings').onclick = () => document.getElementById('quickSettings').classList.remove('open');
   document.getElementById('qsLockScreen').onclick = lockScreen;
+  document.getElementById('qsTaskManager').onclick = () => { updateTaskManager(); document.getElementById('taskManager').classList.add('open'); };
   document.getElementById('qsSettings').onclick = () => window.location.href = 'settings.html';
+  document.getElementById('closeTaskManager').onclick = () => document.getElementById('taskManager').classList.remove('open');
+  
+  // Task Manager from quick settings
+  document.getElementById('qsTaskManager').onclick = () => { updateTaskManager(); document.getElementById('taskManager').classList.add('open'); };
+  
+  // Notifications
+  document.getElementById('notifBtn')?.addEventListener('click', () => document.getElementById('notificationCenter').classList.toggle('open'));
+  document.getElementById('closeNotif')?.addEventListener('click', () => document.getElementById('notificationCenter').classList.remove('open'));
+  
+  // File Explorer
+  document.getElementById('fileexplorer')?.addEventListener('click', () => {
+    document.getElementById('fileExplorer').classList.add('open');
+    renderFileExplorer();
+  });
+  document.getElementById('closeFileExplorer')?.addEventListener('click', () => document.getElementById('fileExplorer').classList.remove('open'));
+  
+  // Recycle Bin
+  document.getElementById('recyclebin')?.addEventListener('click', () => {
+    document.getElementById('recycleBin').classList.add('open');
+    renderRecycleBin();
+  });
+  document.getElementById('closeRecycleBin')?.addEventListener('click', () => document.getElementById('recycleBin').classList.remove('open'));
+  
+  // RSS Reader
+  document.getElementById('rssreader')?.addEventListener('click', () => {
+    document.getElementById('rssReader').classList.add('open');
+    loadRSS(document.getElementById('rssUrl').value, 'rssFeedList');
+  });
+  document.getElementById('closeRssReader')?.addEventListener('click', () => document.getElementById('rssReader').classList.remove('open'));
+  document.getElementById('loadRssBtn')?.addEventListener('click', () => {
+    loadRSS(document.getElementById('rssUrl').value, 'rssFeedList');
+  });
   
   // Virtual desktop switching
   document.querySelectorAll('.desktop-switch').forEach(btn => {
@@ -1167,17 +1621,42 @@ async function initDesktop() {
       showToast(`Desktop ${currentDesktop}`);
     };
   });
-  document.querySelector('.desktop-switch').classList.add('active');
+  document.querySelector('.desktop-switch')?.classList.add('active');
+  
+  // Context menu
+  document.getElementById('ctxRefresh').onclick = () => location.reload();
+  document.getElementById('ctxNewFolder').onclick = () => {
+    const name = prompt('Folder name:');
+    if (name) {
+      if (!files['Documents']) files['Documents'] = [];
+      files['Documents'].push({ name, type: 'folder' });
+      localStorage.setItem('files', JSON.stringify(files));
+      showToast(`Created folder "${name}"`);
+    }
+  };
+  document.getElementById('ctxWallpaper').onclick = uploadWallpaper;
+  document.getElementById('ctxTaskManager').onclick = () => { updateTaskManager(); document.getElementById('taskManager').classList.add('open'); };
+  document.getElementById('ctxLock').onclick = lockScreen;
+  document.getElementById('desktopBg').oncontextmenu = (e) => {
+    e.preventDefault();
+    const menu = document.getElementById('contextMenu');
+    menu.style.left = `${e.clientX}px`;
+    menu.style.top = `${e.clientY}px`;
+    menu.classList.add('visible');
+    setTimeout(() => document.addEventListener('click', () => menu.classList.remove('visible'), { once: true }), 10);
+  };
   
   // Keyboard shortcuts
   document.addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleBootMenu(); }
+    if ((e.ctrlKey || e.metaKey) && e.altKey && e.key === 'Delete') { e.preventDefault(); updateTaskManager(); document.getElementById('taskManager').classList.add('open'); }
     if (e.key === 'Escape') { if (bootMenuOpen) toggleBootMenu(); if (startMenuOpen) toggleStartMenu(); }
     if ((e.ctrlKey || e.metaKey) && e.key === 'w') { e.preventDefault(); if (activeWindowId) closeWindow(activeWindowId); }
     if ((e.ctrlKey || e.metaKey) && e.key === 'm') { e.preventDefault(); if (activeWindowId) toggleMinimize(activeWindowId); }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'l') { e.preventDefault(); lockScreen(); }
   });
   
-  showToast('🎉 Welcome to fanterOS! Click Start menu to launch apps');
+  showToast('🎉 Welcome to fanterOS! Right-click desktop for options');
 }
 
 // Safety key
@@ -1189,8 +1668,11 @@ document.addEventListener('keydown', (e) => {
   lastKey = e.key; lastKeyTime = Date.now();
 });
 
+// Initialize
 document.getElementById('loginBtn').onclick = handleLogin;
 document.getElementById('showRegister').onclick = showRegister;
+document.getElementById('unlockBtn').onclick = unlockScreen;
+document.getElementById('lockPassword').addEventListener('keypress', (e) => { if (e.key === 'Enter') unlockScreen(); });
 document.getElementById('loginScreen').classList.add('visible');
 </script>
 </body>
