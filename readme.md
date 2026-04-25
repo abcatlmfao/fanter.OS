@@ -1,22 +1,94 @@
-umm lots of fun games
+fanter ubg
 
-good games
 
-fun games
+388 games currently, ~314 are NES / GBA that nobody is gonna play sadly
 
-made by me hehehehehehehehe
-ez
 
-i have stuff here like hollowknight (bog), silksong, (bog & breadbb)
+fork or clone the repo 
 
-bog teach me webport bro bro patapim we're day 1s
+deploy to github pages
 
-umm idk 67
 
-i have thingys like an ai and chatroom i made hhaehaehaheahehehee
+lots of features
 
-fanter is tuff 
+main features:
 
-if its blocked just fork the repo or clone it if you have git bash
+"fantarena" discord like chat with realtime messaging, voice chat, groups, friends, gifs and voice messaging
 
-and host it to github pages or vercel idk?
+"fanter ai" ai chatbot that tells you games that u should play and like chats with you (uses llama, groq)
+
+"fanter studios (wip)" a lightweight scratch like site where users can create and share games.
+
+"fanter search (wip)" a proxy that users can use to play things like roblox using cloudmoon n stuff (bg insipiration: truffled.lol)
+
+account features:
+
+many achivements, imma add more in a bit but like rn imma go 2 sleep soon          easy to use interface, where users can login and register accounts easily
+
+umm not really much more
+
+oh yea my game i like:
+
+fanter clicker (wip)
+
+kind of like cookie clicker but instead you beat an image of the fanter cat meme to death and sell its orange blood for upgrades to beat it up more ;-;
+
+reccomendations and stuff coming soon
+
+
+oh yea i almost forgot this:
+
+Emulators:
+
+fanter has 2 emulators currently, with a large collection of NES & GBA games
+
+
+
+
+
+
+CREDITS (or like stuff i used for the site..? idk ;-; )
+sorry if i missed your name i probably forgot it
+===========================================================================================================
+
+bog -- webports
+slqnt -- webports
+SUPERJOE9999 -- NES emulation
+Browncha023 -- GBA emulation
+Mkgamesdev -- GBA emulation
+burnedpopcorn -- webport of pizza tower
+javyquavy -- lots of pokemon games & some other stuff
+whoever manages the ubg 98 & 89 account -- some games like swingo
+
+me hehe
+
+
+-------------------------------------------------------------------------------------------------------------
+
+Contributors (like ideas)
+
+bloxy
+:)
+creamypeanut
+J.D.
+R.I.
+S.M.
+
+-------------------------------------------------------------------------------------------------------------
+
+
+
+Q: why does your code look like ai???
+A: i hate making sprites and stuff and also i did use some ai for this for like bugfixes and stuff ykw
+
+Q: when will this be completed?
+A: currently fanter is in like v0.76 so not to soon but also thats just till its like a good site?? i hope you understand what i mean, its probably useable now but kinda mid
+
+
+tung tung tung sahur beats up tralalero tralala for fun 😢
+
+w ArchLinux
+
+L Linux Mint
+
+me
