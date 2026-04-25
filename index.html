@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>fanterOS</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     :root{--bg-dark:#0a0a0f;--bg-glass:rgba(15,15,25,0.85);--border-glass:rgba(255,255,255,0.08);--accent:#7c5cff;--accent-glow:rgba(124,92,255,0.4);--text-primary:#f0f0ff;--text-secondary:#a0a0c0;--text-muted:#606080;--danger:#ff5e5e;--success:#4cd964;--warning:#ffcc00}
@@ -281,12 +280,12 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ============================================
-// FANTER OS - COMPLETE
+// FANTER OS - PART 1/2
 // ============================================
 
 const SUPABASE_URL = "https://gvzgnclowylrrpovdvtw.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2emduY2xvd3lscnJwb3ZkdnR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NjM5ODEsImV4cCI6MjA5MjAzOTk4MX0.p7oeYBVX870iSK-TLDRj6pfW7wLj7HJsTHjNWaNpL7o";
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let GAMES_DATA = [];
 let userRatings = JSON.parse(localStorage.getItem('userRatings') || '{}');
@@ -302,7 +301,6 @@ let currentUser = null;
 let currentDesktop = 1;
 let resizeData = null;
 
-// Apps
 const APPS = [
   { id: 'gamehub', name: 'Game Hub', icon: '🎮', isBuiltin: true },
   { id: 'emulators', name: 'Emulators', icon: '🕹️', isEmulator: true },
@@ -493,7 +491,7 @@ function createGameHubWindow() {
   return id;
 }
 
-function createEmulatorWindow() {
+  function createEmulatorWindow() {
   const id = nextWindowId++;
   const win = document.createElement('div');
   win.className = 'window';
@@ -922,7 +920,6 @@ async function initDesktop() {
     if((e.ctrlKey || e.metaKey) && e.key === 'm') { e.preventDefault(); if(activeWindowId) toggleMinimize(activeWindowId); }
   });
   
-  // Open Game Hub by default
   setTimeout(() => {
     const gameHub = APPS.find(a => a.id === 'gamehub');
     if(gameHub) createGameHubWindow();
