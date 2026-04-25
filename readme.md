@@ -29,8 +29,7 @@ umm not really much more
 
 oh yea my game i like:
 
-fanter clicker (wip)
-
+fanter clicker (wip):        
 kind of like cookie clicker but instead you beat an image of the fanter cat meme to death and sell its orange blood for upgrades to beat it up more ;-;
 
 reccomendations and stuff coming soon
@@ -52,12 +51,19 @@ sorry if i missed your name i probably forgot it
 ===========================================================================================================
 
 bog -- webports
+
 slqnt -- webports
+
 SUPERJOE9999 -- NES emulation
+
 Browncha023 -- GBA emulation
+
 Mkgamesdev -- GBA emulation
+
 burnedpopcorn -- webport of pizza tower
+
 javyquavy -- lots of pokemon games & some other stuff
+
 whoever manages the ubg 98 & 89 account -- some games like swingo
 
 me hehe
