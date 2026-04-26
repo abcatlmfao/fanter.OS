@@ -1270,6 +1270,261 @@ function initFanterOS() {
         return id;
     }
 
+    
+function createStealthWindow() {
+    const id = window.nextWindowId++;
+    const win = document.createElement('div');
+    win.className = 'window opening';
+    win.id = `window-${id}`;
+    win.style.cssText = `left:150px; top:100px; width:550px; height:600px;`;
+    win.innerHTML = `
+        <div class="window-header">
+            <div class="window-title"><span>Stealth Control Center</span></div>
+            <div class="window-controls">
+                <button class="window-control minimize">─</button>
+                <button class="window-control maximize">□</button>
+                <button class="window-control close">✕</button>
+            </div>
+        </div>
+        <div class="window-content" style="padding:20px; overflow-y:auto;">
+            <div style="margin-bottom:24px; background:rgba(124,92,255,0.1); border-radius:16px; padding:14px; text-align:center;">
+                <div style="display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:5px;">
+                    <span style="font-size:12px; color:#7c5cff;">● ACTIVE</span>
+                    <span style="font-size:11px; color:#888;">Stealth Mode Ready</span>
+                </div>
+                <div style="font-size:11px; color:#666;">Press \` (backtick) to panic | Auto-hides when tab loses focus</div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.03); border-radius:16px; padding:16px; margin-bottom:16px;">
+                <div style="font-size:12px; font-weight:600; margin-bottom:12px; color:#7c5cff;">🎯 PANIC BUTTON (\` key)</div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="panicUrlInput" class="stealth-input" value="${localStorage.getItem('panicUrl') || 'https://classroom.google.com'}" placeholder="https://classroom.google.com" style="flex:1; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:10px 14px; color:white; font-size:13px;">
+                    <button id="savePanicBtn" style="background:linear-gradient(135deg,#7c5cff,#5a3cc9); border:none; border-radius:12px; padding:10px 20px; color:white; cursor:pointer;">Save</button>
+                </div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.03); border-radius:16px; padding:16px; margin-bottom:16px;">
+                <div style="font-size:12px; font-weight:600; margin-bottom:12px; color:#7c5cff;">🎨 DISGUISE SETTINGS</div>
+                <div style="margin-bottom:12px;">
+                    <div style="font-size:11px; color:#888; margin-bottom:6px;">Favicon Preview:</div>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                        <img id="faviconPreview" src="${localStorage.getItem('stealthFavicon') || 'https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png'}" style="width:28px; height:28px; border-radius:6px; background:white; padding:4px;">
+                        <select id="faviconSelect" style="flex:1; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:10px; padding:8px 12px; color:white; font-size:12px;">
+                            <option value="https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png">📁 Google Drive</option>
+                            <option value="https://ssl.gstatic.com/images/branding/product/1x/classroom_2020q4_32dp.png">📚 Google Classroom</option>
+                            <option value="https://ssl.gstatic.com/images/branding/product/1x/docs_2020q4_32dp.png">📄 Google Docs</option>
+                            <option value="https://ssl.gstatic.com/images/branding/product/1x/sheets_2020q4_32dp.png">📊 Google Sheets</option>
+                            <option value="https://www.google.com/s2/favicons?domain=khanacademy.org">🎓 Khan Academy</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div style="font-size:11px; color:#888; margin-bottom:6px;">Tab Title:</div>
+                    <input type="text" id="titleInput" class="stealth-input" value="${localStorage.getItem('stealthTitle') || 'Google Drive'}" placeholder="My Study Notes" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:10px 14px; color:white; font-size:13px;">
+                </div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.03); border-radius:16px; padding:16px; margin-bottom:16px;">
+                <div style="font-size:12px; font-weight:600; margin-bottom:12px; color:#7c5cff;">🤫 AUTO-STEALTH</div>
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                    <span style="font-size:13px;">Hide when tab loses focus</span>
+                    <label class="switch">
+                        <input type="checkbox" id="autoStealthToggle" ${localStorage.getItem('autoStealth') !== 'false' ? 'checked' : ''}>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                    <span style="font-size:13px;">Pause games when hiding</span>
+                    <label class="switch">
+                        <input type="checkbox" id="pauseGamesToggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.03); border-radius:16px; padding:16px;">
+                <div style="font-size:12px; font-weight:600; margin-bottom:12px; color:#7c5cff;">⚡ QUICK PROFILES</div>
+                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
+                    <button class="profile-btn" data-favicon="https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png" data-title="Algebra 2 Notes">📚 Math</button>
+                    <button class="profile-btn" data-favicon="https://ssl.gstatic.com/images/branding/product/1x/classroom_2020q4_32dp.png" data-title="Periodic Table Study">🔬 Science</button>
+                    <button class="profile-btn" data-favicon="https://ssl.gstatic.com/images/branding/product/1x/docs_2020q4_32dp.png" data-title="Romeo & Juliet Essay">📖 English</button>
+                    <button class="profile-btn" data-favicon="https://www.google.com/s2/favicons?domain=khanacademy.org" data-title="History Notes">📜 History</button>
+                </div>
+                <button id="saveSettingsBtn" style="width:100%; background:linear-gradient(135deg,#7c5cff,#5a3cc9); border:none; border-radius:14px; padding:12px; color:white; font-weight:600; cursor:pointer; margin-top:8px;">Save All Settings</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(win);
+    
+    win.addEventListener('animationend', () => win.classList.remove('opening'), { once: true });
+    window.windows.push({ id, element: win, app: { id: 'stealth', name: 'Stealth', icon: '🕵️' }, minimized: false, maximized: false, x:150, y:100, w:550, h:600 });
+    focusWindow(id);
+    setupWindowEvents(win, id);
+    addResizeHandles(win, id);
+    updateTaskbar();
+    playSound('open');
+    
+    // Bind events
+    const panicInput = document.getElementById('panicUrlInput');
+    const savePanicBtn = document.getElementById('savePanicBtn');
+    const faviconSelect = document.getElementById('faviconSelect');
+    const titleInput = document.getElementById('titleInput');
+    const autoStealthToggle = document.getElementById('autoStealthToggle');
+    const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+    const faviconPreview = document.getElementById('faviconPreview');
+    
+    if (faviconSelect) {
+        faviconSelect.addEventListener('change', () => {
+            if (faviconPreview) faviconPreview.src = faviconSelect.value;
+        });
+    }
+    
+    if (savePanicBtn) {
+        savePanicBtn.addEventListener('click', () => {
+            let panicUrl = panicInput.value.trim();
+            if (!panicUrl.startsWith('http')) panicUrl = 'https://' + panicUrl;
+            localStorage.setItem('panicUrl', panicUrl);
+            showToast('Panic URL saved! Press ` to test');
+            playSound('click');
+        });
+    }
+    
+    if (saveSettingsBtn) {
+        saveSettingsBtn.addEventListener('click', () => {
+            if (faviconSelect) localStorage.setItem('stealthFavicon', faviconSelect.value);
+            if (titleInput) localStorage.setItem('stealthTitle', titleInput.value.trim() || 'Google Drive');
+            if (autoStealthToggle) localStorage.setItem('autoStealth', autoStealthToggle.checked);
+            showToast('Stealth settings saved!');
+            playSound('click');
+            applyStealth();
+        });
+    }
+    
+    document.querySelectorAll('.profile-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const favicon = btn.dataset.favicon;
+            const title = btn.dataset.title;
+            if (favicon && faviconSelect) {
+                for (let i = 0; i < faviconSelect.options.length; i++) {
+                    if (faviconSelect.options[i].value === favicon) {
+                        faviconSelect.selectedIndex = i;
+                        if (faviconPreview) faviconPreview.src = favicon;
+                        break;
+                    }
+                }
+            }
+            if (title && titleInput) titleInput.value = title;
+            showToast(`Profile loaded: ${btn.textContent}`);
+            playSound('click');
+        });
+    });
+    
+    return id;
+}
+
+// Stealth helper functions
+let stealthActive = true;
+
+function saveOriginalIdentity() {
+    const faviconLink = document.querySelector("link[rel*='icon']");
+    window.originalFavicon = faviconLink ? faviconLink.href : '';
+    window.originalTitle = document.title;
+}
+
+function applyStealth() {
+    const stealthFavicon = localStorage.getItem('stealthFavicon');
+    const stealthTitle = localStorage.getItem('stealthTitle');
+    
+    if (stealthFavicon) {
+        let link = document.querySelector("link[rel*='icon']");
+        if (!link) {
+            link = document.createElement('link');
+            link.rel = 'icon';
+            document.head.appendChild(link);
+        }
+        link.href = stealthFavicon;
+    }
+    if (stealthTitle) {
+        document.title = stealthTitle;
+    }
+}
+
+function revertIdentity() {
+    let link = document.querySelector("link[rel*='icon']");
+    if (link && window.originalFavicon) {
+        link.href = window.originalFavicon;
+    }
+    document.title = window.originalTitle || 'fanterOS';
+}
+
+function activatePanic() {
+    const panicUrl = localStorage.getItem('panicUrl') || 'https://classroom.google.com';
+    const overlay = document.createElement('div');
+    overlay.id = 'panicOverlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        z-index: 999999;
+    `;
+    const iframe = document.createElement('iframe');
+    iframe.src = panicUrl;
+    iframe.style.cssText = `width:100%; height:100%; border:none;`;
+    overlay.appendChild(iframe);
+    document.body.appendChild(overlay);
+    
+    const closePanic = (e) => {
+        if (e.key === 'Escape') {
+            overlay.remove();
+            document.removeEventListener('keydown', closePanic);
+        }
+    };
+    document.addEventListener('keydown', closePanic);
+}
+
+// Add stealth to ALL_APPS
+window.ALL_APPS.push({ id: 'stealth', name: 'Stealth', icon: '🕵️', category: 'tools', appType: 'stealth' });
+
+// Override launchApp to handle stealth
+const originalLaunchApp = window.launchApp;
+window.launchApp = function(app) {
+    if (app.id === 'stealth') {
+        createStealthWindow();
+    } else {
+        originalLaunchApp(app);
+    }
+};
+
+// Add panic keyboard listener
+document.addEventListener('keydown', (e) => {
+    if (e.key === '`') {
+        e.preventDefault();
+        activatePanic();
+        playSound('click');
+    }
+});
+
+// Auto-stealth on tab switch
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        if (localStorage.getItem('autoStealth') !== 'false') {
+            applyStealth();
+        }
+    } else {
+        if (localStorage.getItem('autoStealth') !== 'false') {
+            revertIdentity();
+        }
+    }
+});
+
+// Initialize stealth on page load
+saveOriginalIdentity();
+applyStealth();
+
     function createWhiteboardWindow() {
         const id = window.nextWindowId++;
         const win = document.createElement('div');
