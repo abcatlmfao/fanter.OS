@@ -2,373 +2,657 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>fanterOS - Simple Working Version</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>fanterOS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background: linear-gradient(135deg, #1a1a2e, #0a0a0f);
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      min-height: 100vh;
-      color: white;
-    }
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      padding: 20px;
-      font-size: 48px;
-      background: linear-gradient(135deg, #fff, #7c5cff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .search-bar {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin: 20px auto;
-      flex-wrap: wrap;
-    }
-    .search-bar input {
-      width: 300px;
-      padding: 12px 20px;
-      border-radius: 30px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(0,0,0,0.3);
-      color: white;
-      font-size: 14px;
-    }
-    .search-bar select, .search-bar button {
-      padding: 12px 20px;
-      border-radius: 30px;
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(0,0,0,0.3);
-      color: white;
-      cursor: pointer;
-    }
-    .search-bar button {
-      background: #7c5cff;
-      border: none;
-    }
-    .games-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-    .game-card {
-      background: rgba(255,255,255,0.05);
-      border-radius: 16px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .game-card:hover {
-      transform: translateY(-5px);
-      border-color: #7c5cff;
-      background: rgba(255,255,255,0.1);
-    }
-    .game-card img {
-      width: 100%;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-    }
-    .game-card-info {
-      padding: 12px;
-    }
-    .game-card-title {
-      font-size: 14px;
-      font-weight: 600;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .game-card-category {
-      font-size: 11px;
-      color: #a0a0c0;
-      margin-top: 4px;
-    }
-    .footer {
-      text-align: center;
-      padding: 30px;
-      color: #606080;
-      font-size: 12px;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.9);
-      backdrop-filter: blur(12px);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-    .modal.show {
-      display: flex;
-    }
-    .modal-content {
-      background: linear-gradient(135deg, #1a1a2e, #0f0f1a);
-      border-radius: 24px;
-      width: 90%;
-      max-width: 800px;
-      max-height: 85vh;
-      overflow-y: auto;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .modal-header {
-      position: relative;
-      height: 200px;
-      overflow: hidden;
-    }
-    .modal-header img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .modal-header .overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 20px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.9));
-    }
-    .modal-header h2 {
-      font-size: 28px;
-    }
-    .modal-body {
-      padding: 24px;
-      display: flex;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-    .modal-left {
-      flex: 2;
-    }
-    .modal-right {
-      flex: 1;
-    }
-    .modal-description {
-      color: #a0a0c0;
-      line-height: 1.5;
-      margin-bottom: 16px;
-    }
-    .modal-info-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .play-btn {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #7c5cff, #5a3cc9);
-      border: none;
-      border-radius: 40px;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 16px;
-    }
-    .close-modal {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: rgba(0,0,0,0.5);
-      border: none;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      font-size: 18px;
-      cursor: pointer;
-      color: white;
-      z-index: 10;
-    }
-    .close-modal:hover {
-      background: #ff5e5e;
-    }
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: #a0a0c0;
-    }
-    @media (max-width: 768px) {
-      .games-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      }
-      .modal-body {
-        flex-direction: column;
-      }
-    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    :root{--accent:#7c5cff;--bg-glass:rgba(15,15,25,0.85);--border-glass:rgba(255,255,255,0.08);--text-primary:#f0f0ff;--text-secondary:#a0a0c0;--text-muted:#606080;--danger:#ff5e5e}
+    body{font-family:'Inter',sans-serif;background:#0a0a0f;height:100vh;overflow:hidden;color:var(--text-primary)}
+    
+    @keyframes slideUp{0%{transform:translateY(20px);opacity:0}100%{transform:translateY(0);opacity:1}}
+    @keyframes windowPop{0%{transform:scale(0.8);opacity:0}80%{transform:scale(1.02)}100%{transform:scale(1);opacity:1}}
+    
+    /* Login Screen */
+    .login-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ee4c29a6-9564-4bee-befd-79a0597c29ca/dhsrl04-16049839-0c0f-4077-977f-09a992ec4b07.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9lZTRjMjlhNi05NTY0LTRiZWUtYmVmZC03OWEwNTk3YzI5Y2EvZGhzcmwwNC0xNjA0OTgzOS0wYzBmLTQwNzctOTc3Zi0wOWE5OTJlYzRiMDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.XIZi3LNLcPUgY_lP-4R7TJ2r6klMfpBRxT7-cMHGvic') center/cover no-repeat;z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 0.6s ease}
+    .login-screen::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px)}
+    .login-screen.visible{opacity:1;visibility:visible}
+    .login-card{position:relative;z-index:10;background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border-glass);border-radius:32px;padding:40px;width:400px;text-align:center;animation:slideUp 0.4s ease}
+    .login-logo{font-size:56px;margin-bottom:16px}
+    .login-title{font-size:24px;font-weight:600;margin-bottom:8px}
+    .login-sub{font-size:13px;color:var(--text-muted);margin-bottom:30px}
+    .login-input{width:100%;padding:14px 16px;background:rgba(0,0,0,0.4);border:1px solid var(--border-glass);border-radius:16px;color:white;font-size:14px;margin-bottom:12px;outline:none}
+    .login-input:focus{border-color:var(--accent)}
+    .login-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--accent),#5a3cc9);border:none;border-radius:16px;color:white;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px}
+    .login-btn:hover{transform:translateY(-2px)}
+    .guest-btn{background:rgba(255,255,255,0.08);margin-top:12px}
+    .login-error{font-size:12px;color:var(--danger);margin-top:12px}
+    
+    /* Desktop */
+    .desktop{position:fixed;top:0;left:0;width:100%;height:100%;opacity:0;visibility:hidden;transition:opacity 0.5s ease;z-index:1}
+    .desktop.visible{opacity:1;visibility:visible}
+    .desktop-bg{position:absolute;top:0;left:0;width:100%;height:100%;background:url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ee4c29a6-9564-4bee-befd-79a0597c29ca/dhsrl04-16049839-0c0f-4077-977f-09a992ec4b07.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9lZTRjMjlhNi05NTY0LTRiZWUtYmVmZC03OWEwNTk3YzI5Y2EvZGhzcmwwNC0xNjA0OTgzOS0wYzBmLTQwNzctOTc3Zi0wOWE5OTJlYzRiMDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.XIZi3LNLcPUgY_lP-4R7TJ2r6klMfpBRxT7-cMHGvic') center/cover no-repeat;z-index:-1}
+    .desktop-bg::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3)}
+    
+    /* Desktop Icons */
+    .desktop-icons-left{position:absolute;top:20px;left:20px;display:flex;flex-direction:column;gap:8px;z-index:15}
+    .desktop-icons-right{position:absolute;top:20px;right:20px;display:flex;flex-direction:column;gap:8px;z-index:15}
+    .desktop-icon{display:flex;flex-direction:column;align-items:center;width:85px;padding:10px 6px;border-radius:14px;cursor:pointer;transition:all 0.2s ease}
+    .desktop-icon:hover{background:rgba(255,255,255,0.15);transform:translateY(-3px)}
+    .desktop-icon .icon{font-size:36px;margin-bottom:6px}
+    .desktop-icon .label{font-size:11px;text-align:center;color:white;font-weight:500}
+    
+    /* Widgets */
+    .desktop-widgets{position:absolute;bottom:80px;left:20px;display:flex;gap:12px;z-index:15}
+    .widget{background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border-glass);border-radius:20px;padding:12px;min-width:120px}
+    .widget-title{font-size:11px;color:var(--text-muted);margin-bottom:8px}
+    .widget-time{font-size:28px;font-weight:600;font-family:monospace}
+    .widget-date{font-size:10px;color:var(--text-secondary);margin-top:4px}
+    .calendar-day{font-size:32px;font-weight:600}
+    
+    /* Taskbar */
+    .taskbar{position:fixed;bottom:0;left:0;right:0;height:48px;background:var(--bg-glass);backdrop-filter:blur(20px);border-top:1px solid var(--border-glass);display:flex;align-items:center;justify-content:space-between;padding:0 12px;z-index:1000}
+    .taskbar:hover{height:40px}
+    .start-btn{display:flex;align-items:center;gap:8px;padding:6px 16px;background:linear-gradient(135deg,var(--accent),#5a3cc9);border-radius:10px;cursor:pointer;font-weight:600;font-size:13px}
+    .start-btn:hover{transform:scale(1.02)}
+    .taskbar-apps{display:flex;gap:4px;flex:1;margin:0 12px;overflow-x:auto}
+    .taskbar-app{padding:6px 14px;background:rgba(255,255,255,0.08);border-radius:10px;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:12px}
+    .taskbar-app:hover{background:rgba(255,255,255,0.15)}
+    .taskbar-app.active{background:var(--accent)}
+    .taskbar-right{display:flex;align-items:center;gap:12px}
+    .taskbar-datetime{display:flex;flex-direction:column;align-items:flex-end;padding:4px 8px;cursor:pointer;border-radius:8px}
+    .taskbar-datetime:hover{background:rgba(255,255,255,0.1)}
+    .taskbar-time{font-size:12px;font-weight:500}
+    .taskbar-date{font-size:9px;color:var(--text-muted)}
+    
+    /* Start Menu */
+    .start-menu{position:fixed;bottom:56px;left:12px;width:420px;background:var(--bg-glass);backdrop-filter:blur(24px);border-radius:16px;border:1px solid var(--border-glass);z-index:1001;transform:translateY(20px) scale(0.98);opacity:0;visibility:hidden;transition:all 0.2s;overflow:hidden}
+    .start-menu.open{transform:translateY(0) scale(1);opacity:1;visibility:visible}
+    .start-header{padding:20px;background:linear-gradient(135deg,rgba(124,92,255,0.2),rgba(124,92,255,0.05));border-bottom:1px solid var(--border-glass);display:flex;align-items:center;gap:12px}
+    .start-avatar{width:48px;height:48px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
+    .start-user-info{flex:1}
+    .start-user-name{font-weight:600;font-size:16px}
+    .start-search{padding:12px 16px;border-bottom:1px solid var(--border-glass)}
+    .start-search input{width:100%;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid var(--border-glass);border-radius:12px;color:white;font-size:13px;outline:none}
+    .start-apps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px;max-height:350px;overflow-y:auto}
+    .start-app{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px;border-radius:12px;cursor:pointer}
+    .start-app:hover{background:rgba(255,255,255,0.1)}
+    .start-app-icon{font-size:28px}
+    .start-app-name{font-size:11px;text-align:center}
+    
+    /* Boot Menu */
+    .boot-menu{position:fixed;top:20%;left:50%;transform:translate(-50%,-30%);width:600px;max-width:90vw;background:var(--bg-glass);backdrop-filter:blur(28px);border-radius:28px;border:1px solid var(--border-glass);z-index:10000;opacity:0;visibility:hidden;transition:all 0.2s}
+    .boot-menu.open{opacity:1;visibility:visible;transform:translate(-50%,0)}
+    .boot-search{padding:24px;border-bottom:1px solid var(--border-glass)}
+    .boot-search input{width:100%;padding:16px 20px;background:rgba(0,0,0,0.3);border:1px solid var(--border-glass);border-radius:20px;color:white;font-size:18px;outline:none}
+    .boot-results{max-height:400px;overflow-y:auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+    .boot-result{display:flex;align-items:center;gap:14px;padding:12px 16px;border-radius:14px;cursor:pointer;background:rgba(255,255,255,0.05)}
+    .boot-result.selected{background:var(--accent)}
+    .boot-result-icon{font-size:28px}
+    .boot-result-info{flex:1}
+    .boot-result-name{font-weight:500}
+    .boot-footer{padding:12px 20px;border-top:1px solid var(--border-glass);font-size:11px;color:var(--text-muted);display:flex;justify-content:space-between}
+    
+    /* Window */
+    .window{position:absolute;min-width:500px;min-height:400px;background:rgba(18,18,26,0.95);border-radius:12px;border:1px solid var(--border-glass);box-shadow:0 20px 40px rgba(0,0,0,0.4);z-index:100;display:flex;flex-direction:column;overflow:hidden;animation:windowPop 0.2s ease}
+    .window.active{z-index:200;box-shadow:0 0 0 2px var(--accent)}
+    .window.minimized{transform:scale(0)!important;opacity:0;pointer-events:none;transition:transform 0.2s}
+    .window.maximized{top:0!important;left:0!important;width:100%!important;height:calc(100% - 48px)!important;border-radius:0}
+    .window-header{padding:12px 16px;background:rgba(25,25,35,0.95);cursor:move;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border-glass)}
+    .window-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+    .window-controls{display:flex;gap:8px}
+    .window-control{width:30px;height:30px;display:flex;align-items:center;justify-content:center;border-radius:8px;cursor:pointer;font-size:14px;background:transparent;border:none;color:var(--text-secondary)}
+    .window-control:hover{background:rgba(255,255,255,0.1)}
+    .window-control.close:hover{background:var(--danger);color:white}
+    .window-content{flex:1;overflow:auto;background:rgba(10,10,15,0.95);padding:20px}
+    
+    /* Resize handles */
+    .resize-handle{position:absolute;z-index:10}
+    .resize-n,.resize-s,.resize-w,.resize-e{background:transparent}
+    .resize-n{top:0;left:10px;right:10px;height:6px;cursor:n-resize}
+    .resize-s{bottom:0;left:10px;right:10px;height:6px;cursor:s-resize}
+    .resize-w{top:10px;left:0;bottom:10px;width:6px;cursor:w-resize}
+    .resize-e{top:10px;right:0;bottom:10px;width:6px;cursor:e-resize}
+    .resize-nw,.resize-ne,.resize-sw,.resize-se{width:10px;height:10px}
+    .resize-nw{top:0;left:0;cursor:nw-resize}
+    .resize-ne{top:0;right:0;cursor:ne-resize}
+    .resize-sw{bottom:0;left:0;cursor:sw-resize}
+    .resize-se{bottom:0;right:0;cursor:se-resize}
+    
+    /* Game Card */
+    .game-card{background:rgba(255,255,255,0.05);border-radius:16px;overflow:hidden;cursor:pointer;transition:all 0.2s}
+    .game-card:hover{transform:translateY(-5px);background:rgba(255,255,255,0.1)}
+    .game-card img{width:100%;aspect-ratio:16/9;object-fit:cover}
+    .game-card-info{padding:12px}
+    .game-card-title{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .game-card-category{font-size:11px;color:var(--text-muted);margin-top:4px}
+    
+    /* Game Modal */
+    .game-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);z-index:20000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all 0.2s}
+    .game-modal.open{opacity:1;visibility:visible}
+    .game-modal-content{background:linear-gradient(135deg,#1a1a2e,#0f0f1a);border-radius:24px;width:900px;max-width:90vw;max-height:85vh;overflow-y:auto;border:1px solid var(--border-glass)}
+    .game-modal-header{position:relative;height:200px;overflow:hidden}
+    .game-modal-header img{width:100%;height:100%;object-fit:cover}
+    .game-modal-header .overlay{position:absolute;bottom:0;left:0;right:0;padding:20px;background:linear-gradient(transparent,rgba(0,0,0,0.9))}
+    .game-modal-header h2{font-size:28px;font-weight:700}
+    .game-modal-header .tag{display:inline-block;padding:4px 12px;background:var(--accent);border-radius:20px;font-size:12px;margin-top:8px}
+    .game-modal-body{padding:20px;display:flex;gap:20px;flex-wrap:wrap}
+    .game-modal-left{flex:2}
+    .game-modal-right{flex:1}
+    .game-description{color:var(--text-secondary);line-height:1.5;margin-bottom:16px;font-size:14px}
+    .game-info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-glass);font-size:13px}
+    .game-play-btn{width:100%;padding:12px;background:linear-gradient(135deg,var(--accent),#5a3cc9);border:none;border-radius:40px;color:white;font-size:15px;font-weight:600;cursor:pointer;margin-top:16px}
+    .game-play-btn:hover{transform:translateY(-2px)}
+    .close-modal{position:absolute;top:16px;right:16px;background:rgba(0,0,0,0.5);border:none;border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;color:white;z-index:10}
+    .close-modal:hover{background:var(--danger)}
+    
+    .toast{position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.9);border:1px solid var(--accent);border-radius:30px;padding:10px 20px;color:white;font-size:13px;z-index:20001;opacity:0;transition:opacity 0.2s;pointer-events:none}
+    .toast.show{opacity:1}
+    .context-menu{position:fixed;background:var(--bg-glass);border-radius:12px;padding:8px 0;min-width:200px;z-index:10001;opacity:0;visibility:hidden}
+    .context-menu.visible{opacity:1;visibility:visible}
+    .context-menu-item{padding:8px 16px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:12px}
+    .context-menu-item:hover{background:rgba(255,255,255,0.1)}
+    
+    .calc-btn{background:rgba(255,255,255,0.1);border:none;border-radius:12px;padding:14px;color:white;font-size:18px;cursor:pointer}
+    .calc-btn:hover{background:var(--accent)}
+    
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:rgba(255,255,255,0.03)}
+    ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px}
+    
+    @media (max-width:768px){.desktop-icons-left,.desktop-icons-right,.desktop-widgets{display:none}.window{min-width:90vw;left:5vw!important;right:5vw!important}}
   </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>🎮 fanterOS</h1>
-  <p style="text-align: center; color: #a0a0c0; margin-bottom: 20px;">unblocked games hub</p>
-  
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="Search games...">
-    <select id="categorySelect">
-      <option value="all">All Games</option>
-      <option value="action">Action</option>
-      <option value="platformer">Platformer</option>
-      <option value="adventure">Adventure</option>
-      <option value="horror">Horror</option>
-      <option value="arcade">Arcade</option>
-      <option value="racing">Racing</option>
-      <option value="puzzle">Puzzle</option>
-    </select>
-    <button id="randomBtn">🎲 Random Game</button>
-  </div>
-  
-  <div id="gamesGrid" class="games-grid">
-    <div class="loading">Loading games...</div>
-  </div>
-  
-  <div class="footer">
-    a site created by abcatlmfao · parcoil network
+<!-- Login Screen -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">🍥</div>
+    <div class="login-title">fanterOS</div>
+    <div class="login-sub">enter any username to continue</div>
+    <input type="text" class="login-input" id="loginUsername" placeholder="username" autocomplete="off">
+    <button class="login-btn" id="loginBtn">continue</button>
+    <div class="login-error" id="loginError"></div>
   </div>
 </div>
 
-<div id="gameModal" class="modal">
-  <div class="modal-content" id="modalContent"></div>
+<!-- Desktop -->
+<div class="desktop" id="desktop">
+  <div class="desktop-bg" id="desktopBg"></div>
+  <div class="desktop-icons-left" id="desktopIconsLeft"></div>
+  <div class="desktop-icons-right" id="desktopIconsRight"></div>
+  <div class="desktop-widgets">
+    <div class="widget"><div class="widget-title">🕐 TIME</div><div class="widget-time" id="widgetTime">--:--</div><div class="widget-date" id="widgetDate">---</div></div>
+    <div class="widget"><div class="widget-title">📅 CALENDAR</div><div class="calendar-day" id="calendarDay">15</div><div class="calendar-month" id="calendarMonth">Apr</div></div>
+  </div>
+</div>
+
+<!-- Taskbar -->
+<div class="taskbar" id="taskbar">
+  <div class="start-btn" id="startBtn">🍥 Start</div>
+  <div class="taskbar-apps" id="taskbarApps"></div>
+  <div class="taskbar-right"><div class="taskbar-datetime" id="datetimeBtn"><div class="taskbar-time" id="taskbarTime">--:--</div><div class="taskbar-date" id="taskbarDate">--/--</div></div></div>
+</div>
+
+<!-- Start Menu -->
+<div class="start-menu" id="startMenu">
+  <div class="start-header"><div class="start-avatar">👤</div><div class="start-user-info"><div class="start-user-name" id="startUserName">Guest</div></div></div>
+  <div class="start-search"><input type="text" id="startSearch" placeholder="Search apps..."></div>
+  <div class="start-apps" id="startApps"></div>
+</div>
+
+<!-- Boot Menu -->
+<div class="boot-menu" id="bootMenu">
+  <div class="boot-search"><input type="text" id="bootSearch" placeholder="Search games..." autocomplete="off"></div>
+  <div class="boot-results" id="bootResults"></div>
+  <div class="boot-footer"><span>↑↓ navigate</span><span>↵ play</span><span>esc close</span></div>
+</div>
+
+<!-- Game Modal -->
+<div class="game-modal" id="gameModal"><div class="game-modal-content" id="gameModalContent"></div></div>
+<div class="toast" id="toast"></div>
+<div class="context-menu" id="contextMenu">
+  <div class="context-menu-item" id="ctxRefresh">🔄 Refresh</div>
+  <div class="context-menu-item" id="ctxWallpaper">🖼️ Change Wallpaper</div>
 </div>
 
 <script>
 // ============================================
-// SIMPLE WORKING GAME HUB - NO OS SKIN YET
+// FANTER OS - COMPLETE WORKING VERSION
 // ============================================
 
-let gamesData = [];
-let currentGame = null;
+let GAMES_DATA = [];
+let userRatings = JSON.parse(localStorage.getItem('userRatings') || '{}');
+let gamePlayTime = JSON.parse(localStorage.getItem('gamePlayTime') || '{}');
+let windows = [];
+let nextWindowId = 1;
+let activeWindowId = null;
+let startMenuOpen = false;
+let bootMenuOpen = false;
+let currentBootResults = [];
+let selectedBootIndex = -1;
+let currentUser = null;
 
-// Load games from JSON
+const APPS = [
+  { id: 'gamehub', name: 'Game Hub', icon: '🎮', isBuiltin: true },
+  { id: 'calculator', name: 'Calculator', icon: '🧮', appType: 'calculator' },
+  { id: 'notes', name: 'Notes', icon: '📋', appType: 'notes' },
+  { id: 'settings', name: 'Settings', icon: '⚙️', url: 'settings.html' }
+];
+
+const DESKTOP_ICONS_LEFT = [
+  { id: 'calculator', icon: '🧮', label: 'Calc' },
+  { id: 'notes', icon: '📋', label: 'Notes' },
+  { id: 'settings', icon: '⚙️', label: 'Settings' }
+];
+
+const DESKTOP_ICONS_RIGHT = [
+  { id: 'gamehub', icon: '🎮', label: 'Game Hub' }
+];
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById('taskbarTime').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  document.getElementById('taskbarDate').textContent = now.toLocaleDateString([], { month: 'short', day: 'numeric' });
+  document.getElementById('widgetTime').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  document.getElementById('widgetDate').textContent = now.toLocaleDateString([], { month: 'short', day: 'numeric' });
+  document.getElementById('calendarDay').textContent = now.getDate();
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  document.getElementById('calendarMonth').textContent = months[now.getMonth()];
+}
+
+setInterval(updateClock, 1000);
+
 async function loadGames() {
   try {
-    const response = await fetch('./config/games.json');
-    let text = await response.text();
-    // Fix common JSON issues
+    const res = await fetch('./config/games.json');
+    let text = await res.text();
     text = text.replace(/,(\s*}\s*)\]/g, '$1]').replace(/,\s*\]/, ']');
-    gamesData = JSON.parse(text);
-    console.log(`Loaded ${gamesData.length} games`);
-    renderGames();
-  } catch (error) {
-    console.error('Error loading games:', error);
-    document.getElementById('gamesGrid').innerHTML = '<div class="loading">⚠️ Error loading games. Make sure config/games.json exists.</div>';
-    // Fallback demo games
-    gamesData = [
-      { name: "Demo Game 1", image: "https://via.placeholder.com/300x200?text=Game+1", url: "#", category: "action", desc: "Demo game 1 description", developer: "Fanter", releaseDate: "2024" },
-      { name: "Demo Game 2", image: "https://via.placeholder.com/300x200?text=Game+2", url: "#", category: "platformer", desc: "Demo game 2 description", developer: "Fanter", releaseDate: "2024" }
+    GAMES_DATA = JSON.parse(text);
+    console.log(`Loaded ${GAMES_DATA.length} games`);
+  } catch(e) {
+    console.warn('No games.json, using fallback');
+    GAMES_DATA = [
+      { name: "Hollow Knight", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsLIpQXZ-qUzdIOxeFC9LAaYznn0jmMIE9WA&s", url: "https://abcatlmfao.github.io/hollow-knight2/", category: "adventure", desc: "Descend into a bug kingdom.", developer: "Team Cherry", releaseDate: "2017" },
+      { name: "Cuphead", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9qSIX-nkzPX90AalYjAOofWbbOfNZUcrlyg&s", url: "https://woahhcrackers.github.io/CupheadWeb/", category: "platformer", desc: "Run and gun action.", developer: "Studio MDHR", releaseDate: "2017" }
     ];
-    renderGames();
   }
 }
 
-// Render games grid
-function renderGames() {
-  const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-  const category = document.getElementById('categorySelect').value;
+function showGameDetails(game) {
+  const modal = document.getElementById('gameModal');
+  const content = document.getElementById('gameModalContent');
+  const userRating = userRatings[game.name] || 0;
   
-  let filtered = gamesData.filter(game => {
-    const matchesSearch = game.name.toLowerCase().includes(searchTerm);
-    const matchesCategory = category === 'all' || game.category === category;
-    return matchesSearch && matchesCategory;
-  });
-  
-  const container = document.getElementById('gamesGrid');
-  
-  if (filtered.length === 0) {
-    container.innerHTML = '<div class="loading">No games found 😔</div>';
-    return;
-  }
-  
-  container.innerHTML = filtered.map(game => `
-    <div class="game-card" data-game='${JSON.stringify(game)}'>
-      <img src="${game.image}" alt="${game.name}" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'">
-      <div class="game-card-info">
-        <div class="game-card-title">${game.name}</div>
-        <div class="game-card-category">${game.category || 'game'}</div>
+  content.innerHTML = `
+    <div style="position:relative;"><button class="close-modal" onclick="document.getElementById('gameModal').classList.remove('open')">✕</button>
+    <div class="game-modal-header"><img src="${game.image}"><div class="overlay"><h2>${game.name}</h2><span class="tag">${game.category}</span></div></div>
+    <div class="game-modal-body">
+      <div class="game-modal-left">
+        <div class="game-description">${game.desc || 'No description available.'}</div>
+        <div class="game-info-row"><span>⏱️ Played: ${Math.floor(gamePlayTime[game.name] || 0)}h</span></div>
+        <button class="game-play-btn" id="playGameBtn">🎮 PLAY NOW</button>
       </div>
-    </div>
-  `).join('');
+      <div class="game-modal-right">
+        <div class="game-info-row"><span>Developer</span><span>${game.developer || 'Unknown'}</span></div>
+        <div class="game-info-row"><span>Release</span><span>${game.releaseDate || 'Unknown'}</span></div>
+        <div class="game-info-row"><span>Category</span><span>${game.category}</span></div>
+      </div>
+    </div></div>
+  `;
   
-  // Add click handlers
-  document.querySelectorAll('.game-card').forEach(card => {
-    card.addEventListener('click', () => {
-      const game = JSON.parse(card.dataset.game);
-      showGameModal(game);
+  modal.classList.add('open');
+  
+  document.getElementById('playGameBtn').onclick = () => {
+    window.location.href = game.url;
+    modal.classList.remove('open');
+    gamePlayTime[game.name] = (gamePlayTime[game.name] || 0) + 0.5;
+    localStorage.setItem('gamePlayTime', JSON.stringify(gamePlayTime));
+  };
+}
+
+function renderDesktopIcons() {
+  const left = document.getElementById('desktopIconsLeft');
+  const right = document.getElementById('desktopIconsRight');
+  left.innerHTML = DESKTOP_ICONS_LEFT.map(icon => `<div class="desktop-icon" data-id="${icon.id}"><div class="icon">${icon.icon}</div><div class="label">${icon.label}</div></div>`).join('');
+  right.innerHTML = DESKTOP_ICONS_RIGHT.map(icon => `<div class="desktop-icon" data-id="${icon.id}"><div class="icon">${icon.icon}</div><div class="label">${icon.label}</div></div>`).join('');
+  document.querySelectorAll('.desktop-icon').forEach(el => {
+    el.addEventListener('dblclick', () => {
+      const app = APPS.find(a => a.id === el.dataset.id);
+      if (app) launchApp(app);
     });
   });
 }
 
-// Show game details modal
-function showGameModal(game) {
-  currentGame = game;
-  const modal = document.getElementById('gameModal');
-  const content = document.getElementById('modalContent');
-  
-  content.innerHTML = `
-    <div style="position: relative;">
-      <button class="close-modal" onclick="document.getElementById('gameModal').classList.remove('show')">✕</button>
-      <div class="modal-header">
-        <img src="${game.image}" alt="${game.name}" onerror="this.src='https://via.placeholder.com/800x200?text=No+Image'">
-        <div class="overlay">
-          <h2>${game.name}</h2>
-          <span style="display: inline-block; padding: 4px 12px; background: #7c5cff; border-radius: 20px; font-size: 12px; margin-top: 8px;">${game.category || 'game'}</span>
-        </div>
+function createGameHubWindow() {
+  const id = nextWindowId++;
+  const win = document.createElement('div');
+  win.className = 'window';
+  win.id = `window-${id}`;
+  win.style.cssText = `left:80px; top:60px; width:1100px; height:700px;`;
+  win.innerHTML = `
+    <div class="window-header"><div class="window-title"><span>🎮</span><span>Game Hub</span></div><div class="window-controls"><button class="window-control minimize">─</button><button class="window-control maximize">□</button><button class="window-control close">✕</button></div></div>
+    <div class="window-content" style="padding:20px;">
+      <div style="display:flex; gap:12px; margin-bottom:20px;">
+        <input type="text" id="gameSearch-${id}" placeholder="Search games..." style="flex:2; padding:12px 16px; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:30px; color:white;">
+        <select id="categorySelect-${id}" style="padding:12px 20px; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:30px; color:white;">
+          <option value="all">All Games</option><option value="action">Action</option><option value="platformer">Platformer</option><option value="adventure">Adventure</option><option value="horror">Horror</option>
+        </select>
+        <button id="randomGameBtn-${id}" style="padding:12px 24px; background:var(--accent); border:none; border-radius:30px; color:white; cursor:pointer;">🎲 Random</button>
       </div>
-      <div class="modal-body">
-        <div class="modal-left">
-          <div class="modal-description">${game.desc || 'No description available.'}</div>
-          <button class="play-btn" id="playNowBtn">🎮 PLAY NOW</button>
-        </div>
-        <div class="modal-right">
-          <div class="modal-info-row"><span>Developer</span><span>${game.developer || 'Unknown'}</span></div>
-          <div class="modal-info-row"><span>Release Date</span><span>${game.releaseDate || 'Unknown'}</span></div>
-          <div class="modal-info-row"><span>Category</span><span>${game.category || 'game'}</span></div>
-        </div>
-      </div>
+      <div id="gameGrid-${id}" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px; max-height:500px; overflow-y:auto;"></div>
+      <div style="text-align:center; padding:20px; color:gray;">a site created by abcatlmfao · parcoil network</div>
     </div>
   `;
+  document.body.appendChild(win);
+  windows.push({ id, element: win, app: APPS.find(a => a.id === 'gamehub'), minimized: false, maximized: false, x:80, y:60, w:1100, h:700 });
+  focusWindow(id);
+  setupWindowEvents(win, id);
+  addResizeHandles(win, id);
+  updateTaskbar();
   
-  modal.classList.add('show');
+  const searchInput = document.getElementById(`gameSearch-${id}`);
+  const categorySelect = document.getElementById(`categorySelect-${id}`);
+  const grid = document.getElementById(`gameGrid-${id}`);
+  const randomBtn = document.getElementById(`randomGameBtn-${id}`);
   
-  document.getElementById('playNowBtn').onclick = () => {
-    window.location.href = game.url;
-    modal.classList.remove('show');
-  };
+  function renderGames() {
+    let filtered = [...GAMES_DATA];
+    const cat = categorySelect?.value || 'all';
+    if (cat !== 'all') filtered = filtered.filter(g => g.category === cat);
+    const term = searchInput?.value.toLowerCase() || '';
+    if (term) filtered = filtered.filter(g => g.name.toLowerCase().includes(term));
+    grid.innerHTML = filtered.map(game => `<div class="game-card" data-game='${JSON.stringify(game)}'><img src="${game.image}" onerror="this.src='https://via.placeholder.com/300x200?text=No+Image'"><div class="game-card-info"><div class="game-card-title">${game.name}</div><div class="game-card-category">${game.category}</div><div style="font-size:10px; color:gray;">⏱️ ${Math.floor(gamePlayTime[game.name] || 0)}h played</div></div></div>`).join('');
+    grid.querySelectorAll('.game-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const game = JSON.parse(card.dataset.game);
+        showGameDetails(game);
+      });
+    });
+  }
+  if (searchInput) searchInput.addEventListener('input', renderGames);
+  if (categorySelect) categorySelect.addEventListener('change', renderGames);
+  if (randomBtn) randomBtn.addEventListener('click', () => {
+    const random = GAMES_DATA[Math.floor(Math.random() * GAMES_DATA.length)];
+    showGameDetails(random);
+  });
+  renderGames();
+  return id;
 }
 
-// Random game
-document.getElementById('randomBtn').onclick = () => {
-  if (gamesData.length) {
-    const random = gamesData[Math.floor(Math.random() * gamesData.length)];
-    showGameModal(random);
+function createAppWindow(app, x=150, y=100, w=450, h=350) {
+  const id = nextWindowId++;
+  const win = document.createElement('div');
+  win.className = 'window';
+  win.id = `window-${id}`;
+  win.style.cssText = `left:${x}px; top:${y}px; width:${w}px; height:${h}px;`;
+  let content = '';
+  
+  switch(app.appType) {
+    case 'calculator':
+      content = `<div style="background:rgba(0,0,0,0.3); border-radius:16px; padding:20px; text-align:right; font-size:32px; font-family:monospace;" id="calcDisplay-${id}">0</div><div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px;">${['7','8','9','/','4','5','6','*','1','2','3','-','0','.','=','+'].map(v => `<button class="calc-btn" data-val="${v}">${v}</button>`).join('')}<button class="calc-btn" data-val="C" style="grid-column:span2; background:var(--danger);">C</button><button class="calc-btn" data-val="⌫" style="background:var(--warning);">⌫</button></div>`;
+      break;
+    case 'notes':
+      content = `<textarea id="notesApp-${id}" style="width:100%; height:100%; background:rgba(0,0,0,0.3); border:none; color:white; padding:12px; resize:none;" placeholder="Write your notes..."></textarea>`;
+      break;
+    default:
+      content = `<div style="text-align:center; padding:40px;">${app.name} - Coming Soon!</div>`;
   }
-};
+  
+  win.innerHTML = `<div class="window-header"><div class="window-title"><span>${app.icon}</span><span>${app.name}</span></div><div class="window-controls"><button class="window-control minimize">─</button><button class="window-control maximize">□</button><button class="window-control close">✕</button></div></div><div class="window-content">${content}</div>`;
+  document.body.appendChild(win);
+  windows.push({ id, element: win, app, minimized: false, maximized: false, x, y, w, h });
+  focusWindow(id);
+  setupWindowEvents(win, id);
+  addResizeHandles(win, id);
+  updateTaskbar();
+  
+  if (app.appType === 'calculator') {
+    let calcExpr = '';
+    const display = document.getElementById(`calcDisplay-${id}`);
+    win.querySelectorAll('.calc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const val = btn.dataset.val;
+        if (val === 'C') calcExpr = '';
+        else if (val === '⌫') calcExpr = calcExpr.slice(0,-1);
+        else if (val === '=') { try { calcExpr = eval(calcExpr).toString(); } catch(e) { calcExpr = 'Error'; } }
+        else calcExpr += val;
+        display.innerText = calcExpr || '0';
+      });
+    });
+  }
+  if (app.appType === 'notes') {
+    const saved = localStorage.getItem(`notes_${app.id}`);
+    const ta = document.getElementById(`notesApp-${id}`);
+    if (saved) ta.value = saved;
+    ta.addEventListener('input', () => localStorage.setItem(`notes_${app.id}`, ta.value));
+  }
+  return id;
+}
 
-// Search and filter
-document.getElementById('searchInput').addEventListener('input', renderGames);
-document.getElementById('categorySelect').addEventListener('change', renderGames);
+function addResizeHandles(win, id) {
+  const handles = ['n','s','w','e','nw','ne','sw','se'];
+  handles.forEach(dir => {
+    const handle = document.createElement('div');
+    handle.className = `resize-handle resize-${dir}`;
+    win.appendChild(handle);
+    handle.addEventListener('mousedown', (e) => {
+      e.stopPropagation();
+      const rect = win.getBoundingClientRect();
+      window.resizeData = { id, dir, startX: e.clientX, startY: e.clientY, startW: rect.width, startH: rect.height, startL: rect.left, startT: rect.top };
+      document.addEventListener('mousemove', onResize);
+      document.addEventListener('mouseup', stopResize);
+    });
+  });
+}
 
-// Start
-loadGames();
+function onResize(e) {
+  if(!window.resizeData) return;
+  const dx = e.clientX - window.resizeData.startX;
+  const dy = e.clientY - window.resizeData.startY;
+  const win = windows.find(w => w.id === window.resizeData.id);
+  if(!win || win.maximized) return;
+  let newW = window.resizeData.startW, newH = window.resizeData.startH, newL = window.resizeData.startL, newT = window.resizeData.startT;
+  if(window.resizeData.dir.includes('e')) newW = Math.max(400, window.resizeData.startW + dx);
+  if(window.resizeData.dir.includes('w')) { newW = Math.max(400, window.resizeData.startW - dx); newL = window.resizeData.startL + dx; }
+  if(window.resizeData.dir.includes('s')) newH = Math.max(300, window.resizeData.startH + dy);
+  if(window.resizeData.dir.includes('n')) { newH = Math.max(300, window.resizeData.startH - dy); newT = window.resizeData.startT + dy; }
+  win.element.style.width = `${newW}px`; win.element.style.height = `${newH}px`; win.element.style.left = `${newL}px`; win.element.style.top = `${newT}px`;
+  win.w = newW; win.h = newH; win.x = newL; win.y = newT;
+}
+
+function stopResize() { window.resizeData = null; document.removeEventListener('mousemove', onResize); document.removeEventListener('mouseup', stopResize); }
+
+function setupWindowEvents(win, id) {
+  const header = win.querySelector('.window-header');
+  const minBtn = win.querySelector('.window-control.minimize');
+  const maxBtn = win.querySelector('.window-control.maximize');
+  const closeBtn = win.querySelector('.window-control.close');
+  win.addEventListener('mousedown', () => focusWindow(id));
+  let drag = null;
+  header.addEventListener('mousedown', (e) => {
+    if(e.target.closest('.window-controls')) return;
+    drag = { x: e.clientX, y: e.clientY, left: parseInt(win.style.left), top: parseInt(win.style.top) };
+    document.addEventListener('mousemove', onDrag);
+    document.addEventListener('mouseup', stopDrag);
+  });
+  function onDrag(e) { if(!drag) return; win.style.left = `${drag.left + (e.clientX - drag.x)}px`; win.style.top = `${drag.top + (e.clientY - drag.y)}px`; }
+  function stopDrag() { drag = null; document.removeEventListener('mousemove', onDrag); document.removeEventListener('mouseup', stopDrag); }
+  minBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMinimize(id); });
+  maxBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMaximize(id); });
+  closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeWindow(id); });
+  header.addEventListener('dblclick', () => toggleMaximize(id));
+}
+
+function focusWindow(id) {
+  activeWindowId = id;
+  windows.forEach(win => {
+    win.element.classList.remove('active');
+    if(win.id === id) { win.element.classList.add('active'); win.element.style.zIndex = 100 + windows.findIndex(w => w.id === id); }
+  });
+  updateTaskbar();
+}
+
+function toggleMinimize(id) {
+  const win = windows.find(w => w.id === id);
+  if(win) { win.minimized = !win.minimized; win.element.classList.toggle('minimized', win.minimized); if(win.minimized && activeWindowId === id) { const next = windows.find(w => !w.minimized); if(next) focusWindow(next.id); else activeWindowId = null; } else if(!win.minimized) focusWindow(id); updateTaskbar(); }
+}
+
+function toggleMaximize(id) {
+  const win = windows.find(w => w.id === id);
+  if(win) {
+    if(win.maximized) {
+      win.element.classList.remove('maximized');
+      win.element.style.width = `${win.w}px`; win.element.style.height = `${win.h}px`;
+      win.element.style.left = `${win.x}px`; win.element.style.top = `${win.y}px`;
+      win.maximized = false;
+    } else {
+      win.w = parseInt(win.element.style.width); win.h = parseInt(win.element.style.height);
+      win.x = parseInt(win.element.style.left); win.y = parseInt(win.element.style.top);
+      win.element.classList.add('maximized');
+      win.maximized = true;
+    }
+    updateTaskbar();
+  }
+}
+
+function closeWindow(id) {
+  const win = windows.find(w => w.id === id);
+  if(win) { win.element.remove(); windows = windows.filter(w => w.id !== id); if(activeWindowId === id) { const next = windows.find(w => !w.minimized); if(next) focusWindow(next.id); else activeWindowId = null; } updateTaskbar(); }
+}
+
+function updateTaskbar() {
+  const container = document.getElementById('taskbarApps');
+  container.innerHTML = windows.map(win => `<div class="taskbar-app ${activeWindowId === win.id ? 'active' : ''}" data-id="${win.id}"><span>${win.app.icon}</span><span>${win.app.name}</span></div>`).join('');
+  container.querySelectorAll('.taskbar-app').forEach(el => {
+    el.addEventListener('click', () => { const id = parseInt(el.dataset.id); const win = windows.find(w => w.id === id); if(win) { if(win.minimized) toggleMinimize(id); else focusWindow(id); } });
+  });
+}
+
+function launchApp(app) {
+  const existing = windows.find(w => w.app?.id === app.id);
+  if(existing) { if(existing.minimized) toggleMinimize(existing.id); focusWindow(existing.id); return; }
+  if(app.isBuiltin) createGameHubWindow();
+  else if(app.appType) createAppWindow(app);
+  else if(app.url) window.open(app.url, '_blank');
+  else createAppWindow(app);
+}
+
+function renderStartApps(search = '') {
+  const container = document.getElementById('startApps');
+  let filtered = APPS;
+  if(search) filtered = APPS.filter(a => a.name.toLowerCase().includes(search.toLowerCase()));
+  container.innerHTML = filtered.map(app => `<div class="start-app" data-app-id="${app.id}"><div class="start-app-icon">${app.icon}</div><div class="start-app-name">${app.name}</div></div>`).join('');
+  container.querySelectorAll('.start-app').forEach(el => {
+    el.addEventListener('click', () => { const app = APPS.find(a => a.id === el.dataset.appId); if(app) launchApp(app); toggleStartMenu(); });
+  });
+}
+
+function toggleStartMenu() {
+  startMenuOpen = !startMenuOpen;
+  document.getElementById('startMenu').classList.toggle('open', startMenuOpen);
+  if(startMenuOpen) { document.getElementById('startSearch').focus(); renderStartApps(''); }
+}
+
+function updateBootResults(query) {
+  const container = document.getElementById('bootResults');
+  let results = query ? GAMES_DATA.filter(g => g.name.toLowerCase().includes(query.toLowerCase())).slice(0,10) : GAMES_DATA.slice(0,8);
+  currentBootResults = results;
+  selectedBootIndex = results.length > 0 ? 0 : -1;
+  if(!results.length) { container.innerHTML = '<div style="padding:20px;">no games found</div>'; return; }
+  container.innerHTML = results.map((game, idx) => `<div class="boot-result ${idx === selectedBootIndex ? 'selected' : ''}" data-index="${idx}"><div class="boot-result-icon">🎮</div><div class="boot-result-info"><div class="boot-result-name">${game.name}</div><div class="boot-result-desc">${game.category}</div></div></div>`).join('');
+  container.querySelectorAll('.boot-result').forEach(el => {
+    el.addEventListener('click', () => { const game = currentBootResults[parseInt(el.dataset.index)]; if(game) showGameDetails(game); toggleBootMenu(); });
+  });
+}
+
+function toggleBootMenu() {
+  bootMenuOpen = !bootMenuOpen;
+  document.getElementById('bootMenu').classList.toggle('open', bootMenuOpen);
+  if(bootMenuOpen) { document.getElementById('bootSearch').focus(); updateBootResults(''); }
+}
+
+function uploadWallpaper() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = 'image/*';
+  input.onchange = (e) => {
+    const file = e.target.files[0];
+    if(file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        localStorage.setItem('fanter_wallpaper', ev.target.result);
+        document.getElementById('desktopBg').style.backgroundImage = `url(${ev.target.result})`;
+        showToast('Wallpaper changed!');
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  input.click();
+}
+
+function handleLogin() {
+  const username = document.getElementById('loginUsername').value.trim();
+  if(!username) {
+    document.getElementById('loginError').textContent = 'Enter a username';
+    return;
+  }
+  currentUser = { id: 'user_' + Date.now(), username: username, displayName: username };
+  localStorage.setItem('fanter_currentUser', JSON.stringify(currentUser));
+  document.getElementById('startUserName').textContent = username;
+  showToast(`Welcome, ${username}!`);
+  document.getElementById('loginScreen').classList.remove('visible');
+  document.getElementById('desktop').classList.add('visible');
+  initDesktop();
+}
+
+async function initDesktop() {
+  await loadGames();
+  renderDesktopIcons();
+  updateClock();
+  
+  document.getElementById('startBtn').onclick = toggleStartMenu;
+  document.getElementById('startSearch').oninput = (e) => renderStartApps(e.target.value);
+  document.getElementById('bootSearch').oninput = (e) => updateBootResults(e.target.value);
+  document.getElementById('bootSearch').onkeydown = (e) => {
+    if(e.key === 'ArrowDown') { e.preventDefault(); if(selectedBootIndex < currentBootResults.length - 1) { selectedBootIndex++; updateBootResults(document.getElementById('bootSearch').value); } }
+    else if(e.key === 'ArrowUp') { e.preventDefault(); if(selectedBootIndex > 0) { selectedBootIndex--; updateBootResults(document.getElementById('bootSearch').value); } }
+    else if(e.key === 'Enter') { e.preventDefault(); if(currentBootResults[selectedBootIndex]) { showGameDetails(currentBootResults[selectedBootIndex]); toggleBootMenu(); } }
+  };
+  document.getElementById('datetimeBtn').onclick = () => {};
+  document.getElementById('ctxRefresh').onclick = () => location.reload();
+  document.getElementById('ctxWallpaper').onclick = uploadWallpaper;
+  document.getElementById('desktopBg').oncontextmenu = (e) => {
+    e.preventDefault();
+    const menu = document.getElementById('contextMenu');
+    menu.style.left = `${e.clientX}px`; menu.style.top = `${e.clientY}px`;
+    menu.classList.add('visible');
+    setTimeout(() => document.addEventListener('click', () => menu.classList.remove('visible'), { once: true }), 10);
+  };
+  
+  document.addEventListener('keydown', (e) => {
+    if((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleBootMenu(); }
+    if(e.key === 'Escape') { if(bootMenuOpen) toggleBootMenu(); if(startMenuOpen) toggleStartMenu(); }
+    if((e.ctrlKey || e.metaKey) && e.key === 'w') { e.preventDefault(); if(activeWindowId) closeWindow(activeWindowId); }
+    if((e.ctrlKey || e.metaKey) && e.key === 'm') { e.preventDefault(); if(activeWindowId) toggleMinimize(activeWindowId); }
+  });
+  
+  setTimeout(() => {
+    const gameHub = APPS.find(a => a.id === 'gamehub');
+    if(gameHub) createGameHubWindow();
+    showToast('🎉 Welcome to fanterOS! Right-click desktop for options');
+  }, 500);
+}
+
+document.getElementById('loginBtn').onclick = handleLogin;
+document.getElementById('loginScreen').classList.add('visible');
 </script>
 </body>
 </html>
