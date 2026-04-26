@@ -16,10 +16,11 @@
     @keyframes windowPop{0%{transform:scale(0.3) translateY(50px);opacity:0}100%{transform:scale(1) translateY(0);opacity:1}}
     @keyframes windowCloseAnim{0%{transform:scale(1);opacity:1}100%{transform:scale(0.2) translateY(100px);opacity:0}}
     @keyframes fullscreenEnter{0%{transform:scale(0.95);opacity:0}100%{transform:scale(1);opacity:1}}
+    @keyframes fadeInIcons{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
     
-    /* Blackout Screen */
-    .blackout{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:20000;opacity:0;visibility:hidden;transition:opacity 0.5s ease}
-    .blackout.visible{opacity:1;visibility:visible}
+    /* Blackout overlay for fade effect */
+    .fade-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:19999;opacity:0;pointer-events:none;transition:opacity 2s ease}
+    .fade-overlay.active{opacity:1;pointer-events:all}
     
     /* Login Screen */
     .login-screen{position:fixed;top:0;left:0;width:100%;height:100%;background:url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ee4c29a6-9564-4bee-befd-79a0597c29ca/dhsrl04-16049839-0c0f-4077-977f-09a992ec4b07.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9lZTRjMjlhNi05NTY0LTRiZWUtYmVmZC03OWEwNTk3YzI5Y2EvZGhzcmwwNC0xNjA0OTgzOS0wYzBmLTQwNzctOTc3Zi0wOWE5OTJlYzRiMDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.XIZi3LNLcPUgY_lP-4R7TJ2r6klMfpBRxT7-cMHGvic') center/cover no-repeat;z-index:10000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 0.6s ease}
@@ -43,10 +44,16 @@
     .desktop-bg{position:absolute;top:0;left:0;width:100%;height:100%;background:url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ee4c29a6-9564-4bee-befd-79a0597c29ca/dhsrl04-16049839-0c0f-4077-977f-09a992ec4b07.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9lZTRjMjlhNi05NTY0LTRiZWUtYmVmZC03OWEwNTk3YzI5Y2EvZGhzcmwwNC0xNjA0OTgzOS0wYzBmLTQwNzctOTc3Zi0wOWE5OTJlYzRiMDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.XIZi3LNLcPUgY_lP-4R7TJ2r6klMfpBRxT7-cMHGvic') center/cover no-repeat;z-index:-1}
     .desktop-bg::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3)}
     
-    /* Desktop Icons */
+    /* Desktop Icons - with fade-in animation */
     .desktop-icons-left{position:absolute;top:20px;left:20px;display:flex;flex-direction:column;gap:12px;z-index:15}
     .desktop-icons-right{position:absolute;top:20px;right:20px;display:flex;flex-direction:column;gap:12px;z-index:15}
-    .desktop-icon{display:flex;flex-direction:column;align-items:center;width:95px;padding:12px 8px;border-radius:14px;cursor:pointer;transition:all 0.2s ease}
+    .desktop-icon{display:flex;flex-direction:column;align-items:center;width:95px;padding:12px 8px;border-radius:14px;cursor:pointer;transition:all 0.2s ease;opacity:0;transform:translateY(20px);animation:fadeInIcons 0.4s ease forwards}
+    .desktop-icon:nth-child(1){animation-delay:0.1s}
+    .desktop-icon:nth-child(2){animation-delay:0.2s}
+    .desktop-icon:nth-child(3){animation-delay:0.3s}
+    .desktop-icon:nth-child(4){animation-delay:0.4s}
+    .desktop-icon:nth-child(5){animation-delay:0.5s}
+    .desktop-icon:nth-child(6){animation-delay:0.6s}
     .desktop-icon:hover{background:rgba(255,255,255,0.15);transform:translateY(-3px)}
     .desktop-icon .icon{font-size:42px;margin-bottom:8px}
     .desktop-icon .icon img{width:42px;height:42px;border-radius:14px;object-fit:cover}
@@ -138,7 +145,7 @@
     .window-content{flex:1;overflow:auto;background:rgba(10,10,15,0.95);padding:20px}
     .window-content iframe{width:100%;height:100%;border:none;background:white;border-radius:8px}
     
-    /* Calculator Grid */
+    /* Calculator */
     .calculator-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:20px}
     .calc-btn{background:rgba(255,255,255,0.1);border:none;border-radius:14px;padding:16px;color:white;font-size:18px;cursor:pointer;transition:all 0.1s;min-width:60px}
     .calc-btn:hover{background:var(--accent);transform:scale(1.02)}
@@ -208,10 +215,6 @@
     .achievement-name{font-size:14px;font-weight:600;margin-top:2px}
     .achievement-reward{font-size:11px;color:var(--success);margin-top:6px}
     
-    /* Blackout overlay for fade effect */
-    .fade-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:19999;opacity:0;pointer-events:none;transition:opacity 0.5s ease}
-    .fade-overlay.active{opacity:1;pointer-events:all}
-    
     ::-webkit-scrollbar{width:5px}
     ::-webkit-scrollbar-track{background:rgba(255,255,255,0.03)}
     ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px}
@@ -221,7 +224,7 @@
 </head>
 <body>
 
-<!-- Blackout Screen for fade transition -->
+<!-- Blackout overlay for fade transition -->
 <div class="fade-overlay" id="fadeOverlay"></div>
 
 <!-- Login Screen -->
@@ -230,7 +233,7 @@
     <div class="login-logo"><img src="Fanter-Photoroom.png" alt="Logo"></div>
     <div class="login-title">fanterOS</div>
     <div class="login-sub">sign in to continue</div>
-    <input type="email" class="login-input" id="loginEmail" placeholder="email">
+    <input type="text" class="login-input" id="loginUsername" placeholder="username">
     <input type="password" class="login-input" id="loginPassword" placeholder="password">
     <button class="login-btn" id="loginBtn">sign in</button>
     <div class="register-link" id="showRegister">no account? <span>create one</span></div>
@@ -332,6 +335,23 @@ let currentBootResults = [];
 let selectedBootIndex = -1;
 let achievements = JSON.parse(localStorage.getItem('fanter_achievements') || '{}');
 let resizeData = null;
+
+// Check if user is already logged in (session persists)
+const savedUser = localStorage.getItem('fanter_currentUser');
+if (savedUser && JSON.parse(savedUser).username !== 'Guest') {
+    currentUser = JSON.parse(savedUser);
+    document.getElementById('startUserName').textContent = currentUser.username;
+    document.getElementById('startUserEmail').textContent = currentUser.email || `${currentUser.username}@fanter.os`;
+    // Skip login screen, go straight to desktop with fade effect
+    const loginScreen = document.getElementById('loginScreen');
+    const desktop = document.getElementById('desktop');
+    loginScreen.style.display = 'none';
+    loginScreen.classList.remove('visible');
+    desktop.style.display = 'block';
+    desktop.classList.add('visible');
+    // Trigger desktop initialization
+    setTimeout(() => initDesktop(), 100);
+}
 
 // -------------------- HELPER FUNCTIONS --------------------
 function showToast(msg) {
@@ -454,6 +474,7 @@ function showGameDetails(game) {
 const DESKTOP_ICONS_LEFT = [
     { id: 'gamehub', icon: '🎮', label: 'Game Hub', builtin: true },
     { id: 'calculator', icon: '🧮', label: 'Calculator', builtin: true },
+    { id: 'appstore', icon: '📦', label: 'App Store', builtin: true },
     { id: 'settings', icon: '⚙️', label: 'Settings' }
 ];
 
@@ -468,14 +489,14 @@ function renderDesktopIcons() {
     const rightContainer = document.getElementById('desktopIconsRight');
     
     leftContainer.innerHTML = DESKTOP_ICONS_LEFT.map(icon => `
-        <div class="desktop-icon" data-id="${icon.id}">
+        <div class="desktop-icon" data-id="${icon.id}" style="animation-delay:0.1s">
             <div class="icon">${icon.icon}</div>
             <div class="label">${icon.label}</div>
         </div>
     `).join('');
     
     rightContainer.innerHTML = DESKTOP_ICONS_RIGHT.map(icon => `
-        <div class="desktop-icon" data-id="${icon.id}">
+        <div class="desktop-icon" data-id="${icon.id}" style="animation-delay:0.4s">
             <div class="icon">${icon.icon}</div>
             <div class="label">${icon.label}</div>
         </div>
@@ -492,6 +513,7 @@ function renderDesktopIcons() {
 // -------------------- APPS --------------------
 const APPS = [
     { id: 'gamehub', name: 'Game Hub', icon: '🎮', builtin: true },
+    { id: 'appstore', name: 'FantAppStore', icon: '📦', builtin: true },
     { id: 'calculator', name: 'Calculator', icon: '🧮', appType: 'calculator' },
     { id: 'thefactory', name: 'The Factory', icon: '🏭', appType: 'factory' },
     { id: 'thestudio', name: 'The Studio', icon: '🎨', appType: 'studio' },
@@ -506,6 +528,23 @@ const APPS = [
     { id: 'fantarena', name: 'Fantarena', icon: '🏟️', url: 'fantarena.html' },
     { id: 'account', name: 'Account', icon: '👤', url: 'fantaccount.html' }
 ];
+
+// Store apps for App Store
+const STORE_APPS = [
+    { id: 'minesweeper', name: 'Minesweeper', icon: '💣', category: 'games', description: 'Classic grid-based puzzle game.', creator: 'abcatlmfao', url: null },
+    { id: 'sudoku', name: 'Sudoku', icon: '🔢', category: 'games', description: 'Number puzzle game.', creator: 'abcatlmfao', url: null },
+    { id: 'tetris', name: 'Tetris', icon: '🧩', category: 'games', description: 'Falling blocks puzzle game.', creator: 'abcatlmfao', url: null },
+    { id: 'connectfour', name: 'Connect Four', icon: '🔴', category: 'games', description: 'Drop discs to connect four!', creator: 'abcatlmfao', url: null },
+    { id: 'checkers', name: 'Checkers', icon: '⚫', category: 'games', description: 'Classic board game.', creator: 'abcatlmfao', url: null },
+    { id: 'qrcode', name: 'QR Code Gen', icon: '📱', category: 'tools', description: 'Generate QR codes.', creator: 'abcatlmfao', url: null },
+    { id: 'markdown', name: 'Markdown Editor', icon: '📓', category: 'tools', description: 'Write and preview markdown.', creator: 'abcatlmfao', url: null },
+    { id: 'flappybird', name: 'Flappy Bird', icon: '🐦', category: 'games', description: 'Addicting endless runner.', creator: 'Dong Nguyen', url: 'https://chipikipal800.github.io/flappy-bird-unblocked/' },
+    { id: '2048', name: '2048', icon: '🔢', category: 'games', description: 'Merge numbers to 2048.', creator: 'Gabriele Cirulli', url: 'https://chipikipal800.github.io/2048/' },
+    { id: 'wordle', name: 'Wordle', icon: '📝', category: 'games', description: 'Guess the 5-letter word.', creator: 'Josh Wardle', url: 'https://chipikipal800.github.io/wordle-unlimited/' },
+    { id: 'fanterstudios', name: 'Fanter Studios', icon: '🎬', category: 'creative', description: 'Create your own games.', creator: 'abcatlmfao', url: 'https://chipikipal800.github.io/fanter-studios/' }
+];
+
+let installedApps = JSON.parse(localStorage.getItem('installedApps') || '[]');
 
 // -------------------- WINDOW MANAGEMENT --------------------
 function createGameHubWindow() {
@@ -573,6 +612,98 @@ function createGameHubWindow() {
     return id;
 }
 
+function createAppStoreWindow() {
+    const id = nextWindowId++;
+    const win = document.createElement('div');
+    win.className = 'window';
+    win.id = `window-${id}`;
+    win.style.cssText = `left:200px; top:80px; width:800px; height:650px;`;
+    win.innerHTML = `
+        <div class="window-header"><div class="window-title"><span>📦</span><span>FantAppStore</span></div><div class="window-controls"><button class="window-control minimize">─</button><button class="window-control maximize">□</button><button class="window-control close">✕</button></div></div>
+        <div class="window-content">
+            <div style="margin-bottom:16px;">
+                <input type="text" id="appStoreSearch-${id}" placeholder="Search apps..." style="width:100%; padding:12px 16px; background:rgba(0,0,0,0.3); border:1px solid var(--border-glass); border-radius:30px; color:white;">
+            </div>
+            <div style="display:flex; gap:10px; margin-bottom:16px; flex-wrap:wrap;">
+                <button class="store-cat-btn active" data-cat="all">All</button>
+                <button class="store-cat-btn" data-cat="games">🎮 Games</button>
+                <button class="store-cat-btn" data-cat="tools">🛠️ Tools</button>
+                <button class="store-cat-btn" data-cat="creative">🎨 Creative</button>
+            </div>
+            <div id="appStoreGrid-${id}" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; max-height:450px; overflow-y:auto;"></div>
+        </div>
+    `;
+    document.body.appendChild(win);
+    windows.push({ id, element: win, app: { id: 'appstore', name: 'FantAppStore', icon: '📦' }, minimized: false, maximized: false, x:200, y:80, w:800, h:650 });
+    focusWindow(id);
+    setupWindowEvents(win, id);
+    addResizeHandles(win, id);
+    updateTaskbar();
+    
+    function renderStore() {
+        const searchTerm = document.getElementById(`appStoreSearch-${id}`).value.toLowerCase();
+        const activeCat = win.querySelector('.store-cat-btn.active')?.dataset.cat || 'all';
+        
+        let filtered = STORE_APPS.filter(app => {
+            const matchesSearch = app.name.toLowerCase().includes(searchTerm);
+            const matchesCat = activeCat === 'all' || app.category === activeCat;
+            return matchesSearch && matchesCat;
+        });
+        
+        const grid = document.getElementById(`appStoreGrid-${id}`);
+        grid.innerHTML = filtered.map(app => {
+            const isInstalled = installedApps.includes(app.id);
+            return `
+                <div style="background:rgba(255,255,255,0.05); border-radius:16px; padding:16px; transition:all 0.2s;">
+                    <div style="font-size:48px; text-align:center; margin-bottom:12px;">${app.icon}</div>
+                    <div style="font-weight:600; margin-bottom:4px;">${app.name}</div>
+                    <div style="font-size:11px; color:${isInstalled ? '#4caf50' : 'gray'}; margin-bottom:8px;">by ${app.creator}</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-bottom:12px; line-height:1.4;">${app.description}</div>
+                    <button class="install-btn-${id}" data-id="${app.id}" style="width:100%; padding:8px; background:${isInstalled ? 'rgba(255,255,255,0.1)' : 'var(--accent)'}; border:none; border-radius:12px; color:white; cursor:pointer;">
+                        ${isInstalled ? '✓ Installed' : '📥 Install'}
+                    </button>
+                </div>
+            `;
+        }).join('');
+        
+        grid.querySelectorAll(`.install-btn-${id}`).forEach(btn => {
+            btn.addEventListener('click', () => {
+                const appId = btn.dataset.id;
+                const app = STORE_APPS.find(a => a.id === appId);
+                if (app) {
+                    if (installedApps.includes(appId)) {
+                        installedApps = installedApps.filter(i => i !== appId);
+                        showToast(`Uninstalled ${app.name}`);
+                    } else {
+                        installedApps.push(appId);
+                        showToast(`Installed ${app.name}! Check the Start Menu`);
+                        // Add to APPS if not already there
+                        if (!APPS.find(a => a.id === appId)) {
+                            const newApp = { id: appId, name: app.name, icon: app.icon, url: app.url, external: !!app.url };
+                            APPS.push(newApp);
+                            renderStartApps();
+                        }
+                    }
+                    localStorage.setItem('installedApps', JSON.stringify(installedApps));
+                    renderStore();
+                }
+            });
+        });
+    }
+    
+    win.querySelectorAll('.store-cat-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            win.querySelectorAll('.store-cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderStore();
+        });
+    });
+    
+    document.getElementById(`appStoreSearch-${id}`).addEventListener('input', renderStore);
+    renderStore();
+    return id;
+}
+
 function createCalculatorWindow() {
     const id = nextWindowId++;
     const win = document.createElement('div');
@@ -636,7 +767,7 @@ function createCalculatorWindow() {
             renderButtons();
         });
     });
-    document.querySelector('.calc-mode-btn').classList.add('active');
+    win.querySelector('.calc-mode-btn').classList.add('active');
     renderButtons();
     return id;
 }
@@ -969,6 +1100,7 @@ function launchApp(app) {
         return;
     }
     if (app.id === 'gamehub') createGameHubWindow();
+    else if (app.id === 'appstore') createAppStoreWindow();
     else if (app.id === 'calculator') createCalculatorWindow();
     else if (app.id === 'thefactory') createFactoryWindow();
     else if (app.id === 'thestudio') createStudioWindow();
@@ -1156,10 +1288,10 @@ function uploadWallpaper() {
 
 // -------------------- LOGIN WITH FADE EFFECT --------------------
 async function handleLogin() {
-    const email = document.getElementById('loginEmail').value;
+    const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
-    if (!email || !password) {
-        document.getElementById('loginError').textContent = 'Enter email and password';
+    if (!username || !password) {
+        document.getElementById('loginError').textContent = 'Enter username and password';
         return;
     }
     if (!supabaseClient) {
@@ -1167,12 +1299,31 @@ async function handleLogin() {
         return;
     }
     try {
-        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+        // First get user by username from profiles table
+        const { data: profile, error: profileError } = await supabaseClient
+            .from('profiles')
+            .select('id, email')
+            .eq('username', username)
+            .single();
+        
+        if (profileError || !profile) {
+            document.getElementById('loginError').textContent = 'User not found';
+            return;
+        }
+        
+        // Then sign in with email
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ 
+            email: profile.email, 
+            password: password 
+        });
+        
         if (error) throw error;
+        
         currentUser = data.user;
+        currentUser.username = username;
         localStorage.setItem('fanter_currentUser', JSON.stringify(currentUser));
-        document.getElementById('startUserName').textContent = currentUser.email?.split('@')[0] || 'User';
-        document.getElementById('startUserEmail').textContent = currentUser.email;
+        document.getElementById('startUserName').textContent = username;
+        document.getElementById('startUserEmail').textContent = profile.email;
         
         // FADE OUT LOGIN, BLACKOUT, THEN FADE IN DESKTOP
         const loginScreen = document.getElementById('loginScreen');
@@ -1187,7 +1338,7 @@ async function handleLogin() {
             loginScreen.classList.remove('visible');
             loginScreen.style.display = 'none';
             
-            // Show blackout overlay
+            // Show blackout overlay for 2 seconds
             fadeOverlay.classList.add('active');
             
             setTimeout(() => {
@@ -1195,13 +1346,13 @@ async function handleLogin() {
                 desktop.style.display = 'block';
                 desktop.classList.add('visible');
                 
-                // Fade in desktop
+                // Fade in desktop (2 second transition)
                 fadeOverlay.classList.remove('active');
                 
-                showToast(`Welcome back!`);
+                showToast(`Welcome back, ${username}!`);
                 showAchievement('Welcome Aboard', 3);
                 initDesktop();
-            }, 500);
+            }, 2000); // 2 second blackout
         }, 500);
     } catch (err) {
         document.getElementById('loginError').textContent = err.message;
@@ -1214,6 +1365,7 @@ function showRegister() { window.location.href = 'fantaccount.html'; }
 async function initDesktop() {
     await loadGames();
     renderDesktopIcons();
+    renderStartApps();
     updateClock();
     
     document.getElementById('startBtn').onclick = toggleStartMenu;
@@ -1299,9 +1451,18 @@ function initSupabase() {
 }
 initSupabase();
 
+// Only show login screen if no user is logged in
+if (!savedUser || JSON.parse(savedUser).username === 'Guest') {
+    document.getElementById('loginScreen').classList.add('visible');
+} else {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('desktop').style.display = 'block';
+    document.getElementById('desktop').classList.add('visible');
+    initDesktop();
+}
+
 document.getElementById('loginBtn').onclick = handleLogin;
 document.getElementById('showRegister').onclick = showRegister;
-document.getElementById('loginScreen').classList.add('visible');
 </script>
 </body>
 </html>
