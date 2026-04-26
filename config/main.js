@@ -66,7 +66,7 @@ function initFanterOS() {
         { id: 'fantersearch', name: 'Fanter Search', icon: '🔍', iconUrl: window.ICON_URLS.fantersearch, category: 'tools', builtin: true, url: 'https://chipikipal800.github.io/Fanter-search/', external: true },
         { id: 'appstore', name: 'FantAppStore', icon: '📦', iconUrl: window.ICON_URLS.appstore, category: 'system', builtin: true },
         { id: 'flashgames', name: 'Flash Games', icon: '⚡', iconUrl: window.ICON_URLS.flashgames, category: 'games', builtin: false, url: 'https://chipikipal800.github.io/flash-games/list.html', external: true },
-        { id: 'fantarena', name: 'Fantarena', icon: '🏟️', iconUrl: window.ICON_URLS.fantarena, category: 'social', builtin: false, url: 'fantarena.html' },
+        { id: 'fantarena', name: 'fantarena', icon: '🏟️', iconUrl: window.ICON_URLS.fantarena, category: 'social', builtin: false, url: 'fantarena.html' },
         { id: 'tetris', name: 'Tetris', icon: '🧩', iconUrl: window.ICON_URLS.tetris, url: 'https://chipikipal800.github.io/Tetris/Tetris.htm', category: 'games', external: true },
         { id: 'solitaire', name: 'Solitaire', icon: '🃏', iconUrl: window.ICON_URLS.solitaire, url: 'https://chipikipal800.github.io/SolitareGame/', category: 'games', external: true },
         { id: 'minesweeper', name: 'Minesweeper', icon: '💣', iconUrl: window.ICON_URLS.minesweeper, url: 'https://chipikipal800.github.io/minesweepere/', category: 'games', external: true },
@@ -81,6 +81,7 @@ function initFanterOS() {
         { id: 'settings', name: 'Settings', icon: '⚙️', iconUrl: window.ICON_URLS.settings, category: 'system', url: 'settings.html' },
         { id: 'shop', name: 'Shop', icon: '🛒', category: 'system', url: 'shop.html' },
         { id: 'account', name: 'Account', icon: '👤', category: 'system', url: 'fantaccount.html' }
+        { id: 'stealth', name: 'Stealth', icon: '🕵️', category: 'tools', appType: 'stealth' }
     ];
 
     // ===== STORE APPS =====
@@ -1486,8 +1487,7 @@ function activatePanic() {
     document.addEventListener('keydown', closePanic);
 }
 
-// Add stealth to ALL_APPS
-window.ALL_APPS.push({ id: 'stealth', name: 'Stealth', icon: '🕵️', category: 'tools', appType: 'stealth' });
+
 
 // Override launchApp to handle stealth
 const originalLaunchApp = window.launchApp;
