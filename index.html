@@ -18,7 +18,6 @@
     @keyframes fullscreenEnter{0%{transform:scale(0.95);opacity:0}100%{transform:scale(1);opacity:1}}
     @keyframes fadeInIcons{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:translateY(0)}}
     
-    /* Blackout overlay for fade effect */
     .fade-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:19999;opacity:0;pointer-events:none;transition:opacity 2s ease}
     .fade-overlay.active{opacity:1;pointer-events:all}
     
@@ -44,20 +43,29 @@
     .desktop-bg{position:absolute;top:0;left:0;width:100%;height:100%;background:url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ee4c29a6-9564-4bee-befd-79a0597c29ca/dhsrl04-16049839-0c0f-4077-977f-09a992ec4b07.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9lZTRjMjlhNi05NTY0LTRiZWUtYmVmZC03OWEwNTk3YzI5Y2EvZGhzcmwwNC0xNjA0OTgzOS0wYzBmLTQwNzctOTc3Zi0wOWE5OTJlYzRiMDcuanBnIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.XIZi3LNLcPUgY_lP-4R7TJ2r6klMfpBRxT7-cMHGvic') center/cover no-repeat;z-index:-1}
     .desktop-bg::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.3)}
     
-    /* Desktop Icons - with fade-in animation */
+    /* Desktop Icons */
     .desktop-icons-left{position:absolute;top:20px;left:20px;display:flex;flex-direction:column;gap:12px;z-index:15}
     .desktop-icons-right{position:absolute;top:20px;right:20px;display:flex;flex-direction:column;gap:12px;z-index:15}
-    .desktop-icon{display:flex;flex-direction:column;align-items:center;width:95px;padding:12px 8px;border-radius:14px;cursor:pointer;transition:all 0.2s ease;opacity:0;transform:translateY(20px);animation:fadeInIcons 0.4s ease forwards}
-    .desktop-icon:nth-child(1){animation-delay:0.1s}
-    .desktop-icon:nth-child(2){animation-delay:0.2s}
-    .desktop-icon:nth-child(3){animation-delay:0.3s}
-    .desktop-icon:nth-child(4){animation-delay:0.4s}
-    .desktop-icon:nth-child(5){animation-delay:0.5s}
-    .desktop-icon:nth-child(6){animation-delay:0.6s}
+    .desktop-icon{display:flex;flex-direction:column;align-items:center;width:95px;padding:12px 8px;border-radius:14px;cursor:pointer;transition:all 0.2s ease;opacity:0;transform:translateY(20px);animation:fadeInIcons 0.4s ease forwards;position:relative}
     .desktop-icon:hover{background:rgba(255,255,255,0.15);transform:translateY(-3px)}
-    .desktop-icon .icon{font-size:42px;margin-bottom:8px}
+    .desktop-icon .icon{font-size:42px;margin-bottom:8px;position:relative}
     .desktop-icon .icon img{width:42px;height:42px;border-radius:14px;object-fit:cover}
     .desktop-icon .label{font-size:12px;text-align:center;color:white;font-weight:500}
+    .desktop-icon .unpin-btn{position:absolute;top:-8px;right:-8px;width:18px;height:18px;background:var(--danger);border-radius:50%;display:none;align-items:center;justify-content:center;font-size:10px;color:white;cursor:pointer;z-index:20}
+    .desktop-icon:hover .unpin-btn{display:flex}
+    
+    /* Recent Apps Row */
+    .recent-apps-row{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border-glass);border-radius:20px;padding:10px 20px;z-index:15;display:flex;gap:15px;white-space:nowrap}
+    .recent-apps-title{font-size:11px;color:var(--text-muted);padding-right:12px;border-right:1px solid var(--border-glass);display:flex;align-items:center}
+    .recent-app-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:5px 10px;border-radius:12px;transition:all 0.15s}
+    .recent-app-item:hover{background:rgba(255,255,255,0.1);transform:translateY(-2px)}
+    .recent-app-icon{font-size:24px}
+    .recent-app-icon img{width:24px;height:24px;border-radius:6px}
+    .recent-app-name{font-size:9px;color:var(--text-secondary)}
+    
+    /* Sound Control */
+    .sound-control{position:fixed;bottom:80px;right:20px;background:var(--bg-glass);backdrop-filter:blur(20px);border:1px solid var(--border-glass);border-radius:20px;padding:8px 12px;z-index:15;display:flex;gap:8px;align-items:center;cursor:pointer}
+    .sound-control:hover{background:rgba(255,255,255,0.1)}
     
     /* Widgets */
     .desktop-widgets{position:absolute;bottom:80px;left:20px;display:none;gap:12px;z-index:15}
@@ -96,7 +104,7 @@
     .taskbar-date{font-size:9px;color:var(--text-muted)}
     
     /* Start Menu */
-    .start-menu{position:fixed;bottom:56px;left:12px;width:450px;background:var(--bg-glass);backdrop-filter:blur(24px);border-radius:16px;border:1px solid var(--border-glass);z-index:1001;transform:translateY(20px) scale(0.98);opacity:0;visibility:hidden;transition:all 0.2s;overflow:hidden;max-height:550px}
+    .start-menu{position:fixed;bottom:56px;left:12px;width:500px;background:var(--bg-glass);backdrop-filter:blur(24px);border-radius:16px;border:1px solid var(--border-glass);z-index:1001;transform:translateY(20px) scale(0.98);opacity:0;visibility:hidden;transition:all 0.2s;overflow:hidden;max-height:600px}
     .start-menu.open{transform:translateY(0) scale(1);opacity:1;visibility:visible}
     .start-header{padding:20px;background:linear-gradient(135deg,rgba(124,92,255,0.2),rgba(124,92,255,0.05));border-bottom:1px solid var(--border-glass);display:flex;align-items:center;gap:12px}
     .start-avatar{width:52px;height:52px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden}
@@ -104,14 +112,19 @@
     .start-user-info{flex:1}
     .start-user-name{font-weight:600;font-size:16px}
     .start-user-email{font-size:11px;color:var(--text-muted)}
+    .start-categories{display:flex;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border-glass);overflow-x:auto}
+    .start-cat-btn{background:rgba(255,255,255,0.05);border:none;border-radius:20px;padding:6px 14px;color:white;font-size:12px;cursor:pointer;white-space:nowrap}
+    .start-cat-btn.active{background:var(--accent)}
     .start-search{padding:12px 16px;border-bottom:1px solid var(--border-glass)}
     .start-search input{width:100%;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid var(--border-glass);border-radius:12px;color:white;font-size:13px;outline:none}
     .start-apps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:16px;max-height:350px;overflow-y:auto}
-    .start-app{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px;border-radius:12px;cursor:pointer;transition:all 0.1s}
+    .start-app{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px;border-radius:12px;cursor:pointer;transition:all 0.1s;position:relative}
     .start-app:hover{background:rgba(255,255,255,0.1);transform:translateY(-2px)}
-    .start-app-icon{font-size:32px}
+    .start-app-icon{font-size:32px;position:relative}
     .start-app-icon img{width:32px;height:32px;border-radius:10px}
-    .start-app-name{font-size:12px;text-align:center}
+    .start-app-name{font-size:12px;text-align:center;max-width:80px;overflow:hidden;text-overflow:ellipsis}
+    .start-app-pin{position:absolute;top:-4px;right:-4px;font-size:10px;background:rgba(0,0,0,0.5);border-radius:50%;width:16px;height:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0}
+    .start-app:hover .start-app-pin{opacity:1}
     
     /* Boot Menu */
     .boot-menu{position:fixed;top:20%;left:50%;transform:translate(-50%,-30%);width:650px;max-width:90vw;background:var(--bg-glass);backdrop-filter:blur(28px);border-radius:28px;border:1px solid var(--border-glass);z-index:10000;opacity:0;visibility:hidden;transition:all 0.2s}
@@ -219,12 +232,11 @@
     ::-webkit-scrollbar-track{background:rgba(255,255,255,0.03)}
     ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:3px}
     
-    @media (max-width:768px){.desktop-icons-left,.desktop-icons-right{display:none}.window{min-width:90vw;left:5vw!important;right:5vw!important}}
+    @media (max-width:768px){.desktop-icons-left,.desktop-icons-right,.recent-apps-row,.sound-control{display:none}.window{min-width:90vw;left:5vw!important;right:5vw!important}}
   </style>
 </head>
 <body>
 
-<!-- Blackout overlay for fade transition -->
 <div class="fade-overlay" id="fadeOverlay"></div>
 
 <!-- Login Screen -->
@@ -246,6 +258,17 @@
   <div class="desktop-bg" id="desktopBg"></div>
   <div class="desktop-icons-left" id="desktopIconsLeft"></div>
   <div class="desktop-icons-right" id="desktopIconsRight"></div>
+  
+  <div class="recent-apps-row" id="recentAppsRow">
+    <div class="recent-apps-title">🕐 RECENT</div>
+    <div id="recentAppsList" style="display:flex; gap:12px;"></div>
+  </div>
+  
+  <div class="sound-control" id="soundControl">
+    <span id="soundIcon">🔊</span>
+    <span id="soundVolume">100%</span>
+  </div>
+  
   <div class="desktop-widgets" id="desktopWidgets">
     <div class="widget" id="timeWidget"><div class="widget-title">🕐 TIME</div><div class="widget-time" id="widgetTime">--:--</div><div class="widget-date" id="widgetDate">---</div></div>
     <div class="widget" id="calendarWidget"><div class="widget-title">📅 CALENDAR</div><div class="calendar-day" id="calendarDay">15</div><div class="calendar-month" id="calendarMonth">Apr</div></div>
@@ -279,6 +302,13 @@
       <div class="start-user-email" id="startUserEmail">guest@fanter.os</div>
     </div>
   </div>
+  <div class="start-categories" id="startCategories">
+    <button class="start-cat-btn active" data-cat="all">All</button>
+    <button class="start-cat-btn" data-cat="games">🎮 Games</button>
+    <button class="start-cat-btn" data-cat="tools">🛠️ Tools</button>
+    <button class="start-cat-btn" data-cat="creative">🎨 Creative</button>
+    <button class="start-cat-btn" data-cat="system">⚙️ System</button>
+  </div>
   <div class="start-search"><input type="text" id="startSearch" placeholder="Search apps..."></div>
   <div class="start-apps" id="startApps"></div>
 </div>
@@ -310,15 +340,15 @@
   <div class="context-menu-item" id="ctxWallpaper">🖼️ Change Wallpaper</div>
   <div class="context-menu-divider"></div>
   <div class="context-menu-item" id="ctxWidgets">📊 Show Widgets</div>
+  <div class="context-menu-item" id="ctxShortcuts">⌨️ Keyboard Shortcuts</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ============================================
-// FANTER OS - COMPLETE REWRITE
+// FANTER OS - COMPLETE
 // ============================================
 
-// -------------------- SUPABASE --------------------
 const SUPABASE_URL = "https://gvzgnclowylrrpovdvtw.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd2emduY2xvd3lscnJwb3ZkdnR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY0NjM5ODEsImV4cCI6MjA5MjAzOTk4MX0.p7oeYBVX870iSK-TLDRj6pfW7wLj7HJsTHjNWaNpL7o";
 
@@ -335,21 +365,85 @@ let currentBootResults = [];
 let selectedBootIndex = -1;
 let achievements = JSON.parse(localStorage.getItem('fanter_achievements') || '{}');
 let resizeData = null;
+let pinnedApps = JSON.parse(localStorage.getItem('pinnedApps') || '[]');
+let recentApps = JSON.parse(localStorage.getItem('recentApps') || '[]');
+let soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
+let soundVolume = parseInt(localStorage.getItem('soundVolume') || '100');
 
-// Check if user is already logged in (session persists)
+// -------------------- ICON MAP --------------------
+const ICON_URLS = {
+    tetris: 'https://tetris.wiki/images/thumb/5/52/Tetris_%28N3TWORK%29_icon.png/220px-Tetris_%28N3TWORK%29_icon.png',
+    solitaire: 'https://play-lh.googleusercontent.com/1ywLh7-1RvXuE40IcxXL3vU4LhdkcopUOxJrrZjRlyZX-b_4zgXd2Hc5EyyWwmfruns',
+    connectfour: 'https://m.media-amazon.com/images/I/71WIAdYrTiL.png',
+    minesweeper: 'https://p1.hiclipart.com/preview/249/974/567/red-circle-minesweeper-minesweeper-deluxe-minesweeper-adfree-video-games-land-mine-naval-mine-android-png-clipart.jpg',
+    checkers: 'https://p7.hiclipart.com/preview/327/19/604/formula-one-racing-flags-drapeau-xe0-damier-auto-racing-checkered-flag-icon.jpg',
+    sudoku: 'https://t3.ftcdn.net/jpg/02/23/28/28/360_F_223282851_HP22kLC9EjTtN9dwNgQrrwrF5cL5xSF5.jpg',
+    flashgames: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyT2jnbsFTNI1TsyzRqTvixcENBsmsN8nknw&s'
+};
+
+function getIconHtml(icon, id) {
+    if (ICON_URLS[id]) {
+        return `<img src="${ICON_URLS[id]}" onerror="this.style.display='none';this.parentElement.innerHTML='${icon}'">`;
+    }
+    return icon;
+}
+
+// -------------------- SOUND EFFECTS --------------------
+let audioCtx = null;
+function playSound(type) {
+    if (!soundEnabled) return;
+    try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        oscillator.type = 'sine';
+        gainNode.gain.value = soundVolume / 100 * 0.25;
+        
+        if (type === 'click') {
+            oscillator.frequency.value = 880;
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.15);
+        } else if (type === 'open') {
+            oscillator.frequency.value = 523.25;
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.25);
+        } else if (type === 'close') {
+            oscillator.frequency.value = 261.63;
+            gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.2);
+        }
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.2);
+    } catch(e) { console.log('Audio error'); }
+}
+
+function updateSoundIcon() {
+    const iconSpan = document.getElementById('soundIcon');
+    const volumeSpan = document.getElementById('soundVolume');
+    if (soundEnabled && soundVolume > 0) {
+        iconSpan.textContent = '🔊';
+        volumeSpan.textContent = `${soundVolume}%`;
+    } else if (!soundEnabled || soundVolume === 0) {
+        iconSpan.textContent = '🔇';
+        volumeSpan.textContent = 'Mute';
+    }
+}
+
+function toggleSound() {
+    soundEnabled = !soundEnabled;
+    localStorage.setItem('soundEnabled', soundEnabled);
+    updateSoundIcon();
+    if (soundEnabled) playSound('click');
+}
+
+// -------------------- SESSION CHECK --------------------
 const savedUser = localStorage.getItem('fanter_currentUser');
 if (savedUser && JSON.parse(savedUser).username !== 'Guest') {
     currentUser = JSON.parse(savedUser);
     document.getElementById('startUserName').textContent = currentUser.username;
     document.getElementById('startUserEmail').textContent = currentUser.email || `${currentUser.username}@fanter.os`;
-    // Skip login screen, go straight to desktop with fade effect
-    const loginScreen = document.getElementById('loginScreen');
-    const desktop = document.getElementById('desktop');
-    loginScreen.style.display = 'none';
-    loginScreen.classList.remove('visible');
-    desktop.style.display = 'block';
-    desktop.classList.add('visible');
-    // Trigger desktop initialization
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('desktop').style.display = 'block';
+    document.getElementById('desktop').classList.add('visible');
     setTimeout(() => initDesktop(), 100);
 }
 
@@ -381,7 +475,32 @@ function showAchievement(name, reward) {
             currentUser.coins = (currentUser.coins || 0) + reward;
             localStorage.setItem('fanter_currentUser', JSON.stringify(currentUser));
         }
+        playSound('achievement');
     }
+}
+
+function updateRecentApps(appId, appName, appIcon, appIconId) {
+    recentApps = [{ id: appId, name: appName, icon: appIcon, iconId: appIconId }, ...recentApps.filter(a => a.id !== appId)].slice(0, 5);
+    localStorage.setItem('recentApps', JSON.stringify(recentApps));
+    renderRecentApps();
+}
+
+function renderRecentApps() {
+    const container = document.getElementById('recentAppsList');
+    if (!container) return;
+    container.innerHTML = recentApps.map(app => `
+        <div class="recent-app-item" data-id="${app.id}">
+            <div class="recent-app-icon">${ICON_URLS[app.iconId] ? `<img src="${ICON_URLS[app.iconId]}">` : app.icon}</div>
+            <div class="recent-app-name">${app.name.length > 8 ? app.name.slice(0,6)+'..' : app.name}</div>
+        </div>
+    `).join('');
+    container.querySelectorAll('.recent-app-item').forEach(el => {
+        el.addEventListener('click', () => {
+            const app = ALL_APPS.find(a => a.id === el.dataset.id);
+            if (app) launchApp(app);
+            playSound('click');
+        });
+    });
 }
 
 function updateClock() {
@@ -443,6 +562,7 @@ async function loadGames() {
 }
 
 function showGameDetails(game) {
+    playSound('click');
     const modal = document.getElementById('gameModal');
     const content = document.getElementById('gameModalContent');
     content.innerHTML = `
@@ -467,84 +587,138 @@ function showGameDetails(game) {
         modal.classList.remove('open');
         gamePlayTime[game.name] = (gamePlayTime[game.name] || 0) + 0.5;
         localStorage.setItem('gamePlayTime', JSON.stringify(gamePlayTime));
+        playSound('click');
     };
 }
 
-// -------------------- DESKTOP ICONS --------------------
-const DESKTOP_ICONS_LEFT = [
-    { id: 'gamehub', icon: '🎮', label: 'Game Hub', builtin: true },
-    { id: 'calculator', icon: '🧮', label: 'Calculator', builtin: true },
-    { id: 'appstore', icon: '📦', label: 'App Store', builtin: true },
-    { id: 'settings', icon: '⚙️', label: 'Settings' }
+  // -------------------- DESKTOP ICONS --------------------
+let DESKTOP_ICONS_LEFT = [
+    { id: 'gamehub', icon: '🎮', label: 'Game Hub', category: 'games' },
+    { id: 'flashgames', icon: '⚡', label: 'Flash Games', category: 'games' },
+    { id: 'appstore', icon: '📦', label: 'App Store', category: 'system' },
+    { id: 'settings', icon: '⚙️', label: 'Settings', category: 'system' }
 ];
 
-const DESKTOP_ICONS_RIGHT = [
-    { id: 'thefactory', icon: '🏭', label: 'Factory', builtin: true },
-    { id: 'thestudio', icon: '🎨', label: 'Studio', builtin: true },
-    { id: 'weather', icon: '🌤️', label: 'Weather', builtin: true }
+let DESKTOP_ICONS_RIGHT = [
+    { id: 'tetris', icon: '🧩', label: 'Tetris', category: 'games', iconUrl: 'https://tetris.wiki/images/thumb/5/52/Tetris_%28N3TWORK%29_icon.png/220px-Tetris_%28N3TWORK%29_icon.png' },
+    { id: 'solitaire', icon: '🃏', label: 'Solitaire', category: 'games', iconUrl: 'https://play-lh.googleusercontent.com/1ywLh7-1RvXuE40IcxXL3vU4LhdkcopUOxJrrZjRlyZX-b_4zgXd2Hc5EyyWwmfruns' },
+    { id: 'connectfour', icon: '🔴', label: 'Connect Four', category: 'games', iconUrl: 'https://m.media-amazon.com/images/I/71WIAdYrTiL.png' },
+    { id: 'minesweeper', icon: '💣', label: 'Minesweeper', category: 'games', iconUrl: 'https://p1.hiclipart.com/preview/249/974/567/red-circle-minesweeper-minesweeper-deluxe-minesweeper-adfree-video-games-land-mine-naval-mine-android-png-clipart.jpg' },
+    { id: 'checkers', icon: '⚫', label: 'Checkers', category: 'games', iconUrl: 'https://p7.hiclipart.com/preview/327/19/604/formula-one-racing-flags-drapeau-xe0-damier-auto-racing-checkered-flag-icon.jpg' },
+    { id: 'sudoku', icon: '🔢', label: 'Sudoku', category: 'games', iconUrl: 'https://t3.ftcdn.net/jpg/02/23/28/28/360_F_223282851_HP22kLC9EjTtN9dwNgQrrwrF5cL5xSF5.jpg' },
+    { id: 'thefactory', icon: '🏭', label: 'Factory', category: 'tools' },
+    { id: 'weather', icon: '🌤️', label: 'Weather', category: 'tools' }
 ];
+
+// ALL APPS with their icon URLs
+const ALL_APPS = [
+    { id: 'gamehub', name: 'Game Hub', icon: '🎮', category: 'games', builtin: true },
+    { id: 'flashgames', name: 'Flash Games', icon: '⚡', category: 'games', builtin: true, iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyT2jnbsFTNI1TsyzRqTvixcENBsmsN8nknw&s' },
+    { id: 'appstore', name: 'FantAppStore', icon: '📦', category: 'system', builtin: true },
+    { id: 'tetris', name: 'Tetris', icon: '🧩', url: 'https://chipikipal800.github.io/Tetris/Tetris.htm', category: 'games', external: true, iconUrl: 'https://tetris.wiki/images/thumb/5/52/Tetris_%28N3TWORK%29_icon.png/220px-Tetris_%28N3TWORK%29_icon.png' },
+    { id: 'solitaire', name: 'Solitaire', icon: '🃏', url: 'https://chipikipal800.github.io/SolitareGame/', category: 'games', external: true, iconUrl: 'https://play-lh.googleusercontent.com/1ywLh7-1RvXuE40IcxXL3vU4LhdkcopUOxJrrZjRlyZX-b_4zgXd2Hc5EyyWwmfruns' },
+    { id: 'connectfour', name: 'Connect Four', icon: '🔴', url: 'https://chipikipal800.github.io/connect-four/', category: 'games', external: true, iconUrl: 'https://m.media-amazon.com/images/I/71WIAdYrTiL.png' },
+    { id: 'minesweeper', name: 'Minesweeper', icon: '💣', url: 'https://chipikipal800.github.io/minesweepere/', category: 'games', external: true, iconUrl: 'https://p1.hiclipart.com/preview/249/974/567/red-circle-minesweeper-minesweeper-deluxe-minesweeper-adfree-video-games-land-mine-naval-mine-android-png-clipart.jpg' },
+    { id: 'checkers', name: 'Checkers', icon: '⚫', url: 'https://chipikipal800.github.io/Checkers/', category: 'games', external: true, iconUrl: 'https://p7.hiclipart.com/preview/327/19/604/formula-one-racing-flags-drapeau-xe0-damier-auto-racing-checkered-flag-icon.jpg' },
+    { id: 'sudoku', name: 'Sudoku', icon: '🔢', url: 'https://chipikipal800.github.io/sudoku-game/', category: 'games', external: true, iconUrl: 'https://t3.ftcdn.net/jpg/02/23/28/28/360_F_223282851_HP22kLC9EjTtN9dwNgQrrwrF5cL5xSF5.jpg' },
+    { id: 'calculator', name: 'Calculator', icon: '🧮', category: 'tools', appType: 'calculator' },
+    { id: 'thefactory', name: 'The Factory', icon: '🏭', category: 'tools', appType: 'factory' },
+    { id: 'thestudio', name: 'The Studio', icon: '🎨', category: 'creative', appType: 'studio' },
+    { id: 'weather', name: 'Weather', icon: '🌤️', category: 'tools', appType: 'weather' },
+    { id: 'notes', name: 'Notes', icon: '📋', category: 'tools', appType: 'notes' },
+    { id: 'timer', name: 'Timer', icon: '⏱️', category: 'tools', appType: 'timer' },
+    { id: 'tasks', name: 'Tasks', icon: '✅', category: 'tools', appType: 'tasks' },
+    { id: 'whiteboard', name: 'Whiteboard', icon: '✏️', category: 'creative', appType: 'whiteboard' },
+    { id: 'browser', name: 'Browser', icon: '🌐', category: 'tools', appType: 'browser' },
+    { id: 'settings', name: 'Settings', icon: '⚙️', category: 'system', url: 'settings.html' },
+    { id: 'shop', name: 'Shop', icon: '🛒', category: 'system', url: 'shop.html' },
+    { id: 'fantarena', name: 'Fantarena', icon: '🏟️', category: 'social', url: 'fantarena.html' },
+    { id: 'account', name: 'Account', icon: '👤', category: 'system', url: 'fantaccount.html' }
+];
+
+// Helper function to render an app icon (emoji or image)
+function renderAppIcon(app) {
+    if (app.iconUrl) {
+        return `<img src="${app.iconUrl}" style="width:32px;height:32px;border-radius:8px;object-fit:cover;" onerror="this.style.display='none';this.parentElement.innerHTML='${app.icon}'">`;
+    }
+    return app.icon;
+}
+
+function renderDesktopIcon(icon) {
+    if (icon.iconUrl) {
+        return `<img src="${icon.iconUrl}" style="width:42px;height:42px;border-radius:12px;object-fit:cover;" onerror="this.style.display='none';this.parentElement.innerHTML='${icon.icon}'">`;
+    }
+    return icon.icon;
+}
+
+function loadPinnedIcons() {
+    const savedPins = localStorage.getItem('pinnedApps');
+    if (savedPins) {
+        pinnedApps = JSON.parse(savedPins);
+    }
+    renderDesktopIcons();
+}
+
+function pinAppToDesktop(appId, appName, appIcon, appCategory, appIconUrl) {
+    if (!pinnedApps.find(p => p.id === appId)) {
+        pinnedApps.push({ id: appId, name: appName, icon: appIcon, category: appCategory, iconUrl: appIconUrl });
+        localStorage.setItem('pinnedApps', JSON.stringify(pinnedApps));
+        renderDesktopIcons();
+        showToast(`Pinned "${appName}" to desktop!`);
+        playSound('click');
+    }
+}
+
+function unpinAppFromDesktop(appId) {
+    pinnedApps = pinnedApps.filter(p => p.id !== appId);
+    localStorage.setItem('pinnedApps', JSON.stringify(pinnedApps));
+    renderDesktopIcons();
+    showToast('Removed from desktop');
+    playSound('click');
+}
 
 function renderDesktopIcons() {
     const leftContainer = document.getElementById('desktopIconsLeft');
     const rightContainer = document.getElementById('desktopIconsRight');
     
-    leftContainer.innerHTML = DESKTOP_ICONS_LEFT.map(icon => `
+    // Combine default + pinned apps
+    const allLeftIcons = [...DESKTOP_ICONS_LEFT];
+    const pinnedLeftIcons = pinnedApps.filter(p => p.category !== 'games').map(p => ({ id: p.id, icon: p.icon, label: p.name, category: p.category, isPinned: true, iconUrl: p.iconUrl }));
+    const allRightIcons = [...DESKTOP_ICONS_RIGHT];
+    const pinnedRightIcons = pinnedApps.filter(p => p.category === 'games').map(p => ({ id: p.id, icon: p.icon, label: p.name, category: p.category, isPinned: true, iconUrl: p.iconUrl }));
+    
+    leftContainer.innerHTML = [...allLeftIcons, ...pinnedLeftIcons].map(icon => `
         <div class="desktop-icon" data-id="${icon.id}" style="animation-delay:0.1s">
-            <div class="icon">${icon.icon}</div>
+            <div class="icon">${icon.iconUrl ? `<img src="${icon.iconUrl}" onerror="this.style.display='none';this.parentElement.innerHTML='${icon.icon}'">` : icon.icon}</div>
             <div class="label">${icon.label}</div>
+            <div class="unpin-btn" data-id="${icon.id}">✕</div>
         </div>
     `).join('');
     
-    rightContainer.innerHTML = DESKTOP_ICONS_RIGHT.map(icon => `
+    rightContainer.innerHTML = [...allRightIcons, ...pinnedRightIcons].map(icon => `
         <div class="desktop-icon" data-id="${icon.id}" style="animation-delay:0.4s">
-            <div class="icon">${icon.icon}</div>
+            <div class="icon">${icon.iconUrl ? `<img src="${icon.iconUrl}" onerror="this.style.display='none';this.parentElement.innerHTML='${icon.icon}'">` : icon.icon}</div>
             <div class="label">${icon.label}</div>
+            <div class="unpin-btn" data-id="${icon.id}">✕</div>
         </div>
     `).join('');
     
     document.querySelectorAll('.desktop-icon').forEach(el => {
-        el.addEventListener('click', () => {
-            const app = APPS.find(a => a.id === el.dataset.id);
+        el.addEventListener('click', (e) => {
+            if (e.target.classList.contains('unpin-btn')) return;
+            const app = ALL_APPS.find(a => a.id === el.dataset.id);
             if (app) launchApp(app);
+            playSound('click');
         });
+        const unpinBtn = el.querySelector('.unpin-btn');
+        if (unpinBtn) {
+            unpinBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                unpinAppFromDesktop(unpinBtn.dataset.id);
+            });
+        }
     });
 }
-
-// -------------------- APPS --------------------
-const APPS = [
-    { id: 'gamehub', name: 'Game Hub', icon: '🎮', builtin: true },
-    { id: 'appstore', name: 'FantAppStore', icon: '📦', builtin: true },
-    { id: 'calculator', name: 'Calculator', icon: '🧮', appType: 'calculator' },
-    { id: 'thefactory', name: 'The Factory', icon: '🏭', appType: 'factory' },
-    { id: 'thestudio', name: 'The Studio', icon: '🎨', appType: 'studio' },
-    { id: 'weather', name: 'Weather', icon: '🌤️', appType: 'weather' },
-    { id: 'notes', name: 'Notes', icon: '📋', appType: 'notes' },
-    { id: 'timer', name: 'Timer', icon: '⏱️', appType: 'timer' },
-    { id: 'tasks', name: 'Tasks', icon: '✅', appType: 'tasks' },
-    { id: 'whiteboard', name: 'Whiteboard', icon: '✏️', appType: 'whiteboard' },
-    { id: 'browser', name: 'Browser', icon: '🌐', appType: 'browser' },
-    { id: 'settings', name: 'Settings', icon: '⚙️', url: 'settings.html' },
-    { id: 'shop', name: 'Shop', icon: '🛒', url: 'shop.html' },
-    { id: 'fantarena', name: 'Fantarena', icon: '🏟️', url: 'fantarena.html' },
-    { id: 'account', name: 'Account', icon: '👤', url: 'fantaccount.html' }
-];
-
-// Store apps for App Store
-const STORE_APPS = [
-    { id: 'minesweeper', name: 'Minesweeper', icon: '💣', category: 'games', description: 'Classic grid-based puzzle game.', creator: 'abcatlmfao', url: null },
-    { id: 'sudoku', name: 'Sudoku', icon: '🔢', category: 'games', description: 'Number puzzle game.', creator: 'abcatlmfao', url: null },
-    { id: 'tetris', name: 'Tetris', icon: '🧩', category: 'games', description: 'Falling blocks puzzle game.', creator: 'abcatlmfao', url: null },
-    { id: 'connectfour', name: 'Connect Four', icon: '🔴', category: 'games', description: 'Drop discs to connect four!', creator: 'abcatlmfao', url: null },
-    { id: 'checkers', name: 'Checkers', icon: '⚫', category: 'games', description: 'Classic board game.', creator: 'abcatlmfao', url: null },
-    { id: 'qrcode', name: 'QR Code Gen', icon: '📱', category: 'tools', description: 'Generate QR codes.', creator: 'abcatlmfao', url: null },
-    { id: 'markdown', name: 'Markdown Editor', icon: '📓', category: 'tools', description: 'Write and preview markdown.', creator: 'abcatlmfao', url: null },
-    { id: 'flappybird', name: 'Flappy Bird', icon: '🐦', category: 'games', description: 'Addicting endless runner.', creator: 'Dong Nguyen', url: 'https://chipikipal800.github.io/flappy-bird-unblocked/' },
-    { id: '2048', name: '2048', icon: '🔢', category: 'games', description: 'Merge numbers to 2048.', creator: 'Gabriele Cirulli', url: 'https://chipikipal800.github.io/2048/' },
-    { id: 'wordle', name: 'Wordle', icon: '📝', category: 'games', description: 'Guess the 5-letter word.', creator: 'Josh Wardle', url: 'https://chipikipal800.github.io/wordle-unlimited/' },
-    { id: 'fanterstudios', name: 'Fanter Studios', icon: '🎬', category: 'creative', description: 'Create your own games.', creator: 'abcatlmfao', url: 'https://chipikipal800.github.io/fanter-studios/' }
-];
-
-let installedApps = JSON.parse(localStorage.getItem('installedApps') || '[]');
 
 // -------------------- WINDOW MANAGEMENT --------------------
 function createGameHubWindow() {
@@ -573,6 +747,7 @@ function createGameHubWindow() {
     setupWindowEvents(win, id);
     addResizeHandles(win, id);
     updateTaskbar();
+    playSound('open');
     
     const searchInput = document.getElementById(`gameSearch-${id}`);
     const categorySelect = document.getElementById(`categorySelect-${id}`);
@@ -599,6 +774,7 @@ function createGameHubWindow() {
             card.addEventListener('click', () => {
                 const game = JSON.parse(card.dataset.game);
                 showGameDetails(game);
+                playSound('click');
             });
         });
     }
@@ -607,8 +783,31 @@ function createGameHubWindow() {
     if (randomBtn) randomBtn.addEventListener('click', () => {
         const random = GAMES_DATA[Math.floor(Math.random() * GAMES_DATA.length)];
         showGameDetails(random);
+        playSound('click');
     });
     renderGames();
+    return id;
+}
+
+function createFlashGamesWindow() {
+    const id = nextWindowId++;
+    const win = document.createElement('div');
+    win.className = 'window';
+    win.id = `window-${id}`;
+    win.style.cssText = `left:100px; top:60px; width:1200px; height:750px;`;
+    win.innerHTML = `
+        <div class="window-header"><div class="window-title"><span>⚡</span><span>Flash Games</span></div><div class="window-controls"><button class="window-control minimize">─</button><button class="window-control maximize">□</button><button class="window-control close">✕</button></div></div>
+        <div class="window-content" style="padding:0;">
+            <iframe src="https://chipikipal800.github.io/flash-games/list.html" style="width:100%; height:100%; border:none;"></iframe>
+        </div>
+    `;
+    document.body.appendChild(win);
+    windows.push({ id, element: win, app: { id: 'flashgames', name: 'Flash Games', icon: '⚡', iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyT2jnbsFTNI1TsyzRqTvixcENBsmsN8nknw&s' }, minimized: false, maximized: false, x:100, y:60, w:1200, h:750 });
+    focusWindow(id);
+    setupWindowEvents(win, id);
+    addResizeHandles(win, id);
+    updateTaskbar();
+    playSound('open');
     return id;
 }
 
@@ -629,6 +828,7 @@ function createAppStoreWindow() {
                 <button class="store-cat-btn" data-cat="games">🎮 Games</button>
                 <button class="store-cat-btn" data-cat="tools">🛠️ Tools</button>
                 <button class="store-cat-btn" data-cat="creative">🎨 Creative</button>
+                <button class="store-cat-btn" data-cat="system">⚙️ System</button>
             </div>
             <div id="appStoreGrid-${id}" style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; max-height:450px; overflow-y:auto;"></div>
         </div>
@@ -639,12 +839,24 @@ function createAppStoreWindow() {
     setupWindowEvents(win, id);
     addResizeHandles(win, id);
     updateTaskbar();
+    playSound('open');
+    
+    const storeAppsList = [
+        { id: 'tetris', name: 'Tetris', icon: '🧩', iconUrl: 'https://tetris.wiki/images/thumb/5/52/Tetris_%28N3TWORK%29_icon.png/220px-Tetris_%28N3TWORK%29_icon.png', category: 'games', description: 'Classic falling blocks puzzle game!', creator: 'Alexey Pajitnov', url: 'https://chipikipal800.github.io/Tetris/Tetris.htm' },
+        { id: 'solitaire', name: 'Solitaire', icon: '🃏', iconUrl: 'https://play-lh.googleusercontent.com/1ywLh7-1RvXuE40IcxXL3vU4LhdkcopUOxJrrZjRlyZX-b_4zgXd2Hc5EyyWwmfruns', category: 'games', description: 'Stack cards in descending order.', creator: 'Classic', url: 'https://chipikipal800.github.io/SolitareGame/' },
+        { id: 'connectfour', name: 'Connect Four', icon: '🔴', iconUrl: 'https://m.media-amazon.com/images/I/71WIAdYrTiL.png', category: 'games', description: 'Drop discs to connect four!', creator: 'Classic', url: 'https://chipikipal800.github.io/connect-four/' },
+        { id: 'minesweeper', name: 'Minesweeper', icon: '💣', iconUrl: 'https://p1.hiclipart.com/preview/249/974/567/red-circle-minesweeper-minesweeper-deluxe-minesweeper-adfree-video-games-land-mine-naval-mine-android-png-clipart.jpg', category: 'games', description: 'Classic grid-based puzzle.', creator: 'Classic', url: 'https://chipikipal800.github.io/minesweepere/' },
+        { id: 'checkers', name: 'Checkers', icon: '⚫', iconUrl: 'https://p7.hiclipart.com/preview/327/19/604/formula-one-racing-flags-drapeau-xe0-damier-auto-racing-checkered-flag-icon.jpg', category: 'games', description: 'Capture all opponent pieces.', creator: 'Classic', url: 'https://chipikipal800.github.io/Checkers/' },
+        { id: 'sudoku', name: 'Sudoku', icon: '🔢', iconUrl: 'https://t3.ftcdn.net/jpg/02/23/28/28/360_F_223282851_HP22kLC9EjTtN9dwNgQrrwrF5cL5xSF5.jpg', category: 'games', description: 'Number puzzle game.', creator: 'Classic', url: 'https://chipikipal800.github.io/sudoku-game/' }
+    ];
+    
+    let installedApps = JSON.parse(localStorage.getItem('installedApps') || '[]');
     
     function renderStore() {
         const searchTerm = document.getElementById(`appStoreSearch-${id}`).value.toLowerCase();
         const activeCat = win.querySelector('.store-cat-btn.active')?.dataset.cat || 'all';
         
-        let filtered = STORE_APPS.filter(app => {
+        let filtered = storeAppsList.filter(app => {
             const matchesSearch = app.name.toLowerCase().includes(searchTerm);
             const matchesCat = activeCat === 'all' || app.category === activeCat;
             return matchesSearch && matchesCat;
@@ -655,11 +867,11 @@ function createAppStoreWindow() {
             const isInstalled = installedApps.includes(app.id);
             return `
                 <div style="background:rgba(255,255,255,0.05); border-radius:16px; padding:16px; transition:all 0.2s;">
-                    <div style="font-size:48px; text-align:center; margin-bottom:12px;">${app.icon}</div>
+                    <div style="font-size:48px; text-align:center; margin-bottom:12px;"><img src="${app.iconUrl}" style="width:48px;height:48px;border-radius:12px;" onerror="this.style.display='none';this.parentElement.innerHTML='${app.icon}'"></div>
                     <div style="font-weight:600; margin-bottom:4px;">${app.name}</div>
                     <div style="font-size:11px; color:${isInstalled ? '#4caf50' : 'gray'}; margin-bottom:8px;">by ${app.creator}</div>
                     <div style="font-size:11px; color:var(--text-muted); margin-bottom:12px; line-height:1.4;">${app.description}</div>
-                    <button class="install-btn-${id}" data-id="${app.id}" style="width:100%; padding:8px; background:${isInstalled ? 'rgba(255,255,255,0.1)' : 'var(--accent)'}; border:none; border-radius:12px; color:white; cursor:pointer;">
+                    <button class="install-btn-${id}" data-id="${app.id}" data-url="${app.url}" data-name="${app.name}" data-icon="${app.icon}" data-iconurl="${app.iconUrl}" style="width:100%; padding:8px; background:${isInstalled ? 'rgba(255,255,255,0.1)' : 'var(--accent)'}; border:none; border-radius:12px; color:white; cursor:pointer;">
                         ${isInstalled ? '✓ Installed' : '📥 Install'}
                     </button>
                 </div>
@@ -669,24 +881,27 @@ function createAppStoreWindow() {
         grid.querySelectorAll(`.install-btn-${id}`).forEach(btn => {
             btn.addEventListener('click', () => {
                 const appId = btn.dataset.id;
-                const app = STORE_APPS.find(a => a.id === appId);
-                if (app) {
-                    if (installedApps.includes(appId)) {
-                        installedApps = installedApps.filter(i => i !== appId);
-                        showToast(`Uninstalled ${app.name}`);
-                    } else {
-                        installedApps.push(appId);
-                        showToast(`Installed ${app.name}! Check the Start Menu`);
-                        // Add to APPS if not already there
-                        if (!APPS.find(a => a.id === appId)) {
-                            const newApp = { id: appId, name: app.name, icon: app.icon, url: app.url, external: !!app.url };
-                            APPS.push(newApp);
-                            renderStartApps();
-                        }
+                const appName = btn.dataset.name;
+                const appIcon = btn.dataset.icon;
+                const appIconUrl = btn.dataset.iconurl;
+                const appUrl = btn.dataset.url;
+                
+                if (installedApps.includes(appId)) {
+                    installedApps = installedApps.filter(i => i !== appId);
+                    showToast(`Uninstalled ${appName}`);
+                    playSound('click');
+                } else {
+                    installedApps.push(appId);
+                    // Add to ALL_APPS if not already there
+                    if (!ALL_APPS.find(a => a.id === appId)) {
+                        ALL_APPS.push({ id: appId, name: appName, icon: appIcon, iconUrl: appIconUrl, url: appUrl, category: 'games', external: true });
+                        renderStartApps();
                     }
-                    localStorage.setItem('installedApps', JSON.stringify(installedApps));
-                    renderStore();
+                    showToast(`Installed ${appName}! Check the Start Menu`);
+                    playSound('click');
                 }
+                localStorage.setItem('installedApps', JSON.stringify(installedApps));
+                renderStore();
             });
         });
     }
@@ -701,6 +916,26 @@ function createAppStoreWindow() {
     
     document.getElementById(`appStoreSearch-${id}`).addEventListener('input', renderStore);
     renderStore();
+    return id;
+}
+
+function createExternalWindow(app, x = 150, y = 100, w = 900, h = 650) {
+    const id = nextWindowId++;
+    const win = document.createElement('div');
+    win.className = 'window';
+    win.id = `window-${id}`;
+    win.style.cssText = `left:${x}px; top:${y}px; width:${w}px; height:${h}px;`;
+    win.innerHTML = `
+        <div class="window-header"><div class="window-title"><span>${app.iconUrl ? `<img src="${app.iconUrl}" style="width:22px;height:22px;border-radius:6px;" onerror="this.style.display='none';this.parentElement.innerHTML='${app.icon}'">` : app.icon}</span><span>${app.name}</span></div><div class="window-controls"><button class="window-control minimize">─</button><button class="window-control maximize">□</button><button class="window-control close">✕</button></div></div>
+        <div class="window-content"><iframe src="${app.url}" style="width:100%; height:100%; border:none;"></iframe></div>
+    `;
+    document.body.appendChild(win);
+    windows.push({ id, element: win, app, minimized: false, maximized: false, x, y, w, h });
+    focusWindow(id);
+    setupWindowEvents(win, id);
+    addResizeHandles(win, id);
+    updateTaskbar();
+    playSound('open');
     return id;
 }
 
@@ -727,6 +962,7 @@ function createCalculatorWindow() {
     setupWindowEvents(win, id);
     addResizeHandles(win, id);
     updateTaskbar();
+    playSound('open');
     
     let calcExpr = '';
     let mode = 'basic';
@@ -755,6 +991,7 @@ function createCalculatorWindow() {
                 else if (val === '^') calcExpr += '**';
                 else calcExpr += val;
                 updateDisplay();
+                playSound('click');
             });
         });
     }
@@ -765,6 +1002,7 @@ function createCalculatorWindow() {
             win.querySelectorAll('.calc-mode-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             renderButtons();
+            playSound('click');
         });
     });
     win.querySelector('.calc-mode-btn').classList.add('active');
@@ -794,6 +1032,7 @@ function createFactoryWindow() {
     setupWindowEvents(win, id);
     addResizeHandles(win, id);
     updateTaskbar();
+    playSound('open');
     
     const jokes = ["Why don't scientists trust atoms? They make up everything!", "What do you call a fake noodle? An impasta!", "Why did the scarecrow win an award? He was outstanding in his field!"];
     const quotes = ["The only limit is your imagination.", "Believe you can and you're halfway there.", "Success is not final, failure is not fatal."];
@@ -809,6 +1048,7 @@ function createFactoryWindow() {
             const num = Math.floor(Math.random() * 100) + 1;
             output.innerHTML = `🎲 Random number: ${num}<br>🪙 Coin flip: ${Math.random() > 0.5 ? 'Heads' : 'Tails'}<br>🎲 Dice roll: ${Math.floor(Math.random() * 6) + 1}`;
         }
+        playSound('click');
     }
     document.getElementById(`factoryGenerate-${id}`).onclick = generate;
     generate();
@@ -838,6 +1078,7 @@ function createStudioWindow() {
     setupWindowEvents(win, id);
     addResizeHandles(win, id);
     updateTaskbar();
+    playSound('open');
     
     const canvas = document.getElementById(`studioCanvas-${id}`);
     const ctx = canvas.getContext('2d');
@@ -858,10 +1099,11 @@ function createStudioWindow() {
         const y = (e.clientY - rect.top) * scaleY;
         ctx.fillStyle = color;
         ctx.fillRect(x - 4, y - 4, 8, 8);
+        playSound('click');
     });
     document.getElementById(`studioColor-${id}`).addEventListener('change', (e) => color = e.target.value);
-    document.getElementById(`studioClear-${id}`).onclick = () => { ctx.fillStyle = 'white'; ctx.fillRect(0, 0, 400, 400); };
-    document.getElementById(`studioSave-${id}`).onclick = () => { const link = document.createElement('a'); link.download = 'drawing.png'; link.href = canvas.toDataURL(); link.click(); };
+    document.getElementById(`studioClear-${id}`).onclick = () => { ctx.fillStyle = 'white'; ctx.fillRect(0, 0, 400, 400); playSound('click'); };
+    document.getElementById(`studioSave-${id}`).onclick = () => { const link = document.createElement('a'); link.download = 'drawing.png'; link.href = canvas.toDataURL(); link.click(); playSound('click'); };
     return id;
 }
 
@@ -870,7 +1112,7 @@ function createWeatherWindow() {
     const win = document.createElement('div');
     win.className = 'window';
     win.id = `window-${id}`;
-    win.style.cssText = `left:150px; top:100px; width:450px; height:400px;`;
+    win.style.cssText = `left:150px; top:100px; width:450px; height:450px;`;
     win.innerHTML = `
         <div class="window-header"><div class="window-title"><span>🌤️</span><span>Weather</span></div><div class="window-controls"><button class="window-control minimize">─</button><button class="window-control maximize">□</button><button class="window-control close">✕</button></div></div>
         <div class="window-content" style="text-align:center;">
@@ -880,11 +1122,12 @@ function createWeatherWindow() {
         </div>
     `;
     document.body.appendChild(win);
-    windows.push({ id, element: win, app: { id: 'weather', name: 'Weather', icon: '🌤️' }, minimized: false, maximized: false, x:150, y:100, w:450, h:400 });
+    windows.push({ id, element: win, app: { id: 'weather', name: 'Weather', icon: '🌤️' }, minimized: false, maximized: false, x:150, y:100, w:450, h:450 });
     focusWindow(id);
     setupWindowEvents(win, id);
     addResizeHandles(win, id);
     updateTaskbar();
+    playSound('open');
     
     document.getElementById(`weatherGet-${id}`).onclick = async () => {
         const city = document.getElementById(`weatherCity-${id}`).value;
@@ -898,6 +1141,7 @@ function createWeatherWindow() {
             const weatherData = await weatherRes.json();
             const temp = Math.round(weatherData.current_weather.temperature);
             document.getElementById(`weatherResult-${id}`).innerHTML = `<div style="font-size:48px;">${temp}°F</div><div>${name}</div><div>${weatherData.current_weather.weathercode === 0 ? '☀️ Clear' : '☁️ Cloudy'}</div>`;
+            playSound('click');
         } catch(e) { document.getElementById(`weatherResult-${id}`).innerHTML = 'Error fetching weather'; }
     };
     return id;
@@ -919,6 +1163,7 @@ function createNotesWindow() {
     setupWindowEvents(win, id);
     addResizeHandles(win, id);
     updateTaskbar();
+    playSound('open');
     
     const saved = localStorage.getItem('user_notes');
     const textarea = document.getElementById(`notesText-${id}`);
@@ -950,14 +1195,15 @@ function createTimerWindow() {
     setupWindowEvents(win, id);
     addResizeHandles(win, id);
     updateTaskbar();
+    playSound('open');
     
     let interval = null;
     let time = 25 * 60;
     const display = document.getElementById(`timerDisplay-${id}`);
     function update() { const m = Math.floor(time / 60), s = time % 60; display.innerText = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`; }
-    document.getElementById(`timerStart-${id}`).onclick = () => { if (interval) clearInterval(interval); interval = setInterval(() => { if (time > 0) { time--; update(); } else { clearInterval(interval); showToast('Time is up!'); } }, 1000); };
-    document.getElementById(`timerPause-${id}`).onclick = () => { if (interval) clearInterval(interval); interval = null; };
-    document.getElementById(`timerReset-${id}`).onclick = () => { time = 25 * 60; update(); };
+    document.getElementById(`timerStart-${id}`).onclick = () => { if (interval) clearInterval(interval); interval = setInterval(() => { if (time > 0) { time--; update(); } else { clearInterval(interval); showToast('Time is up!'); playSound('click'); } }, 1000); playSound('click'); };
+    document.getElementById(`timerPause-${id}`).onclick = () => { if (interval) clearInterval(interval); interval = null; playSound('click'); };
+    document.getElementById(`timerReset-${id}`).onclick = () => { time = 25 * 60; update(); playSound('click'); };
     update();
     return id;
 }
@@ -984,6 +1230,7 @@ function createTasksWindow() {
     setupWindowEvents(win, id);
     addResizeHandles(win, id);
     updateTaskbar();
+    playSound('open');
     
     let tasks = JSON.parse(localStorage.getItem('user_tasks') || '[]');
     const list = document.getElementById(`taskList-${id}`);
@@ -996,10 +1243,10 @@ function createTasksWindow() {
                 <button class="delete-task" data-index="${i}" style="background:none; border:none; color:var(--danger); cursor:pointer;">🗑</button>
             </div>
         `).join('');
-        list.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.onchange = () => { tasks[cb.dataset.index].done = cb.checked; localStorage.setItem('user_tasks', JSON.stringify(tasks)); render(); }; });
-        list.querySelectorAll('.delete-task').forEach(btn => { btn.onclick = () => { tasks.splice(btn.dataset.index, 1); localStorage.setItem('user_tasks', JSON.stringify(tasks)); render(); }; });
+        list.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.onchange = () => { tasks[cb.dataset.index].done = cb.checked; localStorage.setItem('user_tasks', JSON.stringify(tasks)); render(); playSound('click'); }; });
+        list.querySelectorAll('.delete-task').forEach(btn => { btn.onclick = () => { tasks.splice(btn.dataset.index, 1); localStorage.setItem('user_tasks', JSON.stringify(tasks)); render(); playSound('click'); }; });
     }
-    document.getElementById(`addTask-${id}`).onclick = () => { if (input.value.trim()) { tasks.push({ text: input.value.trim(), done: false }); localStorage.setItem('user_tasks', JSON.stringify(tasks)); input.value = ''; render(); } };
+    document.getElementById(`addTask-${id}`).onclick = () => { if (input.value.trim()) { tasks.push({ text: input.value.trim(), done: false }); localStorage.setItem('user_tasks', JSON.stringify(tasks)); input.value = ''; render(); playSound('click'); } };
     render();
     return id;
 }
@@ -1027,6 +1274,7 @@ function createWhiteboardWindow() {
     setupWindowEvents(win, id);
     addResizeHandles(win, id);
     updateTaskbar();
+    playSound('open');
     
     const canvas = document.getElementById(`whiteboardCanvas-${id}`);
     const ctx = canvas.getContext('2d');
@@ -1049,8 +1297,8 @@ function createWhiteboardWindow() {
         ctx.fillRect(x - 4, y - 4, 8, 8);
     });
     document.getElementById(`whiteboardColor-${id}`).addEventListener('change', (e) => color = e.target.value);
-    document.getElementById(`whiteboardClear-${id}`).onclick = () => { ctx.fillStyle = 'white'; ctx.fillRect(0, 0, 400, 400); };
-    document.getElementById(`whiteboardSave-${id}`).onclick = () => { const link = document.createElement('a'); link.download = 'whiteboard.png'; link.href = canvas.toDataURL(); link.click(); };
+    document.getElementById(`whiteboardClear-${id}`).onclick = () => { ctx.fillStyle = 'white'; ctx.fillRect(0, 0, 400, 400); playSound('click'); };
+    document.getElementById(`whiteboardSave-${id}`).onclick = () => { const link = document.createElement('a'); link.download = 'whiteboard.png'; link.href = canvas.toDataURL(); link.click(); playSound('click'); };
     return id;
 }
 
@@ -1070,36 +1318,23 @@ function createBrowserWindow() {
     setupWindowEvents(win, id);
     addResizeHandles(win, id);
     updateTaskbar();
-    return id;
-}
-
-function createExternalWindow(app, x = 150, y = 100, w = 900, h = 650) {
-    const id = nextWindowId++;
-    const win = document.createElement('div');
-    win.className = 'window';
-    win.id = `window-${id}`;
-    win.style.cssText = `left:${x}px; top:${y}px; width:${w}px; height:${h}px;`;
-    win.innerHTML = `
-        <div class="window-header"><div class="window-title"><span>${app.icon}</span><span>${app.name}</span></div><div class="window-controls"><button class="window-control minimize">─</button><button class="window-control maximize">□</button><button class="window-control close">✕</button></div></div>
-        <div class="window-content"><iframe src="${app.url}" style="width:100%; height:100%; border:none;"></iframe></div>
-    `;
-    document.body.appendChild(win);
-    windows.push({ id, element: win, app, minimized: false, maximized: false, x, y, w, h });
-    focusWindow(id);
-    setupWindowEvents(win, id);
-    addResizeHandles(win, id);
-    updateTaskbar();
+    playSound('open');
     return id;
 }
 
 function launchApp(app) {
+    playSound('click');
     const existing = windows.find(w => w.app?.id === app.id);
     if (existing) {
         if (existing.minimized) toggleMinimize(existing.id);
         focusWindow(existing.id);
         return;
     }
+    
+    updateRecentApps(app.id, app.name, app.icon, app.id);
+    
     if (app.id === 'gamehub') createGameHubWindow();
+    else if (app.id === 'flashgames') createFlashGamesWindow();
     else if (app.id === 'appstore') createAppStoreWindow();
     else if (app.id === 'calculator') createCalculatorWindow();
     else if (app.id === 'thefactory') createFactoryWindow();
@@ -1130,9 +1365,9 @@ function setupWindowEvents(win, id) {
     });
     function onDrag(e) { if (!drag) return; win.style.left = `${drag.left + (e.clientX - drag.x)}px`; win.style.top = `${drag.top + (e.clientY - drag.y)}px`; }
     function stopDrag() { drag = null; document.removeEventListener('mousemove', onDrag); document.removeEventListener('mouseup', stopDrag); }
-    minBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMinimize(id); });
-    maxBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMaximize(id); });
-    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeWindowWithAnimation(id); });
+    minBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMinimize(id); playSound('click'); });
+    maxBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleMaximize(id); playSound('click'); });
+    closeBtn.addEventListener('click', (e) => { e.stopPropagation(); closeWindowWithAnimation(id); playSound('close'); });
     header.addEventListener('dblclick', () => toggleMaximize(id));
 }
 
@@ -1202,6 +1437,7 @@ function toggleMaximize(id) {
             showToastLarge('⛶ Fullscreen - ESC to exit');
         }
         updateTaskbar();
+        playSound('click');
     }
 }
 
@@ -1222,26 +1458,78 @@ function updateTaskbar() {
     const container = document.getElementById('taskbarApps');
     container.innerHTML = windows.map(win => `<div class="taskbar-app ${activeWindowId === win.id ? 'active' : ''}" data-id="${win.id}"><span>${win.app.icon}</span><span>${win.app.name}</span></div>`).join('');
     container.querySelectorAll('.taskbar-app').forEach(el => {
-        el.addEventListener('click', () => { const id = parseInt(el.dataset.id); const win = windows.find(w => w.id === id); if (win) { if (win.minimized) toggleMinimize(id); else focusWindow(id); } });
+        el.addEventListener('click', () => { const id = parseInt(el.dataset.id); const win = windows.find(w => w.id === id); if (win) { if (win.minimized) toggleMinimize(id); else focusWindow(id); playSound('click'); } });
     });
 }
 
 // -------------------- START MENU --------------------
-function renderStartApps(search = '') {
+let currentCategory = 'all';
+let currentSearchTerm = '';
+
+function renderStartApps() {
     const container = document.getElementById('startApps');
-    let filtered = APPS;
-    if (search) filtered = APPS.filter(a => a.name.toLowerCase().includes(search.toLowerCase()));
-    container.innerHTML = filtered.map(app => `<div class="start-app" data-app-id="${app.id}"><div class="start-app-icon">${app.icon}</div><div class="start-app-name">${app.name}</div></div>`).join('');
+    let filtered = ALL_APPS;
+    
+    if (currentCategory !== 'all') {
+        filtered = filtered.filter(a => a.category === currentCategory);
+    }
+    if (currentSearchTerm) {
+        filtered = filtered.filter(a => a.name.toLowerCase().includes(currentSearchTerm.toLowerCase()));
+    }
+    
+    container.innerHTML = filtered.map(app => `
+        <div class="start-app" data-app-id="${app.id}">
+            <div class="start-app-icon">${app.iconUrl ? `<img src="${app.iconUrl}" onerror="this.style.display='none';this.parentElement.innerHTML='${app.icon}'">` : app.icon}</div>
+            <div class="start-app-name">${app.name}</div>
+            <div class="start-app-pin" data-id="${app.id}" data-name="${app.name}" data-icon="${app.icon}" data-category="${app.category}" data-iconurl="${app.iconUrl || ''}">📌</div>
+        </div>
+    `).join('');
+    
     container.querySelectorAll('.start-app').forEach(el => {
-        el.addEventListener('click', () => { const app = APPS.find(a => a.id === el.dataset.appId); if (app) launchApp(app); toggleStartMenu(); });
+        el.addEventListener('click', (e) => {
+            if (e.target.classList.contains('start-app-pin')) return;
+            const app = ALL_APPS.find(a => a.id === el.dataset.appId);
+            if (app) launchApp(app);
+        });
+        const pinBtn = el.querySelector('.start-app-pin');
+        if (pinBtn) {
+            pinBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const appId = pinBtn.dataset.id;
+                const appName = pinBtn.dataset.name;
+                const appIcon = pinBtn.dataset.icon;
+                const appCategory = pinBtn.dataset.category;
+                const appIconUrl = pinBtn.dataset.iconurl;
+                pinAppToDesktop(appId, appName, appIcon, appCategory, appIconUrl);
+            });
+        }
     });
 }
 
 function toggleStartMenu() {
     startMenuOpen = !startMenuOpen;
     document.getElementById('startMenu').classList.toggle('open', startMenuOpen);
-    if (startMenuOpen) { document.getElementById('startSearch').focus(); renderStartApps(''); }
+    if (startMenuOpen) {
+        document.getElementById('startSearch').focus();
+        renderStartApps();
+    }
 }
+
+// Category buttons
+document.querySelectorAll('.start-cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.start-cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.cat;
+        renderStartApps();
+        playSound('click');
+    });
+});
+
+document.getElementById('startSearch').addEventListener('input', (e) => {
+    currentSearchTerm = e.target.value;
+    renderStartApps();
+});
 
 // -------------------- BOOT MENU --------------------
 function updateBootResults(query) {
@@ -1257,7 +1545,7 @@ function updateBootResults(query) {
         </div>
     `).join('');
     container.querySelectorAll('.boot-result').forEach(el => {
-        el.addEventListener('click', () => { const game = currentBootResults[parseInt(el.dataset.index)]; if (game) showGameDetails(game); toggleBootMenu(); });
+        el.addEventListener('click', () => { const game = currentBootResults[parseInt(el.dataset.index)]; if (game) showGameDetails(game); toggleBootMenu(); playSound('click'); });
     });
 }
 
@@ -1279,6 +1567,7 @@ function uploadWallpaper() {
                 localStorage.setItem('fanter_wallpaper', ev.target.result);
                 document.getElementById('desktopBg').style.backgroundImage = `url(${ev.target.result})`;
                 showToast('Wallpaper changed!');
+                playSound('click');
             };
             reader.readAsDataURL(file);
         }
@@ -1286,7 +1575,12 @@ function uploadWallpaper() {
     input.click();
 }
 
-// -------------------- LOGIN WITH FADE EFFECT --------------------
+// -------------------- SHORTCUTS --------------------
+function showShortcuts() {
+    alert(`⌨️ KEYBOARD SHORTCUTS\n\nCtrl+K → Quick launch / search games\nCtrl+W → Close active window\nCtrl+M → Minimize active window\nCtrl+/ → Show this menu\nEsc → Close menus / Exit fullscreen\n\n🖱️ Right-click desktop → Wallpaper & Widgets\n🖱️ Double-click titlebar → Maximize window`);
+}
+
+// -------------------- LOGIN WITH FADE --------------------
 async function handleLogin() {
     const username = document.getElementById('loginUsername').value;
     const password = document.getElementById('loginPassword').value;
@@ -1299,7 +1593,6 @@ async function handleLogin() {
         return;
     }
     try {
-        // First get user by username from profiles table
         const { data: profile, error: profileError } = await supabaseClient
             .from('profiles')
             .select('id, email')
@@ -1311,7 +1604,6 @@ async function handleLogin() {
             return;
         }
         
-        // Then sign in with email
         const { data, error } = await supabaseClient.auth.signInWithPassword({ 
             email: profile.email, 
             password: password 
@@ -1325,34 +1617,26 @@ async function handleLogin() {
         document.getElementById('startUserName').textContent = username;
         document.getElementById('startUserEmail').textContent = profile.email;
         
-        // FADE OUT LOGIN, BLACKOUT, THEN FADE IN DESKTOP
         const loginScreen = document.getElementById('loginScreen');
         const desktop = document.getElementById('desktop');
         const fadeOverlay = document.getElementById('fadeOverlay');
         
-        // Fade out login screen
         loginScreen.style.transition = 'opacity 0.5s ease';
         loginScreen.style.opacity = '0';
         
         setTimeout(() => {
             loginScreen.classList.remove('visible');
             loginScreen.style.display = 'none';
-            
-            // Show blackout overlay for 2 seconds
             fadeOverlay.classList.add('active');
             
             setTimeout(() => {
-                // Show desktop
                 desktop.style.display = 'block';
                 desktop.classList.add('visible');
-                
-                // Fade in desktop (2 second transition)
                 fadeOverlay.classList.remove('active');
-                
                 showToast(`Welcome back, ${username}!`);
                 showAchievement('Welcome Aboard', 3);
                 initDesktop();
-            }, 2000); // 2 second blackout
+            }, 2000);
         }, 500);
     } catch (err) {
         document.getElementById('loginError').textContent = err.message;
@@ -1364,12 +1648,13 @@ function showRegister() { window.location.href = 'fantaccount.html'; }
 // -------------------- INITIALIZATION --------------------
 async function initDesktop() {
     await loadGames();
-    renderDesktopIcons();
+    loadPinnedIcons();
     renderStartApps();
     updateClock();
+    updateSoundIcon();
+    renderRecentApps();
     
     document.getElementById('startBtn').onclick = toggleStartMenu;
-    document.getElementById('startSearch').oninput = (e) => renderStartApps(e.target.value);
     document.getElementById('bootSearch').oninput = (e) => updateBootResults(e.target.value);
     document.getElementById('bootSearch').onkeydown = (e) => {
         if (e.key === 'ArrowDown') { e.preventDefault(); if (selectedBootIndex < currentBootResults.length - 1) { selectedBootIndex++; updateBootResults(document.getElementById('bootSearch').value); } }
@@ -1378,6 +1663,7 @@ async function initDesktop() {
     };
     document.getElementById('datetimeBtn').onclick = () => document.getElementById('widgetsPanel').classList.toggle('open');
     document.getElementById('closeWidgetsPanel').onclick = () => document.getElementById('widgetsPanel').classList.remove('open');
+    document.getElementById('soundControl').onclick = toggleSound;
     
     document.querySelectorAll('.widgets-panel-item').forEach(item => {
         item.addEventListener('click', () => {
@@ -1392,6 +1678,7 @@ async function initDesktop() {
                     document.getElementById(`${widget}WidgetToggle`).textContent = '❌';
                 }
                 localStorage.setItem(`widget_${widget}`, el.style.display !== 'none');
+                playSound('click');
             }
         });
     });
@@ -1413,6 +1700,7 @@ async function initDesktop() {
         widgetsDiv.classList.toggle('visible');
         showToast('Widgets toggled');
     };
+    document.getElementById('ctxShortcuts').onclick = showShortcuts;
     document.getElementById('desktopBg').oncontextmenu = (e) => {
         e.preventDefault();
         const menu = document.getElementById('contextMenu');
@@ -1427,6 +1715,7 @@ async function initDesktop() {
             if (win?.maximized) toggleMaximize(activeWindowId);
         }
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); toggleBootMenu(); }
+        if ((e.ctrlKey || e.metaKey) && e.key === '/') { e.preventDefault(); showShortcuts(); }
         if (e.key === 'Escape') { if (bootMenuOpen) toggleBootMenu(); if (startMenuOpen) toggleStartMenu(); }
         if ((e.ctrlKey || e.metaKey) && e.key === 'w') { e.preventDefault(); if (activeWindowId) closeWindowWithAnimation(activeWindowId); }
         if ((e.ctrlKey || e.metaKey) && e.key === 'm') { e.preventDefault(); if (activeWindowId) toggleMinimize(activeWindowId); }
@@ -1434,7 +1723,6 @@ async function initDesktop() {
     
     showToast('🎉 Welcome to fanterOS!');
     
-    // Auto-open Game Hub
     setTimeout(() => {
         createGameHubWindow();
     }, 500);
