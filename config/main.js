@@ -1867,6 +1867,23 @@ saveOriginalIdentity();
                 }
             });
         }
+
+        
+ const widgetSettings = ['time', 'calendar', 'weather', 'battery'];
+ widgetSettings.forEach(widget => {
+    const saved = localStorage.getItem(`widget_${widget}`);
+    const widgetEl = document.getElementById(`${widget}Widget`);
+    const toggleSpan = document.getElementById(`${widget}WidgetToggle`);
+    if (saved !== null && widgetEl) {
+        if (saved === 'false') {
+            widgetEl.style.display = 'none';
+            if (toggleSpan) toggleSpan.textContent = '❌';
+        } else {
+            widgetEl.style.display = 'block';
+            if (toggleSpan) toggleSpan.textContent = '✅';
+        }
+    }
+});
         
         document.querySelectorAll('.widget').forEach(widget => {
             let isDragging = false;
