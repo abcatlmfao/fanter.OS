@@ -1,20 +1,10 @@
-CURRENTLY:
-
-making ts look like an actual OS yk?
-
-WRITTEN IN ONLY HTML CSS AND JS (not subject  to change)
-
-LIGHTWEIGHT AND SIMPLE
-
-
-
 
 
 
 fanter ubg
 
 
-2420 games, about 97% are from emulators lolz
+like 5k games? maybe 6k idk
 
 
 fork or clone the repo 
