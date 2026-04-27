@@ -618,7 +618,7 @@
   },
    {
     "name": "alien hominid",
-    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPrVh1enVCEzhdUWn0uqBOiEZT8sepgz7YRA&s",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdKqpK0dWwdc0i2SdSO8c-gJHn25XTQJJBI0EPXN7jGs-8ogGi_KiSxxqpa2j-ibEcElPYsoAl7X2m4SViraC1pSf-kDSd0MHRBXlrkgSlqQfPtg6v55qx5lnZVFIdSA&s=10&ec=121657078",
     "url": "https://upload.wikimedia.org/wikipedia/en/2/20/Alien_Hominid_cover.png",
     "new": true,
     "category": "arcade",
@@ -747,5 +747,226 @@
     "loadTime": "instant",
     "releaseDate": "tmrw",
     "developer": "idk"
+  },
+  {
+    "name": "pokemon heartgold",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQP2hxKrr9dZNKJT1-WyfTIZ5n5NuuiR_ETrw&s",
+    "url": "https://chipikipal800.github.io/PokemonHeartGold/",
+    "new": true,
+    "category": "adventure",
+    "desc": "fun pokemon game reccomended",
+    "loadTime": "9-15 seconds",
+    "releaseDate": "tmrw",
+    "developer": "javyquavy"
+  },
+   {
+    "name": "super mario bros 2",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOCLNAC1Kij4R6-Vq2jCJod2cs9rT4DHKS4g&s",
+    "url": "https://chipikipal800.github.io/SuperMarioBros2/",
+    "new": true,
+    "category": "arcade",
+    "desc": "mario",
+    "loadTime": "2-3 seconds",
+    "releaseDate": "tmrw",
+    "developer": "javyquavy"
+  },
+  {
+    "name": "mario kart super circuit",
+    "image": "https://m.media-amazon.com/images/M/MV5BODY5ZTU3ODQtYjJkYi00NjlkLWI2MzItNjYxY2VhZGFkNDkwXkEyXkFqcGc@._V1_.jpg",
+    "url": "https://chipikipal800.github.io/MarioKartSuperCircuit/",
+    "new": true,
+    "category": "arcade",
+    "desc": "mario",
+    "loadTime": "6-10 seconds",
+    "releaseDate": "tmrw",
+    "developer": "javyquavy"
+  },
+  {
+    "name": "swingo",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPsC9G6XeIUET1BSCwQa8HB3222OQggw0tIA&s",
+    "url": "https://chipikipal800.github.io/Swingo/",
+    "new": true,
+    "category": "platformer",
+    "desc": "very fun :)",
+    "loadTime": "instant",
+    "releaseDate": "tmrw",
+    "developer": "??"
+  },
+  {
+    "name": "super mario world (snes)",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmVwk-eFAAZPiiioISsQOk9x86d1w3duYtwg&s",
+    "url": "https://chipikipal800.github.io/SuperMarioWorldSNES/",
+    "new": true,
+    "category": "platformer",
+    "desc": "67",
+    "loadTime": "instant",
+    "releaseDate": "tmrw",
+    "developer": "??"
+  },
+  {
+    "name": "buckshot roulette",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIsmBgt-wvSmsQkM9tcOpkvnzVpbpa5igulQ&s",
+    "url": "https://chipikipal800.github.io/buckshot_roulette/",
+    "new": true,
+    "category": "horror",
+    "desc": "super fun",
+    "loadTime": "20-28 seconds",
+    "releaseDate": "tmrw",
+    "developer": "??"
+  },
+
+   {
+    "name": "cloverpit",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTxlZ71HusMLOJbhDqY-mgDdeAi3TIKCnkmnQ&s",
+    "url": "https://parrrotvr.github.io/cloverpit/",
+    "new": true,
+    "category": "horror",
+    "desc": "soooooo fun, i highly reccomend this game: collect slimes, its easy and chill ",
+    "loadTime": "7-12 seconds",
+    "releaseDate": "tmrw",
+    "developer": "??"
+  },
+  {
+    "name": "pizza tower",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0SJDBiv07P1vr6Ar11UjvkUXJIv6PUWA5QaIk6LFdSTynPz6PDRLjVFgAW-orgIhIbubzi3TSOLtW4XBueZEwaQ8fgD-6UgmZ4LG-Vb-Gfp3DOxTKzszbpSPQynmW&s=10&ec=121657078",
+    "url": "https://chipikipal800.github.io/pizza-tower-webport/",
+    "new": true,
+    "category": "platformer",
+    "desc": "really fun & fast playformer, great art ",
+    "loadTime": "7-12 seconds",
+    "releaseDate": "tmrw",
+    "developer": "??"
+  },
+  {
+    "name": "celeste",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSjUo7PS_3CMR-54X5QWZGNgJ8L8m7503uCA&s",
+    "url": "https://chipikipal800.github.io/celeste/ /",
+    "new": true,
+    "category": "platformer",
+    "desc": "REALLY fun, amazing story but SOOOOOO difficult after the like ghost guy chases",
+    "loadTime": "7-12 seconds",
+    "releaseDate": "tmrw",
+    "developer": "??"
+  },
+   {
+    "name": "inscryption",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc0wPlmKDZcL6oA0jyNOqQHf1bq_5O13hOPA&s",
+    "url": "https://chipikipal800.github.io/InscryptionWebport/",
+    "new": true,
+    "category": "puzzle",
+    "desc": "REALLYYY FUN kinda like buckshot roulette + balatro?? ",
+    "loadTime": "3-4 minutes",
+    "releaseDate": "tmrw",
+    "developer": "reeyuki"
+  },
+   {
+    "name": "plauge inc evolved",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfgv6Tr5bfqRSmtXfKSXPhOF_8lJ-T77hRwA&s",
+    "url": "https://chipikipal800.github.io/PlagueIncEvolved/",
+    "new": true,
+    "category": "arcade",
+    "desc": "REALLYYY FUN, develop diaseses, kill people, repeat. AMAZING",
+    "loadTime": "35-50 seconds",
+    "releaseDate": "tmrw",
+    "developer": "reeyuki"
+  },
+   {
+    "name": "whos your daddy?",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdySaTz-S1A5PdxNtVSDxTNxe5oMqjCcs2pQ&s",
+    "url": "https://chipikipal800.github.io/daddygame/",
+    "new": true,
+    "category": "multiplayer",
+    "desc": "hella fun with friends bro",
+    "loadTime": "5-10 seconds",
+    "releaseDate": "tmrw",
+    "developer": "reeyuki"
+  },
+  {
+    "name": "purrgatory",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUd_Ks_P15J8e8oX9wmNCRlh9fei5K5vZFKQ&s",
+    "url": "https://chipikipal800.github.io/purrgatory/",
+    "new": true,
+    "category": "chill",
+    "desc": "simple, fun game of afterlife",
+    "loadTime": "5-10 seconds",
+    "releaseDate": "tmrw",
+    "developer": "mintypy"
+  },
+   {
+    "name": "muck (wip)",
+    "image": "https://m.media-amazon.com/images/M/MV5BOTg2MTljMTUtODMwNy00MDVkLTkyYmItN2M1Y2IyYTdkOWIzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+    "url": "https://chipikipal800.github.io/muck-webport/",
+    "new": true,
+    "category": "sandbox",
+    "desc": "umm idk ive never played",
+    "loadTime": "5-10 seconds",
+    "releaseDate": "tmrw",
+    "developer": "gays studio"
+  },
+  {
+    "name": "pvz fusion",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHM0oj-BL8ZuLm0Eeox12OJXlWawh-nStJhg&s",
+    "url": "https://chipikipal800.github.io/pvzfusion/",
+    "new": true,
+    "category": "arcade",
+    "desc": "sooo fun",
+    "loadTime": "5-10 seconds",
+    "releaseDate": "tmrw",
+    "developer": "gays studio"
+  },
+  {
+    "name": "celeste 3d",
+    "image": "https://m.media-amazon.com/images/M/MV5BOTg2MTljMTUtODMwNy00MDVkLTkyYmItN2M1Y2IyYTdkOWIzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg",
+    "url": "https://chipikipal800.github.io/celeste3d/",
+    "new": true,
+    "category": "platformer",
+    "desc": " funny ",
+    "loadTime": "5-10 seconds",
+    "releaseDate": "tmrw",
+    "developer": "gays studio"
+  },
+  {
+    "name": "something",
+    "image": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2696520/header.jpg?t=1744129045",
+    "url": "https://chipikipal800.github.io/something-web/",
+    "new": true,
+    "category": "platformer",
+    "desc": " something ",
+    "loadTime": "5-10 seconds",
+    "releaseDate": "tmrw",
+    "developer": "gays studio"
+  },
+   {
+    "name": "gta vice city",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe1IW2dICTih4u5MWFmxe4h2zFGusyOlpULg&s",
+    "url": "https://chipikipal800.github.io/GTA-VC-WP/",
+    "new": true,
+    "category": "action",
+    "desc": " i dont need to explain ",
+    "loadTime": "27-36 seconds",
+    "releaseDate": "tmrw",
+    "developer": "breadbb"
+  },
+  {
+    "name": "undertale",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSe1IW2dICTih4u5MWFmxe4h2zFGusyOlpULg&s",
+    "url": "https://chipikipal800.github.io/undertalewebport/",
+    "new": true,
+    "category": "adventure",
+    "desc": " i dont need to explain ",
+    "loadTime": "6-7 seconds",
+    "releaseDate": "tmrw",
+    "developer": "??"
+  },
+   {
+    "name": "a game about feeding a blackhole",
+    "image": "https://assets.nintendo.com/image/upload/c_fill,w_1200/q_auto:best/f_auto/dpr_2.0/store/software/switch/70010000009921/44bea8c565db26c0c470a6325a47c9ea031633945cb91e4b5e1b1a39b01a2cdb",
+    "url": "https://chipikipal800.github.io/agameaboutfeedingablackhole/",
+    "new": true,
+    "category": "action",
+    "desc": " read the title ",
+    "loadTime": "5-8 seconds",
+    "releaseDate": "tmrw",
+    "developer": "??"
   }
 ]
