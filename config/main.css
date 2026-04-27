@@ -1759,4 +1759,39 @@ input:checked + .slider:before {
     transform: translateY(-1px);
 }
 
+/* Bottom Right Clock */
+.bottom-clock {
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    background: rgba(15, 15, 25, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 6px 12px;
+    text-align: center;
+    font-family: 'Inter', monospace;
+    z-index: 100;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
 
+.bottom-clock:hover {
+    background: rgba(124, 92, 255, 0.2);
+    border-color: var(--accent);
+    transform: scale(1.02);
+}
+
+.bottom-clock #bottomClockTime {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: block;
+}
+
+.bottom-clock #bottomClockDate {
+    font-size: 9px;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 2px;
+}
