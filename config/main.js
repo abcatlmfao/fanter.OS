@@ -181,11 +181,11 @@ function initFanterOS() {
         calendarMonthEl.textContent = months[now.getMonth()];
     }
     
-    // ===== ADD BOTTOM CLOCK HERE (inside the function, before the closing bracket) =====
-    const bottomClockTime = document.getElementById('bottomClockTime');
-    const bottomClockDate = document.getElementById('bottomClockDate');
-    if (bottomClockTime) bottomClockTime.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    if (bottomClockDate) bottomClockDate.textContent = now.toLocaleDateString([], { month: 'short', day: 'numeric' });
+   
+const bottomClockTime = document.getElementById('bottomClockTime');
+const bottomClockDate = document.getElementById('bottomClockDate');
+if (bottomClockTime) bottomClockTime.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+if (bottomClockDate) bottomClockDate.textContent = now.toLocaleDateString([], { month: 'short', day: 'numeric' });
 }
 
     async function updateBattery() {
